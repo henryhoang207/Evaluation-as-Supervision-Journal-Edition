@@ -16,10 +16,22 @@ arm set extended, statistics refined · **Status:** proposed, not yet agreed wit
 > **§6.1** — the Tier-2 core must run at **P1**, or every arm hits ceiling;
 > **§4** — B1/B2/B3 are substantially cheaper than budgeted, B6's collateral
 > metric cannot discriminate as written, B7 must log `attempts_made`;
-> **§8** — Tier-1 blocking is over ~6 clusters. Nothing in §13/§14 is retracted.
-**Relationship to other docs:** the conference paper is finished
-(`main.tex`, see `NEXT_SESSION.md`). This plan covers the journal extension
-only. Where it cites conference results it cites them as fixed.
+> **§8** — Tier-1 blocking is over ~5 clusters. Nothing in §13/§14 is retracted.
+
+> **Publication-strategy pass, 2026-08-24.** Conference paper #1 is **submitted
+> and under review**, and the repair study may ship as its own conference paper
+> before the journal. That adds **D11** (number of papers — decided: build and
+> run first, then branch on the result) and **D12** (downstream propagation
+> moves *in* scope, and **blocks B7**). §11's scope-creep list and §12's venue
+> analysis are amended accordingly. The reasoning — pros and cons of splitting,
+> what remains for the journal, whether either claim is significant enough, and
+> what changes regardless of the split — lives in
+> **`PUBLICATION_STRATEGY.md`**.
+
+**Relationship to other docs:** conference paper #1 is **submitted and under
+review** (`main.tex`; see `NEXT_SESSION.md`). This plan covers the journal
+extension only; `PUBLICATION_STRATEGY.md` decides how many papers the work
+becomes. Where this plan cites conference results it cites them as fixed.
 
 **One-line goal.** Convert the conference paper's honestly-unmeasured quantity
 — *does feedback-injected retry repair a detected defect?* — into the journal
@@ -125,6 +137,8 @@ alongside the harness build. Tier C while writing.
 | D8 | Constraint completeness | **Blocks every trial.** The A1 feedback discloses obligations the stage prompts never state (verified against the code — §13.1, all four rows confirmed). **Recommendation (b):** add factor C — C0 production prompt, C1 constraint-complete prompt — crossed with A1/A2 on a Tier-2 subset. C1 pre-registered and published verbatim. Two independent sources (Huang §5; Kamoi Table 7 Required row) make this settled rather than optional (§13.2, §14.7). |
 | D9 | Placement has **four** levels | **NEW 2026-08-24 (second review pass).** D1 defines the default arm as *defective output absent*, then names only P1 (user turn), P2 (assistant turn) and the exploratory P3. *Absent* is a level in its own right — **and it is the one that ships**. Name it **P0** and pre-register it. The blind-spot literature contrasts user-turn against assistant-turn attribution; the deployed system does neither, so P0 is a genuinely novel cell, not an oversight. §13.3's `P1 ≫ P3 ≈ P2` prediction must be restated over P0/P1/P2/P3. |
 | D10 | Tier-2 context condition | **NEW 2026-08-24 (second review pass), blocks the Tier-2 build.** The Tier-2 core cannot run at P0: the injected defect would never enter the model's context and every arm would hit ceiling. Core, ablation, severity and D8 cells all run at **P1**; P0 becomes a diagnostic cell. Full argument and regrid in **§6.1**. |
+| D11 | Number of papers | **NEW 2026-08-24.** The repair study may ship as its own conference paper before the journal. **Decided: do not decide yet — the conference core and the journal core are the same experiment, so build and run first, then branch on the result.** A1 ≫ A2 → splittable; A1 ≈ A2 → do not split, a null needs the full apparatus to read as a finding rather than as underpowering. Pre-register the branch. Full analysis, including what remains for the journal and whether either claim carries a paper, in **`PUBLICATION_STRATEGY.md`**. |
+| D12 | Downstream propagation moves **in** scope | **NEW 2026-08-24, blocks B7.** §11 lists it as scope creep. If the repair result splits off to a conference, the journal residue is otherwise five ablations and no thesis. Moving it in gives the journal a claim — *defect-level repair does not equal pipeline-level improvement* — and tests MAST Appendix J directly. **Decide before B7 is written:** logging what it needs on the first pass is far cheaper than re-running ~980 trials for it. |
 
 ---
 
@@ -215,7 +229,7 @@ reported as *skipped*, not passed — they need `reviews_df` and are out of scop
 | B5 | Arms + placement | **Arms:** A0 = fresh-task correction framing (new prompt template, no retry language). A1 = production `_SUPERVISOR_FEEDBACK_PROMPT`. A2 = fixed generic-rejection string. A3 = plain re-call. **Placement is a four-level factor (D9), not two:** **P0** = defective output *absent* — the production path, and the default for Tier 1; **P1** = defective output in the **user** turn as an artifact under review — the default for Tier 2 (D10, §6.1); **P2** = defective output via a `prior_output` **assistant** turn; **P3** (exploratory) = P2 + correction marker, wording pinned per §14.5. Arm and placement are orthogonal in the implementation: one function builds the message list from (arm, placement) so no cell is special-cased. |
 | B6 | Outcome scorer — `scripts/analysis/score_repair.py` | Classifies each trial into D3's taxonomy from (pre-injection output, injected output, retried output, descriptor). Pure Python, unit-tested. Emits per-operator applicable-trials denominators. ⚠ **Collateral must be redefined — the specified metric cannot discriminate.** "Any added/removed/altered pattern-or-recommendation beyond the injected one" assumes retry is an *edit*. It is not: the retried stage regenerates its whole output from upstream state (see B3/§6.1), so essentially every trial changes essentially every item and the collateral rate pins at ~100% in **all** arms. Score it instead as semantic set-overlap against the **pre-injection** output (or restrict scoring to the items the feedback explicitly named). This is §13.5's replacement-value problem one level up, and it needs the same kind of golden test before any trial runs. **Must score the replacement *value*, not the disappearance of the original defect** — a swapped-but-still-wrong ID or a differently-wrong frequency is `replaced`, not `repaired`. Golden test for this case required before any trial (§13.5). |
 | B8 | **A1 template information-equivalence audit + C1 prompt variant** | Blocks all trials. Diff every supervisor feedback string against the stage system prompt; where the feedback discloses a constraint the prompt omits (all four checked cases do — §13.1), either fold it into a pre-registered constraint-complete prompt C1 or record the delta. Publish C1 verbatim in an appendix. |
-| B7 | Batch runner — `scripts/run_injection_study.py` | Clone the `run_study.py` pattern: JSONL checkpoint with fsync, resume-by-skip, `--dry-run`, backoff on 429/503, `status_error` exclusion carried over verbatim. **Iteration order is `for defect: for arm: for repetition:` — never arm-outer.** All arms for one defect must execute contiguously in one session or the matched pairing is confounded with serving epoch (§14.1). Checkpoint granularity = defect, not trial. Record session id + served model snapshot per call; log the terminal supervisor verdict per trial (§14.4) and pre/post facts for **all** checks, not only the injected one (§14.6) — the latter is free, because `measure()` has no rule precedence and returns the entire measurement. ⚠ **Log `attempts_made` per trial and stratify or exclude on it.** `BaseAgent._run_with_retry` reacts to a JSON/schema failure by appending the model's own invalid output as an **assistant turn** plus a correction prompt. That silently converts the trial to a P2-like condition mid-flight, contaminating exactly the placement manipulation D9 measures — and it means **a trial is 1–3 LLM calls, not 1**, which every budget line in §6 currently assumes away. |
+| B7 | Batch runner — `scripts/run_injection_study.py` | Clone the `run_study.py` pattern: JSONL checkpoint with fsync, resume-by-skip, `--dry-run`, backoff on 429/503, `status_error` exclusion carried over verbatim. **Iteration order is `for defect: for arm: for repetition:` — never arm-outer.** All arms for one defect must execute contiguously in one session or the matched pairing is confounded with serving epoch (§14.1). Checkpoint granularity = defect, not trial. Record session id + served model snapshot per call; log the terminal supervisor verdict per trial (§14.4) and pre/post facts for **all** checks, not only the injected one (§14.6) — the latter is free, because `measure()` has no rule precedence and returns the entire measurement. ⚠ **Log `attempts_made` per trial and stratify or exclude on it.** `BaseAgent._run_with_retry` reacts to a JSON/schema failure by appending the model's own invalid output as an **assistant turn** plus a correction prompt. That silently converts the trial to a P2-like condition mid-flight, contaminating exactly the placement manipulation D9 measures — and it means **a trial is 1–3 LLM calls, not 1**, which every budget line in §6 currently assumes away. ⚠ **Resolve D12 before writing this runner.** If downstream propagation is in scope, the runner must persist the full retried stage output and enough state to re-run the *downstream* stages later — not just the facts and the verdict. Adding that to the record on the first pass is nearly free; recovering it afterwards means re-running every trial. |
 
 **Operator catalog (B4), one per supervisor check class, parameterized from
 observed defects:**
@@ -542,9 +556,13 @@ Tier C debt outstanding) and the amendments are folded in. Revised:
   B1 in place the *actual* token cost is measured, so report that rather than
   the nominal call count.
 - **Contamination.** Fallback-served calls: discard and log (B2). Never mix.
-- **Scope creep.** Downstream-propagation measurement, judge re-runs on
-  repaired reports, and the warn-level frequency sub-experiment are explicitly
-  out of scope unless weeks 5–6 are free.
+- **Scope creep.** Judge re-runs on repaired reports and the warn-level
+  frequency sub-experiment are out of scope unless weeks 5–6 are free.
+  ⚠ **Downstream propagation is no longer on this list — see D12.** If the
+  repair result splits off to a conference paper, propagation is one of only two
+  items left that can carry a journal thesis, so it moves in scope. **Its
+  logging requirements block B7**: capture what it needs on the first pass
+  rather than re-running ~980 trials for it later.
 - **The supervisor-is-never-wrong claim is load-bearing.** The A1-favourable
   reading of MAS-FIRE's Finding 5 (compliance helps when the directive is
   correct) holds only if the supervisor's facts are correct by construction —
@@ -560,6 +578,16 @@ Tier C debt outstanding) and the amendments are folded in. Revised:
   runs, checkpoint everything).
 
 ## 12. Venue (decision D7)
+
+> **Scope note added 2026-08-24.** This section assumed a **single** output.
+> Conference paper #1 is now **submitted and under review**, and the repair
+> study may ship as its own conference paper first (D11). The analysis below
+> still stands **for the journal vehicle**; for the conference vehicle, the
+> split decision, and the constraints that follow from #1 being in review, see
+> **`PUBLICATION_STRATEGY.md`**. Two things that section gets wrong by omission:
+> **ASE** belongs in the table (AgentChaos is ASE 2026, peer-reviewed — direct
+> precedent), and the **ESEM Registered Reports** route in §12.4 is stronger
+> than its one-line treatment there suggests.
 
 **Recommendation: Empirical Software Engineering (EMSE), Springer — regular
 track, not a special issue.**

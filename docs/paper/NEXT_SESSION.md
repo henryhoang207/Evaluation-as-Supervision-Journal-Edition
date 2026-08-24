@@ -11,8 +11,15 @@ it is the authoritative plan. This file is the map.
 
 ## 1. One-line status
 
-Conference paper: **done**. Journal extension: **planned, fully read, build
-started**. All 14 Tier-A + Tier-B papers are read and folded into the plan.
+Conference paper #1: **submitted, under review** (confirmed 2026-08-24) — so
+the dual-submission and 30%-rule constraints in `PUBLICATION_STRATEGY.md` §6 are
+now live. Journal extension: **planned, fully read, build started**. All 14
+Tier-A + Tier-B papers are read and folded into the plan.
+
+**Open strategic question, now documented:** the repair study may ship as its
+own conference paper before the journal. **Decided not to decide yet** — the
+conference core and the journal core are the same experiment, so build and run
+first, then branch on the result (D11). See `PUBLICATION_STRATEGY.md`.
 
 Since the 2026-08-24 code-review pass: **B1/B1b/B2/B3 and the defect-bank
 inventory are built and tested** (133 tests pass), the **replay fidelity gate
@@ -31,7 +38,11 @@ action.
    pass (banner at the top of the file) **edited §3/§4/§5/§6/§8 in place** —
    those sections are current, not superseded. Its changes are the ones checked
    against the repository rather than the literature.
-2. This file, for traps and do-not-redo items.
+2. **`PUBLICATION_STRATEGY.md`** — how many papers this becomes, what is left
+   for the journal if the repair study splits off, whether either claim is
+   significant enough, and the constraints that follow from #1 being in review.
+   Short, and it decides things §12 of the plan could not.
+3. This file, for traps and do-not-redo items.
 
 ⚠ **`READING_PROMPTS.md` no longer exists** — it is in neither copy of the repo
 and was never committed. The Tier-A/Tier-B extraction prompts are lost; the
@@ -48,6 +59,7 @@ the extractions already exist (§3).
 | What | Path | On GitHub? |
 |---|---|---|
 | Journal plan | `docs/paper/JOURNAL_PLAN.md` | **Yes** (tracked 2026-08-24) |
+| Publication strategy (split decision, venues) | `docs/paper/PUBLICATION_STRATEGY.md` | **Yes** |
 | Conference paper source | `docs/paper/main.tex`, `references.bib` | **Yes** (rescued 2026-08-24) |
 | **Tier A extraction (5 papers)** | `..\Reading List\Tier_A\Tier_A_extraction.md` | **No — outside the repo** |
 | **Tier B extractions (9 papers)** | `..\Reading List\Tier_B\related_work_tierB_triad.md` and `related_work_B-III.md` | **No — outside the repo** |
@@ -100,17 +112,32 @@ the quantity the conference paper honestly could not measure.
 
 ### Next actions, in order
 
-1. **Write the Phase-0 memo** and get supervisor sign-off on **D1–D10**. Three
-   of them block every trial: **D8** (constraint completeness, §5 below),
-   **D9** (placement has four levels, and the production one was unnamed),
-   **D10** (the Tier-2 core must run at P1 or every arm hits ceiling —
-   `JOURNAL_PLAN` §6.1).
-2. Build **B4–B8** with the golden gates (the §13.5 replacement-value scorer
+1. **Resolve D12 — it blocks B7 and nothing else can start after it.** If
+   downstream propagation is in scope (and `PUBLICATION_STRATEGY.md` §5 argues
+   it must be, or the journal has no thesis left after a split), the runner has
+   to persist the full retried output and enough state to re-run downstream
+   stages later. Nearly free on the first pass; a full re-run to recover
+   afterwards.
+2. **Write the Phase-0 memo** and get supervisor sign-off on **D1–D12**. Three
+   block every trial: **D8** (constraint completeness, §5 below), **D9**
+   (placement has four levels, and the production one was unnamed), **D10** (the
+   Tier-2 core must run at P1 or every arm hits ceiling — `JOURNAL_PLAN` §6.1).
+   **D8 goes in the conference core, not the journal** — deferring it breaks the
+   contrast the paper leads with.
+3. Build **B4–B8** with the golden gates (the §13.5 replacement-value scorer
    test; the redefined collateral metric). B1/B1b/B2/B3 are done and their gate
    passes — re-run it any time with
    `python scripts/replay_stage.py --verify out_study`.
-3. Tier 1 (**132** trials at P0) → go/no-go → Tier 2 (~980 calls at P1,
-   ~3 nights).
+4. Run the core: A0/A1/A2/A3 at P1 across three stages, **plus C1**, **plus the
+   warm-resample subset**. Tier 1 (**132** trials at P0) is the realism anchor →
+   go/no-go → Tier 2 (~980 calls at P1, ~3 nights).
+5. **Then** branch on the result (D11): A1 ≫ A2 → splittable; A1 ≈ A2 → do not
+   split.
+
+Two things to chase in parallel, both cheap and both time-sensitive:
+**the ESEM registered-report cycle dates** (they outrank the whole venue table
+and would change §10), and **an email to the #1 chairs about an
+extended-version route** — worth doing while #1 is in review, not after.
 
 ---
 
@@ -241,7 +268,8 @@ cap and the runner refuses to start without it. That guard is deliberate.
   `BaseAgent.total_tokens_used` and `eval/harness.py` already did this;
   `run_study.py` simply hard-coded `total_tokens=None`. Now fixed, so any token
   figure must come from a **fresh** run — the 45 on disk cannot be back-filled.
-- Conference paper: finished, `main.tex` verified structurally sound
+- Conference paper #1: **submitted, under review.** `main.tex` verified
+  structurally sound
   (`check_tex.py`: braces balanced, 0 placeholders, 0 dangling refs, 0 missing
   citations). It was recovered from the NFC shadow directory on 2026-08-24 and
   is now tracked. `check_tex.py` itself had a false-positive brace bug — fixed.

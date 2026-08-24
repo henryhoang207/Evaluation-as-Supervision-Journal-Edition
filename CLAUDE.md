@@ -20,10 +20,11 @@ Two tracks share one repository.
    FastAPI backend, Vite/React frontend — both working.
 
 2. **The research paper** the supervisor became — *"Evaluation as Supervision"*.
-   Conference version finished; a journal extension (injected-defect repair
-   study) is the active work. **Start at
+   Conference version **submitted and under review**; a journal extension
+   (injected-defect repair study) is the active work. **Start at
    [`docs/paper/NEXT_SESSION.md`](docs/paper/NEXT_SESSION.md)**, with
-   `docs/paper/JOURNAL_PLAN.md` as the authoritative plan.
+   `docs/paper/JOURNAL_PLAN.md` as the authoritative plan and
+   `docs/paper/PUBLICATION_STRATEGY.md` for how many papers the work becomes.
 
 The system is the testbed; the paper is about its supervision layer. Changes to
 `supervision.py`, `graph.py`, or the agent prompts have paper consequences —
