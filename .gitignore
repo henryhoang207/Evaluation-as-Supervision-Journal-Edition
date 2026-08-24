@@ -60,5 +60,10 @@ backend/eval/**/tier3_scores.json
 # Track the local (Ollama) env profile alongside .env.example
 !.env.local.example
 
-# Paper drafts (local only — not for GitHub)
-docs/paper/
+# Paper drafts: TRACKED as of 2026-08-24 (journal edition repo is private).
+# Build artefacts and local scratch inside docs/paper/ stay ignored.
+docs/paper/*.bak
+docs/paper/*.aux
+docs/paper/*.log
+docs/paper/*.out
+docs/paper/*.synctex.gz
