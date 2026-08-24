@@ -3,6 +3,20 @@
 **Written:** 2026-08-24 · **Amended:** 2026-08-24 after the Tier-A reading and Tier B in full — 9/9 read (see §13, §14)
 (extraction: `..\Reading List\Tier_A\Tier_A_extraction.md`) — D1 reversed,
 arm set extended, statistics refined · **Status:** proposed, not yet agreed with supervisor
+
+> **Second review pass, 2026-08-24 — code-verified against the repository, not
+> the literature.** Unlike §13 and §14, which amend by accretion, this pass
+> **edits the affected sections in place** (the consolidation `NEXT_SESSION.md`
+> called overdue). Changes, all traceable to the code or to `out_study/`:
+> **§3** gains D8 (was implicit), **D9** (placement has four levels, and the
+> production one was unnamed) and **D10** (Tier-2 context condition);
+> **§5** — the Tier-1 bank is **11, not 15**, and covers **two stages**: three
+> entries are API 503s and the only report-stage entry is a cascade of one of
+> them (`scripts/analysis/defect_bank.py` reproduces this);
+> **§6.1** — the Tier-2 core must run at **P1**, or every arm hits ceiling;
+> **§4** — B1/B2/B3 are substantially cheaper than budgeted, B6's collateral
+> metric cannot discriminate as written, B7 must log `attempts_made`;
+> **§8** — Tier-1 blocking is over ~6 clusters. Nothing in §13/§14 is retracted.
 **Relationship to other docs:** the conference paper is finished
 (`main.tex`, see `NEXT_SESSION.md`). This plan covers the journal extension
 only. Where it cites conference results it cites them as fixed.
@@ -108,6 +122,9 @@ alongside the harness build. Tier C while writing.
 | D5 | Models | Hosted: `gemini-2.5-flash` pinned, **fallback disabled during trials** (a silent `gemini-3.5-flash` failover contaminates arms). Local: one open-weights instruct model via the existing Ollama profile, greedy decoding. |
 | D6 | Injection scope | Reasoning, strategy, report stages only — their defects are item-level. Analysis-stage defects (contradiction *rate*) are distributional and upstream of the replay bank; excluded, stated in limitations. |
 | D7 | Venue | **Recommendation: EMSE (Empirical Software Engineering, Springer), regular track** — not a special issue. Rationale and alternatives in §12. Confirm with supervisor; check first whether the conference offers an extended-version route (§12.3). |
+| D8 | Constraint completeness | **Blocks every trial.** The A1 feedback discloses obligations the stage prompts never state (verified against the code — §13.1, all four rows confirmed). **Recommendation (b):** add factor C — C0 production prompt, C1 constraint-complete prompt — crossed with A1/A2 on a Tier-2 subset. C1 pre-registered and published verbatim. Two independent sources (Huang §5; Kamoi Table 7 Required row) make this settled rather than optional (§13.2, §14.7). |
+| D9 | Placement has **four** levels | **NEW 2026-08-24 (second review pass).** D1 defines the default arm as *defective output absent*, then names only P1 (user turn), P2 (assistant turn) and the exploratory P3. *Absent* is a level in its own right — **and it is the one that ships**. Name it **P0** and pre-register it. The blind-spot literature contrasts user-turn against assistant-turn attribution; the deployed system does neither, so P0 is a genuinely novel cell, not an oversight. §13.3's `P1 ≫ P3 ≈ P2` prediction must be restated over P0/P1/P2/P3. |
+| D10 | Tier-2 context condition | **NEW 2026-08-24 (second review pass), blocks the Tier-2 build.** The Tier-2 core cannot run at P0: the injected defect would never enter the model's context and every arm would hit ceiling. Core, ablation, severity and D8 cells all run at **P1**; P0 becomes a diagnostic cell. Full argument and regrid in **§6.1**. |
 
 ---
 
@@ -180,16 +197,25 @@ above already incorporate these; the rest are recorded here.
 
 All build items anchor to existing code; golden tests gate each one.
 
+**Status 2026-08-24.** B1, B1b, B2 and B3 are built, plus the defect-bank
+inventory §5 depends on. The B3 fidelity gate **passes**: `python
+scripts/replay_stage.py --verify out_study` reproduces **135 recorded
+`observations[].facts` exactly, 0 mismatches**, across all 45 observe-mode runs
+and without touching the Yelp data. The 45 analysis-stage observations are
+reported as *skipped*, not passed — they need `reviews_df` and are out of scope
+(D6). Remaining: B4–B8.
+
 | # | Item | Where / how |
 |---|---|---|
-| B1 | Token accounting per stage | `BaseAgent._record_usage` already accumulates `total_tokens_used`; snapshot it around each trial call in the new runner. Also record per-call `model` served. |
-| B2 | Fallback control | New env flag (e.g. `LLM_DISABLE_FALLBACK=1`) consumed in `BaseAgent._call_llm`; a trial where fallback fired is discarded and logged. |
-| B3 | **Replay entry point** — `scripts/replay_stage.py` | Reconstruct `PipelineState`: reviews via `loader.get_business` + seeded `load_reviews` (`MAX_REVIEW_SAMPLE=214` env, same seed — reproducibility is already a passed Tier-1b property); stage outputs from the dump JSONs (`analysis.json`, `reasoning.json`, `strategy.json`, `report.json`). Then run one supervision cycle: stage node (from `nodes.py`, so prompts are the production ones) → `supervision.measure` → `decide`. **Golden test:** replaying every clean Phase-A dump must reproduce the recorded `observations[].facts` from `checkpoint.jsonl` exactly. |
+| B1 | Token accounting per stage | **Smaller than billed — this is not a missing feature.** `BaseAgent.total_tokens_used` / `reset_token_usage()` exist and `eval/harness.py:68-91` already uses them correctly. `total_tokens` is null in all 45 study runs only because `scripts/run_study.py:177` hard-codes `total_tokens=None` under a comment claiming the codebase has no instrumentation. That comment is wrong. Copy the harness pattern; snapshot around each trial call. |
+| B1b | Served-model provenance | Separate from B1 and easy to miss: `_call_llm` returns a bare `str`, so `resp.model` is discarded and **the served-model snapshot §14.1 requires cannot be recorded**. Change its return shape (or stash per-call metadata on the instance) *before* writing the runner — it is a base-class signature change touching all four agents. |
+| B2 | Fallback control | New env flag (e.g. `LLM_DISABLE_FALLBACK=1`) consumed in `BaseAgent._call_llm`; a trial where fallback fired is discarded and logged. **Already proven de facto:** every conference dump's `_summary.json → run_config` shows `primary_model: gemini-2.5-flash, fallback_model: gemini-2.5-flash` — the study ran with fallback pinned equal to primary, so `OPENAI_FALLBACK_MODEL=gemini-2.5-flash` is a zero-code B2. Add the flag anyway, so a failover is *detected* rather than masked. |
+| B3 | **Replay entry point** — `scripts/replay_stage.py` | **The dataset is not needed. Corrected 2026-08-24 (second review pass).** The three in-scope stages read only upstream *outputs*: `_measure_reasoning` needs `reasoning_output` + `analysis_results`; `_measure_strategy` needs `strategy_output` + `reasoning_output`; `_measure_report` needs `report_output` + `reasoning_output` + `strategy_output` + `business_name` + `len(analysis_results)`. `reviews_df` is read **only** by `_measure_analysis` (stars-vs-sentiment), and D6 excludes the analysis stage. Generation side is the same: `reasoning_node` / `strategy_node` / `report_node` rebuild their inputs purely from upstream dumps. So replay needs **no `loader`, no SQLite, no 5.34 GB review file, and no `MAX_REVIEW_SAMPLE=214`** — the four dump JSONs plus `_summary.json` are sufficient, and the study becomes runnable on a machine without the Yelp data. This removes most of the §11 replay-fidelity risk. **Golden test (kept, and now cheaper):** replaying every clean Phase-A dump must reproduce the recorded `observations[].facts` from `checkpoint.jsonl` exactly, with no seeded reload in the loop to drift. ⚠ **Trap:** do *not* route through `orchestrator_node`. `supervision.latest_stage` infers the stage by scanning backward from `report_output`, so a state holding all four dumps reports `report_agent` whichever stage you meant. Call `measure(stage, state)` / `decide(...)` with an explicit stage. |
 | B4 | **Injection operators** — `scripts/inject_defects.py` | Table below. Deterministic given seed; each application records a ground-truth descriptor for scoring. **O5–O7 insertion content comes from a fixed corpus frozen to disk — generated once, never regenerated per run.** Log per-operator applicability (an operator with nothing to corrupt is recorded, not silently skipped) and an injection success rate. |
-| B5 | Arms + placement | A0 = fresh-task correction framing (new prompt template, no retry language). A1 = production `_SUPERVISOR_FEEDBACK_PROMPT`, defective output absent. A2 = fixed generic-rejection string. A3 = plain re-call. P1 = A1 + defective output in the **user** turn as an artifact under review; P2 = A1 + defective output via an optional `prior_output` **assistant** turn; P3 (optional) = P2 + correction marker. |
-| B6 | Outcome scorer — `scripts/analysis/score_repair.py` | Classifies each trial into D3's taxonomy from (pre-injection output, injected output, retried output, descriptor). Pure Python, unit-tested. Collateral = any added/removed/altered pattern-or-recommendation beyond the injected one. Emits per-operator applicable-trials denominators. **Must score the replacement *value*, not the disappearance of the original defect** — a swapped-but-still-wrong ID or a differently-wrong frequency is `replaced`, not `repaired`. Golden test for this case required before any trial (§13.5). |
+| B5 | Arms + placement | **Arms:** A0 = fresh-task correction framing (new prompt template, no retry language). A1 = production `_SUPERVISOR_FEEDBACK_PROMPT`. A2 = fixed generic-rejection string. A3 = plain re-call. **Placement is a four-level factor (D9), not two:** **P0** = defective output *absent* — the production path, and the default for Tier 1; **P1** = defective output in the **user** turn as an artifact under review — the default for Tier 2 (D10, §6.1); **P2** = defective output via a `prior_output` **assistant** turn; **P3** (exploratory) = P2 + correction marker, wording pinned per §14.5. Arm and placement are orthogonal in the implementation: one function builds the message list from (arm, placement) so no cell is special-cased. |
+| B6 | Outcome scorer — `scripts/analysis/score_repair.py` | Classifies each trial into D3's taxonomy from (pre-injection output, injected output, retried output, descriptor). Pure Python, unit-tested. Emits per-operator applicable-trials denominators. ⚠ **Collateral must be redefined — the specified metric cannot discriminate.** "Any added/removed/altered pattern-or-recommendation beyond the injected one" assumes retry is an *edit*. It is not: the retried stage regenerates its whole output from upstream state (see B3/§6.1), so essentially every trial changes essentially every item and the collateral rate pins at ~100% in **all** arms. Score it instead as semantic set-overlap against the **pre-injection** output (or restrict scoring to the items the feedback explicitly named). This is §13.5's replacement-value problem one level up, and it needs the same kind of golden test before any trial runs. **Must score the replacement *value*, not the disappearance of the original defect** — a swapped-but-still-wrong ID or a differently-wrong frequency is `replaced`, not `repaired`. Golden test for this case required before any trial (§13.5). |
 | B8 | **A1 template information-equivalence audit + C1 prompt variant** | Blocks all trials. Diff every supervisor feedback string against the stage system prompt; where the feedback discloses a constraint the prompt omits (all four checked cases do — §13.1), either fold it into a pre-registered constraint-complete prompt C1 or record the delta. Publish C1 verbatim in an appendix. |
-| B7 | Batch runner — `scripts/run_injection_study.py` | Clone the `run_study.py` pattern: JSONL checkpoint with fsync, resume-by-skip, `--dry-run`, backoff on 429/503, `status_error` exclusion carried over verbatim. **Iteration order is `for defect: for arm: for repetition:` — never arm-outer.** All arms for one defect must execute contiguously in one session or the matched pairing is confounded with serving epoch (§14.1). Checkpoint granularity = defect, not trial. Record session id + served model snapshot per call; log the terminal supervisor verdict per trial (§14.4) and pre/post facts for **all** checks, not only the injected one (§14.6). |
+| B7 | Batch runner — `scripts/run_injection_study.py` | Clone the `run_study.py` pattern: JSONL checkpoint with fsync, resume-by-skip, `--dry-run`, backoff on 429/503, `status_error` exclusion carried over verbatim. **Iteration order is `for defect: for arm: for repetition:` — never arm-outer.** All arms for one defect must execute contiguously in one session or the matched pairing is confounded with serving epoch (§14.1). Checkpoint granularity = defect, not trial. Record session id + served model snapshot per call; log the terminal supervisor verdict per trial (§14.4) and pre/post facts for **all** checks, not only the injected one (§14.6) — the latter is free, because `measure()` has no rule precedence and returns the entire measurement. ⚠ **Log `attempts_made` per trial and stratify or exclude on it.** `BaseAgent._run_with_retry` reacts to a JSON/schema failure by appending the model's own invalid output as an **assistant turn** plus a correction prompt. That silently converts the trial to a P2-like condition mid-flight, contaminating exactly the placement manipulation D9 measures — and it means **a trial is 1–3 LLM calls, not 1**, which every budget line in §6 currently assumes away. |
 
 **Operator catalog (B4), one per supervisor check class, parameterized from
 observed defects:**
@@ -203,36 +229,124 @@ observed defects:**
 | O5 untraceable recommendation | traceability | replace `rec.issue` with an unrelated issue from a fixed pre-generated corpus |
 | O6 invented root cause | report containment | insert a cause absent upstream |
 | O7 invented recommendation | report containment | insert a rec absent upstream |
-| O8 metadata mismatch | trusted metadata | perturb `business_name` / `sample_size` |
+| O8 metadata mismatch | trusted metadata | perturb `business_name` / `sample_size` — ⚠ **ceiling operator, see below** |
+
+**Operator-coverage notes (added 2026-08-24, second review pass).**
+
+- **O6/O7 lost their only real counterpart** to the cascade exclusion (§5). The
+  report-containment operators are now unvalidated against real data, and the
+  report stage has no Tier-1 presence at all. Tier 2 is the only evidence for
+  that stage; say so rather than implying the coupling check covers it.
+- **O8 has no real counterpart and is a ceiling operator on both counts.** Zero
+  natural instances were ever recorded (§5), so it contributes nothing to the
+  coupling check; and `report_node` passes the correct `business_name` and
+  `sample_size` *in the prompt payload*, so any retry copies them straight back
+  at ~100% in every arm. It will contribute noise, not signal. Either drop it,
+  or keep it explicitly as a **positive control** — an operator whose repair
+  rate *should* be 1.0, useful for detecting a broken scorer — and say which.
+- **O4 has no retry-level counterpart, but the richest natural sample in the
+  data.** Frequency divergence never reaches the retry threshold, so it is
+  absent from the Tier-1 bank — yet the study recorded **27
+  `frequency_corrected` warn-level observations** across Phase A and the
+  repetition runs. That is by far the largest natural-defect signal available
+  and the only operator class with real observed parameterization. §11 currently
+  lists the warn-level frequency sub-experiment as out-of-scope scope creep;
+  **reconsider** — it is the cheapest realism evidence in the repository.
+- **Report-stage containment is checked by exact string equality.**
+  `_measure_report` compares `(cause, pattern)` and `(issue, action)` verbatim
+  against upstream, so any legitimate rewording during a retry scores as
+  *invented*. For O6/O7 this conflates *removed the invention* with *reproduced
+  the upstream strings verbatim*. The scorer (B6) must separate the two, and the
+  paper must say the check is exact-match.
 
 ---
 
 ## 5. Phase 2 — Tier 1: natural-defect replay
 
 1. **Inventory first** — `scripts/analysis/defect_bank.py` scans
-   `out_study/A/checkpoint.jsonl` + `out_study/R/rep*/` for retry-triggering
-   observations. **Verified 2026-08-24 against the dumps: 15 stage-level
-   instances — 6 from Phase A, 9 from the repetition study** (not 7+8 as
-   originally estimated; the headline was right, the split was not).
-   ⚠ **Shape is worse than the count.** All 15 fall on the *same 5 businesses*
-   (Red Lobster, Izzo's, Nomzilla!, Ameristar, Scarpetta), and stage coverage is
-   badly unbalanced: reasoning 7, strategy 6, **report 2, analysis 0**. So the
-   Tier-1 arm cannot support a per-stage repair rate for the report stage, and
-   stage stratification within Tier 1 is descriptive only — Tier 2 must carry
-   the stage comparison. Say this rather than reporting a 15-instance rate as
-   though it were 15 independent workloads.
-   ⚠ **This also weakens the Just-style coupling argument** (§13, D-real
+   `out_study/A/checkpoint.jsonl` + `out_study/R/rep*/A/checkpoint.jsonl` for
+   retry-triggering observations.
+
+   **Re-verified 2026-08-24 (second pass, superseding the first).** There are
+   15 retry-triggering observations — 6 Phase A + 9 repetition, as recorded —
+   but **three of them are Gemini 503 `status_error` retries, not groundedness
+   defects**:
+
+   ```
+   A    | Scarpetta | reasoning_agent | Error code: 503 - high demand...
+   A    | Scarpetta | report_agent    | Error code: 503 - high demand...
+   rep1 | Scarpetta | reasoning_agent | Error code: 503 - high demand...
+   ```
+
+   Replaying those replays an API outage. A fourth entry is worse: the **only**
+   report-stage defect in the bank is a **cascade of one of those 503s**.
+   `rep1 / 2qVZiMB22YPC2HCM62Gnbw` has `reasoning.json` = `status: error`
+   (503), strategy consequently emitting zero recommendations, and the report
+   agent then inventing three root causes and three recommendations to fill the
+   empty upstream — its first invented cause literally reads *"Upstream analysis
+   did not provide detailed patterns..."*. That is degenerate-input containment,
+   not repair of an ungrounded claim, and it must not be pooled with the rest.
+
+   **The usable Tier-1 bank is 11, over two stages.**
+
+   | Stage | Check class | Nearest operator | Usable instances |
+   |---|---|---|---|
+   | reasoning | missing evidence ID | O1 / O2 | 3 |
+   | reasoning | misaligned aspect | O3 | 2 |
+   | strategy | untraceable recommendation | O5 | 6 |
+   | report | containment | O6 / O7 | **0** (1 cascade, reported separately) |
+   | analysis | — | — | 0 |
+   | **Total** | | | **11** |
+
+   Reproduce with `python scripts/analysis/defect_bank.py`, which encodes every
+   exclusion rule above and prints the cluster structure.
+
+   ⚠ **Shape is much worse than the count.** Those 11 fall on **5 distinct
+   business × stage cells** across 4 businesses — Izzo's/strategy alone
+   contributes 4 and Nomzilla/reasoning 3, so the repetition study largely
+   re-observed the same defects rather than finding new ones.
+
+   Consequences, all of which must be stated rather than smoothed over:
+
+   - **Tier 1 covers two stages, not four.** Report is n=0 and analysis is n=0.
+     Any per-stage claim from Tier 1 is about reasoning and strategy only, and
+     Tier 2 must carry the stage comparison outright — that is no longer a
+     caution, it is the design.
+   - **Effective independent units ≈ 5, not 15.** The matched analysis (§8)
+     must block over ~5 clusters with repeated observations nested inside, or
+     the CIs will still be too narrow after having correctly worried about
+     exactly that. Do not treat the 11 as 11 exchangeable defects.
+   - **The `< 10` escape hatch has effectively fired.** 11 clears 10 nominally;
+     5 clusters does not clear its intent. Either raise repetitions to r=5, or
+     accept Tier 1 as a realism anchor only and let Tier 2 carry every rate —
+     the latter is the honest option and it is already the plan.
+
+   ⚠ **This weakens the Just-style coupling argument further** (§13, D-real
    "sufficiency" half). Just et al. earned their 73% coupling figure on 357
-   isolated real faults; a coupling check over 5 businesses is descriptive, not
+   isolated real faults; a coupling check over 5 cells is descriptive, not
    inferential. Report it as descriptive, and let the **necessity** argument
    (SC-Bench §3.1 — injection is what identifies the estimand) plus the realism
    ladder carry the D-real defense. Promising a coupling result at this n and
-   then reporting a ratio over 5 workloads is the weakest move available. Each entry: (business, stage, class,
-   dump path). **If the bank is < 10, raise repetitions to r=5 and lean harder
-   on Tier 2.**
-2. Design: every instance × arms {A0, A1, A2, A3} × r=3 → ~180 trials, one LLM
-   call each (the retried stage only — repair is judged at that stage by the
-   same checks; downstream re-runs are out of scope).
+   then reporting a ratio over 5 cells is the weakest move available.
+
+   ⚠ **Half the operator catalog has no real counterpart.** Only **O1, O2, O3,
+   O5** have a natural instance to be coupled against. **O4** (frequency) never
+   reaches the retry threshold, **O6/O7** (report containment) lose their only
+   instance to the cascade exclusion, and **O8** (metadata) has never occurred
+   at all. Say which four operators the coupling check covers and which four are
+   unvalidated — a reviewer who recomputes this will find it in ten minutes.
+   See the operator-catalog notes in §4 for what to do about each.
+
+   Bank entry fields (as emitted): `defect_id`, `source`, `business_id`,
+   `business_name`, `stage`, `dump_dir`, `classes`, `operators`, `genuine`,
+   `excluded_reason`, `cascade_of`, `usable`, `retry_feedback`, `facts`.
+2. Design: every usable instance × arms {A0, A1, A2, A3} × r=3 → **132 trials**
+   (not ~180), one LLM call each *when validation passes first time* — see the
+   B7 note on the schema-correction loop, which makes a trial 1–3 calls. Only
+   the retried stage is re-run; repair is judged at that stage by the same
+   checks, and downstream re-runs are out of scope. Tier 1 runs at **P0**, the
+   production placement (D9) — these defects really were the model's own and the
+   production retry really is blind to them.
 3. **Independent audit first**: manually confirm each banked defect is genuinely
    ungrounded (two-pass review, disagreements recorded) — the bank is defined by
    the detector, and the audit breaks that circularity. Then the **coupling
@@ -246,15 +360,61 @@ observed defects:**
 Base material: the 20 Phase-A dumps (skip a business×class cell when that
 class already occurs naturally there, or score around it).
 
-| Grid | Trials |
-|---|---|
-| Core: 8 operators × 20 businesses × A1 × r=2 | 320 |
-| Arm ablation: 8 × 5 businesses × {A0, A2, A3} × r=2 | 240 |
-| Placement: 8 × 5 × {P1 user-turn artifact, P2 assistant-turn} × r=2 | 160 |
-| Severity sweeps: O4 three levels + O1 two levels × 10 businesses × r=2 | ~100 |
-| **D8 constraint-completeness (§13.2b): 8 × 5 × {A1,A2} × C1 prompt × r=2** | 160 |
-| *(optional)* P3 exploratory cell: 8 × 5 × r=2 | 80 |
-| **Total** | **~980 core; ~1,060 with P3** |
+### 6.1 BLOCKING — the Tier-2 core must run at P1, not at the production placement
+
+**Decision D10. Corrected 2026-08-24 (second review pass); the previous core
+grid could not have produced C4.**
+
+In the production retry path the retried stage **never sees its own previous
+output**. `nodes.py` rebuilds the stage input from upstream state and
+`base_agent._with_feedback` appends only the feedback string:
+
+```python
+cleaned = [... for a in state["analysis_results"] if a["status"] == "success"]
+output = reason_over_reviews(cleaned, business_id=..., feedback=feedback)
+```
+
+For **Tier 1** that is exactly right, and it is the estimand: *given a
+description of what was wrong, does the production path regenerate a clean
+output?* The defect really was the model's own, and the retry really is blind
+to it.
+
+For **Tier 2 it breaks the experiment.** The base material is a *clean* dump.
+We corrupt it programmatically, then retry a stage that regenerates from the
+same input that produced the clean output in the first place, with no sight of
+the corruption. At temperature 0 the model reproduces something close to its
+clean output and the scorer records `repaired`. Two consequences:
+
+- **Repair goes to ceiling in every arm, A3 included.** A1 vs A2 vs A3
+  collapses — and that contrast is the whole point of the study (§13.3).
+- **A1 is no longer A1.** The feedback names evidence IDs and issues the model
+  never wrote. That is not *specific* feedback, it is *specific and
+  inapplicable* feedback — a different construct from production A1, so Tier 2
+  would not be estimating the same quantity as Tier 1 even in principle.
+
+**Therefore: the Tier-2 core, arm ablation, severity and D8 cells all run at
+P1** (defective output supplied in the user turn as an artifact under review),
+which is the cheapest placement that puts the injected defect in context. The
+production-absent placement becomes a *diagnostic* cell rather than the core —
+it should show ceiling, and if it does not, that is itself worth reporting.
+
+Cost is neutral: the placement cell and the core cell swap roles.
+
+### 6.2 Grid
+
+| Grid | Placement | Trials |
+|---|---|---|
+| Core: 8 operators × 20 businesses × A1 × r=2 | **P1** | 320 |
+| Arm ablation: 8 × 5 businesses × {A0, A2, A3} × r=2 | **P1** | 240 |
+| Placement: 8 × 5 × A1 × {**P0** production-absent, **P2** assistant-turn} × r=2 | P0, P2 | 160 |
+| Severity sweeps: O4 three levels + O1 two levels × 10 businesses × r=2 | P1 | ~100 |
+| **D8 constraint-completeness (§13.2b): 8 × 5 × {A1,A2} × C1 prompt × r=2** | P1 | 160 |
+| *(optional)* P3 exploratory cell: 8 × 5 × r=2 | P3 | 80 |
+| **Total** | | **~980 core; ~1,060 with P3** |
+
+P1 is measured by the core cell, so the placement row buys the other two levels
+and the three-level contrast **P0 vs P1 vs P2** comes out whole. See D9 in §3
+for why P0 has to be named.
 
 Detection-side calibration (C6) is free: run `measure`/`decide` over every
 injected output offline — above-threshold severities confirm ~100% detection
@@ -284,6 +444,13 @@ bound, ~2 nights; zero API cost.
   **exact-McNemar** contrasts A1-vs-A2 (feedback content) and A2-vs-A3 (bare
   trigger); headline = **A1/A0 ratio** with delta-method CI, absolute rates
   alongside; block on defect identity throughout.
+- ⚠ **Tier-1 blocking is over ~5 clusters, not 11 defects** (§5). The 11 usable
+  instances sit in 5 business × stage cells, with up to 4 observations in one
+  cell. Blocking on defect identity alone treats near-duplicates as independent
+  blocks and re-narrows the CIs the blocking was introduced to widen. Nest
+  repeated observations inside the cell, or report the Tier-1 rate as a
+  descriptive count with the cluster structure printed next to it. Decide which
+  before running, not after seeing the width.
 - Outcome reported as a **multinomial** over the four classes, plus the two-stage
   chain *did the output change at all → did the targeted defect resolve*
   (MAS-FIRE's O/L decomposition; global-success S stays out of scope).
@@ -301,11 +468,19 @@ bound, ~2 nights; zero API cost.
   A1−A3 gap widens on harder defects (§14.2).
 - **Trigger rate** reported alongside injection success rate; state whether
   never-flagged defects are dropped or counted `unrepaired` (§14.3).
-- Placement effect (C5) — stage-level blind-spot test. Pre-registered: **P1 ≫ P3 ≈ P2** (§13.3).
+- Placement effect (C5) — stage-level blind-spot test over **four** levels
+  (D9): pre-registered **P1 ≫ P3 ≈ P2**, with **P0 (production) reported
+  separately** rather than folded into the ordering. P0 is not a weaker P1: the
+  model never sees the artifact at all, so it is a different mechanism —
+  regenerate-from-description, not correct-an-artifact. In Tier 2 the P0 cell
+  is a ceiling diagnostic (§6.1); in Tier 1 it is the production estimand.
 - **Placement × arm interaction**: predicted A1−A2 larger at P2 than at P1; report it, do not average over placement (§13.6).
 - **A0 call-count disclosure** — state calls per arm; A0 is a ceiling, not a cost-matched competitor (Huang §4).
 - Collateral rate per arm — does feedback cause *less* collateral than a
-  re-draw? Plausible and novel either way.
+  re-draw? Plausible and novel either way. **Only under the redefined metric
+  (B6):** the original "anything changed beyond the injected item" definition
+  saturates at ~100% in every arm because retry regenerates rather than edits,
+  and would report a null that is an artefact of the measure.
 - Severity → detection curves per check (C6).
 - Everything with denominators visible; no population claims.
 
@@ -334,9 +509,10 @@ Tier C debt outstanding) and the amendments are folded in. Revised:
 |---|---|---|
 | 1 | Tier-A reading; design decisions D1–D7 | ✅ done 2026-08-24 |
 | 1 | Tier-B reading (9 papers, 3 sittings) | ✅ done 2026-08-24 |
-| 2 | **Phase-0 memo → supervisor sign-off on D1–D8** (D8 is new and blocks trials) | ⬜ next |
-| 2–3 | Build B1–B8 + golden tests (incl. replay-fidelity gate and the §13.5 replacement-value test); defect-bank inventory | ⬜ |
-| 3 | Tier 1 runs (~180 trials) + preliminary analysis → go/no-go | ⬜ |
+| 2 | **Phase-0 memo → supervisor sign-off on D1–D10** (D8, D9, D10 all block trials) | ⬜ next |
+| 2 | B1/B1b/B2 instrumentation; B3 replay entry point; defect-bank inventory | ✅ done 2026-08-24 |
+| 2–3 | Build B4 (operators), B5 (arms × placement), B6 (scorer), B7 (runner), B8 (C1 audit) + golden tests incl. the §13.5 replacement-value test | ⬜ |
+| 3 | Tier 1 runs (**132** trials, P0) + preliminary analysis → go/no-go | ⬜ |
 | 4 | Tier 2 grids (~980 calls, 3 nights) + analysis | ⬜ |
 | 5 | (stretch) local deterministic arm — now higher value, see §14.1 | ⬜ |
 | 6–7 | Writing; stats hardening; related-work integration; Tier-C skim | ⬜ |
@@ -353,6 +529,18 @@ Tier C debt outstanding) and the amendments are folded in. Revised:
   early; the local arm is the hedge.
 - **Replay fidelity.** The B3 golden test is a hard gate: if reconstructed
   facts don't match recorded facts exactly, stop and fix before any trial.
+  **Downgraded from the largest build risk to a routine test** now that replay
+  needs no seeded reload of the review data (B3) — the only moving part left is
+  the dump-to-state mapping.
+- **Placement contamination via the schema-correction loop.** A trial whose
+  first call fails JSON/schema validation is silently re-issued with the
+  model's own invalid output in an **assistant turn** — a P2-like condition
+  inside what was meant to be a P0 or P1 trial. Log `attempts_made`, and decide
+  before running whether such trials are excluded or analysed separately (B7).
+- **Trial cost is 1–3 LLM calls, not 1.** Same cause. The §6 budget and the
+  Olausson-style cost-adjusted comparison both assume one call per trial; with
+  B1 in place the *actual* token cost is measured, so report that rather than
+  the nominal call count.
 - **Contamination.** Fallback-served calls: discard and log (B2). Never mix.
 - **Scope creep.** Downstream-propagation measurement, judge re-runs on
   repaired reports, and the warn-level frequency sub-experiment are explicitly

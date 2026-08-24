@@ -87,22 +87,38 @@ venv/Scripts/python.exe -m pytest -m "not integration"
 - Reproduce any paper number (read-only, no API cost):
   `venv/Scripts/python.exe scripts/analysis/tally.py`, plus `rep_verdict.py`
   and `audit.py`.
+- Journal extension, also read-only and **needing no dataset**:
+  `scripts/analysis/defect_bank.py` (Tier-1 defect inventory) and
+  `scripts/replay_stage.py --verify out_study` (the replay-fidelity gate that
+  gates every injection trial). Both are covered by `tests/test_replay.py`.
 - Re-running an *experiment* needs `MAX_REVIEW_SAMPLE=214` in the environment —
   `loader.MAX_REVIEWS` is read at import, so `--sample-size` alone cannot lift
   the cap. That guard is deliberate.
 
-## What is gitignored, and why `git status` looks clean
+## What is and is not tracked
 
-`docs/paper/` and `backend/out_study/` are ignored **on purpose**, so heavy work
-in either leaves no trace in `git status`.
+**Corrected 2026-08-24 — the previous version of this section was wrong.**
+`docs/paper/` and `backend/out_study/` are **tracked**, not ignored. `git status`
+is clean because the work is committed.
 
-- The paper, the journal plan, and the study data are **local-only** — a clone of
-  the GitHub repo gets the code and none of it.
-- The literature extractions live **outside the repo** at `../Reading List/`.
-- `backend/out_study/` holds ~260 irreplaceable result files. Two `.bak` files
-  there record failures deliberately — **do not delete them.**
+- The paper (`main.tex`, `references.bib`), the journal plan, the study dumps and
+  the study checkpoints are all **in the repository**.
+- The literature extractions live **outside the repo** at `../Reading List/` —
+  that part is still true, and they are the one irreplaceable thing a clone
+  misses.
+- `backend/out_study/` holds ~260 result files. Three `.bak` files record
+  failures deliberately — **do not delete them.**
+- Until 2026-08-24 the blanket `*.jsonl` rule ignored every `checkpoint.jsonl`,
+  so the repo tracked the records of *failed* runs while ignoring the
+  `observations[]` behind every paper number. A negation rule
+  (`!backend/out_study/**/*.jsonl`) fixes it. Do not remove that line.
 
-Never commit `.env`, raw Yelp data, or generated SQLite/CSV/JSONL.
+⚠ **Two physical repo directories exist** — `Tài liệu` in NFD and NFC
+normalisation, visually identical. The NFD one is the git repo; the NFC one is a
+stray shadow with no `.git`. Check it before concluding a file was never written.
+
+Never commit `.env` or raw Yelp data. Generated SQLite/CSV and non-study JSONL
+stay ignored.
 
 ## Conventions
 
@@ -146,10 +162,20 @@ Never commit `.env`, raw Yelp data, or generated SQLite/CSV/JSONL.
   ("retry, skip, or halt after stage failure"). The hub supervisor replaced it;
   `supervision.py` and `docs/FINDINGS_2026-07-16.md` F7 are correct.
 - **`AGENTS.md`** predates the hub too, and points at `docs/LOCAL_LLM.md`.
-- Several tracked docs (`PROJECT_AUDIT.md`, `RUNNING.md`, `docs/DECISIONS.md`,
-  `docs/PROGRESS.md`, `docs/RUN_TESTS.md`, `docs/PLAN.md`, both
-  `ORCHESTRATOR_*.md`) are **currently deleted from the working tree**. They are
-  tracked, so `git restore <path>` brings them back if wanted.
+- `PROJECT_AUDIT.md`, `RUNNING.md`, `docs/DECISIONS.md`, `docs/PROGRESS.md`,
+  `docs/RUN_TESTS.md`, `docs/PLAN.md`, `docs/LOCAL_LLM.md` and both
+  `ORCHESTRATOR_*.md` **do not exist and are not tracked**. An earlier version of
+  this file said they were tracked and recoverable with `git restore` — that is
+  false: this repository starts at "Initial import" and never contained them.
+  They survive only in the old conference repo, if at all.
+- Consequently ~12 references in shipped source point at missing docs:
+  `graph.py`, `supervision.py`, `base_agent.py`, `state.py`, `main.py` and
+  `orchestrator.py` cite `docs/ORCHESTRATOR_SIMPLE_HUB.md`; `llm_config.py`
+  cites `docs/LOCAL_LLM.md` and `docs/DECISIONS.md`; `README.md` cites seven.
+  Treat those pointers as historical notes, not as readable documents.
+- `docs/DECISIONS.md` does not exist, so the "append a decision entry" rule
+  below currently has nowhere to write. Record contract/architecture decisions in
+  the relevant plan document until it is recreated.
 
 When code and docs disagree, the code wins — then fix the doc.
 
