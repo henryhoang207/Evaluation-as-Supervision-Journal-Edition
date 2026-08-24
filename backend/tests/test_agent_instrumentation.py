@@ -124,6 +124,26 @@ def test_fallback_disabled_raises_instead_of_failing_over(monkeypatch, value):
     assert BaseAgent.call_log == []
 
 
+def test_reset_from_a_subclass_clears_the_real_counters():
+    """Regression: `cls.x = ...` would shadow instead of reset.
+
+    _record_usage writes to BaseAgent's attributes, so a reset bound to `cls`
+    creates a subclass attribute and silently leaves the real counter running —
+    per-trial accounting would then accumulate across the whole batch.
+    """
+    from app.agents.analysis_agent import AnalysisAgent
+
+    BaseAgent.call_log.append({"marker": True})
+    BaseAgent.total_tokens_used = 99
+
+    AnalysisAgent.reset_instrumentation()
+
+    assert BaseAgent.call_log == []
+    assert BaseAgent.total_tokens_used == 0
+    assert "call_log" not in AnalysisAgent.__dict__
+    assert "total_tokens_used" not in AnalysisAgent.__dict__
+
+
 def test_fallback_flag_is_read_per_call_not_at_import(monkeypatch):
     """A batch runner must be able to flip it between runs in one process."""
     assert base_agent.fallback_disabled() is False

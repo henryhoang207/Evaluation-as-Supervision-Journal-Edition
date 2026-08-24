@@ -85,9 +85,11 @@ venv/Scripts/python.exe -m pytest -m "not integration"
 - Interactive data demo: `python -m tests.test_data_pipeline`.
 - SQLite index: `python scripts/build_db.py` (`--rebuild` to replace). Without
   it every lookup scans the 5.34 GB review file.
-- Reproduce any paper number (read-only, no API cost):
-  `venv/Scripts/python.exe scripts/analysis/tally.py`, plus `rep_verdict.py`
-  and `audit.py`.
+- Reproduce any paper number (read-only, no API cost) — ⚠ **these run from the
+  repo root, not `backend/`**: they hard-code `backend/out_study/…` and
+  `docs/paper/…` paths. `backend/venv/Scripts/python.exe
+  backend/scripts/analysis/tally.py`, plus `rep_tally.py`, `rep_verdict.py`,
+  `audit.py`, `check_tex.py`.
 - Journal extension, also read-only and **needing no dataset**:
   `scripts/analysis/defect_bank.py` (Tier-1 defect inventory) and
   `scripts/replay_stage.py --verify out_study` (the replay-fidelity gate that

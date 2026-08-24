@@ -201,7 +201,7 @@ def main() -> int:
 
         p50, p75, p90, p95 = pct(0.50), pct(0.75), pct(0.90), pct(0.95)
         if p95 >= 0.90:
-            verdict = "UNUSABLE - null spans the range"
+            verdict = "very weak - see the upstream caveat below"
         elif p95 >= 0.50:
             verdict = "weak - only gross damage detectable"
         else:
@@ -212,6 +212,49 @@ def main() -> int:
     print("A collateral threshold set below a column's p95 would fire on runs where")
     print("nothing was injected and no feedback was given. Caveat: 5 businesses,")
     print("so these are calibration estimates, not population values.")
+
+    # These figures OVERSTATE the floor for a replay experiment, and by how much
+    # is measurable. In a repetition run every stage regenerates, so downstream
+    # churn compounds upstream churn. In a replay trial the upstream output is
+    # pinned from the dump, so only the retried stage varies. Conditioning on
+    # near-identical upstream recovers the number the experiment will actually
+    # face.
+    ups, downs = [], []
+    for bid in businesses:
+        per_rep = {}
+        for rep in reps:
+            d = os.path.join(rep, bid)
+            if os.path.isdir(d):
+                it = _items(d)
+                if it:
+                    per_rep[rep] = it
+        for r1, r2 in itertools.combinations(sorted(per_rep), 2):
+            ua, ub = per_rep[r1].get("pattern_descriptions"), per_rep[r2].get("pattern_descriptions")
+            da, db = per_rep[r1].get("rec_issues"), per_rep[r2].get("rec_issues")
+            if None in (ua, ub, da, db):
+                continue
+            u = (matched_fraction(ua, ub, args.threshold)
+                 + matched_fraction(ub, ua, args.threshold)) / 2
+            d_ = (matched_fraction(da, db, args.threshold)
+                  + matched_fraction(db, da, args.threshold)) / 2
+            ups.append(u)
+            downs.append(d_)
+
+    stable = [d for u, d in zip(ups, downs) if u >= 0.95]
+    drifted = [d for u, d in zip(ups, downs) if u < 0.95]
+    if stable and drifted:
+        print("\n" + "=" * 80)
+        print("UPSTREAM CAVEAT - the figures above are NOT the replay-condition floor")
+        print("=" * 80)
+        print("Repetition runs regenerate every stage, so strategy churn compounds")
+        print("reasoning churn. A replay trial pins the upstream output, so only the")
+        print("retried stage moves. Splitting the pairs on upstream stability:")
+        print(f"  upstream near-identical (>=0.95): n={len(stable):>3}  "
+              f"rec_issues churn = {1 - statistics.mean(stable):.0%}")
+        print(f"  upstream drifted        (< 0.95): n={len(drifted):>3}  "
+              f"rec_issues churn = {1 - statistics.mean(drifted):.0%}")
+        print("Use the first row for the strategy-stage collateral threshold.")
+        print("It rests on few pairs, so treat it as an upper-bounded estimate.")
     return 0
 
 

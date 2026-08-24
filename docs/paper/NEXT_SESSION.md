@@ -228,16 +228,23 @@ publish it verbatim. Full options in §13.2.
 
 ## 8. Reproduce any conference number
 
-From `backend/`, venv active. Read-only, no API cost.
+All read-only, no API cost. ⚠ **The scripts do not share a working directory** —
+verified 2026-08-24, and an earlier version of this section was wrong about it.
+`tally.py`, `rep_tally.py`, `rep_verdict.py`, `audit.py` and `check_tex.py`
+hard-code repo-root-relative paths (`backend/out_study/…`, `docs/paper/…`) and
+**must run from the repo root**. The journal-extension scripts take
+`--root`/`--dump-dir` arguments and run from `backend/`.
+
+From the **repo root**:
 
 ```bash
-venv/Scripts/python.exe scripts/analysis/tally.py
+backend/venv/Scripts/python.exe backend/scripts/analysis/tally.py
 ```
 
-Also: `rep_verdict.py` (recurrence), `audit.py` (latency, input identity,
-stability), `check_tex.py` (braces, refs, citations, placeholders).
+Also `rep_verdict.py` (recurrence), `audit.py` (latency, input identity,
+stability), `check_tex.py` (braces, refs, citations, placeholders) — same cwd.
 
-For the journal extension, both read-only and dataset-free:
+From **`backend/`**, for the journal extension — read-only and dataset-free:
 
 ```bash
 venv/Scripts/python.exe scripts/analysis/defect_bank.py --out out_study/defect_bank.json

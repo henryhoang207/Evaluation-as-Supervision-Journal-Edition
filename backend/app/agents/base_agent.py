@@ -77,13 +77,18 @@ class BaseAgent(ABC):
     # matched analysis against serving-stack drift (JOURNAL_PLAN 14.1).
     call_log: list[dict] = []
 
+    # These bind to BaseAgent explicitly, never to `cls`. `cls.x = ...` on a
+    # subclass creates a shadowing subclass attribute while _record_usage keeps
+    # writing to BaseAgent's, so `AnalysisAgent.reset_token_usage()` would look
+    # like it worked and silently leave the real counter running — which would
+    # corrupt exactly the per-trial accounting the injection study depends on.
     @classmethod
     def reset_token_usage(cls) -> None:
-        cls.total_tokens_used = 0
+        BaseAgent.total_tokens_used = 0
 
     @classmethod
     def reset_call_log(cls) -> None:
-        cls.call_log = []
+        BaseAgent.call_log = []
 
     @classmethod
     def reset_instrumentation(cls) -> None:

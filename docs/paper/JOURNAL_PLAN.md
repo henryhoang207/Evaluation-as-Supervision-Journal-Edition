@@ -354,7 +354,13 @@ observed defects:**
    Bank entry fields (as emitted): `defect_id`, `source`, `business_id`,
    `business_name`, `stage`, `dump_dir`, `classes`, `operators`, `genuine`,
    `excluded_reason`, `cascade_of`, `usable`, `retry_feedback`, `facts`.
-2. Design: every usable instance × arms {A0, A1, A2, A3} × r=3 → **132 trials**
+2. Design: every usable instance × arms {A0, A1, A2, A3} × r=3 → **132 trials**.
+   ⚠ **Descriptive only — `scripts/analysis/power.py` puts Tier 1's MDE at
+   ~31 pp and shows the cluster bootstrap over-rejecting at 0.086 against a
+   nominal 0.05 with 5 clusters.** No hypothesis test may be run on Tier 1. The
+   132 trials buy a realism anchor and per-class descriptive rates, nothing more;
+   spend them knowing that, or cut r to 2 and spend the difference on Tier 2
+   where it buys power.
    (not ~180), one LLM call each *when validation passes first time* — see the
    B7 note on the schema-correction loop, which makes a trial 1–3 calls. Only
    the retried stage is re-run; repair is judged at that stage by the same
@@ -413,6 +419,44 @@ production-absent placement becomes a *diagnostic* cell rather than the core —
 it should show ceiling, and if it does not, that is itself worth reporting.
 
 Cost is neutral: the placement cell and the core cell swap roles.
+
+### 6.1b Power (D4d) — the grid below is NOT yet powered for its own endpoint
+
+`scripts/analysis/power.py`, simulation-based (matched arms, reps nested in
+defect, Tier-1 defects clustered — closed-form McNemar would overstate all of
+it). At the plan's own predicted effect, **A1 − A2 ≈ 12 pp** (A1 = 0.45 from
+§14.2; A2 = 0.33 from §13.3's "A2 captures ~70% of A1's gain"):
+
+| Design | Matched defects | Power | MDE @ 80% |
+|---|---|---|---|
+| **Arm ablation as specified (8 ops × 5 businesses, r=2)** | 40 | **0.30** | **22 pp** |
+| 8 × 10, r=2 | 80 | 0.50 | 16 pp |
+| 8 × 20, r=2 — **the whole sample** | 160 | 0.80 | 12 pp |
+| 8 × 20, r=3 | 160 | 0.93 | — |
+| Tier 1 (11 defects, 5 cells, r=3) | 11 | — | **31 pp** |
+
+Four consequences:
+
+1. **A2 vs A3 (28 pp) is already at 0.996 with 5 businesses.** Equal allocation
+   across arms overspends on the easy contrast. Allocate by difficulty: A1 and
+   A2 at the full 160 defects, A3 at 40, A0 at 80.
+2. **160 defects is a hard ceiling** — 8 operators × the 20 Phase-A dumps. More
+   blocks would need new Phase-A runs (a full pipeline each), so **r is the only
+   lever left** once the sample is exhausted. Reps and blocks buy power about
+   equally here (8×10 r=4 ≈ 8×20 r=2 ≈ 0.81), which is contrary to the usual
+   advice and worth stating.
+3. **A shared-occasion effect makes all of the above optimistic.** §14.1 requires
+   all arms for one defect to run contiguously in one session, so they share the
+   serving stack of that moment; that raises arm-to-arm correlation, cuts
+   discordant pairs, and costs power. At occasion SD 1.0, 8 × 20 r=2 falls
+   0.81 → 0.75. **Plan for r=3 if 0.80 is the target.**
+4. **Tier 1 cannot support inference** — MDE ~31 pp, and the cluster bootstrap
+   over-rejects at 0.086. Descriptive only (§5).
+
+**Therefore: pre-register this as estimation, not NHST.** Report A1 − A2 with a
+CI (half-width ≈ 0.7 × MDE: ±8 pp at 160 defects). A null then *says* something —
+"3 pp, 95% CI [−5, 11]" excludes large effects — instead of being
+indistinguishable from insufficient power.
 
 ### 6.2 Grid
 

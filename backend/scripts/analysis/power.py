@@ -75,7 +75,8 @@ def _expit(x):
     return 1.0 / (1.0 + np.exp(-x))
 
 
-def simulate(rng, n_sims, n_defects, reps, p_a, p_b, sigma, cluster_sizes=None):
+def simulate(rng, n_sims, n_defects, reps, p_a, p_b, sigma, cluster_sizes=None,
+             sigma_occasion=0.0):
     """Outcomes for two arms under a shared per-defect random effect.
 
     Returns two boolean arrays of shape (n_sims, n_defects, reps). The shared
@@ -94,8 +95,17 @@ def simulate(rng, n_sims, n_defects, reps, p_a, p_b, sigma, cluster_sizes=None):
         w = rng.normal(0.0, sigma * 0.44, size=(n_sims, n_defects, 1))
         u = v + w
 
-    a = rng.random((n_sims, n_defects, reps)) < _expit(_logit(p_a) + u)
-    b = rng.random((n_sims, n_defects, reps)) < _expit(_logit(p_b) + u)
+    # Occasion effect: all arms for one defect run contiguously in one session
+    # (section 14.1), so they share whatever the serving stack was doing at that
+    # moment. That makes the arms MORE alike than conditional independence
+    # implies, which reduces discordant pairs and therefore reduces McNemar
+    # power. Ignoring it makes every power figure optimistic.
+    w = 0.0
+    if sigma_occasion:
+        w = rng.normal(0.0, sigma_occasion, size=(n_sims, n_defects, reps))
+
+    a = rng.random((n_sims, n_defects, reps)) < _expit(_logit(p_a) + u + w)
+    b = rng.random((n_sims, n_defects, reps)) < _expit(_logit(p_b) + u + w)
     return a, b
 
 
@@ -131,8 +141,10 @@ def cluster_bootstrap(rng, a, b, n_boot=1000):
     return (lo > 0) | (hi < 0)
 
 
-def run_cell(rng, n_sims, n_defects, reps, p_a, p_b, sigma, cluster_sizes=None):
-    a, b = simulate(rng, n_sims, n_defects, reps, p_a, p_b, sigma, cluster_sizes)
+def run_cell(rng, n_sims, n_defects, reps, p_a, p_b, sigma, cluster_sizes=None,
+             sigma_occasion=0.0):
+    a, b = simulate(rng, n_sims, n_defects, reps, p_a, p_b, sigma, cluster_sizes,
+                    sigma_occasion)
     p_naive, n_disc = mcnemar_naive(a, b)
     rej_naive = p_naive < ALPHA
     rej_cluster = cluster_bootstrap(rng, a, b)
@@ -232,6 +244,19 @@ def main() -> int:
         row = [run_cell(rng, s, nd, 2, P_A1, P_A2, sg)["cluster"]
                for nd in (40, 80, 160)]
         print(f"{sg:<10} {row[0]:>10.3f} {row[1]:>10.3f} {row[2]:>10.3f}")
+
+    print("\n" + "=" * 74)
+    print("8. ROBUSTNESS - shared-occasion effect (arms run contiguously, 14.1)")
+    print("=" * 74)
+    print("Sections 1-7 assume arms are independent given the defect. They are not:")
+    print("all arms for one defect run in one session and share the serving stack")
+    print("of that moment, which makes them MORE alike, cuts discordant pairs, and")
+    print("costs McNemar power. Every figure above is optimistic by this much:")
+    print(f"{'occasion SD':<14} {'8 x 10':>10} {'8 x 20':>10} {'8 x 30':>10}")
+    for so in (0.0, 0.5, 1.0, 1.5):
+        row = [run_cell(rng, s, nd, 2, P_A1, P_A2, sig, sigma_occasion=so)["cluster"]
+               for nd in (80, 160, 240)]
+        print(f"{so:<14} {row[0]:>10.3f} {row[1]:>10.3f} {row[2]:>10.3f}")
 
     print("\n" + "=" * 74)
     print("7. INTERACTION power - can the D8 C1 cell do what it exists to do?")

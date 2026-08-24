@@ -210,6 +210,14 @@ These hold under every branch and should not wait for the venue choice.
 
 ## 8. Venue assessment
 
+> ⚠ **Provenance of the dates below.** The ASE 2026 venue and DOI come from
+> `JOURNAL_PLAN` §14.9, where they were checked against the paper. **Every
+> deadline in the table was supplied second-hand and has NOT been verified
+> against an official CFP.** Treat them as leads to confirm, not as facts, and
+> re-check each on the venue's own page before planning around it — §14.9 is
+> this project's own record of citation metadata being wrong three times from
+> exactly this kind of sourcing.
+
 `JOURNAL_PLAN` §12 recommended **EMSE regular track** and that still stands for
 the journal vehicle. For a conference vehicle:
 
