@@ -1,0 +1,801 @@
+{
+  "root": "out_study",
+  "entries": [
+    {
+      "defect_id": "A:_cXaVePsZOiKlXwsQ8vcxA:strategy_agent:2",
+      "source": "A",
+      "business_id": "_cXaVePsZOiKlXwsQ8vcxA",
+      "business_name": "Red Lobster",
+      "stage": "strategy_agent",
+      "dump_dir": "out_study/A/_cXaVePsZOiKlXwsQ8vcxA",
+      "classes": [
+        "untraceable_recommendation"
+      ],
+      "operators": [
+        "O5"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "these recommendation issues do not trace back to any reasoning pattern or root cause: ['Poor staff attitude and service quality.']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": [
+          "Poor staff attitude and service quality."
+        ]
+      }
+    },
+    {
+      "defect_id": "A:ZGznjpkqi6a_It4lAgCnYw:strategy_agent:2",
+      "source": "A",
+      "business_id": "ZGznjpkqi6a_It4lAgCnYw",
+      "business_name": "Izzo's Illegal Burrito",
+      "stage": "strategy_agent",
+      "dump_dir": "out_study/A/ZGznjpkqi6a_It4lAgCnYw",
+      "classes": [
+        "untraceable_recommendation"
+      ],
+      "operators": [
+        "O5"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "these recommendation issues do not trace back to any reasoning pattern or root cause: ['Excessive customer wait times.']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": [
+          "Excessive customer wait times."
+        ]
+      }
+    },
+    {
+      "defect_id": "A:FnEWE7CdxTolKWEgVKAlsg:reasoning_agent:1",
+      "source": "A",
+      "business_id": "FnEWE7CdxTolKWEgVKAlsg",
+      "business_name": "Nomzilla! Sushi Et Cetera",
+      "stage": "reasoning_agent",
+      "dump_dir": "out_study/A/FnEWE7CdxTolKWEgVKAlsg",
+      "classes": [
+        "misaligned_aspect"
+      ],
+      "operators": [
+        "O3"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "your previous output cited unverifiable evidence. pattern 'A notable portion of reviews express general dissatisfaction': these evidence reviews do not mention aspect 'other': ['4z5iikEN4xpW4j8URNb8jw']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 214,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "food_quality",
+            "description": "Customers frequently report dissatisfaction with the quality",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.257,
+            "recomputed_frequency": 0.2570093457943925
+          },
+          {
+            "index": 1,
+            "aspect": "staff_attitude",
+            "description": "A significant number of reviews highlight negative experienc",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.192,
+            "recomputed_frequency": 0.18691588785046728
+          },
+          {
+            "index": 2,
+            "aspect": "pricing",
+            "description": "Many customers perceive the prices as too high or not offeri",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.159,
+            "recomputed_frequency": 0.1588785046728972
+          },
+          {
+            "index": 3,
+            "aspect": "other",
+            "description": "A notable portion of reviews express general dissatisfaction",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [
+              "4z5iikEN4xpW4j8URNb8jw"
+            ],
+            "claimed_frequency": 0.121,
+            "recomputed_frequency": 0.1261682242990654
+          },
+          {
+            "index": 4,
+            "aspect": "wait_time",
+            "description": "Customers frequently complain about excessive waiting times ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.075,
+            "recomputed_frequency": 0.07476635514018691
+          },
+          {
+            "index": 5,
+            "aspect": "ambience",
+            "description": "Several reviews indicate that the restaurant's atmosphere or",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.042,
+            "recomputed_frequency": 0.04205607476635514
+          },
+          {
+            "index": 6,
+            "aspect": "cleanliness",
+            "description": "A few reviews point out issues with the cleanliness of the r",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.019,
+            "recomputed_frequency": 0.018691588785046728
+          }
+        ]
+      }
+    },
+    {
+      "defect_id": "A:o3hDZ2nv80tApZMNQw2aZA:strategy_agent:2",
+      "source": "A",
+      "business_id": "o3hDZ2nv80tApZMNQw2aZA",
+      "business_name": "Ameristar Casino Resort Spa St. Charles",
+      "stage": "strategy_agent",
+      "dump_dir": "out_study/A/o3hDZ2nv80tApZMNQw2aZA",
+      "classes": [
+        "untraceable_recommendation"
+      ],
+      "operators": [
+        "O5"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "these recommendation issues do not trace back to any reasoning pattern or root cause: ['Negative ambience.']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": [
+          "Negative ambience."
+        ]
+      }
+    },
+    {
+      "defect_id": "A:2qVZiMB22YPC2HCM62Gnbw:reasoning_agent:1",
+      "source": "A",
+      "business_id": "2qVZiMB22YPC2HCM62Gnbw",
+      "business_name": "Scarpetta",
+      "stage": "reasoning_agent",
+      "dump_dir": "out_study/A/2qVZiMB22YPC2HCM62Gnbw",
+      "classes": [
+        "api_error"
+      ],
+      "operators": [],
+      "genuine": false,
+      "excluded_reason": "api_error",
+      "cascade_of": null,
+      "usable": false,
+      "retry_feedback": "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+      "facts": {
+        "status_error": true,
+        "error_detail": "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+        "n_success": 214,
+        "patterns": []
+      }
+    },
+    {
+      "defect_id": "A:2qVZiMB22YPC2HCM62Gnbw:report_agent:3",
+      "source": "A",
+      "business_id": "2qVZiMB22YPC2HCM62Gnbw",
+      "business_name": "Scarpetta",
+      "stage": "report_agent",
+      "dump_dir": "out_study/A/2qVZiMB22YPC2HCM62Gnbw",
+      "classes": [
+        "api_error"
+      ],
+      "operators": [],
+      "genuine": false,
+      "excluded_reason": "api_error",
+      "cascade_of": null,
+      "usable": false,
+      "retry_feedback": "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+      "facts": {
+        "status_error": true,
+        "error_detail": "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+        "invented_root_causes": [],
+        "invented_recommendations": [],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    },
+    {
+      "defect_id": "rep1:ZGznjpkqi6a_It4lAgCnYw:strategy_agent:2",
+      "source": "rep1",
+      "business_id": "ZGznjpkqi6a_It4lAgCnYw",
+      "business_name": "Izzo's Illegal Burrito",
+      "stage": "strategy_agent",
+      "dump_dir": "out_study/R/rep1/A/ZGznjpkqi6a_It4lAgCnYw",
+      "classes": [
+        "untraceable_recommendation"
+      ],
+      "operators": [
+        "O5"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "these recommendation issues do not trace back to any reasoning pattern or root cause: ['Unhygienic restaurant conditions.', 'Unpleasant or uninviting restaurant atmosphere.']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": [
+          "Unhygienic restaurant conditions.",
+          "Unpleasant or uninviting restaurant atmosphere."
+        ]
+      }
+    },
+    {
+      "defect_id": "rep1:o3hDZ2nv80tApZMNQw2aZA:reasoning_agent:1",
+      "source": "rep1",
+      "business_id": "o3hDZ2nv80tApZMNQw2aZA",
+      "business_name": "Ameristar Casino Resort Spa St. Charles",
+      "stage": "reasoning_agent",
+      "dump_dir": "out_study/R/rep1/A/o3hDZ2nv80tApZMNQw2aZA",
+      "classes": [
+        "missing_evidence_id"
+      ],
+      "operators": [
+        "O1",
+        "O2"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "your previous output cited unverifiable evidence. pattern 'Customers consistently report negative interactions with sta': evidence ids not found in the analysis output: ['TQaE2hueuy2bQhy6lUqVJw'] | pattern 'A significant number of reviews indicate that customers feel': evidence ids not found in the analysis output: ['TQaE2hueuy2bQhy6lUqVJw']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 214,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "other",
+            "description": "A high number of reviews express overall negative experience",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.393,
+            "recomputed_frequency": 0.4485981308411215
+          },
+          {
+            "index": 1,
+            "aspect": "staff_attitude",
+            "description": "Customers consistently report negative interactions with sta",
+            "missing_evidence_ids": [
+              "TQaE2hueuy2bQhy6lUqVJw"
+            ],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.355,
+            "recomputed_frequency": 0.3644859813084112
+          },
+          {
+            "index": 2,
+            "aspect": "ambience",
+            "description": "Many customers find the restaurant's atmosphere unappealing,",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.215,
+            "recomputed_frequency": 0.2102803738317757
+          },
+          {
+            "index": 3,
+            "aspect": "cleanliness",
+            "description": "Frequent complaints about the restaurant's cleanliness, incl",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.196,
+            "recomputed_frequency": 0.20093457943925233
+          },
+          {
+            "index": 4,
+            "aspect": "pricing",
+            "description": "A significant number of reviews indicate that customers feel",
+            "missing_evidence_ids": [
+              "TQaE2hueuy2bQhy6lUqVJw"
+            ],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.145,
+            "recomputed_frequency": 0.14953271028037382
+          },
+          {
+            "index": 5,
+            "aspect": "wait_time",
+            "description": "Customers frequently experience long waits for seating, orde",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.098,
+            "recomputed_frequency": 0.09813084112149532
+          },
+          {
+            "index": 6,
+            "aspect": "food_quality",
+            "description": "A recurring issue is dissatisfaction with the quality, taste",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.084,
+            "recomputed_frequency": 0.08411214953271028
+          }
+        ]
+      }
+    },
+    {
+      "defect_id": "rep1:2qVZiMB22YPC2HCM62Gnbw:reasoning_agent:1",
+      "source": "rep1",
+      "business_id": "2qVZiMB22YPC2HCM62Gnbw",
+      "business_name": "Scarpetta",
+      "stage": "reasoning_agent",
+      "dump_dir": "out_study/R/rep1/A/2qVZiMB22YPC2HCM62Gnbw",
+      "classes": [
+        "api_error"
+      ],
+      "operators": [],
+      "genuine": false,
+      "excluded_reason": "api_error",
+      "cascade_of": null,
+      "usable": false,
+      "retry_feedback": "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+      "facts": {
+        "status_error": true,
+        "error_detail": "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+        "n_success": 204,
+        "patterns": []
+      }
+    },
+    {
+      "defect_id": "rep1:2qVZiMB22YPC2HCM62Gnbw:report_agent:3",
+      "source": "rep1",
+      "business_id": "2qVZiMB22YPC2HCM62Gnbw",
+      "business_name": "Scarpetta",
+      "stage": "report_agent",
+      "dump_dir": "out_study/R/rep1/A/2qVZiMB22YPC2HCM62Gnbw",
+      "classes": [
+        "report_containment"
+      ],
+      "operators": [
+        "O6",
+        "O7"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": "reasoning_agent errored (api_error)",
+      "usable": false,
+      "retry_feedback": "the report must only restate upstream outputs. root causes not produced upstream: ['Upstream analysis did not provide detailed patterns or themes from customer reviews, preventing identification of specific root causes for Scarpetta.', 'Commonly, inconsistent food preparation or ingredient quality can lead to varied customer experiences.', 'General issues like inadequate staff training, understaffing, or lack of clear service protocols can impact customer satisfaction.'] | recommendations not produced upstream: ['Lack of specific customer insights from reviews', 'Insufficient actionable customer feedback channels', 'Potential service gaps or areas for enhancing customer interaction (pending analysis)']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [
+          "Upstream analysis did not provide detailed patterns or themes from customer reviews, preventing identification of specific root causes for Scarpetta.",
+          "Commonly, inconsistent food preparation or ingredient quality can lead to varied customer experiences.",
+          "General issues like inadequate staff training, understaffing, or lack of clear service protocols can impact customer satisfaction."
+        ],
+        "invented_recommendations": [
+          "Lack of specific customer insights from reviews",
+          "Insufficient actionable customer feedback channels",
+          "Potential service gaps or areas for enhancing customer interaction (pending analysis)"
+        ],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    },
+    {
+      "defect_id": "rep3:FnEWE7CdxTolKWEgVKAlsg:reasoning_agent:1",
+      "source": "rep3",
+      "business_id": "FnEWE7CdxTolKWEgVKAlsg",
+      "business_name": "Nomzilla! Sushi Et Cetera",
+      "stage": "reasoning_agent",
+      "dump_dir": "out_study/R/rep3/A/FnEWE7CdxTolKWEgVKAlsg",
+      "classes": [
+        "missing_evidence_id"
+      ],
+      "operators": [
+        "O1",
+        "O2"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "your previous output cited unverifiable evidence. pattern 'Customers frequently report dissatisfaction with the quality': evidence ids not found in the analysis output: ['E02DwAacaNvWgX-r7cIW7fA'] | pattern 'Many customers report negative experiences with staff attitu': evidence ids not found in the analysis output: ['E02DwAacaNvWgX-r7cIW7fA'] | pattern 'A significant number of reviews indicate that pricing is per': evidence ids not found in the analysis output: ['E02DwAacaNvWgX-r7cIW7fA'] | pattern 'Customers frequently mention negative experiences related to': evidence ids not found in the analysis output: ['E02DwAacaNvWgX-r7cIW7fA'] | pattern 'Customers frequently complain about long wait times for seat': evidence ids not found in the analysis output: ['E02DwAacaNvWgX-r7cIW7fA'] | pattern 'Several reviews indicate dissatisfaction with the restaurant': evidence ids not found in the analysis output: ['E02DwAacaNvWgX-r7cIW7fA']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 214,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "food_quality",
+            "description": "Customers frequently report dissatisfaction with the quality",
+            "missing_evidence_ids": [
+              "E02DwAacaNvWgX-r7cIW7fA"
+            ],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.2523364485981308,
+            "recomputed_frequency": 0.2523364485981308
+          },
+          {
+            "index": 1,
+            "aspect": "staff_attitude",
+            "description": "Many customers report negative experiences with staff attitu",
+            "missing_evidence_ids": [
+              "E02DwAacaNvWgX-r7cIW7fA"
+            ],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.17757009345794392,
+            "recomputed_frequency": 0.17757009345794392
+          },
+          {
+            "index": 2,
+            "aspect": "pricing",
+            "description": "A significant number of reviews indicate that pricing is per",
+            "missing_evidence_ids": [
+              "E02DwAacaNvWgX-r7cIW7fA"
+            ],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.1542056074766355,
+            "recomputed_frequency": 0.1542056074766355
+          },
+          {
+            "index": 3,
+            "aspect": "other",
+            "description": "Customers frequently mention negative experiences related to",
+            "missing_evidence_ids": [
+              "E02DwAacaNvWgX-r7cIW7fA"
+            ],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.1261682242990654,
+            "recomputed_frequency": 0.1261682242990654
+          },
+          {
+            "index": 4,
+            "aspect": "wait_time",
+            "description": "Customers frequently complain about long wait times for seat",
+            "missing_evidence_ids": [
+              "E02DwAacaNvWgX-r7cIW7fA"
+            ],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.0794392523364486,
+            "recomputed_frequency": 0.0794392523364486
+          },
+          {
+            "index": 5,
+            "aspect": "ambience",
+            "description": "Several reviews indicate dissatisfaction with the restaurant",
+            "missing_evidence_ids": [
+              "E02DwAacaNvWgX-r7cIW7fA"
+            ],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.04205607476635514,
+            "recomputed_frequency": 0.04205607476635514
+          },
+          {
+            "index": 6,
+            "aspect": "cleanliness",
+            "description": "A few customers reported issues with the cleanliness of the ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.018691588785046728,
+            "recomputed_frequency": 0.018691588785046728
+          }
+        ]
+      }
+    },
+    {
+      "defect_id": "rep4:ZGznjpkqi6a_It4lAgCnYw:strategy_agent:2",
+      "source": "rep4",
+      "business_id": "ZGznjpkqi6a_It4lAgCnYw",
+      "business_name": "Izzo's Illegal Burrito",
+      "stage": "strategy_agent",
+      "dump_dir": "out_study/R/rep4/A/ZGznjpkqi6a_It4lAgCnYw",
+      "classes": [
+        "untraceable_recommendation"
+      ],
+      "operators": [
+        "O5"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "these recommendation issues do not trace back to any reasoning pattern or root cause: ['Unappealing or outdated dining atmosphere.']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": [
+          "Unappealing or outdated dining atmosphere."
+        ]
+      }
+    },
+    {
+      "defect_id": "rep5:ZGznjpkqi6a_It4lAgCnYw:strategy_agent:2",
+      "source": "rep5",
+      "business_id": "ZGznjpkqi6a_It4lAgCnYw",
+      "business_name": "Izzo's Illegal Burrito",
+      "stage": "strategy_agent",
+      "dump_dir": "out_study/R/rep5/A/ZGznjpkqi6a_It4lAgCnYw",
+      "classes": [
+        "untraceable_recommendation"
+      ],
+      "operators": [
+        "O5"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "these recommendation issues do not trace back to any reasoning pattern or root cause: ['Poor staff attitude and customer service.', 'Excessive customer wait times.', 'Perceived poor value for money.']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": [
+          "Poor staff attitude and customer service.",
+          "Excessive customer wait times.",
+          "Perceived poor value for money."
+        ]
+      }
+    },
+    {
+      "defect_id": "rep5:FnEWE7CdxTolKWEgVKAlsg:reasoning_agent:1",
+      "source": "rep5",
+      "business_id": "FnEWE7CdxTolKWEgVKAlsg",
+      "business_name": "Nomzilla! Sushi Et Cetera",
+      "stage": "reasoning_agent",
+      "dump_dir": "out_study/R/rep5/A/FnEWE7CdxTolKWEgVKAlsg",
+      "classes": [
+        "misaligned_aspect"
+      ],
+      "operators": [
+        "O3"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "your previous output cited unverifiable evidence. pattern 'A notable number of reviews express general negative sentime': these evidence reviews do not mention aspect 'other': ['4z5iikEN4xpW4j8URNb8jw']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 204,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "food_quality",
+            "description": "Customers frequently report dissatisfaction with the quality",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.25,
+            "recomputed_frequency": 0.25
+          },
+          {
+            "index": 1,
+            "aspect": "staff_attitude",
+            "description": "A significant number of reviews mention negative experiences",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.18,
+            "recomputed_frequency": 0.19117647058823528
+          },
+          {
+            "index": 2,
+            "aspect": "pricing",
+            "description": "Many customers feel that the prices are too high for the val",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.16,
+            "recomputed_frequency": 0.1568627450980392
+          },
+          {
+            "index": 3,
+            "aspect": "other",
+            "description": "A notable number of reviews express general negative sentime",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [
+              "4z5iikEN4xpW4j8URNb8jw"
+            ],
+            "claimed_frequency": 0.16,
+            "recomputed_frequency": 0.1568627450980392
+          },
+          {
+            "index": 4,
+            "aspect": "wait_time",
+            "description": "Customers frequently complain about excessive waiting times ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.08,
+            "recomputed_frequency": 0.0784313725490196
+          },
+          {
+            "index": 5,
+            "aspect": "ambience",
+            "description": "Several reviews point out issues with the restaurant's atmos",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.04,
+            "recomputed_frequency": 0.0392156862745098
+          },
+          {
+            "index": 6,
+            "aspect": "cleanliness",
+            "description": "A few reviews highlight problems with the cleanliness of the",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.02,
+            "recomputed_frequency": 0.0196078431372549
+          }
+        ]
+      }
+    },
+    {
+      "defect_id": "rep5:o3hDZ2nv80tApZMNQw2aZA:reasoning_agent:1",
+      "source": "rep5",
+      "business_id": "o3hDZ2nv80tApZMNQw2aZA",
+      "business_name": "Ameristar Casino Resort Spa St. Charles",
+      "stage": "reasoning_agent",
+      "dump_dir": "out_study/R/rep5/A/o3hDZ2nv80tApZMNQw2aZA",
+      "classes": [
+        "missing_evidence_id"
+      ],
+      "operators": [
+        "O1",
+        "O2"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "your previous output cited unverifiable evidence. pattern 'Customers frequently report negative experiences with staff ': evidence ids not found in the analysis output: ['Q3nB9HVnhp2MCfmfmOj97yVg']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 214,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "other",
+            "description": "A significant number of reviews express general dissatisfact",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.4,
+            "recomputed_frequency": 0.4252336448598131
+          },
+          {
+            "index": 1,
+            "aspect": "staff_attitude",
+            "description": "Customers frequently report negative experiences with staff ",
+            "missing_evidence_ids": [
+              "Q3nB9HVnhp2MCfmfmOj97yVg"
+            ],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.26,
+            "recomputed_frequency": 0.3598130841121495
+          },
+          {
+            "index": 2,
+            "aspect": "ambience",
+            "description": "The restaurant's atmosphere or physical environment is often",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.22,
+            "recomputed_frequency": 0.22897196261682243
+          },
+          {
+            "index": 3,
+            "aspect": "cleanliness",
+            "description": "Multiple reviews indicate issues with the restaurant's clean",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.19,
+            "recomputed_frequency": 0.19158878504672897
+          },
+          {
+            "index": 4,
+            "aspect": "pricing",
+            "description": "Customers frequently complain about the high prices, perceiv",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.15,
+            "recomputed_frequency": 0.1542056074766355
+          },
+          {
+            "index": 5,
+            "aspect": "food_quality",
+            "description": "There are recurring complaints about the quality of the food",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.09,
+            "recomputed_frequency": 0.08411214953271028
+          },
+          {
+            "index": 6,
+            "aspect": "wait_time",
+            "description": "Long wait times for seating, ordering, or food delivery are ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.08,
+            "recomputed_frequency": 0.08411214953271028
+          }
+        ]
+      }
+    }
+  ],
+  "warn_level_flags": {
+    "low_confidence": 5,
+    "frequency_corrected": 27
+  },
+  "cascades": [
+    {
+      "defect_id": "rep1:2qVZiMB22YPC2HCM62Gnbw:report_agent:3",
+      "stage": "report_agent",
+      "cascade_of": "reasoning_agent errored (api_error)"
+    }
+  ],
+  "summary": {
+    "retry_observations": 15,
+    "genuine": 11,
+    "cascade": 1,
+    "excluded": 3,
+    "excluded_by_reason": {
+      "api_error": 3
+    },
+    "by_stage": {
+      "strategy_agent": 6,
+      "reasoning_agent": 5
+    },
+    "by_class": {
+      "untraceable_recommendation": 6,
+      "misaligned_aspect": 2,
+      "missing_evidence_id": 3
+    },
+    "distinct_cells": 5,
+    "distinct_businesses": 4,
+    "cells": [
+      {
+        "business": "Ameristar Casino Resort Spa St. Charles",
+        "stage": "reasoning_agent"
+      },
+      {
+        "business": "Ameristar Casino Resort Spa St. Charles",
+        "stage": "strategy_agent"
+      },
+      {
+        "business": "Izzo's Illegal Burrito",
+        "stage": "strategy_agent"
+      },
+      {
+        "business": "Nomzilla! Sushi Et Cetera",
+        "stage": "reasoning_agent"
+      },
+      {
+        "business": "Red Lobster",
+        "stage": "strategy_agent"
+      }
+    ],
+    "observations_per_cell": {
+      "Red Lobster / strategy_agent": 1,
+      "Izzo's Illegal Burrito / strategy_agent": 4,
+      "Nomzilla! Sushi Et Cetera / reasoning_agent": 3,
+      "Ameristar Casino Resort Spa St. Charles / strategy_agent": 1,
+      "Ameristar Casino Resort Spa St. Charles / reasoning_agent": 2
+    }
+  }
+}

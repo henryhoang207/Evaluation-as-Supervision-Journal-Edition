@@ -42,6 +42,23 @@ A deterministic quality check rejected your previous answer to this task:
 Produce a corrected answer that fixes exactly these issues. Return only valid JSON."""
 
 
+# Set LLM_DISABLE_FALLBACK=1 to make a primary-model failure raise instead of
+# silently retrying on the fallback model. Trials in the injection study must
+# never mix served models within one matched comparison (JOURNAL_PLAN B2), and
+# a silent failover is indistinguishable from a slow call in the logs.
+FALLBACK_DISABLED_ENV = "LLM_DISABLE_FALLBACK"
+_TRUTHY = {"1", "true", "yes", "on"}
+
+
+def fallback_disabled() -> bool:
+    """True when a primary-model failure must propagate rather than fail over.
+
+    Read per call, not at import, so a batch runner can flip it between runs
+    inside one process (same convention as ``graph.observe_mode``).
+    """
+    return os.getenv(FALLBACK_DISABLED_ENV, "").strip().lower() in _TRUTHY
+
+
 class BaseAgent(ABC):
     MAX_RETRIES = 2
 
@@ -50,9 +67,29 @@ class BaseAgent(ABC):
     # if the provider's response has no `usage` field this simply stays 0.
     total_tokens_used: int = 0
 
+    # Per-call provenance for every request any agent makes: requested vs served
+    # model, whether the fallback fired, and the token split.
+    #
+    # Class-level for the same reason as total_tokens_used: the module-level
+    # helpers (reason_over_reviews, generate_recommendations, ...) construct the
+    # agent and throw it away, so a batch runner can never reach instance state.
+    # The injection study needs the served-model snapshot per call to defend the
+    # matched analysis against serving-stack drift (JOURNAL_PLAN 14.1).
+    call_log: list[dict] = []
+
     @classmethod
     def reset_token_usage(cls) -> None:
         cls.total_tokens_used = 0
+
+    @classmethod
+    def reset_call_log(cls) -> None:
+        cls.call_log = []
+
+    @classmethod
+    def reset_instrumentation(cls) -> None:
+        """Clear both counters. Call once per run, before the first stage."""
+        cls.reset_token_usage()
+        cls.reset_call_log()
 
     def __init__(self) -> None:
         self._client = OpenAI(**llm_config.client_kwargs())
@@ -68,34 +105,57 @@ class BaseAgent(ABC):
             {"role": "user", "content": _SUPERVISOR_FEEDBACK_PROMPT.format(feedback=feedback)}
         ]
 
-    def _record_usage(self, resp) -> None:
+    def _record_usage(self, resp, requested_model: str, fallback_used: bool) -> None:
+        """Accumulate token usage and append one row of call provenance.
+
+        ``resp.model`` is what the provider actually served, which is not
+        necessarily what was requested — the distinction is the whole point of
+        the log, so it is recorded even when the usage block is absent.
+        """
         usage = getattr(resp, "usage", None)
         tokens = getattr(usage, "total_tokens", None) if usage is not None else None
         if tokens:
             BaseAgent.total_tokens_used += tokens
+        BaseAgent.call_log.append(
+            {
+                "agent": type(self).__name__,
+                "requested_model": requested_model,
+                "served_model": getattr(resp, "model", None),
+                "fallback_used": fallback_used,
+                "prompt_tokens": getattr(usage, "prompt_tokens", None) if usage else None,
+                "completion_tokens": getattr(usage, "completion_tokens", None) if usage else None,
+                "total_tokens": tokens,
+            }
+        )
+
+    def _create(self, model: str, messages: list[dict]):
+        return self._client.chat.completions.create(
+            model=model,
+            messages=messages,
+            temperature=0,
+            response_format={"type": "json_object"},
+        )
 
     def _call_llm(self, messages: list[dict], model: str | None = None) -> str:
         target = model or self._model
         try:
-            resp = self._client.chat.completions.create(
-                model=target,
-                messages=messages,
-                temperature=0,
-                response_format={"type": "json_object"},
-            )
-            self._record_usage(resp)
+            resp = self._create(target, messages)
+            self._record_usage(resp, target, fallback_used=False)
             return resp.choices[0].message.content
         except Exception as primary_exc:
             if target == self._fallback_model:
                 raise
+            if fallback_disabled():
+                # Deliberate: an experiment that silently swaps served models
+                # mid-comparison produces uninterpretable arms.
+                logger.error(
+                    "Primary model %s failed (%s) and %s is set — not failing over",
+                    target, primary_exc, FALLBACK_DISABLED_ENV,
+                )
+                raise
             logger.warning("Primary model %s failed (%s), switching to fallback %s", target, primary_exc, self._fallback_model)
-            resp = self._client.chat.completions.create(
-                model=self._fallback_model,
-                messages=messages,
-                temperature=0,
-                response_format={"type": "json_object"},
-            )
-            self._record_usage(resp)
+            resp = self._create(self._fallback_model, messages)
+            self._record_usage(resp, self._fallback_model, fallback_used=True)
             return resp.choices[0].message.content
 
     def _run_with_retry(

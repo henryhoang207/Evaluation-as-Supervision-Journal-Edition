@@ -148,7 +148,12 @@ def run_one(business: dict, phase: str, out_dir: str, sample_size: int | None, d
 
         os.environ[graph_mod.SUPERVISION_MODE_ENV] = mode
         # Imported lazily so --dry-run needs no API key configured.
+        from app.agents.base_agent import BaseAgent
         from app.core.pipeline import run_pipeline
+
+        # Per-business accounting: zero the counters so the row below reports
+        # this run only, not the cumulative total across the batch.
+        BaseAgent.reset_instrumentation()
 
         state = run_pipeline(
             business_name=business.get("name") or bid,
@@ -172,9 +177,15 @@ def run_one(business: dict, phase: str, out_dir: str, sample_size: int | None, d
             report_ok=bool(
                 (state.get("report_output") or {}).get("status") == "success"
             ),
-            # Token accounting is NOT yet instrumented anywhere in the codebase.
-            # Paper Table 8 needs it; see the note at the bottom of this file.
-            total_tokens=None,
+            # Token accounting via BaseAgent's class-level counters, the same
+            # ones eval/harness.py reads. Stays None only if the provider
+            # returns no usage block.
+            total_tokens=BaseAgent.total_tokens_used or None,
+            llm_calls=len(BaseAgent.call_log),
+            served_models=sorted(
+                {c["served_model"] for c in BaseAgent.call_log if c.get("served_model")}
+            ),
+            fallback_calls=sum(1 for c in BaseAgent.call_log if c.get("fallback_used")),
         )
         dump_state(state, os.path.join(out_dir, phase, bid), {
             "phase": phase, "mode": mode, "wall_clock_s": elapsed,
@@ -307,12 +318,18 @@ def main() -> int:
     return 0
 
 
-# ── KNOWN GAP ────────────────────────────────────────────────────────────────
-# Paper Table 8 (token and latency overhead) needs per-run token counts. Wall
-# clock is recorded here; TOKENS ARE NOT, because nothing in app/ currently
-# captures usage metadata from the provider. Closing this needs a small change
-# in the agent base class to accumulate response usage into pipeline state —
-# a fifth build item that was not in the original plan.
+# ── CLOSED 2026-08-24 (was: KNOWN GAP) ───────────────────────────────────────
+# Paper Table 8 (token and latency overhead) needs per-run token counts. The
+# note that used to sit here claimed nothing in app/ captured provider usage
+# metadata. That was wrong even when written: BaseAgent._record_usage and
+# BaseAgent.total_tokens_used already existed and eval/harness.py already read
+# them — run_one() simply hard-coded total_tokens=None. It now resets the
+# counters per business and records tokens, call count, served models and
+# fallback count.
+#
+# The 45 runs already on disk predate this and keep total_tokens=null; they
+# cannot be back-filled without re-running. Any token figure must therefore come
+# from a fresh run, not from out_study/.
 
 if __name__ == "__main__":
     sys.exit(main())
