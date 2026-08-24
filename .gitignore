@@ -36,6 +36,14 @@ backend/data/processed/*
 *.csv
 *.jsonl
 
+# ...except the study checkpoints. They carry observations[] — the measured
+# facts and per-stage verdicts behind every number in the paper, and the whole
+# Tier-1 defect bank. The blanket *.jsonl rule above is meant for generated eval
+# scratch. Without this negation the repository tracked the .bak files recording
+# *failed* runs while ignoring the results, and ~143 KB of irreplaceable data
+# lived on one disk only.
+!backend/out_study/**/*.jsonl
+
 # OS / editor
 .DS_Store
 Thumbs.db

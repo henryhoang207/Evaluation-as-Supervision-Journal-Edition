@@ -9,7 +9,10 @@ body = "\n".join(re.sub(r"(?<!\\)%.*$", "", l) for l in src.split("\n"))
 
 depth = 0
 bad = False
-for ch in re.sub(r"\\[{}]", "", body):
+# Strip escaped braces (\{ \}) before counting, but only when the backslash is
+# not itself escaped: in `\texorpdfstring{\\}{: }` the `}` closes a real group,
+# and a bare `\\[{}]` would swallow it and report a false imbalance.
+for ch in re.sub(r"(?<!\\)\\[{}]", "", body):
     if ch == "{":
         depth += 1
     elif ch == "}":
