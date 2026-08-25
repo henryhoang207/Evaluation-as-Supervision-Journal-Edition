@@ -1,0 +1,131 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="97Qn53xv9SMfrX9tblar">
+    <mxGraphModel dx="737" dy="422" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="cX6PQb95v09QoYH6nufw-24" edge="1" parent="1" source="cX6PQb95v09QoYH6nufw-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cX6PQb95v09QoYH6nufw-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Take output from agent" vertex="1">
+          <mxGeometry height="70" width="170" x="50" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-2" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Reasoning Agent" vertex="1">
+          <mxGeometry height="150" width="140" x="220" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-3" parent="cX6PQb95v09QoYH6nufw-2" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Corrupted evidence ID" vertex="1">
+          <mxGeometry height="30" width="140" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-4" parent="cX6PQb95v09QoYH6nufw-2" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Fabricated evidence ID" vertex="1">
+          <mxGeometry height="30" width="140" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-5" parent="cX6PQb95v09QoYH6nufw-2" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Evidence–aspect mismatch" vertex="1">
+          <mxGeometry height="30" width="140" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-19" parent="cX6PQb95v09QoYH6nufw-2" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Inflated frequency" vertex="1">
+          <mxGeometry height="30" width="140" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-7" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Strategy Agent" vertex="1">
+          <mxGeometry height="60" width="140" x="370" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-8" parent="cX6PQb95v09QoYH6nufw-7" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Untraceable recommendation" vertex="1">
+          <mxGeometry height="30" width="140" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-11" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Report Agent" vertex="1">
+          <mxGeometry height="120" width="140" x="530" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-12" parent="cX6PQb95v09QoYH6nufw-11" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Invented root cause" vertex="1">
+          <mxGeometry height="30" width="140" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-13" parent="cX6PQb95v09QoYH6nufw-11" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Invented recommendation" vertex="1">
+          <mxGeometry height="30" width="140" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-14" parent="cX6PQb95v09QoYH6nufw-11" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Metadata mismatch" vertex="1">
+          <mxGeometry height="30" width="140" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-21" edge="1" parent="1" source="cX6PQb95v09QoYH6nufw-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cX6PQb95v09QoYH6nufw-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-22" edge="1" parent="1" source="cX6PQb95v09QoYH6nufw-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cX6PQb95v09QoYH6nufw-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-23" edge="1" parent="1" source="cX6PQb95v09QoYH6nufw-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cX6PQb95v09QoYH6nufw-11">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="240" />
+              <mxPoint x="600" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-26" edge="1" parent="1" source="cX6PQb95v09QoYH6nufw-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cX6PQb95v09QoYH6nufw-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-20" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Inject/ replay defect" vertex="1">
+          <mxGeometry height="60" width="120" x="340" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-28" edge="1" parent="1" source="cX6PQb95v09QoYH6nufw-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cX6PQb95v09QoYH6nufw-27">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="120" />
+              <mxPoint x="625" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-31" edge="1" parent="1" source="cX6PQb95v09QoYH6nufw-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cX6PQb95v09QoYH6nufw-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-33" edge="1" parent="1" source="cX6PQb95v09QoYH6nufw-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cX6PQb95v09QoYH6nufw-32">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="120" />
+              <mxPoint x="960" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-35" edge="1" parent="1" source="cX6PQb95v09QoYH6nufw-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cX6PQb95v09QoYH6nufw-34">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="120" />
+              <mxPoint x="1120" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-37" edge="1" parent="1" source="cX6PQb95v09QoYH6nufw-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="cX6PQb95v09QoYH6nufw-46">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1220" y="185" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-25" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Run same stage with 1 recovery condition" vertex="1">
+          <mxGeometry height="60" width="120" x="760" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-27" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Fresh correction task" vertex="1">
+          <mxGeometry height="40" width="130" x="560" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-30" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Measured supervisor factual feedback&lt;br&gt;&lt;b&gt;(failure signal + exact defect information)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="700" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-32" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Generic Rejection&lt;br&gt;&lt;b&gt;(failure signal, no defect information)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="880" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-34" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Regenerate&lt;br&gt;&lt;b&gt;(No failure signal)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="1060" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-46" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Classify Result (through supervisor)" vertex="1">
+          <mxGeometry height="150" width="210" x="1220" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-47" parent="cX6PQb95v09QoYH6nufw-46" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="defect repaired cleanly" vertex="1">
+          <mxGeometry height="30" width="210" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-48" parent="cX6PQb95v09QoYH6nufw-46" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="original defect fixed but another defect introduced" vertex="1">
+          <mxGeometry height="30" width="210" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-49" parent="cX6PQb95v09QoYH6nufw-46" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="defect unrepaired" vertex="1">
+          <mxGeometry height="30" width="210" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="cX6PQb95v09QoYH6nufw-50" parent="cX6PQb95v09QoYH6nufw-46" style="text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="repaired with collateral changes" vertex="1">
+          <mxGeometry height="30" width="210" y="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

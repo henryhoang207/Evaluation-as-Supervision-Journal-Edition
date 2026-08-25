@@ -28,6 +28,23 @@ arm set extended, statistics refined · **Status:** proposed, not yet agreed wit
 > what changes regardless of the split — lives in
 > **`PUBLICATION_STRATEGY.md`**.
 
+> **Power pass and §3 restructure, 2026-08-24.** Two Phase-0 items that could
+> not be settled by argument were settled by computation, and both changed the
+> design: **D4d** (`scripts/analysis/power.py`) shows the arm-ablation cell has
+> **0.30 power** for the plan's own predicted 12 pp effect, that **160 defects
+> is a hard ceiling** set by the 20 Phase-A dumps, and that the **D8 C1
+> interaction is undetectable at any affordable size**; **D3c**
+> (`scripts/analysis/churn.py`) measures the collateral floor from the
+> repetition sub-study and finds it differs by an order of magnitude across item
+> types. See §6.1b.
+>
+> §3 was also **restructured from chronological to functional order** — it had
+> become an archaeology of the revision history, with D1 partly superseded by
+> D9/D10, D7 by D11, and D3 contradicted by §13.5. Decision **numbers are
+> unchanged**, so every cross-reference elsewhere in this file still resolves.
+> The table now runs D1–D17 in six groups, with ⛔ marking blockers and ❓
+> marking the four questions the Phase-0 memo must actually ask.
+
 **Relationship to other docs:** conference paper #1 is **submitted and under
 review** (`main.tex`; see `NEXT_SESSION.md`). This plan covers the journal
 extension only; `PUBLICATION_STRATEGY.md` decides how many papers the work
@@ -125,22 +142,79 @@ alongside the harness build. Tier C while writing.
 
 ## 3. Phase 0 — decisions to lock with supervisor (before any code)
 
-| # | Decision | Recommendation |
-|---|---|---|
-| D1 | Context placement of the defective output | **REVERSED 2026-08-24.** Default A1 = **production-faithful**: measured-fact feedback in the user turn, defective output **not** shown as the model's own prior turn (matches deployed `_with_feedback`). SC-Bench measured this exact manipulation — identical error, assistant vs user turn — and found a 64.5% blind spot across 14 models (62.8% non-math): assistant-turn attribution *suppresses* correction. All eight of Olausson's repair prompts independently use user-turn framing. Placement becomes measured factor P on a Tier-2 subset: **P1** = defective output added to the user turn as an artifact under review; **P2** = defective output as the model's own assistant turn; optional **P3** = P2 + correction marker ("Wait", which closes 89.3% of the gap via a near-independent pathway). |
-| D2 | Arms | **A0** = capability ceiling (NEW — SC-Bench's external condition): the same defect presented to the same agent as a fresh user-turn correction task, no retry framing; bounds what any feedback can achieve, and the headline becomes the A1/A0 ratio. **A1** = measured-fact feedback (production `_SUPERVISOR_FEEDBACK_PROMPT`); **A2** = generic rejection, no specifics; **A3** = bare re-draw — **declared** as measuring prompt determinism at temperature 0, not resampling (Tyen §4(d): they needed temperature 1 and up to 8 loops to force a *different* step); optional warm-resample subset (temp > 0) carries the Olausson budget comparison. No-injection control = the recorded clean Phase-A verdict of every output injected into (a design property; state it). Best-of-k curves still free from A3 repetitions. |
-| D3 | Success criterion (frozen before runs) | Supervisor verdict on the retried output is `proceed`/`proceed_with_warning` **and** the injected defect's descriptor no longer fires. Outcome taxonomy: `repaired_clean` / `replaced` (different retry-triggering defect) / `unrepaired` / `collateral` (defect fixed, but non-defective items materially changed). |
-| D4 | Primary endpoint | Matched tuples per defect (same defect under every arm) → **Cochran's Q** omnibus; planned **exact-McNemar** contrasts **A1 vs A2** (feedback content) and **A2 vs A3** (bare retry trigger); headline = **A1/A0 ratio** with delta-method CI (SC-Bench Eq. 1 pattern), absolute rates alongside; Wilson CIs on all proportions; **block on defect identity** (replaying one defect across arms makes trials matched, not independent — naive CIs would be too narrow); outcome is a **multinomial** over the four classes, never collapsed; **never pool replayed-real with synthetic in a headline**. Tier 2 provides precision; Tier 1 provides realism; Just-style coupling licenses reading Tier-2 rates. Pre-register: publish whatever the sign is. |
-| D5 | Models | Hosted: `gemini-2.5-flash` pinned, **fallback disabled during trials** (a silent `gemini-3.5-flash` failover contaminates arms). Local: one open-weights instruct model via the existing Ollama profile, greedy decoding. |
-| D6 | Injection scope | Reasoning, strategy, report stages only — their defects are item-level. Analysis-stage defects (contradiction *rate*) are distributional and upstream of the replay bank; excluded, stated in limitations. |
-| D7 | Venue | **Recommendation: EMSE (Empirical Software Engineering, Springer), regular track** — not a special issue. Rationale and alternatives in §12. Confirm with supervisor; check first whether the conference offers an extended-version route (§12.3). |
-| D8 | Constraint completeness | **Blocks every trial.** The A1 feedback discloses obligations the stage prompts never state (verified against the code — §13.1, all four rows confirmed). **Recommendation (b):** add factor C — C0 production prompt, C1 constraint-complete prompt — crossed with A1/A2 on a Tier-2 subset. C1 pre-registered and published verbatim. Two independent sources (Huang §5; Kamoi Table 7 Required row) make this settled rather than optional (§13.2, §14.7). |
-| D9 | Placement has **four** levels | **NEW 2026-08-24 (second review pass).** D1 defines the default arm as *defective output absent*, then names only P1 (user turn), P2 (assistant turn) and the exploratory P3. *Absent* is a level in its own right — **and it is the one that ships**. Name it **P0** and pre-register it. The blind-spot literature contrasts user-turn against assistant-turn attribution; the deployed system does neither, so P0 is a genuinely novel cell, not an oversight. §13.3's `P1 ≫ P3 ≈ P2` prediction must be restated over P0/P1/P2/P3. |
-| D10 | Tier-2 context condition | **NEW 2026-08-24 (second review pass), blocks the Tier-2 build.** The Tier-2 core cannot run at P0: the injected defect would never enter the model's context and every arm would hit ceiling. Core, ablation, severity and D8 cells all run at **P1**; P0 becomes a diagnostic cell. Full argument and regrid in **§6.1**. |
-| D11 | Number of papers | **NEW 2026-08-24.** The repair study may ship as its own conference paper before the journal. **Decided: do not decide yet — the conference core and the journal core are the same experiment, so build and run first, then branch on the result.** A1 ≫ A2 → splittable; A1 ≈ A2 → do not split, a null needs the full apparatus to read as a finding rather than as underpowering. Pre-register the branch. Full analysis, including what remains for the journal and whether either claim carries a paper, in **`PUBLICATION_STRATEGY.md`**. |
-| D12 | Downstream propagation moves **in** scope | **NEW 2026-08-24, blocks B7.** §11 lists it as scope creep. If the repair result splits off to a conference, the journal residue is otherwise five ablations and no thesis. Moving it in gives the journal a claim — *defect-level repair does not equal pipeline-level improvement* — and tests MAST Appendix J directly. **Decide before B7 is written:** logging what it needs on the first pass is far cheaper than re-running ~980 trials for it. |
+**Restructured 2026-08-24.** The table was chronological — D1 partly superseded
+by D9/D10, D7 by D11, D3 contradicted by §13.5 — so a reader was doing
+archaeology on the revision history instead of reading a decision list. Now
+grouped by function.
 
----
+**Legend.** ⛔ blocks work and cannot be deferred. ❓ is **not yet decided** and
+is what the Phase-0 memo must ask for. Everything else is a standing
+recommendation.
+
+### 3.1 What is manipulated
+
+| # | Decision | Position |
+|---|---|---|
+| D2 | **Arms** | **A0** capability ceiling — the defect presented as a fresh correction task, no retry framing; bounds what any feedback can achieve. **A1** measured-fact feedback (production `_SUPERVISOR_FEEDBACK_PROMPT`). **A2** generic rejection, no specifics. **A3** bare re-draw, **declared** as a determinism/noise floor at temperature 0, not as resampling (Tyen §4(d): they needed temperature 1 and up to 8 loops to force a different step). ⚠ **The warm-resample subset (temp > 0) is REQUIRED, not optional** — it carries the Olausson equal-budget comparison, which is the first thing a testing venue asks about A3. Best-of-k curves still come free from A3 repetitions. |
+| D9 | **Placement — four levels** | **P0** artifact absent — *the production path; it ships, so it must be measured*. **P1** artifact in the user turn as an object under review. **P2** artifact as the model's own assistant turn. **P3** exploratory, P2 + correction marker, wording pinned per §14.5. |
+| D1 | **Why user-turn framing is the reference — and the limit of that evidence** | SC-Bench's 64.5% blind spot compares an error *shown* in an assistant turn against the same error *shown* in a user turn; all eight of Olausson's repair prompts include the faulty artifact. ⚠ **That evidence supports P1 over P2. It says nothing about P0**, because no cited study withholds the artifact entirely — and P0 is what the system does. Earlier versions of this row used SC-Bench to justify P0; that was a misattribution. P0 is an *unstudied* cell, which is a contribution provided we do not claim literature support for it. P3 is **demoted to exploratory** by §13.4; the "closes 89.3% of the gap" reading is contradicted by Role Relabeling. |
+| D9b ⛔ | **The design is not fully crossed, and must say so** | **A0 × P0 and A3 × P1 are structurally undefined.** A0 needs an artifact to correct; A3 stops being a bare re-draw the moment it is shown one. So A0 ∈ {P1, P2}, A3 ∈ {P0}, A1/A2 span all levels. B5's claim that "one function builds the message list from (arm, placement) so no cell is special-cased" is false as written. Declare the empty cells in the Method section or they read as unreported. |
+| D10 ⛔ | **Tier 2 runs at P1; Tier 1 runs at P0** | Tier 2 cannot run at P0: the injected defect would never enter the model's context, so measured repair would be dominated by the model reproducing its own clean output and arm differences would reflect only how feedback text perturbs generation — not the estimand. Core, ablation, severity and C1 cells run at **P1**; P0 becomes a diagnostic cell. Tier 1 runs at **P0**, because there the defect genuinely was the model's own and the production retry genuinely is blind to it. Full argument: §6.1. |
+| D8 ⛔ | **Constraint completeness** | The A1 feedback discloses obligations the stage prompts never state — verified against the code, all four rows (§13.1) — so A1 > A2 is not a specificity result without this control. Factor **C**: C0 production prompt, C1 constraint-complete prompt, crossed with A1/A2. C1 pre-registered and published verbatim. Two independent sources make it settled rather than optional (Huang §5; Kamoi Table 7 **Required** row). **This cell belongs in the conference core, not the journal** — deferring it breaks the very contrast such a paper would lead with. ⚠ But see D8c: it can no longer be a *test*. |
+| D8b ❓ | **What base output does C1 use?** | **Unresolved; it forks the build.** C1 changes the *stage prompt*, so the clean pre-injection output would change under it too. Either (i) regenerate the base under C1 — clean identification, costs a full generation pass — or (ii) inject into a C0 base and vary only the retry prompt — cheap, but the manipulation is retry-only and must be described that way. **Recommendation: (ii)**, since D8c shows (i) buys clean identification of an effect that cannot be detected at any affordable size. Supervisor decision requested. |
+| D8c ⛔ | **C1 is an estimate, not a test — the interaction is undetectable** | `scripts/analysis/power.py` §7: detecting a 6 pp interaction (constraint disclosure explaining half the A1−A2 gap) has power **0.12** at the planned 160/40 defects, **0.19** at 160/160, and **0.32** even at 320/320 — 2,560 trials. Report both gaps with CIs and pre-register the interpretation: *if the C1 gap CI includes zero while the C0 gap CI excludes it, that is suggestive, not conclusive.* Put the power figure in threats to validity. Kamoi's Required row is a **design** requirement — that prompt completeness is addressed — not a statistical one, so running the cell and publishing C1 satisfies it. Run C1 at 80 defects, not 40: half the CI width for double the calls. |
+
+### 3.2 What is measured
+
+| # | Decision | Position |
+|---|---|---|
+| D3 | **Success criterion (frozen before runs)** | Supervisor verdict on the retried output is `proceed`/`proceed_with_warning` **and** the injected defect is genuinely resolved. ⚠ **"The descriptor no longer fires" is NOT the criterion.** §13.5 shows why: a fabricated evidence ID swapped for a *different* fabricated-but-resolving ID stops the descriptor firing while the output got worse. **Score the replacement value.** Earlier versions of this row froze the wrong criterion. |
+| D3b | **Outcome structure — corrected** | The original four classes were **not mutually exclusive** (`collateral` overlapped `repaired_clean`), so they could not be the multinomial D4 analysed them as. Outcome is now a **3-class multinomial** {`repaired`, `replaced`, `unrepaired`} **crossed with a binary collateral flag**. Collateral is a second dimension, not a fourth class. |
+| D3c | **Collateral threshold — measured, not chosen** | `scripts/analysis/churn.py` measures what an *unperturbed* pipeline already churns, from the repetition sub-study (same 5 businesses, 5 runs, same seed, temperature 0, no injection, no feedback). **There is no single threshold** — the floors differ by an order of magnitude: pattern aspects p95 churn **0.07** (closed 7-value enum), pattern descriptions **0.33**, root causes **0.29**. ⚠ Strategy recommendation issues measure 37% churn, **but that figure is confounded** — repetition runs regenerate every stage, so strategy churn compounds reasoning churn, whereas a replay trial pins upstream from the dump. Conditioning on near-identical upstream gives **23%** (n=13 pairs). Use 23% for the strategy stage; collateral there is **weak, not unmeasurable**. Set per-item-class thresholds above these floors and cite the calibration. |
+| D3d | **Exact-string matching is unusable for most items** | Same source: across identical runs, exact-match rates are **0.01** (pattern descriptions), **0.03** (root causes), **0.00** (recommendation issues). Those items are essentially never byte-identical between runs. The report-containment check relies on exact equality and only passes because the report agent copies from its own prompt payload within a single run. State this in the Method section before a referee finds it. |
+| D6 | **Injection scope** | Reasoning, strategy, report stages — their defects are item-level. Analysis excluded for two reasons: its defects are distributional (contradiction *rate*), and its measurement needs `reviews_df`, which the dumps do not carry. ⚠ **Tier 1 covers only reasoning and strategy** — the bank holds 0 report-stage and 0 analysis-stage defects (§5) — so Tier 2 carries the stage comparison outright. |
+
+### 3.3 How it is analysed
+
+| # | Decision | Position |
+|---|---|---|
+| D4 | **Primary endpoint — confirmatory set** | **Exactly three confirmatory tests**, alpha controlled across them (Holm): (1) **A1 vs A2** — feedback content; (2) **A2 vs A3** — bare trigger; (3) the **A1/A0 ratio**. Everything else in §8 is **exploratory and labelled as such**. ⚠ The CI on the A1/A0 ratio must come from a **cluster bootstrap over defect blocks**, not the independent-sample delta method the earlier version specified — the arms are matched by design. |
+| D4a | **Cochran's Q runs on a dichotomised outcome** | Q is a **binary** test and cannot take the multinomial of D3b. The earlier row asked for both in one sentence. Q is the omnibus over `repaired` vs not; the multinomial is reported descriptively and, if inference on it is wanted, via a separate model. |
+| D4b ⛔ | **Tier-1 blocking is over clusters, not defects** | 11 usable defects sit in **5 business × stage cells**, one holding 4. Blocking on defect identity alone treats near-duplicates as independent blocks and re-narrows exactly the CIs blocking exists to widen. Nest repeated observations within cell. |
+| D4c ⛔ | **Grid rebalanced — allocate by contrast difficulty** | The §6 grid gave A1 320 trials and the other arms 240 over only 5 businesses → **80 matched quadruples**, power **0.30**. But **A2-vs-A3 (28 pp) is already at 0.996 with 5 businesses**, so equal allocation overspends on the easy contrast. Allocate: **A1 and A2 at the full 160 defects, A3 at 40, A0 at 80.** |
+| D4d | **Power — computed, and it constrains the design** | `scripts/analysis/power.py`; simulation-based because arms are matched within defect, reps nest inside (defect, arm), and Tier-1 defects cluster — closed-form McNemar assumes independent pairs and overstates everything. At the plan's own predicted **12 pp** effect: 8×5 r=2 → **0.30** (MDE 22 pp); 8×20 r=2 → **0.80** (MDE 12 pp); 8×20 r=3 → 0.93. **160 defects is a hard ceiling** (8 operators × the 20 Phase-A dumps), so once the sample is exhausted **r is the only lever**; reps and blocks buy power about equally here (8×10 r=4 ≈ 8×20 r=2 ≈ 0.81), contrary to the usual advice. ⚠ A **shared-occasion effect** (§14.1 requires all arms for one defect in one session, so they share that moment's serving stack) raises arm-to-arm correlation, cuts discordant pairs, and drops 8×20 r=2 from 0.81 to **0.75**. **Plan r=3 if 0.80 is the target.** |
+| D4e | **Tier 1 supports no inference** | MDE ≈ **31 pp**, and the cluster bootstrap **over-rejects at 0.086** against a nominal 0.05 with 5 clusters (naive McNemar is conservative there at 0.026, but that is luck, not validity). Tier 1 is a realism anchor reported descriptively. Run no hypothesis test on it. |
+| D4f | **Pre-register as estimation, not NHST** | Given the MDEs, report A1 − A2 as a **difference with a CI** (half-width ≈ 0.7 × MDE: ±8 pp at 160 defects, ±11 pp at 80). A null then *says something* — "3 pp, 95% CI [−5, 11]" excludes large effects — instead of being indistinguishable from insufficient power. This also makes D11b's threshold meaningful. |
+| D4g | **The go/no-go is a pre-specified interim analysis** | §10's "Tier 1 → preliminary analysis → go/no-go" *is* an interim look. Declare it descriptive-only with no stopping rule on the confirmatory tests, or specify an alpha-spending function. |
+| — | **Retained from the original D4** | Wilson CIs on all proportions; **never pool replayed-real with synthetic in a headline**; Tier 2 gives precision, Tier 1 gives realism; Just-style coupling licenses reading Tier-2 rates — **noting it covers only 4 of 8 operators** (§5). Publish whatever the sign is. |
+
+### 3.4 Apparatus and provenance
+
+| # | Decision | Position |
+|---|---|---|
+| D5 | **Models** | Hosted: `gemini-2.5-flash`, **pinned to a dated snapshot if the API exposes one** — recording drift after the fact is strictly worse than preventing it, and §14.1 only requires recording. Fallback **disabled** during trials (`LLM_DISABLE_FALLBACK=1`, built); a trial where fallback fired is discarded and logged. |
+| D5b ❓ | **Local model — a placeholder, not a decision** | "One open-weights instruct model via the existing Ollama profile" does not support C7's reproducibility claim, which is the journal's strongest generalisation asset. **Pre-register model, parameter count, quantisation, seed and runtime version by name.** Supervisor input requested. |
+| D5c | **No-injection control — downgraded** | The recorded clean Phase-A verdict is **not** a valid control: it was produced weeks earlier in a different serving epoch, which is precisely what §14.1 blocks against. Either re-run the clean condition **in-session as a fifth cell**, or report it as a historical reference value and stop calling it a control. |
+| D12 ⛔ | **Downstream propagation is in scope, and blocks B7** | Moving it in gives the journal an actual claim — *defect-level repair does not equal pipeline-level improvement* (MAST App. J) — instead of five ablations. **B7 must persist the full retried stage output plus enough state to re-run downstream stages later**, not just facts and verdict. Nearly free on the first pass; a full re-run of ~1,400 trials to recover afterwards. |
+
+### 3.5 Publication
+
+| # | Decision | Position |
+|---|---|---|
+| D11 | **Number of papers** | Conference core and journal core are the same experiment, so **build and run first, then branch on the result**. Full analysis in `PUBLICATION_STRATEGY.md`. |
+| D11b ❓ | **The branch threshold, quantified** | "A1 ≫ A2" is not a criterion. X must be **≥ the MDE**, or the split would rest on an effect the design cannot reliably detect. At 160 defects that is 12 pp. Proposed: **split iff the A1 − A2 point estimate ≥ 12 pp AND its 95% CI excludes zero.** Supervisor sign-off requested — note the threshold falls out of the design rather than being chosen after seeing data, which is what makes the pre-registration real. |
+| D7 | **Venue** | **EMSE regular track for the journal vehicle** (§12). Conference vehicle open; ASE and the ESEM registered-report route are live options. ⚠ Every deadline cited in `PUBLICATION_STRATEGY.md` §8 is **unverified** — confirm against official CFPs. Ask the #1 chairs about an extended-version route while #1 is still under review. |
+
+### 3.6 Threats this design does not remove
+
+| # | Item | Position |
+|---|---|---|
+| D13 ❓ | **The defect-bank audit has no second rater** | §5 requires two-pass review with disagreements recorded. A solo researcher cannot be their own second rater, and κ computed by one person is not inter-rater agreement. ⚠ **An LLM is not a legitimate second rater here** — it wrote `defect_bank.py`, which *defines* the bank, so rating its own classifier's output reproduces the circularity the audit exists to break. **Better split:** *groundedness* is factual and should be **verified programmatically** (is the evidence ID actually absent? does the review actually lack the aspect?) — no rater needed; *meaningfulness* is judgment and needs the supervisor as rater 2, over a much smaller set. Reportable as: "groundedness verified programmatically; defect meaningfulness rated independently by two humans." Supervisor decision requested. |
+| D14 | **A1 confounds *specific* with *correct*** | There is no specific-but-wrong feedback arm. Claim feedback **content** effects, not specificity effects; concede in limitations. |
+| D15 | **One model, one provider, one pipeline, one domain** | Everything is `gemini-2.5-flash` on Yelp restaurant reviews across 20 workloads. "Is this a property of the method or of this model?" has no answer in the data. C7 (local runtime) is the cheapest partial fix. This is the objection that rules out a top-tier venue at current scale — state it rather than let a referee state it. |
+| D16 | **The checks are shallow by design** | ID resolution, set membership, `difflib` ≥ 0.35, exact string containment. That determinism is the *thesis* — zero LLM calls, correct by construction — but a referee will read it as string matching and ask whether the defects are correspondingly shallow. Frame it as a deliberate trade, explicitly. |
+| D17 | **"Repair" here means repair by regeneration** | The retried stage regenerates its whole output rather than editing the faulty artifact, so what is measured is *regenerate-under-measured-feedback*, not *fix-this-object*. P1 narrows the gap by putting the artifact in context; it does not close it. Say "repair by regeneration" — overclaiming "self-repair" summons the referee who knows the self-correction literature. |
+
 
 ### Phase-0 amendments after the Tier-A reading (2026-08-24)
 
@@ -498,10 +572,15 @@ bound, ~2 nights; zero API cost.
 
 ## 8. Phase 5 — analysis
 
-- Omnibus: **Cochran's Q** over the matched arms per defect; planned
-  **exact-McNemar** contrasts A1-vs-A2 (feedback content) and A2-vs-A3 (bare
-  trigger); headline = **A1/A0 ratio** with delta-method CI, absolute rates
-  alongside; block on defect identity throughout.
+- Omnibus: **Cochran's Q** over the matched arms per defect — **on the
+  dichotomised `repaired`/not outcome**, because Q is a binary test and cannot
+  take the multinomial (D4a). Planned **exact-McNemar** contrasts A1-vs-A2
+  (feedback content) and A2-vs-A3 (bare trigger); headline = **A1/A0 ratio**
+  with a **cluster bootstrap CI over defect blocks** — *not* the
+  independent-sample delta method an earlier version specified, since the arms
+  are matched by design (D4). Absolute rates alongside; block on defect identity
+  throughout. **Exactly three confirmatory tests under Holm; everything else in
+  this section is exploratory and must be labelled so (D4).**
 - ⚠ **Tier-1 blocking is over ~5 clusters, not 11 defects** (§5). The 11 usable
   instances sit in 5 business × stage cells, with up to 4 observations in one
   cell. Blocking on defect identity alone treats near-duplicates as independent
@@ -509,7 +588,10 @@ bound, ~2 nights; zero API cost.
   repeated observations inside the cell, or report the Tier-1 rate as a
   descriptive count with the cluster structure printed next to it. Decide which
   before running, not after seeing the width.
-- Outcome reported as a **multinomial** over the four classes, plus the two-stage
+- Outcome reported as a **3-class multinomial** {`repaired`, `replaced`,
+  `unrepaired`} **crossed with a binary collateral flag** — the original four
+  classes were not mutually exclusive (`collateral` overlapped `repaired_clean`)
+  and so could not be a multinomial at all (D3b). Plus the two-stage
   chain *did the output change at all → did the targeted defect resolve*
   (MAS-FIRE's O/L decomposition; global-success S stays out of scope).
 - Control the **checkable-items-per-output** confound: hold fixed across arms,
@@ -567,7 +649,7 @@ Tier C debt outstanding) and the amendments are folded in. Revised:
 |---|---|---|
 | 1 | Tier-A reading; design decisions D1–D7 | ✅ done 2026-08-24 |
 | 1 | Tier-B reading (9 papers, 3 sittings) | ✅ done 2026-08-24 |
-| 2 | **Phase-0 memo → supervisor sign-off on D1–D10** (D8, D9, D10 all block trials) | ⬜ next |
+| 2 | **Phase-0 memo → supervisor sign-off on D1–D17.** Seven block work (⛔ in §3): D8, D8c, D9b, D10, D4b, D4c, D12. Four are open questions for the supervisor (❓): **D8b** C1 base output · **D5b** local model identity · **D11b** split threshold · **D13** who audits the defect bank | ⬜ next |
 | 2 | B1/B1b/B2 instrumentation; B3 replay entry point; defect-bank inventory | ✅ done 2026-08-24 |
 | 2–3 | Build B4 (operators), B5 (arms × placement), B6 (scorer), B7 (runner), B8 (C1 audit) + golden tests incl. the §13.5 replacement-value test | ⬜ |
 | 3 | Tier 1 runs (**132** trials, P0) + preliminary analysis → go/no-go | ⬜ |

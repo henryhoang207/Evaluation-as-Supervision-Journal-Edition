@@ -9,35 +9,65 @@ it is the authoritative plan. This file is the map.
 
 ---
 
-## 1. One-line status
+## 1. Status
 
-Conference paper #1: **submitted, under review** (confirmed 2026-08-24) — so
-the dual-submission and 30%-rule constraints in `PUBLICATION_STRATEGY.md` §6 are
-now live. Journal extension: **planned, fully read, build started**. All 14
-Tier-A + Tier-B papers are read and folded into the plan.
+**Branch `journal/build-b1-b3-and-plan-corrections`, not merged to main.**
+134 tests pass, working tree clean.
 
-**Open strategic question, now documented:** the repair study may ship as its
-own conference paper before the journal. **Decided not to decide yet** — the
-conference core and the journal core are the same experiment, so build and run
-first, then branch on the result (D11). See `PUBLICATION_STRATEGY.md`.
+| Track | State |
+|---|---|
+| Conference paper #1 | **Submitted, under review.** `main.tex` + `references.bib` recovered and tracked; structurally verified. Nothing to do but wait — except one cheap, time-sensitive item: email the chairs about an extended-version route *while* it is in review. |
+| Journal / repair study | **Instrumented and analysed. No trial has run.** Not one LLM call has been made toward this study. |
 
-Since the 2026-08-24 code-review pass: **B1/B1b/B2/B3 and the defect-bank
-inventory are built and tested** (133 tests pass), the **replay fidelity gate
-passes** (135 recorded facts reproduced exactly, 0 mismatches), and the design
-is *not* fully frozen — **D9 and D10 are new and both block trials**, alongside
-D8. The Phase-0 supervisor memo still does not exist. That memo is the next
-action.
+**Build: 4 of 8 items done.** B1 (token accounting), B1b (served-model
+provenance), B2 (fallback control), B3 (replay entry point) — plus the
+defect-bank inventory, and two analyses that were not in the plan but turned
+out to be prerequisites (power, churn). **B4–B8 are not started.**
+
+**Gates currently green** — re-run both before trusting anything below:
+
+```bash
+venv/Scripts/python.exe scripts/replay_stage.py --verify out_study
+```
+
+135 recorded facts reproduced exactly, 0 mismatches, no dataset needed.
+
+**Three findings that changed the design**, all reproducible from committed
+scripts (§8):
+
+1. **The Tier-1 defect bank is 11, not 15**, over **two stages**, in 5 clusters.
+   Three entries are API 503s; the only report-stage entry is a cascade of one
+   of them. MDE ≈ 31 pp and the cluster bootstrap over-rejects, so **Tier 1
+   cannot support inference at all** — realism anchor only.
+2. **The Tier-2 core must run at placement P1** (D10), not the production
+   placement, or the injected defect never enters the model's context.
+3. **The grid as specified has 0.30 power** for the effect the literature
+   predicts (D4d). Fixing it needs both primary arms at all 160 defects with
+   r=3 — and **160 is a hard ceiling**, set by the 20 Phase-A dumps.
+
+Plus one that kills a planned cell: **the D8 constraint-completeness
+interaction is undetectable at any affordable size** (0.19 power at 160/160
+defects). It is now an estimate, not a test (D8c).
+
+**Next action: the Phase-0 memo.** It does not exist. §3 of the plan is now
+restructured and ready to be turned into one; four decisions in it are open
+questions for the supervisor (§4 below).
 
 ---
 
 ## 2. Read in this order
 
-1. **`JOURNAL_PLAN.md`** — the plan (~975 lines). It grew by accretion:
-   **§13 and §14 amend earlier sections**, so where §3/§5/§6 and §13/§14
-   disagree, the later section wins. **Exception:** the 2026-08-24 code-review
-   pass (banner at the top of the file) **edited §3/§4/§5/§6/§8 in place** —
-   those sections are current, not superseded. Its changes are the ones checked
-   against the repository rather than the literature.
+1. **`JOURNAL_PLAN.md` §3 first** — the decision table, restructured 2026-08-24
+   from chronological into functional order (D1–D17 in six groups). **⛔ marks
+   the seven blockers; ❓ marks the four open questions.** Read that, and you
+   have the design.
+
+   Then the rest of the plan (~1,050 lines). It grew by accretion: **§13 and
+   §14 amend earlier sections**, so where §5/§6 and §13/§14 disagree, the later
+   section wins. **Exception:** the 2026-08-24 passes (banners at the top of the
+   file) **edited §3/§4/§5/§6/§8 in place** — those are current, not superseded,
+   and they are the parts checked against the repository and against
+   simulation rather than against the literature.
 2. **`PUBLICATION_STRATEGY.md`** — how many papers this becomes, what is left
    for the journal if the repair study splits off, whether either claim is
    significant enough, and the constraints that follow from #1 being in review.
@@ -92,52 +122,67 @@ number and the entire defect bank, ~143 KB, on one disk only. A negation rule
 
 ---
 
-## 4. Journal extension — the frozen design
+## 4. Journal extension — the design
 
 Goal: measure whether feedback-injected retry **repairs** a detected defect —
-the quantity the conference paper honestly could not measure.
+the quantity the conference paper honestly could not measure. ⚠ Say **"repair by
+regeneration"**: the retried stage regenerates its whole output rather than
+editing the faulty artifact (D17).
 
-- **Two tiers.** Tier 1 replays real defects captured on disk; Tier 2 applies
-  8 synthetic operators (one per supervisor check class) to clean outputs.
+- **Two tiers.** Tier 1 replays real defects captured on disk (**11 usable,
+  2 stages, descriptive only**); Tier 2 applies synthetic operators to clean
+  outputs and **carries every rate and the stage comparison**.
 - **Four arms.** A0 capability ceiling · A1 measured-fact feedback (production
-  path) · A2 generic rejection · A3 bare re-draw.
-- **Placement factor — four levels (D9).** **P0** defective output *absent*
-  (the production path; Tier-1 default) · P1 user-turn artifact (**Tier-2
-  default, D10**) · P2 assistant-turn · P3 (exploratory) P2 + correction marker.
-- **Analysis.** Matched per defect: Cochran's Q omnibus, exact McNemar for
-  A1-vs-A2 and A2-vs-A3, A1/A0 ratio with delta-method CI, block on defect
-  identity, multinomial over four outcome classes, stratify by origin and stage.
-- **Venue.** EMSE regular track (§12). ASE is a live alternative — AgentChaos
-  (ASE 2026) proves the SE community takes agent-fault-injection work.
+  path) · A2 generic rejection · A3 bare re-draw (a determinism floor at
+  temperature 0, not resampling).
+- **Placement — four levels (D9).** **P0** artifact absent (production;
+  Tier-1 default) · **P1** user-turn artifact (**Tier-2 default, D10**) ·
+  **P2** assistant-turn · **P3** exploratory. ⚠ **Not fully crossed** — A0 × P0
+  and A3 × P1 are structurally undefined (D9b).
+- **Analysis.** Three confirmatory tests under Holm; Cochran's Q on the
+  **dichotomised** outcome (it is a binary test); A1/A0 ratio by **cluster
+  bootstrap**, not delta method; outcome is a **3-class multinomial crossed with
+  a binary collateral flag** (the original four classes were not mutually
+  exclusive). **Pre-register as estimation, not NHST** (D4f).
+- **Venue.** EMSE regular track for the journal; ASE and the ESEM registered
+  report are live conference options. All deadlines cited are **unverified**.
 
 ### Next actions, in order
 
-1. **Resolve D12 — it blocks B7 and nothing else can start after it.** If
-   downstream propagation is in scope (and `PUBLICATION_STRATEGY.md` §5 argues
-   it must be, or the journal has no thesis left after a split), the runner has
-   to persist the full retried output and enough state to re-run downstream
-   stages later. Nearly free on the first pass; a full re-run to recover
-   afterwards.
-2. **Write the Phase-0 memo** and get supervisor sign-off on **D1–D12**. Three
-   block every trial: **D8** (constraint completeness, §5 below), **D9**
-   (placement has four levels, and the production one was unnamed), **D10** (the
-   Tier-2 core must run at P1 or every arm hits ceiling — `JOURNAL_PLAN` §6.1).
-   **D8 goes in the conference core, not the journal** — deferring it breaks the
-   contrast the paper leads with.
-3. Build **B4–B8** with the golden gates (the §13.5 replacement-value scorer
-   test; the redefined collateral metric). B1/B1b/B2/B3 are done and their gate
-   passes — re-run it any time with
-   `python scripts/replay_stage.py --verify out_study`.
-4. Run the core: A0/A1/A2/A3 at P1 across three stages, **plus C1**, **plus the
-   warm-resample subset**. Tier 1 (**132** trials at P0) is the realism anchor →
-   go/no-go → Tier 2 (~980 calls at P1, ~3 nights).
-5. **Then** branch on the result (D11): A1 ≫ A2 → splittable; A1 ≈ A2 → do not
-   split.
+1. ⛔ **Resolve D12 — it blocks B7, and B7 blocks every trial.** If downstream
+   propagation is in scope (`PUBLICATION_STRATEGY.md` §5 argues it must be, or
+   the journal has no thesis left after a split), the runner must persist the
+   full retried output **plus enough state to re-run downstream stages later**.
+   Nearly free on the first pass; a full ~1,400-trial re-run to recover.
+2. **Write the Phase-0 memo** from `JOURNAL_PLAN` §3 and get sign-off on
+   **D1–D17**. Seven are ⛔ blockers. **Four are genuinely open and are what the
+   memo must ask:**
+   - **D8b** — does the C1 cell regenerate its base output, or inject into a C0
+     base and vary only the retry prompt? (Recommendation: the latter.)
+   - **D5b** — which local model, quantisation and seed? Currently a placeholder,
+     and C7's reproducibility claim depends on it.
+   - **D11b** — the split threshold X. (Proposed: ≥ 12 pp *and* CI excludes 0 —
+     it falls out of the power analysis rather than being chosen after the fact.)
+   - **D13** — who is the second rater for the defect-bank audit? An LLM cannot
+     be: it wrote the classifier that defines the bank. Recommended split —
+     verify *groundedness* programmatically, have the supervisor rate
+     *meaningfulness* over a much smaller set.
+3. Build **B4–B8** with their golden gates: the §13.5 replacement-value scorer
+   test, and the collateral metric rebuilt on the D3c per-item-class thresholds.
+4. Run the core: A0/A1/A2/A3 at **P1** across three stages, **plus C1**, **plus
+   the warm-resample subset**, at **r=3** if 0.80 power is the target.
+   Tier 1 (132 trials at P0) is the realism anchor and gets **no hypothesis
+   test**. Budget is now ~1,320–1,460 trials, up from ~980 — ⚠ **check the API
+   budget first**: `out_study/B/checkpoint.credit-depleted.jsonl.bak` records a
+   cost ceiling being hit once already.
+5. **Then** branch on the result (D11/D11b).
 
 Two things to chase in parallel, both cheap and both time-sensitive:
 **the ESEM registered-report cycle dates** (they outrank the whole venue table
-and would change §10), and **an email to the #1 chairs about an
-extended-version route** — worth doing while #1 is in review, not after.
+and would change §10 — and a registered report is the only format that rewards
+this project's strongest asset, its design work, *before* results exist), and
+**an email to the #1 chairs about an extended-version route** — worth doing
+while #1 is in review, not after.
 
 ---
 
@@ -204,6 +249,35 @@ publish it verbatim. Full options in §13.2.
 12. **Runner iteration order must be `for defect: for arm: for repetition:`** —
     never arm-outer, or arm gets confounded with serving epoch (§14.1).
 
+**New, from the 2026-08-24 code-review, power and self-review passes:**
+
+13. **Do not re-derive the defect bank by hand.** `scripts/analysis/defect_bank.py`
+    encodes every exclusion rule and `tests/test_replay.py` pins its numbers, so
+    a stale plan fails the suite. Same for the replay gate.
+14. **Closed-form power formulas do not apply here** — arms are matched within
+    defect, reps nest inside (defect, arm), Tier-1 defects cluster. Use
+    `scripts/analysis/power.py`. And remember the **shared-occasion effect**:
+    §14.1 forces all arms for one defect into one session, which raises
+    arm-to-arm correlation and *costs* power. Ignoring it overstates everything.
+15. **160 defects is a hard ceiling** (8 operators × 20 Phase-A dumps). Once the
+    sample is exhausted, **r is the only lever** — and reps and blocks buy power
+    about equally here, contrary to the usual advice.
+16. **Never measure a "baseline" on data from a different serving epoch.** The
+    old no-injection control used the recorded Phase-A verdict from weeks
+    earlier — confounded by exactly the drift §14.1 exists to prevent (D5c).
+17. **Measure churn under the condition the experiment will actually face.** The
+    first collateral estimate (37% at the strategy stage) was confounded:
+    repetition runs regenerate every stage, but a replay trial pins upstream
+    from the dump. Conditioning on stable upstream gives 23%.
+18. **The analysis scripts do not share a working directory.** `tally.py`,
+    `rep_tally.py`, `rep_verdict.py`, `audit.py`, `check_tex.py` run from the
+    **repo root**; `defect_bank.py`, `churn.py`, `power.py`, `replay_stage.py`
+    run from **`backend/`**. §8 has the exact commands.
+19. **Verify venue deadlines against official CFPs.** Every date in
+    `PUBLICATION_STRATEGY.md` §8 arrived second-hand and is unverified — in a
+    project whose own §14.9 records citation metadata being wrong three times
+    from precisely that sourcing.
+
 ---
 
 ## 7. Environment traps (all verified this session)
@@ -254,6 +328,18 @@ venv/Scripts/python.exe scripts/analysis/defect_bank.py --out out_study/defect_b
 venv/Scripts/python.exe scripts/replay_stage.py --verify out_study
 ```
 
+```bash
+venv/Scripts/python.exe scripts/analysis/power.py
+```
+
+```bash
+venv/Scripts/python.exe scripts/analysis/churn.py
+```
+
+`power.py` answers D4d (simulation-based; closed-form McNemar does not apply).
+`churn.py` answers D3c by measuring the unperturbed pipeline's own churn from
+the repetition sub-study — the floor a collateral threshold has to clear.
+
 Inspect one banked defect with
 `scripts/replay_stage.py --dump-dir <dump> --stage <stage>`.
 
@@ -270,7 +356,16 @@ cap and the runner refuses to start without it. That guard is deliberate.
   3 API errors, from 15 retry observations (`scripts/analysis/defect_bank.py`)
 - Replay fidelity gate: **PASS** — 135 recorded facts reproduced exactly,
   0 mismatches, 45 analysis-stage observations skipped as unverifiable
-- Test suite: **133 pass**, 6 integration deselected
+- Test suite: **134 pass**, 6 integration deselected
+- Defect bank **cross-validates exactly against the pre-existing `tally.py`** on
+  Phase A (0 unresolvable evidence IDs, 1 misaligned aspect, 3 untraceable
+  recommendations) — two independently written implementations, same answer.
+  `tally.py` had already excluded `status_error`, so the repository's own
+  analysis code encoded the 503 exclusion all along; only the plan's prose was
+  wrong. **Cross-validate against existing scripts before building a new one.**
+- Power analysis (D4d) and collateral calibration (D3c) are **computed and
+  committed** — `scripts/analysis/power.py`, `scripts/analysis/churn.py`. Both
+  read-only, both dataset-free.
 - `total_tokens` is null in all 45 runs, but **B1 was never a real gap** —
   `BaseAgent.total_tokens_used` and `eval/harness.py` already did this;
   `run_study.py` simply hard-coded `total_tokens=None`. Now fixed, so any token
