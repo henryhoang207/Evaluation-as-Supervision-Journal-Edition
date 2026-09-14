@@ -76,16 +76,18 @@ def sources(root: str) -> list[tuple[str, str, str]]:
     return [(lab, p, d) for lab, p, d in found if os.path.exists(p)]
 
 
-def classify(stage: str, facts: dict) -> tuple[list[str], bool, str | None]:
-    """Return (classes, genuine, excluded_reason) for one retry observation.
+def fired_classes(stage: str, facts: dict) -> list[str]:
+    """Retry-level check classes evidenced by ``facts``, in taxonomy order.
 
-    ``status_error`` is checked first and short-circuits: an API failure is the
-    reason the retry fired, and whatever else the facts contain was measured on
-    an output that does not exist.
+    Single source of truth for the taxonomy. ``classify`` uses it to inventory
+    natural defects; the injection operators (B4) use it to verify that a
+    synthetic defect trips the check it was built to trip, and only that one.
+    Two private copies would drift, and the section 5 coupling check would then
+    be comparing two different taxonomies without saying so.
+
+    Deliberately excludes frequency divergence: it never reaches a retry, so it
+    is not a class ``classify`` can ever see. See :func:`frequency_divergent`.
     """
-    if facts.get("status_error"):
-        return ["api_error"], False, "api_error"
-
     classes: list[str] = []
 
     if stage == "analysis_agent":
@@ -107,6 +109,38 @@ def classify(stage: str, facts: dict) -> tuple[list[str], bool, str | None]:
             classes.append("report_containment")
         if facts.get("name_mismatch") or facts.get("size_mismatch"):
             classes.append("metadata_mismatch")
+
+    return classes
+
+
+def frequency_divergent(facts: dict, tolerance: float = 0.05) -> bool:
+    """Whether any reasoning pattern's claimed frequency is out of tolerance.
+
+    Separate from :func:`fired_classes` because it is a different severity, not
+    a different check: ``supervision._quality_rules`` turns this into
+    ``proceed_with_warning`` and never into a retry, and ``graph`` then
+    overwrites the claimed value outright. Nothing an LLM does affects it.
+    """
+    for p in facts.get("patterns") or []:
+        claimed = p.get("claimed_frequency")
+        if claimed is None:
+            continue
+        if abs(claimed - (p.get("recomputed_frequency") or 0.0)) > tolerance:
+            return True
+    return False
+
+
+def classify(stage: str, facts: dict) -> tuple[list[str], bool, str | None]:
+    """Return (classes, genuine, excluded_reason) for one retry observation.
+
+    ``status_error`` is checked first and short-circuits: an API failure is the
+    reason the retry fired, and whatever else the facts contain was measured on
+    an output that does not exist.
+    """
+    if facts.get("status_error"):
+        return ["api_error"], False, "api_error"
+
+    classes = fired_classes(stage, facts)
 
     if not classes:
         # A retry verdict with no recognised class means decide() and this

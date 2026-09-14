@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from app.core import llm_config
+from app.schemas.contracts import AgentError
 from pydantic import BaseModel, ValidationError
 
 logger = logging.getLogger(__name__)
@@ -62,6 +63,12 @@ def fallback_disabled() -> bool:
 class BaseAgent(ABC):
     MAX_RETRIES = 2
 
+    # A stage is (a) the messages it builds from its input and (b) the contract
+    # its output must satisfy. Naming both here lets run() be composed from two
+    # halves a caller can drive separately -- see build_prompt/run_messages.
+    AGENT_NAME: str = "agent"
+    OUTPUT_SCHEMA: type[BaseModel] | None = None
+
     # Cumulative prompt+completion tokens across all agent instances, used by
     # eval/harness.py to report LLM cost per 100 reviews. Additive/optional:
     # if the provider's response has no `usage` field this simply stays 0.
@@ -109,6 +116,50 @@ class BaseAgent(ABC):
         return messages + [
             {"role": "user", "content": _SUPERVISOR_FEEDBACK_PROMPT.format(feedback=feedback)}
         ]
+
+    # ── prompt / execute seam ────────────────────────────────────────────────
+    #
+    # run() = build_prompt() + _with_feedback() + run_messages(). Splitting it
+    # is what lets the injection study (scripts/arms.py) wrap the *same* prompt
+    # production sends instead of re-typing it: an arm is defined as a
+    # modification of the production prompt, so a re-typed copy would make the
+    # A1-vs-A2 contrast a wording contrast as well as a content one, which is
+    # precisely the confound the design exists to avoid. Production behaviour is
+    # unchanged -- run() composes the same two halves in the same order.
+
+    def build_prompt(self, input_data: dict) -> tuple[list[dict], str]:
+        """This stage's own (messages, original_task), before any feedback."""
+        raise NotImplementedError(f"{type(self).__name__} exposes no prompt seam")
+
+    def _postprocess(self, result: dict, input_data: dict) -> dict:
+        """Fields a stage restores from its input rather than trusting the model."""
+        return result
+
+    def run_messages(self, messages: list[dict], original_task: str,
+                     input_data: dict | None = None) -> dict:
+        """Execute an already-built message list under this stage's contract.
+
+        Validation, the self-correction loop and the AgentError shape are
+        identical whether the messages came from ``build_prompt`` or from a
+        study arm, so a trial cannot accidentally diverge from production on
+        anything except the manipulation itself.
+        """
+        if self.OUTPUT_SCHEMA is None:
+            raise NotImplementedError(f"{type(self).__name__} declares no OUTPUT_SCHEMA")
+
+        result, error, error_type, attempts = self._run_with_retry(
+            messages, self.OUTPUT_SCHEMA, original_task
+        )
+        if result is not None:
+            return self._postprocess(result, input_data or {})
+
+        return AgentError(
+            agent=self.AGENT_NAME,
+            error_type=error_type or "unknown_error",
+            error_detail=error or "Unknown error",
+            retry_count=attempts,
+            recoverable=False,
+        ).model_dump()
 
     def _record_usage(self, resp, requested_model: str, fallback_used: bool) -> None:
         """Accumulate token usage and append one row of call provenance.

@@ -12,7 +12,7 @@ from pydantic import ValidationError
 
 from app.agents.base_agent import BaseAgent
 from app.core import llm_config
-from app.schemas.contracts import AgentError, ReportGeneratorInput, ReportOutput
+from app.schemas.contracts import ReportGeneratorInput, ReportOutput
 
 _REPORT_TITLE = "Restaurant Review Analysis Report"
 
@@ -106,41 +106,35 @@ def _deterministic_report(payload: dict) -> dict:
 
 
 class ReportAgent(BaseAgent):
+    AGENT_NAME = "report_agent"
+    OUTPUT_SCHEMA = ReportOutput
+
     def __init__(self) -> None:
         super().__init__()
         self._model, self._fallback_model = _candidate_models()
 
-    def run(self, input_data: dict, feedback: str | None = None) -> dict:
+    def build_prompt(self, input_data: dict) -> tuple[list[dict], str]:
         original_task = (
             "Generate the final restaurant review analysis report from these "
             f"upstream outputs:\n{json.dumps(input_data, indent=2)}"
         )
-        messages = self._with_feedback(
-            [
-                {"role": "system", "content": _SYSTEM_PROMPT},
-                {"role": "user", "content": original_task},
-            ],
-            feedback,
+        return [
+            {"role": "system", "content": _SYSTEM_PROMPT},
+            {"role": "user", "content": original_task},
+        ], original_task
+
+    def _postprocess(self, result: dict, input_data: dict) -> dict:
+        # F4 measures the report against upstream, so these two must come from
+        # upstream rather than from whatever the model echoed back.
+        result["business_name"] = input_data["business_name"]
+        result["sample_size"] = input_data["sample_size"]
+        return result
+
+    def run(self, input_data: dict, feedback: str | None = None) -> dict:
+        messages, original_task = self.build_prompt(input_data)
+        return self.run_messages(
+            self._with_feedback(messages, feedback), original_task, input_data
         )
-
-        result, error, error_type, attempts = self._run_with_retry(
-            messages,
-            ReportOutput,
-            original_task,
-        )
-
-        if result is not None:
-            result["business_name"] = input_data["business_name"]
-            result["sample_size"] = input_data["sample_size"]
-            return result
-
-        return AgentError(
-            agent="report_agent",
-            error_type=error_type or "unknown_error",
-            error_detail=error or "Unknown error",
-            retry_count=attempts,
-            recoverable=False,
-        ).model_dump()
 
 
 def _llm_report(payload: dict, feedback: str | None = None) -> dict:

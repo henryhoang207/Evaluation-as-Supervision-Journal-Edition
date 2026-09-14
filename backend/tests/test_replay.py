@@ -164,12 +164,18 @@ def test_defect_bank_matches_the_numbers_the_plan_cites():
     bank = defect_bank.build(str(STUDY_ROOT))
     s = bank["summary"]
 
-    assert s["retry_observations"] == 15
-    assert s["excluded_by_reason"] == {"api_error": 3}
-    assert s["cascade"] == 1
-    assert s["genuine"] == 11
-    assert s["by_stage"] == {"strategy_agent": 6, "reasoning_agent": 5}
-    assert s["distinct_cells"] == 5
-    assert s["distinct_businesses"] == 4
+    # Re-pinned 2026-08-26 after D11b's 8 extra Phase-A dumps (20 -> 28).
+    # Previous values, for the record: 15 / {"api_error": 3} / 1 / 11 /
+    # {"strategy_agent": 6, "reasoning_agent": 5} / 5 / 4.
+    # Both new defects are untraceable_recommendation, which D13 (JOURNAL_PLAN
+    # section 15.4) showed is the class the trace matcher gets wrong -- so the
+    # bank grew in exactly its least trustworthy class. See PHASE0_MEMO 11.
+    assert s["retry_observations"] == 19
+    assert s["excluded_by_reason"] == {"api_error": 4}
+    assert s["cascade"] == 2
+    assert s["genuine"] == 13
+    assert s["by_stage"] == {"strategy_agent": 8, "reasoning_agent": 5}
+    assert s["distinct_cells"] == 7
+    assert s["distinct_businesses"] == 6
     # The warn-level frequency signal the plan argues is worth reclaiming.
     assert bank["warn_level_flags"]["frequency_corrected"] == 27

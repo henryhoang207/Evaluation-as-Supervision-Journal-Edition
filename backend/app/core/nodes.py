@@ -105,8 +105,17 @@ def analysis_node(state: PipelineState) -> PipelineState:
     return state
 
 
-def reasoning_node(state: PipelineState) -> PipelineState:
-    feedback = _consume_retry_feedback(state)
+# ── stage payloads ────────────────────────────────────────────────────────────
+#
+# What each stage is *given*, factored out of the node that gives it. A node is
+# then payload + call + state bookkeeping. The injection study needs the first
+# part on its own: a replay trial pins upstream from a dump and must hand the
+# retried stage exactly the input production would have handed it. Duplicating
+# these three dicts in the runner would let the study drift away from the
+# pipeline it claims to measure, silently.
+
+
+def reasoning_payload(state: PipelineState) -> dict:
     analysis_results = state.get("analysis_results") or []
     cleaned = [
         {
@@ -117,8 +126,61 @@ def reasoning_node(state: PipelineState) -> PipelineState:
         for a in analysis_results
         if a.get("status") == "success"
     ]
+    return {
+        "business_id": state.get("business_id", "unknown"),
+        "sample_size": len(cleaned),
+        "analysis_results": cleaned,
+    }
+
+
+def strategy_payload(state: PipelineState) -> dict:
+    reasoning = state.get("reasoning_output") or {}
+    return {
+        "patterns": reasoning.get("patterns", []),
+        "root_causes": reasoning.get("root_causes", []),
+    }
+
+
+def report_payload(state: PipelineState) -> dict:
+    reasoning = state.get("reasoning_output") or {}
+    strategy = state.get("strategy_output") or {}
+    return {
+        "business_name": state.get("business_name", ""),
+        "sample_size": len(state.get("analysis_results") or []),
+        "analysis_summary": {},
+        "reasoning_summary": {
+            "patterns": reasoning.get("patterns", []),
+            "root_causes": reasoning.get("root_causes", []),
+        },
+        "recommendations": strategy.get("recommendations", []),
+    }
+
+
+STAGE_PAYLOAD = {
+    "reasoning_agent": reasoning_payload,
+    "strategy_agent": strategy_payload,
+    "report_agent": report_payload,
+}
+
+
+def stage_payload(stage: str, state: PipelineState) -> dict:
+    """The input one stage would receive from this state.
+
+    analysis_agent is absent on purpose: its input is the sampled reviews, which
+    a dump does not carry -- the same boundary as scripts/replay_stage.py and
+    JOURNAL_PLAN D6. A caller asking for it must fail here rather than receive
+    an empty batch.
+    """
+    if stage not in STAGE_PAYLOAD:
+        raise ValueError(f"no payload builder for stage {stage!r}")
+    return STAGE_PAYLOAD[stage](state)
+
+
+def reasoning_node(state: PipelineState) -> PipelineState:
+    feedback = _consume_retry_feedback(state)
+    payload = reasoning_payload(state)
     output = reason_over_reviews(
-        cleaned, business_id=state.get("business_id", "unknown"), feedback=feedback
+        payload["analysis_results"], business_id=payload["business_id"], feedback=feedback
     )
     state["reasoning_output"] = output
     _set_stage_error(
@@ -133,11 +195,7 @@ def reasoning_node(state: PipelineState) -> PipelineState:
 
 def strategy_node(state: PipelineState) -> PipelineState:
     feedback = _consume_retry_feedback(state)
-    reasoning = state.get("reasoning_output") or {}
-    payload = {
-        "patterns": reasoning.get("patterns", []),
-        "root_causes": reasoning.get("root_causes", []),
-    }
+    payload = strategy_payload(state)
     output = generate_recommendations(payload, use_llm=True, feedback=feedback)
     state["strategy_output"] = output
     _set_stage_error(
@@ -152,18 +210,7 @@ def strategy_node(state: PipelineState) -> PipelineState:
 
 def report_node(state: PipelineState) -> PipelineState:
     feedback = _consume_retry_feedback(state)
-    reasoning = state.get("reasoning_output") or {}
-    strategy = state.get("strategy_output") or {}
-    payload = {
-        "business_name": state.get("business_name", ""),
-        "sample_size": len(state.get("analysis_results") or []),
-        "analysis_summary": {},
-        "reasoning_summary": {
-            "patterns": reasoning.get("patterns", []),
-            "root_causes": reasoning.get("root_causes", []),
-        },
-        "recommendations": strategy.get("recommendations", []),
-    }
+    payload = report_payload(state)
     out = generate_report(payload, use_llm=True, feedback=feedback)
     state["report_output"] = out
     _set_stage_error(

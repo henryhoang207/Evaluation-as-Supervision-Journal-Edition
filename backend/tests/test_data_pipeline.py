@@ -165,8 +165,10 @@ def test_seeded_sampling_matches_raw_and_sqlite(monkeypatch, tmp_path):
 
 
 def test_report_request_validates_sample_size():
-    assert ReportRequest(restaurant_name="Test", sample_size=100).sample_size == 100
-    for invalid in (0, 101):
+    # Bound is loader.MAX_REVIEWS, read from MAX_REVIEW_SAMPLE at import, and
+    # 500 is loader.MAX_REVIEW_HARD_CEILING -- the highest value .env may hold.
+    assert ReportRequest(restaurant_name="Test", sample_size=500).sample_size == 500
+    for invalid in (0, 501):
         with pytest.raises(ValidationError):
             ReportRequest(restaurant_name="Test", sample_size=invalid)
 

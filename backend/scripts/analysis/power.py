@@ -125,7 +125,33 @@ def mcnemar_naive(a, b):
     return p, n_disc
 
 
-def cluster_bootstrap(rng, a, b, n_boot=1000):
+def bootstrap_means(diff, idx, chunk=None):
+    """Bootstrap means over defects, as (n_boot, n_sims). Chunked over sims.
+
+    The obvious one-liner -- ``diff[:, idx].mean(axis=2)`` -- materialises
+    (n_sims, n_boot, n_defects) floats: 24 GB at n_sims=20000, which is what
+    stopped the cited table being computed at a precision worth quoting.
+    Simulations are independent, so chunking over them is exact rather than
+    approximate.
+
+    Shared by cluster_bootstrap and by the section-7 difference-in-differences.
+    They used to carry separate copies of the same expression, so fixing the
+    memory blow-up in one left it live in the other -- which is exactly how the
+    first --sims 20000 run died, five sections after the part that was fixed.
+    """
+    n_sims, n_defects = diff.shape
+    n_boot = idx.shape[0]
+    if chunk is None:
+        chunk = max(1, 20_000_000 // max(1, n_boot * n_defects))
+
+    out = np.empty((n_boot, n_sims))
+    for start in range(0, n_sims, chunk):
+        block = diff[start:start + chunk]                  # (chunk, n_defects)
+        out[:, start:start + chunk] = block[:, idx].mean(axis=2).T
+    return out
+
+
+def cluster_bootstrap(rng, a, b, n_boot=1000, chunk=None):
     """Reject H0 when a bootstrap CI over defect-level differences excludes 0.
 
     Resampling whole defects (not pairs) is what keeps repeated observations of
@@ -135,8 +161,8 @@ def cluster_bootstrap(rng, a, b, n_boot=1000):
     diff = a.mean(axis=2) - b.mean(axis=2)          # (n_sims, n_defects)
 
     idx = rng.integers(0, n_defects, size=(n_boot, n_defects))
-    # (n_boot, n_sims): mean over resampled defects, per simulation
-    boot = diff[:, idx].mean(axis=2).T
+
+    boot = bootstrap_means(diff, idx, chunk)               # (n_boot, n_sims)
     lo, hi = np.percentile(boot, [2.5, 97.5], axis=0)
     return (lo > 0) | (hi < 0)
 
@@ -155,13 +181,14 @@ def run_cell(rng, n_sims, n_defects, reps, p_a, p_b, sigma, cluster_sizes=None,
     }
 
 
-def mde(rng, n_sims, n_defects, reps, sigma, target=0.80, cluster_sizes=None):
+def mde(rng, n_sims, n_defects, reps, sigma, target=0.80, cluster_sizes=None,
+        sigma_occasion=0.0):
     """Smallest p(A1) - p(A2) the cluster estimator detects at `target` power."""
     lo, hi = 0.0, 0.44
     for _ in range(12):
         mid = (lo + hi) / 2
         res = run_cell(rng, n_sims, n_defects, reps, P_A1, P_A1 - mid, sigma,
-                       cluster_sizes)
+                       cluster_sizes, sigma_occasion)
         if res["cluster"] >= target:
             hi = mid
         else:
@@ -172,6 +199,9 @@ def mde(rng, n_sims, n_defects, reps, sigma, target=0.80, cluster_sizes=None):
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--sims", type=int, default=2000)
+    ap.add_argument("--defects", default="102,143",
+                    help="Comma-separated defect counts for section 9. Default is the "
+                         "computed Tier-2 ceiling and the +8-dump projection.")
     ap.add_argument("--sigma", type=float, default=SIGMA_DEFAULT)
     ap.add_argument("--seed", type=int, default=42)
     args = ap.parse_args()
@@ -274,7 +304,7 @@ def main() -> int:
         n_boot = 800
         i0 = rng.integers(0, n0, size=(n_boot, n0))
         i1 = rng.integers(0, n1, size=(n_boot, n1))
-        boot = (d0[:, i0].mean(axis=2) - d1[:, i1].mean(axis=2)).T
+        boot = bootstrap_means(d0, i0) - bootstrap_means(d1, i1)
         lo, hi = np.percentile(boot, [2.5, 97.5], axis=0)
         power = float(((lo > 0) | (hi < 0)).mean())
         print(f"{f'{n0} / {n1}':<34} {power:>10.3f}")
@@ -290,6 +320,43 @@ def main() -> int:
     ]:
         res = run_cell(rng, s, nd, r, P_A1, P_A2, sig)
         print(f"{label:<34} {nd*r:>11} {res['cluster']:>9.3f}")
+
+    print("\n" + "=" * 74)
+    print("9. THE DESIGN AS BUILT - power at the COMPUTED defect counts")
+    print("=" * 74)
+    print("Sections 1-8 sweep '8 operators x N dumps', which assumes every")
+    print("operator can use every dump. It cannot: operators are stage-specific,")
+    print("stages differ in clean bases, and two operators carry no repair")
+    print("endpoint at all. scripts/inject_defects.py --matrix computes the real")
+    print("ceiling; this section takes it as given so the plan can cite a number")
+    print("rather than a multiplication. Occasion SD 1.0 is the honest column:")
+    print("section 14.1 forces all arms for one defect into one session.")
+    # Each row gets its OWN generator, not the one threaded through sections
+    # 1-8. These are the figures the plan and the Phase-0 memo cite by value, so
+    # a row must not move because an earlier section was edited, reordered, or
+    # because --defects listed a different count ahead of it.
+    #
+    # They are still Monte Carlo estimates. At the default sims=2000 a power
+    # figure carries roughly +/-0.02 and an MDE roughly +/-0.4 pp, which is why
+    # the cited table was produced at --sims 20000 and why nothing here should
+    # be quoted to three decimals.
+    counts = [int(x) for x in args.defects.split(",") if x.strip()]
+    print(f"{'defects':>8} {'r':>3} {'power':>9} {'w/ occasion':>13} {'MDE':>9} "
+          f"{'MDE w/ occ':>12}")
+    for i, nd in enumerate(counts):
+        for j, r in enumerate((2, 3, 4)):
+            rng9 = np.random.default_rng(args.seed + 1000 * i + j)
+            res = run_cell(rng9, s, nd, r, P_A1, P_A2, sig)
+            occ = run_cell(rng9, s, nd, r, P_A1, P_A2, sig, sigma_occasion=1.0)
+            d = mde(rng9, max(600, s // 3), nd, r, sig)
+            d_occ = mde(rng9, max(600, s // 3), nd, r, sig, sigma_occasion=1.0)
+            print(f"{nd:>8} {r:>3} {res['cluster']:>9.3f} {occ['cluster']:>13.3f} "
+                  f"{100*d:>8.1f}pp {100*d_occ:>11.1f}pp")
+    print()
+    print("D11b requires the split threshold X to be >= the MDE. Read the MDE")
+    print("column against the proposed 12 pp: where it is not comfortably below,")
+    print("the pre-registration is incoherent and needs more defects, not a")
+    print("smaller threshold chosen after the fact.")
 
     return 0
 

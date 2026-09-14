@@ -12,7 +12,7 @@ from pydantic import ValidationError
 
 from app.agents.base_agent import BaseAgent
 from app.core import llm_config
-from app.schemas.contracts import AgentError, StrategicAgentInput, StrategyOutput
+from app.schemas.contracts import StrategicAgentInput, StrategyOutput
 
 _CONFIDENCE_RANK = {"high": 3, "medium": 2, "low": 1}
 
@@ -104,39 +104,28 @@ def _deterministic_recommendations(patterns: list[dict], root_causes: list[dict]
 
 
 class StrategyAgent(BaseAgent):
+    AGENT_NAME = "strategy_agent"
+    OUTPUT_SCHEMA = StrategyOutput
+
     def __init__(self) -> None:
         super().__init__()
         self._model, self._fallback_model = _candidate_models()
 
-    def run(self, input_data: dict, feedback: str | None = None) -> dict:
+    def build_prompt(self, input_data: dict) -> tuple[list[dict], str]:
         original_task = (
             "Generate prioritised restaurant business recommendations from "
             f"these patterns and root causes:\n{json.dumps(input_data, indent=2)}"
         )
-        messages = self._with_feedback(
-            [
-                {"role": "system", "content": _SYSTEM_PROMPT},
-                {"role": "user", "content": original_task},
-            ],
-            feedback,
+        return [
+            {"role": "system", "content": _SYSTEM_PROMPT},
+            {"role": "user", "content": original_task},
+        ], original_task
+
+    def run(self, input_data: dict, feedback: str | None = None) -> dict:
+        messages, original_task = self.build_prompt(input_data)
+        return self.run_messages(
+            self._with_feedback(messages, feedback), original_task, input_data
         )
-
-        result, error, error_type, attempts = self._run_with_retry(
-            messages,
-            StrategyOutput,
-            original_task,
-        )
-
-        if result is not None:
-            return result
-
-        return AgentError(
-            agent="strategy_agent",
-            error_type=error_type or "unknown_error",
-            error_detail=error or "Unknown error",
-            retry_count=attempts,
-            recoverable=False,
-        ).model_dump()
 
 
 def _llm_recommendations(payload: dict, feedback: str | None = None) -> dict:
