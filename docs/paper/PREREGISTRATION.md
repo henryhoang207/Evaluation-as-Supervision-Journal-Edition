@@ -4,8 +4,9 @@
 2026-09-14 for safekeeping — NOT yet frozen. The freeze is the annotated git
 tag `prereg-freeze`; no trial may run before that tag exists.**
 
-**Q1 was measured and decided 2026-09-14, and it opened one item, §11 item 5**
-— O5's scorer trace. The freeze tag waits for it.
+**§11 item 5 (O5 scoring) closed 2026-09-14. Item 6 — A3 is not a floor for
+injected defects — is OPEN, blocks the freeze tag, and is the author's
+decision.**
 
 Why a tag, and not "the commit that adds it" (this header's wording until
 2026-09-14): the file had to be committed and pushed while the `PHASE0_MEMO.md`
@@ -19,8 +20,8 @@ file is edited again.
 The three decisions were taken by the author on 2026-09-08 with the supervisor's
 questions (`PHASE0_MEMO.md` §11–§12) outstanding, because each is a choice that
 becomes illegitimate the moment a result exists and the study cannot start
-without them. **They are recorded as authored positions, open to supervisor
-override up to the freeze tag** — after it, only as a dated §0 amendment.
+without them. **They are recorded as authored positions, confirmed by the author on
+2026-09-14** (§11) — and changeable after the freeze only as a dated §0 amendment.
 Each states its reason before its consequence, and where a power number happens
 to favour the chosen option that is noted as a *consequence*, never as the
 ground.
@@ -248,6 +249,16 @@ trial outcome existed (`JOURNAL_PLAN.md` §17.2). **The production supervisor
 itself is unchanged**: the O5 bases, the injected issue, the trigger and the A1
 feedback were measured to be identical under both matchers.
 
+**O5's identity anchor (`action`) is matched on content words too** — Jaccard ≥
+0.20 (D24). In an unperturbed re-draw the production matcher failed to locate
+70% of recommendations and so would score them `deleted`, an error tied to
+placement: A3 re-draws at P0, while A1/A2 see the artifact at P1 and can copy
+it. The threshold follows a rule stated before it was chosen — the lowest
+false-deletion rate among matchers no more ambiguous within an output than the
+production one. **Restoration (`issue`) stays on the production matcher:**
+calibration found no matcher that separates a restored issue from a different
+one better (`JOURNAL_PLAN.md` §17.5).
+
 ### 2.4 The analysis unit, and what a lost trial costs
 
 **The unit is the defect, not the trial.** `power.py` fixes this and the
@@ -330,6 +341,12 @@ none supports a headline claim.
 7. Terminal supervisor verdict per trial. If A1 repairs more defects without
    shifting the run-level verdict distribution, **that is a finding** (the one
    MAST predicts), not a failure.
+8. **O5 sensitivity (D24).** Recommendation issues are generic enough that no
+   string matcher cleanly separates a restored issue from a different one — a
+   different restaurant's recommendation "restores" 41% of the time under the
+   scorer. So the primary A1 − A2 estimate is also reported **without O5**
+   (N = 122), and O5's rate is also reported with `repaired` ∪ `replaced` as
+   success. Both are reported whatever they show.
 
 ---
 
@@ -550,7 +567,10 @@ Recorded here so that no reviewer has to discover them:
 | §11 items 1, 2 and 4 decided | 2026-09-08 |
 | First committed and pushed — safekeeping, **not** the freeze | 2026-09-14 |
 | Q1 measured and decided (D22); Q2 decided — journal-paper finding (D23) | 2026-09-14 |
-| **This document frozen — annotated tag `prereg-freeze`** | *after §11 item 5* |
+| §11 item 5 built — O5 trace (D22) and anchor (D24) on content words | 2026-09-14 |
+| §11 items 1, 2, 4 confirmed by the author (pool · D19 after the core · majority) | 2026-09-14 |
+| §11 item 6 opened — A3 at P0 re-draws a clean output | 2026-09-14 |
+| **This document frozen — annotated tag `prereg-freeze`** | *after §11 item 6* |
 | **First trial** | *not yet run* |
 
 ⚠ **The row above is the gate on every row below it.** Zero trials have run.
@@ -560,7 +580,7 @@ first LLM call this study will have made.
 
 ---
 
-## 11. The items that block the freeze — four closed, one open
+## 11. The items that block the freeze — five closed, one open
 
 All four closed **2026-09-08**. Three were decisions and are recorded in the
 sections they govern; one was a build task and is in the code. This section is
@@ -574,7 +594,11 @@ result existed.
 | 2 | Is D19 (the overwrite counterfactual) in scope? | **Yes** — exploratory, sequenced after the core, pre-registered now so that adding it later could not be. Its scorer prerequisite is built. | §7 |
 | 3 | The D20 gates are specified but not wired | **Wired** into `build_plan`, with two counters against two denominators. Both gates pass **142/142**; N does not move. | §4, §6, §8 |
 | 4 | How is the per-defect dichotomy formed from r = 3? | **Majority** — strictly more than half of completed repetitions. `any-of-3` and `unanimity` rejected, with reasons. | §2.1 |
-| ⛔ 5 | **NEW 2026-09-14, from Q1:** does the trace-matcher bug reach the study? | **Measured: not the manipulation; yes the measurement.** Production supervisor unchanged; O5's check scored by content-word Jaccard ≥ 0.10. **Open until done:** build that in `score_repair.py`, and calibrate O5's two other character-level comparisons (restoration, `action` anchor). | §2.3, §9, plan §17 |
+| 5 | **From Q1 (2026-09-14):** does the trace-matcher bug reach the study? | **Not the manipulation; yes the measurement.** Built: O5's check on content-word Jaccard ≥ 0.10 (D22), O5's `action` anchor on Jaccard ≥ 0.20 (D24); restoration kept on the production matcher, which calibrated best. O5 sensitivity analyses pre-registered. | §2.3, §3 item 8, plan §17.2–17.5 |
+| ⛔ 6 | **NEW 2026-09-14:** is A3 a floor for *injected* defects? | **No — measured.** A3 exists only at P0, where the injected output never enters the context (D10), so it re-draws a clean output. Estimated A3 repair ≈ 53% over the N = 142 mix — O6/O7 are 100% by construction, a 37% floor on their own — against the 5% `power.py` assumes. Confirmatory test 3, the §5 A3 prediction, the pre-committed negative result, and D19's A3 arm all rest on that assumption. **Author decision required** — options in plan §17.6. | §2.1, §5, §7, plan §17.6 |
+
+**Items 1, 2 and 4 were confirmed by the author on 2026-09-14**, as recorded
+above: pool the contrast; D19 in scope, run after the core; majority.
 
 **Item 1's arithmetic, kept because §2 cites it.** These are the options that
 were on the table when the pooling decision was made, so that a reader can see

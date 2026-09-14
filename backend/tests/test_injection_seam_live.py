@@ -66,7 +66,7 @@ needs_live = pytest.mark.skipif(
 def test_one_live_trial_returns_a_schema_valid_output(arm, placement):
     """One cell per defined shape, on a real reasoning-stage defect."""
     plan = [d for d in runner.build_plan(str(STUDY_ROOT))
-            if d["applicable"] and inject_defects.STAGE[d["operator"]] == "reasoning_agent"]
+            if d["runnable"] and inject_defects.STAGE[d["operator"]] == "reasoning_agent"]
     assert plan, "no applicable reasoning-stage defect"
     defect = plan[0]
     base = inject_defects.state_from_dump(defect["dump_dir"])
@@ -85,7 +85,9 @@ def test_one_live_trial_returns_a_schema_valid_output(arm, placement):
     assert row["served_models"] and all(row["served_models"])
     # The scorer ran, which means the retried output validated against the
     # stage contract -- the arm's message list was accepted as a real prompt.
-    assert row["outcome"]["outcome"] in {"repaired", "replaced", "unrepaired"}
+    # The class set comes from the scorer: a hand-typed set went stale once
+    # already, when D18 added `deleted` and this line did not follow.
+    assert row["outcome"]["outcome"] in runner.score_repair.OUTCOME_CLASSES
     assert isinstance(row["outcome"]["collateral"], bool)
     assert row["retried_output"] is not None
     # Downstream of the retried stage is cleared, never the stale dump values.

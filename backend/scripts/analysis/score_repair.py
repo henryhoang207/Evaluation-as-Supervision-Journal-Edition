@@ -50,6 +50,15 @@ below): O1/O2/O3 corrupt evidence ids or the aspect and leave ``description``
 alone, O5 rewrites ``issue`` and leaves ``action`` alone. Index identity would
 have scored every retry that emitted fewer patterns as ``deleted``.
 
+**O5's check is scored on content words, not with the production matcher
+(D22).** The production trace check compares characters: it flags 8 of 49
+*correct* observe-mode strategy outputs and calls alien content traceable in 6
+of 168 pairs (JOURNAL_PLAN 17.2), so re-running it to decide whether O5 "still
+fires" would score correct regenerations ``unrepaired``. The outcome uses
+``content_match``; the production verdict is kept in ``detail`` as a reported
+secondary. The production supervisor itself is untouched — the bug was measured
+not to reach O5's bases, injected issue, trigger or feedback.
+
 Run (from backend/, venv active — read-only, no API calls, no dataset):
 
     python scripts/analysis/score_repair.py --selftest
@@ -93,6 +102,9 @@ churn_mod = _load_by_path("churn", os.path.join(_HERE, "churn.py"))
 inject_defects = _load_by_path(
     "inject_defects", os.path.join(os.path.dirname(_HERE), "inject_defects.py")
 )
+# D22: the O5 trace check is scored on content words, not with the production
+# matcher. One shared tokeniser, also used by matcher_shrinkage.py.
+content_match = _load_by_path("content_match", os.path.join(_HERE, "content_match.py"))
 
 
 # ── churn floors (D3c — measured, not chosen) ─────────────────────────────────
@@ -142,10 +154,23 @@ CAN_DELETE: frozenset[str] = frozenset({"O1", "O2", "O3", "O4", "O5"})
 #   O3 `_apply_o3` mutates aspect
 #   O4 `_apply_o4` mutates frequency and leaves description alone (D19)
 #   O5 `_apply_o5` mutates issue and leaves action alone
+# Operators whose anchor is matched on content words rather than characters
+# (D24). O5's anchor is a whole recommended action — a sentence the model
+# paraphrases on every regeneration — and the production matcher located only
+# 30% of recommendations in an unperturbed re-draw, scoring the rest `deleted`.
+# That error is placement-linked (A3 re-draws at P0; A1/A2 see the artifact at
+# P1 and can copy it), so it would bias the A2-vs-A3 confirmatory test rather
+# than add noise. Pattern descriptions (O1-O4) are short, and the production
+# matcher locates 97% of them in a re-draw, so they stay on characters.
+CONTENT_ANCHORED: frozenset[str] = frozenset({"O5"})
+
 IDENTITY_ANCHOR: dict[str, str] = {
     "O1": "description", "O2": "description", "O3": "description",
     "O4": "description", "O5": "action",
 }
+
+# The one check class whose outcome is scored on content words (D22).
+TRACE_CHECK_CLASS = "untraceable_recommendation"
 
 REPAIRED, REPLACED, DELETED, UNREPAIRED = (
     "repaired", "replaced", "deleted", "unrepaired",
@@ -337,9 +362,13 @@ def _locate_host(state: dict, descriptor, base_host: dict | None) -> dict | None
         idx = _host_index(descriptor)
         return hosts[idx] if idx is not None and idx < len(hosts) else None
 
-    best, best_score = None, SAME_ITEM
+    if op in CONTENT_ANCHORED:
+        similarity, floor = content_match.jaccard, content_match.ANCHOR_JACCARD
+    else:
+        similarity, floor = supervision._similar, SAME_ITEM
+    best, best_score = None, floor
     for cand in _hosts(state, op):
-        score_ = supervision._similar(want, str(cand.get(anchor) or ""))
+        score_ = similarity(want, str(cand.get(anchor) or ""))
         if score_ >= best_score:
             best, best_score = cand, score_
     return best
@@ -410,9 +439,24 @@ def score(
     facts = supervision.measure(stage, retried_state)
     fired = defect_bank.fired_classes(stage, facts)
     if descriptor.check_class == "frequency_divergence":
-        check_fired = defect_bank.frequency_divergent(facts, supervision.FREQUENCY_TOLERANCE)
+        check_fired_production = defect_bank.frequency_divergent(
+            facts, supervision.FREQUENCY_TOLERANCE)
     else:
-        check_fired = descriptor.check_class in fired
+        check_fired_production = descriptor.check_class in fired
+
+    # D22: for the trace check the production matcher is not a valid measure of
+    # the outcome (module docstring). Same semantics as the production check —
+    # any recommendation in the regenerated output that fails to trace — decided
+    # on content words instead of characters.
+    untraceable_content: list[str] | None = None
+    if descriptor.check_class == TRACE_CHECK_CLASS:
+        untraceable_content = content_match.untraceable(
+            _items(retried_state, "recommendation_issue"),
+            inject_defects._trace_candidates(retried_state),
+        )
+        check_fired = bool(untraceable_content)
+    else:
+        check_fired = check_fired_production
 
     base_host = _base_host(base_state, descriptor)
     post_host = _locate_host(retried_state, descriptor, base_host)
@@ -471,9 +515,16 @@ def score(
             "item_restored": restored,
             "item_located": post_host is not None,
             "identity_anchor": IDENTITY_ANCHOR.get(op),
+            "anchor_matcher": (f"content_jaccard>={content_match.ANCHOR_JACCARD}"
+                               if op in CONTENT_ANCHORED else "production"),
             "can_replace": op in CAN_REPLACE,
             "can_delete": op in CAN_DELETE,
             "verdict": supervision.decide(stage, facts, {}).verdict,
+            # D22: the production check's own answer, reported as a secondary.
+            "check_fired_production": check_fired_production,
+            "trace_matcher": (f"content_jaccard>={content_match.TRACE_JACCARD}"
+                              if untraceable_content is not None else "production"),
+            "untraceable_content": untraceable_content,
         },
     )
 

@@ -31,7 +31,6 @@ import glob
 import importlib.util
 import json
 import os
-import re
 import sys
 from collections import Counter
 
@@ -57,28 +56,13 @@ def _load(name: str, relative: str):
 
 inject_defects = _load("inject_defects", "scripts/inject_defects.py")
 
-# Tokeniser identical to scripts/analysis/verify_claim3.py, which produced the
-# content-word numbers in JOURNAL_PLAN 15.4 before this script existed. Reusing
-# it is deliberate: the matcher is not a new metric invented for this decision.
-STOP = set(
-    "a an the and or of to in for on with is are be been being that this those these "
-    "at by from as it its their there here we you they i not no more most very can could "
-    "should would may might will shall do does did have has had".split()
-)
-
-
-def tokens(text: str) -> set[str]:
-    return {w for w in re.findall(r"[a-z]+", (text or "").lower()) if w not in STOP and len(w) > 2}
-
-
-def jaccard(a: str, b: str) -> float:
-    ta, tb = tokens(a), tokens(b)
-    return len(ta & tb) / len(ta | tb) if (ta | tb) else 0.0
-
-
-def containment(issue: str, candidate: str) -> float:
-    ti = tokens(issue)
-    return len(ti & tokens(candidate)) / len(ti) if ti else 0.0
+# The single copy of the content-word tokeniser (verify_claim3.py's, verbatim).
+# score_repair decides O5 with the same module, so what this script measures and
+# what the scorer applies cannot drift onto two definitions.
+content_match = _load("content_match", "scripts/analysis/content_match.py")
+tokens = content_match.tokens
+jaccard = content_match.jaccard
+containment = content_match.containment
 
 
 def lexical(issue: str, candidate: str) -> float:

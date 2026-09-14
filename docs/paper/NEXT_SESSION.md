@@ -44,9 +44,10 @@ the scorer is corrected.
 
 | # | Do | Why |
 |---|---|---|
-| **1** | **Build §11 item 5:** O5's "check still fires" in `score_repair.py` via content-word Jaccard ≥ 0.10, production verdict logged as a secondary, with tests | The shipped check flags 8 of 49 *correct* strategy outputs, and O5 is 20 of the 142 primary defects |
-| **2** | **Calibrate O5's restoration and `action`-anchor comparisons** on repetition pairs, then decide | Same character-level exposure; D3d exact-match ≈ 0. Do not touch the churn matcher |
-| **3** | **Confirm or override** the 2026-09-08 positions on memo Q3–Q5: pool the contrast · D19 in scope · majority | Authored positions, open to override until the tag |
+| ~~1~~ | ✅ **DONE 2026-09-14** — O5's check on content words (D22) | — |
+| ~~2~~ | ✅ **DONE 2026-09-14** — O5 anchor on Jaccard ≥ 0.20 (D24); restoration stays on the production matcher | — |
+| ~~3~~ | ✅ **DONE 2026-09-14** — Q3 pool · Q4 D19 after the core · Q5 majority | — |
+| **⛔ 3b** | **Decide A3** (`PREREGISTRATION.md` §11 item 6, `JOURNAL_PLAN.md` §17.6): at P0 a bare re-draw never sees the injected defect, so it scores ≈ 53% `repaired` against the 5% `power.py` assumes | Blocks the tag. The smoke test waits too — it runs an A3 × P0 cell |
 | **4** | **`git tag -a prereg-freeze`, push the tag** | The freeze |
 | 5 | Live 7-cell smoke test, 7–21 calls | First money |
 | 6 | The ≈1,180-trial core, after a budget check | — |

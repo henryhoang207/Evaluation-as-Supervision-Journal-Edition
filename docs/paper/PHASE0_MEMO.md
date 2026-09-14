@@ -725,3 +725,19 @@ Wiring the two gates from point 3, and re-running `power.py` against whatever N
 they leave. That is a build task, it is on me, and it must happen before the
 pre-registration is frozen — the exclusion denominators and the 1.1 pp margin
 both assume it.
+
+### ✅ Answered 2026-09-14 — by the author
+
+**Q3 — pool.** The primary A1 − A2 contrast runs over all six repair operators,
+N = 142; absolute rates are never pooled; the O1 × arm interaction is reported
+unconditionally.
+
+**Q4 — yes, after the core.** D19 is in scope, run once the core is complete and
+the budget is confirmed; reported as pre-registered and unrun if it cannot be.
+
+**Q5 — majority.** Strictly more than half of completed repetitions.
+
+⚠ **One new question came out of closing Q1, and it is not answered yet** —
+`PREREGISTRATION.md` §11 item 6, `JOURNAL_PLAN.md` §17.6. A3 re-draws at P0, where
+an injected defect is never in the context, so it is not a near-zero floor for
+Tier 2 (estimated ≈ 53% repair). It blocks the freeze.

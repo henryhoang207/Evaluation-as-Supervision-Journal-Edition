@@ -1778,3 +1778,113 @@ with the lenient matchers reported as sensitivity.
    Calibrate on repetition pairs the way D3c did, then decide. ⚠ **Leave the churn
    metric's matcher alone:** the D3c floors were calibrated with it, and changing
    it would silently invalidate them.
+
+### 17.5 D24 — item 5 closed: O5's anchor on content words, restoration unchanged
+
+Calibrated on the repetition runs, the only pre-study data in which the same
+business is regenerated from the same inputs. `category` cannot serve as a
+ground-truth key — 0 of 24 outputs have unique categories ("operations" alone
+appears 72 times) — so pairing is at **business** level: an upstream-stable
+same-business rerun should find counterparts, and a cross-business pair should
+mostly not. The scorer's O5 decision was replayed exactly: locate the host by
+`action`, then test restoration on `issue`, with the check assumed passing.
+
+| anchor | restoration | same-business re-draw: repaired / replaced / deleted | cross-business: repaired / deleted |
+|---|---|---|---|
+| lexical ≥ 0.35 (shipped) | lexical ≥ 0.35 | 24% / 6% / **70%** | 10% / 81% |
+| Jaccard ≥ 0.10 | lexical ≥ 0.35 | 73% / 20% / 7% | 52% / 9% |
+| **Jaccard ≥ 0.20** | **lexical ≥ 0.35** | **68% / 14% / 17%** | **41% / 31%** |
+| Jaccard ≥ 0.30 | lexical ≥ 0.35 | 51% / 10% / 39% | 21% / 61% |
+
+Recommendation counts barely move between stable reruns — identical in 11 of 13
+pairs, mean difference 0.15 — so a `deleted` in a same-business re-draw is almost
+always false.
+
+1. **Anchor → content Jaccard ≥ 0.20.** The rule was stated before the choice:
+   the lowest false-deletion rate among matchers whose within-output ambiguity is
+   no worse than the shipped matcher's (3%). The shipped anchor scores 70% of an
+   unperturbed re-draw `deleted`, and the error is placement-linked — A3 re-draws
+   at P0, while A1/A2 see the artifact at P1 and can copy it — so it would have
+   biased the A2-vs-A3 test rather than added noise. Jaccard ≥ 0.10 fails the
+   ambiguity rule (40%); ≥ 0.30 still deletes 39%.
+2. **Restoration stays on the production matcher.** Under the chosen anchor it
+   separates same-business from cross-business best: 68% vs 41%, a 27 pp gap,
+   against 18 pp for Jaccard ≥ 0.20 and 22 pp for ≥ 0.30. No calibration supports
+   switching it.
+3. **O5's repaired/replaced line is weak under every matcher tested** — a
+   different restaurant's recommendation "restores" 41% of the time, because
+   recommendation issues are generic. Two sensitivity analyses are therefore
+   pre-registered (`PREREGISTRATION.md` §3 item 8): the pooled primary without
+   O5 (N = 122), and O5 with `repaired` ∪ `replaced` as success.
+4. **The reasoning operators are not exposed.** Best-match location on
+   `description` finds 97% of patterns in a re-draw under the shipped matcher, so
+   O1–O4 keep it. (The 0.33 churn floor measures one-to-one matching, which is a
+   different and stricter rule.)
+
+Built: `content_match.ANCHOR_JACCARD`, `score_repair.CONTENT_ANCHORED = {"O5"}`,
+and `anchor_matcher` logged on every trial. Tests pin both the reworded-action
+case and that deletion is still detected.
+
+### 17.6 ⛔ NEW — A3 at P0 is not a floor for injected defects (open)
+
+Found while calibrating §17.5 and **confirmed in the code, not inferred.** A3 is
+the original prompt with nothing added and exists only at P0 (D9b,
+`arms.UNDEFINED_CELLS`). At P0, `arms.build_messages` leaves the injected output
+out of the context entirely (D10), and `_regenerate` builds the stage input from
+the base state's pinned upstream. **So an A3 trial is a fresh, clean
+regeneration of a stage whose synthetic defect the model has never seen.**
+
+The A3 prediction ("near zero or negative", §5 of the pre-registration) and
+`power.py`'s `p(A3) = 0.05` come from Self-Debug Table 3b and Huang's intrinsic
+rows — work on **self-generated** errors, which a temperature-0 re-draw tends to
+reproduce. An injected error it cannot reproduce.
+
+Estimated without an API call by `scripts/analysis/a3_redraw.py` (pinned by
+`tests/test_a3_redraw.py`): inject into one repetition run, and score an
+independent repetition of the same business as the re-draw, with the study's own
+scorer.
+
+| operator | O1 | O2 | O3 | O5 | O6 | O7 | O4 (D19 cell) |
+|---|---|---|---|---|---|---|---|
+| A3 scores `repaired` | 29% | 26% | 5% | 45% | **100%** | **100%** | **93%** |
+
+**Pooled over the N = 142 mix: A3 repairs ≈ 53%.** `power.py` assumes 5%, A2 33%
+and A1 45%. Two limits, in opposite directions of trust:
+
+- **O6/O7 are exact by construction** — an invented corpus item cannot appear in
+  a draw that never saw it. Those 52 of 142 defects put a **37% floor** under
+  pooled A3 that does not depend on the approximation at all.
+- **The reasoning-operator figures are low, not high.** Repetition runs
+  regenerate the analysis stage too, so a reasoning "re-draw" sits on different
+  analysis output from its base, which inflates `unrepaired`. O3's 91% is mostly
+  that.
+
+**What it touches.** The A1 − A2 primary does **not** move: both arms run at P1.
+But four pre-registered things rest on the wrong assumption:
+
+1. **Confirmatory test 3, A2 vs A3** — predicted A2 > A3 by 28 pp, likely to come
+   out reversed, for a mechanical reason rather than a behavioural one.
+2. **The §5 A3 prediction**, and `power.py`'s A2-vs-A3 power.
+3. **The pre-committed negative result** — "if A1 ≈ A3, that is a publishable
+   finding against the self-correction literature" — could be triggered by this
+   artifact and reported as a headline.
+4. **D19's cell, O4 × {A1, A3}** — A3 repairs frequency ~93% by re-drawing, so it
+   is no floor there either.
+
+**The decision this needs, before the freeze.** The options:
+
+- **(a) Re-role A3 as a regeneration baseline.** Keep the arm and its 102 trials,
+  but for Tier 2 describe it as what a fresh draw does to an injected defect;
+  move A2 vs A3 from confirmatory to secondary (Holm over two tests); withdraw the
+  near-zero prediction and the negative-result clause for Tier 2. No new wording,
+  no code change. Cheapest.
+- **(b) Add the control test 3 actually needs: artifact shown, no rejection.**
+  A new arm at P1 that re-presents the injected output and asks for the stage
+  again with no judgement attached. A2 against that arm isolates the rejection
+  signal with the artifact held fixed — which is what "the bare trigger" means
+  once the defect is injected. Needs new frozen wording in `arms.py`, a power
+  assumption with no literature behind it, and roughly A3's trial count. A3 at P0
+  can stay as the descriptive baseline from (a), or be dropped.
+- **(c) Keep everything as it is.** Rejected: the prediction and the power
+  assumption are mechanically wrong, and a pre-registration that knowingly
+  freezes them is worse than none.
