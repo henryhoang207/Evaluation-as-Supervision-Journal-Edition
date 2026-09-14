@@ -612,6 +612,32 @@ rather than conceded in review:
   raters rated it exactly as they rated the real defects. Report O1 separately
   from O2–O7 rather than pooling them.
 
+### ✅ Answered 2026-09-14 — by the author
+
+**Q2 — route 3.** Paper #1 stands as submitted; no note to the chairs. The
+matcher defect is a journal-paper finding.
+
+**Q1 — measured, then decided** (`JOURNAL_PLAN.md` §17; reproduce with
+`scripts/analysis/matcher_shrinkage.py`, pinned by
+`tests/test_matcher_shrinkage.py`):
+
+- **Shrinkage: Tier 1 goes 13 → 6** under a content-word matcher (Jaccard ≥
+  0.10), and to 5 under laxer ones. The floor of 5 is the reasoning-stage
+  defects, which never consult the matcher. D13 rated all 6 survivors
+  technicalities. The forecast above (~2–5) was about right.
+- **Every one of the 13 production issues the shipped check flagged shares
+  content words with upstream.** In the other direction, the shipped check calls
+  the frozen alien O5 issues traceable in 6 of 168 issue × base pairs.
+- **The bug does not reach the study's manipulation** — the O5 bases, the
+  injected issue, the trigger and the feedback are identical under either
+  matcher — **but it does reach the measurement**: O5 is scored by re-running
+  the shipped check, which flags 8 of 49 *correct* observe-mode strategy outputs.
+
+**Decision (D22):** the production supervisor stays as shipped for the study —
+it is the system paper #1 describes — and the scorer's O5 trace is corrected.
+The production fix comes after the study, as a versioned change. This opened one
+pre-freeze item, `PREREGISTRATION.md` §11 item 5.
+
 ---
 
 ## 12. ⛔ NEW (2026-09-02) — your methodology review, and three decisions it created

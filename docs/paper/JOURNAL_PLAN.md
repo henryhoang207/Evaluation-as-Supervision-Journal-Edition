@@ -1669,3 +1669,112 @@ anything already run.
 ⚠ **Do not read 10.8 pp here against 10.9 pp in §16.5 as a correction.** Same
 seed, but a different `--defects` list draws a different RNG stream; the gap is
 0.1 pp against a ±0.3 pp error. Trap 35 again.
+
+---
+
+## 17. Q1 and Q2 decided — the matcher, and paper #1 (2026-09-14)
+
+`PHASE0_MEMO.md` §11 asked two questions. **Q2 was answered directly. Q1 was
+measured first and decided on the result**, as the memo recommended. Reproduce,
+from `backend/`:
+
+```
+venv/Scripts/python.exe scripts/analysis/matcher_shrinkage.py
+```
+
+Pinned by `tests/test_matcher_shrinkage.py` — one test per premise of D22.
+
+### 17.1 D23 — paper #1: a journal-paper finding
+
+Paper #1 stands as submitted, with no note to the chairs. The trace-matcher
+defect, its diagnosis and its measured consequences are reported in the journal
+paper as a finding about the supervisor paper #1 describes. Paper #1's retry
+counts are not restated anywhere as "corrected" numbers; the journal paper gives
+the false-alarm rate that sits inside them (§17.2).
+
+### 17.2 What the measurement found
+
+The content matcher is word-level Jaccard over content words — the tokeniser of
+`verify_claim3.py`, i.e. the statistic §15.4 already reported — at 0.10.
+
+| | shipped: `difflib` ≥ 0.35 | content: Jaccard ≥ 0.10 |
+|---|---|---|
+| **Tier-1 usable defects** | 13 | **6** |
+| of which strategy (`untraceable_recommendation`) | 8 | **1** |
+| of which reasoning (matcher not involved) | 5 | 5 |
+| observe-mode strategy outputs flagged (Phase A + repetitions) | 8 of 49 | 1 of 49 |
+| issues flagged, of 297 | 13 | 1 |
+| flags the shipped matcher did not raise | — | **0** |
+| frozen O5 alien issue called *traceable*, issue × base | **6 of 168** | 0 of 168 |
+| O5 applicable bases → Tier-2 N | 20 → 142 | 25 → 147 |
+
+Four results carry the decision.
+
+1. **Every issue the shipped check flagged in production shares content words
+   with upstream** — containment 0.25–1.00 across all 13. Twelve of the 13 trace
+   under the content matcher. The thirteenth, *"Excessive customer wait times."*
+   in D13 item I14 (Jaccard 0.08), is the one issue §15.4 already singled out as
+   possibly genuinely untraceable. The production flags are false alarms, and
+   the single exception is the one the audit predicted.
+2. **The shrinkage is 13 → 5–6, and it does not hinge on the threshold** — for
+   every content threshold that raises no new flags. Lenient matchers
+   (containment > 0, Jaccard ≥ 0.05) give 5; Jaccard ≥ 0.10 gives 6. Stricter
+   ones are worse than the shipped check in the other direction: containment ≥
+   0.34 raises 3 new flagged stages and ≥ 0.50 raises 11, on real paraphrases.
+   The memo forecast ~2–5. **The floor of 5 is the reasoning-stage defects,
+   which never consult the matcher — and D13 rated all 6 survivors
+   technicalities.** Under the fix, Tier 1 holds no defect a human called an
+   error.
+3. **The bug does not reach the study's manipulation.** All 20 O5 bases are
+   clean under the content matcher as well, and none of the 60 injected O5
+   issues (seeds 0, 1, 42) shares a single content word with upstream. The
+   trigger and the A1 feedback text are therefore identical under either matcher.
+4. **It does reach the study's measurement.** `score_repair.score` decides
+   whether O5's check still fires by re-running the production check on the
+   regenerated output. That check flags 8 of 49 *correct* observe-mode strategy
+   outputs — the best available estimate of how often a correct regeneration in
+   the O5 cell (20 of the 142 defects in the pooled primary) would score
+   `unrepaired`, in every arm. In the other direction it calls alien content
+   traceable in 6 of 168 issue × base pairs. (§16.4's "16 pairs" counts issue ×
+   *candidate*; it is the same 6 issue × base pairs.)
+
+**Why Jaccard ≥ 0.10 and not the lenient matchers.** Containment > 0 and
+Jaccard ≥ 0.05 each trace one alien pair: *"uniform size profile absent"*
+against *"…portion size…"* on the single shared word "size" (Jaccard 0.06).
+0.10 is the only threshold tested that is right in both error directions. **It
+was chosen on pre-study calibration data, before any trial outcome exists** —
+the same standing as the D3c churn floors — and is disclosed as chosen that way,
+with the lenient matchers reported as sensitivity.
+
+### 17.3 D22 — keep the supervisor, correct the measurement
+
+1. **The production supervisor is unchanged for the study** — `supervision.py`
+   and its offline twin `eval/tier1_checks.py`. The bug does not reach the
+   manipulation (finding 3). Q2 keeps paper #1 as submitted, so the system under
+   study stays the system paper #1 describes. The replay gate (159/0), N = 142
+   and the 1,167-trial plan all stay valid. And a production threshold fitted on
+   13 flagged issues is too thin to ship.
+2. **The scorer is corrected where the bug reaches the outcome.** O5's "check
+   still fires" is decided by the content matcher; the production verdict is
+   logged beside it and reported as a secondary. `PREREGISTRATION.md` §2.3.
+3. **Tier 1 is reported both ways** — 13 under the shipped check, 6 under the
+   content matcher — and its strategy-class defects are described as checker
+   false alarms, not as repair targets. The realism ladder's replayed-real rung
+   (§5) is 5–6 defects, all rated technicalities, so it is descriptive only.
+4. **The production fix is deferred, not declined:** after the study, as a
+   versioned change with the replay facts re-baselined. The journal paper reports
+   the defect, the diagnosis and the measured effect of the fix.
+
+### 17.4 ⛔ What this opens before the freeze tag
+
+`PREREGISTRATION.md` §11 item 5 — two tasks, in order.
+
+1. **Build** the O5 content trace in `score_repair.py`, with the production
+   verdict kept as a logged secondary, and tests.
+2. **Calibrate O5's two other character-level comparisons in the scorer** —
+   `_item_restored` (pre- vs post-injection issue ≥ 0.35) and the `action`
+   identity anchor — which carry the same paraphrase exposure. D3d measured
+   exact-match rates of ≈ 0 across identical runs, so it is likely material.
+   Calibrate on repetition pairs the way D3c did, then decide. ⚠ **Leave the churn
+   metric's matcher alone:** the D3c floors were calibrated with it, and changing
+   it would silently invalidate them.

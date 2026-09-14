@@ -19,10 +19,10 @@ spent on this study are the 8 Phase-A dumps (2026-08-26).
 ### ⛔ THE GATE IS NOW THE FREEZE TAG (updated 2026-09-14)
 
 Everything was committed and pushed 2026-09-14. **Committing is not
-freezing**: the freeze is the annotated tag `prereg-freeze`, applied after the
-Q1 matcher decision, which can change code `PREREGISTRATION.md` §8 freezes and
-the O5 count inside N = 142. **No trial may run before the tag.** Everything else
-on the free list is done:
+freezing**: the freeze is the annotated tag `prereg-freeze`. **No trial may run
+before the tag.** Q1 was measured and decided the same day (`JOURNAL_PLAN.md`
+§17), and it opened one pre-freeze item, `PREREGISTRATION.md` §11 item 5. What
+was on the free list before that is done:
 
 | Was | Now |
 |---|---|
@@ -34,9 +34,22 @@ on the free list is done:
 | `injection_matrix.json` stale at 20 dumps | ✅ **Regenerated** at 28 dumps (191 all-operator, 142 repair, yield 5.07) |
 | Memo §11 said "6 of the 11" | ✅ **Corrected to 8 of 13** — the matcher bug's share went *up*, 55% → 62% |
 
-⚠ **Q1 and Q2 of the memo are still genuinely open and are not the author's to
-answer** — fix the matcher now?, and what to tell the conference chairs. Neither
-blocks the freeze: neither touches the analysis the pre-registration specifies.
+✅ **Q1 and Q2 answered 2026-09-14** (`JOURNAL_PLAN.md` §17). **Q2:** paper #1
+stands as submitted; the matcher defect is a journal-paper finding. **Q1:** Tier 1
+shrinks 13 → 6 under a content matcher, and the bug reaches O5's *scoring* but
+not its *manipulation* — so the production supervisor stays as shipped (D22) and
+the scorer is corrected.
+
+### ▶ Before the freeze tag, in order — supersedes the "First actions" table below
+
+| # | Do | Why |
+|---|---|---|
+| **1** | **Build §11 item 5:** O5's "check still fires" in `score_repair.py` via content-word Jaccard ≥ 0.10, production verdict logged as a secondary, with tests | The shipped check flags 8 of 49 *correct* strategy outputs, and O5 is 20 of the 142 primary defects |
+| **2** | **Calibrate O5's restoration and `action`-anchor comparisons** on repetition pairs, then decide | Same character-level exposure; D3d exact-match ≈ 0. Do not touch the churn matcher |
+| **3** | **Confirm or override** the 2026-09-08 positions on memo Q3–Q5: pool the contrast · D19 in scope · majority | Authored positions, open to override until the tag |
+| **4** | **`git tag -a prereg-freeze`, push the tag** | The freeze |
+| 5 | Live 7-cell smoke test, 7–21 calls | First money |
+| 6 | The ≈1,180-trial core, after a budget check | — |
 
 ### ▶ First actions, in order
 

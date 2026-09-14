@@ -4,6 +4,9 @@
 2026-09-14 for safekeeping — NOT yet frozen. The freeze is the annotated git
 tag `prereg-freeze`; no trial may run before that tag exists.**
 
+**Q1 was measured and decided 2026-09-14, and it opened one item, §11 item 5**
+— O5's scorer trace. The freeze tag waits for it.
+
 Why a tag, and not "the commit that adds it" (this header's wording until
 2026-09-14): the file had to be committed and pushed while the `PHASE0_MEMO.md`
 Q1 matcher decision was still being measured, because the same commit carries
@@ -232,6 +235,18 @@ Two boundaries, chosen rather than stumbled into:
 Deletion is decided by **identity, not index**: retry regenerates, so positions
 move. Each substitution operator anchors on a field it does not touch
 (`description` for O1/O2/O3, `action` for O5).
+
+**For O5, "the injected check still fires" is decided by a content-word trace,
+not by the production matcher** (§11 item 5, D22). The production check
+(`difflib` ≥ 0.35) flags 8 of 49 *correct* observe-mode strategy outputs, so
+scoring O5 with it would score correct regenerations `unrepaired` at a
+comparable rate in every arm. The scorer uses content-word Jaccard ≥ 0.10
+against the same upstream candidates; the production verdict is logged beside it
+and reported as a secondary, with containment > 0 and Jaccard ≥ 0.05 as
+sensitivity. The threshold was fixed on pre-study calibration data, before any
+trial outcome existed (`JOURNAL_PLAN.md` §17.2). **The production supervisor
+itself is unchanged**: the O5 bases, the injected issue, the trigger and the A1
+feedback were measured to be identical under both matchers.
 
 ### 2.4 The analysis unit, and what a lost trial costs
 
@@ -507,12 +522,17 @@ Recorded here so that no reviewer has to discover them:
 - **One model, one provider, one pipeline, one domain** (D15).
 - **The checks are shallow by design** (D16) — id resolution, set membership,
   `difflib` ≥ 0.35, exact containment. That determinism is the thesis.
-- **The supervisor is not always right** (§15.4). The D13 audit found
-  `untraceable_recommendation` to be a precision failure: 9 of 11 real
-  production defects are checker false positives with a diagnosed cause. The
-  repair study measures repair of *injected* defects and does not depend on the
-  checker's production precision — but the paper states the finding rather than
-  letting a reviewer find it.
+- **The supervisor is not always right** (§15.4; measured 2026-09-14, §17 of
+  the plan). `untraceable_recommendation` compares characters, not content.
+  Every one of the 13 production issues it flagged shares content words with
+  upstream — 8 of 49 observe-mode strategy outputs, false alarms under every
+  content matcher that raises no new flags — and it calls injected alien content
+  traceable in 6 of 168 issue × base pairs. ⚠ **This file previously said the
+  study "does not depend on the checker's production precision". That was wrong
+  for O5:** the bug does not reach O5's manipulation, but it does reach its
+  scoring, which is why §2.3 corrects the scorer. The study keeps the production
+  supervisor as shipped — it is the system paper #1 describes — and the paper
+  states the finding rather than letting a reviewer find it.
 
 ---
 
@@ -529,7 +549,8 @@ Recorded here so that no reviewer has to discover them:
 | D19 scorer path built (O4 anchor, `CAN_DELETE`, `_hosts`) | 2026-09-08 |
 | §11 items 1, 2 and 4 decided | 2026-09-08 |
 | First committed and pushed — safekeeping, **not** the freeze | 2026-09-14 |
-| **This document frozen — annotated tag `prereg-freeze`** | *after the Q1 matcher decision* |
+| Q1 measured and decided (D22); Q2 decided — journal-paper finding (D23) | 2026-09-14 |
+| **This document frozen — annotated tag `prereg-freeze`** | *after §11 item 5* |
 | **First trial** | *not yet run* |
 
 ⚠ **The row above is the gate on every row below it.** Zero trials have run.
@@ -539,7 +560,7 @@ first LLM call this study will have made.
 
 ---
 
-## 11. ✅ CLOSED — the four items that blocked the freeze
+## 11. The items that block the freeze — four closed, one open
 
 All four closed **2026-09-08**. Three were decisions and are recorded in the
 sections they govern; one was a build task and is in the code. This section is
@@ -553,6 +574,7 @@ result existed.
 | 2 | Is D19 (the overwrite counterfactual) in scope? | **Yes** — exploratory, sequenced after the core, pre-registered now so that adding it later could not be. Its scorer prerequisite is built. | §7 |
 | 3 | The D20 gates are specified but not wired | **Wired** into `build_plan`, with two counters against two denominators. Both gates pass **142/142**; N does not move. | §4, §6, §8 |
 | 4 | How is the per-defect dichotomy formed from r = 3? | **Majority** — strictly more than half of completed repetitions. `any-of-3` and `unanimity` rejected, with reasons. | §2.1 |
+| ⛔ 5 | **NEW 2026-09-14, from Q1:** does the trace-matcher bug reach the study? | **Measured: not the manipulation; yes the measurement.** Production supervisor unchanged; O5's check scored by content-word Jaccard ≥ 0.10. **Open until done:** build that in `score_repair.py`, and calibrate O5's two other character-level comparisons (restoration, `action` anchor). | §2.3, §9, plan §17 |
 
 **Item 1's arithmetic, kept because §2 cites it.** These are the options that
 were on the table when the pooling decision was made, so that a reader can see
@@ -576,12 +598,13 @@ favoured the severe cell, the answer was row three, not row two.
 without waiting for the answers**, because each is a choice that cannot
 legitimately be made once a result exists and the study cannot begin without
 them. They are authored positions, **open to supervisor override up to the
-freeze tag** and thereafter only as a dated §0 amendment. The two questions
-that are genuinely not the author's to answer — Q1, whether to fix the
-`untraceable_recommendation` matcher now, and Q2, what to tell the conference
-chairs about a paper under review — are **not** in this list and remain open;
-neither blocks the freeze, because neither touches the analysis this document
-specifies.
+freeze tag** and thereafter only as a dated §0 amendment. **Q1 and Q2 were answered by the author on
+2026-09-14** (`JOURNAL_PLAN.md` §17). Q2: paper #1 stands as submitted and the
+matcher defect is a journal-paper finding. Q1 was measured before it was
+decided, and **the measurement overturned the premise this paragraph was written
+on** — that Q1 does not touch the analysis. It does: the production matcher does
+not reach the study's manipulation, but it does reach O5's measurement. That is
+item 5.
 
 **What the closing changed in the numbers: nothing.** That was not the expected
 outcome and it is worth stating plainly. The D20 gates were wired expecting them
