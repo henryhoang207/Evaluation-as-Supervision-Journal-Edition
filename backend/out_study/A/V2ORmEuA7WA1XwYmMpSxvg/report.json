@@ -1,0 +1,110 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Famous Dave's Bar-B-Que",
+  "sample_size": 92,
+  "executive_summary": "An analysis of 92 customer reviews for Famous Dave's Bar-B-Que reveals significant issues primarily concerning food quality (30% of reviews), staff attitude (22%), and wait times (14%). Customers also express concerns about pricing, cleanliness, and ambience. Key recommendations include implementing a comprehensive food quality control program, mandatory customer service training for staff, and optimizing operations to reduce wait times. Addressing these core areas is crucial for improving customer satisfaction and overall business performance.",
+  "key_findings": [
+    "Customers frequently report issues with the quality or taste of the food.",
+    "There are recurring complaints about the staff's attitude or service.",
+    "Customers often experience long wait times for service or food.",
+    "Many customers find the pricing to be too high or not offer good value.",
+    "Several reviews mention concerns about the restaurant's cleanliness.",
+    "The restaurant's atmosphere or environment receives negative feedback.",
+    "Miscellaneous negative issues are reported by multiple customers."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report issues with the quality or taste of the food.",
+      "cause": "Inconsistent food preparation, ingredient quality issues, or lack of quality control.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "There are recurring complaints about the staff's attitude or service.",
+      "cause": "Insufficient staff training, low morale, or inadequate staffing levels leading to stress.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers often experience long wait times for service or food.",
+      "cause": "Understaffing, inefficient kitchen operations, or poor table management during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Many customers find the pricing to be too high or not offer good value.",
+      "cause": "Perceived poor value for money, prices not aligning with food quality or portion sizes, or competitive pricing issues.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Several reviews mention concerns about the restaurant's cleanliness.",
+      "cause": "Lack of regular cleaning protocols, insufficient staff for cleaning duties, or poor hygiene standards.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "The restaurant's atmosphere or environment receives negative feedback.",
+      "cause": "Outdated decor, poor lighting, uncomfortable seating, or excessive noise levels.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Miscellaneous negative issues are reported by multiple customers.",
+      "cause": "Unspecified operational issues, poor management, or general dissatisfaction not fitting other categories.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Customers frequently report issues with the quality or taste of the food.",
+      "action": "Implement a comprehensive quality control program including daily ingredient checks, standardized recipe adherence audits, and regular taste tests by kitchen management. Consider reviewing current suppliers for better quality ingredients.",
+      "category": "food",
+      "expected_impact": "Significantly improved food consistency and taste, leading to higher customer satisfaction and fewer food-related complaints."
+    },
+    {
+      "priority": 2,
+      "issue": "There are recurring complaints about the staff's attitude or service.",
+      "action": "Conduct mandatory customer service training sessions focusing on positive attitude, effective communication, and conflict resolution. Implement a staff recognition program to boost morale and reinforce desired behaviors.",
+      "category": "service",
+      "expected_impact": "Enhanced customer experience, improved staff morale, and a reduction in negative service-related feedback."
+    },
+    {
+      "priority": 3,
+      "issue": "Customers often experience long wait times for service or food.",
+      "action": "Analyze peak hour traffic patterns and adjust staffing levels for both kitchen and front-of-house accordingly. Optimize kitchen workflow and implement a more efficient table management system to reduce bottlenecks.",
+      "category": "operations",
+      "expected_impact": "Reduced customer wait times, increased table turnover, and improved overall operational efficiency during busy periods."
+    },
+    {
+      "priority": 4,
+      "issue": "Many customers find the pricing to be too high or not offer good value.",
+      "action": "Conduct a competitive pricing analysis against similar local restaurants. Evaluate current portion sizes and ingredient costs to ensure perceived value aligns with pricing. Consider introducing value-oriented specials or combo meals.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value, potentially attracting a broader customer base and increasing sales volume."
+    },
+    {
+      "priority": 5,
+      "issue": "Several reviews mention concerns about the restaurant's cleanliness.",
+      "action": "Establish and strictly enforce a detailed daily, weekly, and monthly cleaning checklist for all areas, including dining room, restrooms, and kitchen. Allocate dedicated staff time for cleaning duties and conduct regular management spot checks.",
+      "category": "operations",
+      "expected_impact": "Enhanced customer comfort and confidence, improved health and safety compliance, and a better overall restaurant image."
+    },
+    {
+      "priority": 6,
+      "issue": "The restaurant's atmosphere or environment receives negative feedback.",
+      "action": "Conduct an internal audit of the dining area to identify specific issues with decor, lighting, seating comfort, and noise levels. Prioritize minor aesthetic updates or sound dampening solutions based on customer feedback and budget.",
+      "category": "facilities",
+      "expected_impact": "A more pleasant and comfortable dining experience, leading to increased customer satisfaction and longer stays."
+    },
+    {
+      "priority": 7,
+      "issue": "Miscellaneous negative issues are reported by multiple customers.",
+      "action": "Implement a robust feedback tracking system to categorize and analyze all customer comments, including 'other' issues. Conduct weekly management reviews of this data to identify emerging patterns and address minor operational issues proactively.",
+      "category": "management",
+      "expected_impact": "Proactive resolution of minor issues, preventing them from escalating into major complaints, and fostering continuous operational improvement."
+    }
+  ],
+  "limitations": [
+    "Analysis is based solely on online customer reviews, which may not represent the entire customer base.",
+    "Sentiment and issue identification are based on automated processing, which may have minor inaccuracies.",
+    "The sample size of 92 reviews, while indicative, may not capture all nuances of customer experience."
+  ],
+  "status": "success",
+  "error_detail": null
+}

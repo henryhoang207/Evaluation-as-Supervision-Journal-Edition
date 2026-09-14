@@ -58,3 +58,33 @@ LLM API call failed on attempt 0: Error code: 503 - [{'error': {'code': 503, 'me
 
 Phase A finished. Checkpoint: out_study\A\checkpoint.jsonl
   20 completed, 5 with a would-be retry -> Phase B will run 5 business(es).
+Phase A (observe) — 28 target(s), 20 already done, 8 to run.
+[1/8] p25 9fajAXTAT1A_pcGakz64hA Honey Baked Ham Company ...
+LLM API call failed on attempt 0: Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]
+LLM API call failed on attempt 0: Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]
+Business has 14 reviews — randomly selected 14.
+    ok: 14 reviews, 91.4s, would_retry=['reasoning_agent', 'report_agent']
+[2/8] p25 8fHYd3HdWotxsG5Ze-oMXw Suncoast Family Restaurant ...
+Business has 14 reviews — randomly selected 14.
+    ok: 14 reviews, 98.16s, would_retry=-
+[3/8] p50 KbvW90THoQ7uvgn9mlAYhA Niche ...
+Business has 34 reviews — randomly selected 34.
+    ok: 34 reviews, 230.53s, would_retry=-
+[4/8] p50 4h88UgiaoNt3P0r97VJrow Johnny's Jamaican Grill ...
+Business has 34 reviews — randomly selected 34.
+    ok: 34 reviews, 136.54s, would_retry=['strategy_agent']
+[5/8] p75 V2ORmEuA7WA1XwYmMpSxvg Famous Dave's Bar-B-Que ...
+Business has 92 reviews — randomly selected 92.
+    ok: 92 reviews, 371.05s, would_retry=-
+[6/8] p75 PbqJmjSijS7aXr0qkjbuxA The Keg Steakhouse And Bar ...
+Business has 92 reviews — randomly selected 92.
+    ok: 92 reviews, 492.03s, would_retry=-
+[7/8] p90 v5kwdvmg-J8g-ll0nkc3Sw The Libertine Liquor Bar ...
+Business has 214 reviews — randomly selected 214.
+    ok: 214 reviews, 907.73s, would_retry=['strategy_agent']
+[8/8] p90 YJ-sr_YVhnsZaBl-j9tjCg Epic Pizza & Subs ...
+Business has 214 reviews — randomly selected 214.
+    ok: 214 reviews, 603.26s, would_retry=-
+
+Phase A finished. Checkpoint: out_study\A\checkpoint.jsonl
+  28 completed, 8 with a would-be retry -> Phase B will run 8 business(es).

@@ -1,0 +1,172 @@
+{
+  "patterns": [
+    {
+      "description": "Inconsistent or poor food quality",
+      "aspect": "food_quality",
+      "frequency": 0.26,
+      "evidence_review_ids": [
+        "1to9fd3BBOz-Tc1np3LDbA",
+        "6s1CKrly-zXojn7ynB6Tew",
+        "75eDjOTFu2Z0rLkyOzWpbg",
+        "93nCo2IlmkcOJPwnwNZI3Q",
+        "KNVY6eQeE6dN6o8HSbYpKQ",
+        "MeyDGvmAKz7c0OOEvCGKsg",
+        "Owc_PpYH0CbCQ6Wu9vOMZg",
+        "P3vIxgq1Oezt0fdHFzjBYw",
+        "PZtrt7j8piSq5jCKbFP07g",
+        "QInbGiGIhfQdYtbFDaXyIw",
+        "TCB-H8INkIxV7DCj8fTTjw",
+        "VkMwvlBuUv-XBPHdqMhTOQ",
+        "WMl5vUp9Lon2QqSUtNNd_g",
+        "WeU4aVtV8HVtiGPXjjQeUA",
+        "X09CQtPB31IjpK3NMLe-zQ",
+        "ZblQS5N6wCz-FE0Nv3Vp-A",
+        "ZriK_3nVYyezJrEGUIpk2w",
+        "bJl99uorAnrh6XFpegqkuA",
+        "f6zTiz2qVoUp7vybYWBiMw",
+        "mt17j4Cns9NFuK2rnEkMBg",
+        "pM8qu4CUPBm_vJauxtJBew",
+        "pY-d_Eua6weRwFnl_xYizw",
+        "thqKEG90QGPnpM3SpRJzUQ",
+        "GxNF4aUTvokRoJL40XxTzQ"
+      ]
+    },
+    {
+      "description": "Long wait times for service or food",
+      "aspect": "wait_time",
+      "frequency": 0.23,
+      "evidence_review_ids": [
+        "0ZV6-UwAvH8kZgOY3qURNA",
+        "8R5bdiNuNd3Ra0bWb_2KUA",
+        "93nCo2IlmkcOJPwnwNZI3Q",
+        "EMlrJGYaiTUVfA-9TGiTjg",
+        "JJFdMdKI7sd5isEsRGwW5Q",
+        "KNVY6eQeE6dN6o8HSbYpKQ",
+        "OJhC-nqvg5IwoKD1qyspFA",
+        "P3vIxgq1Oezt0fdHFzjBYw",
+        "SGkfGFtBYPGYgHHkqqKMEA",
+        "VlvT4S8qj3Fy_er9KRnoSQ",
+        "WEBlfGSvEoCwhhfB8vmxLA",
+        "WMl5vUp9Lon2QqSUtNNd_g",
+        "WxE85IkigVakSW1vO8GFjw",
+        "Xq6kVNE850gaUhTmsN0Jpw",
+        "ZriK_3nVYyezJrEGUIpk2w",
+        "_gYVfpWZe60LslkcKAVx2g",
+        "a7_b1RaTI_muWVlUxn1r8w",
+        "bJl99uorAnrh6XFpegqkuA",
+        "f6zTiz2qVoUp7vybYWBiMw",
+        "k4jKYYQpKQmqXuzg8DJroA",
+        "obN2w3Z4g8e9PtJoSJbTkg"
+      ]
+    },
+    {
+      "description": "Unfriendly or unhelpful staff",
+      "aspect": "staff_attitude",
+      "frequency": 0.18,
+      "evidence_review_ids": [
+        "6s1CKrly-zXojn7ynB6Tew",
+        "BDF5yKVAnsiuhv_NQYjF5g",
+        "Ck3JsdZ0GngTGQ-5KsLj8A",
+        "FODAyrOFnCiS8wipQPg4xQ",
+        "GxNF4aUTvokRoJL40XxTzQ",
+        "KNVY6eQeE6dN6o8HSbYpKQ",
+        "QInbGiGIhfQdYtbFDaXyIw",
+        "SGkfGFtBYPGYgHHkqqKMEA",
+        "WEBlfGSvEoCwhhfB8vmxLA",
+        "WeU4aVtV8HVtiGPXjjQeUA",
+        "YaZhCfYNcqmxEjM7p7h0lA",
+        "ZriK_3nVYyezJrEGUIpk2w",
+        "_JHuEMYYe3mN_YVN_thUrQ",
+        "bJl99uorAnrh6XFpegqkuA",
+        "iwBMFr6i0ZnYE1kgoXW1tQ",
+        "obN2w3Z4g8e9PtJoSJbTkg",
+        "thqKEG90QGPnpM3SpRJzUQ"
+      ]
+    },
+    {
+      "description": "High prices or poor value for money",
+      "aspect": "pricing",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "1to9fd3BBOz-Tc1np3LDbA",
+        "75eDjOTFu2Z0rLkyOzWpbg",
+        "BDF5yKVAnsiuhv_NQYjF5g",
+        "MeyDGvmAKz7c0OOEvCGKsg",
+        "QInbGiGIhfQdYtbFDaXyIw",
+        "TCB-H8INkIxV7DCj8fTTjw",
+        "WeU4aVtV8HVtiGPXjjQeUA",
+        "X09CQtPB31IjpK3NMLe-zQ",
+        "bJl99uorAnrh6XFpegqkuA",
+        "jxFea5yUIGuePfgRY0Kafw",
+        "k4jKYYQpKQmqXuzg8DJroA",
+        "maqU0o33hcKYGDFAC-cNJw",
+        "pM8qu4CUPBm_vJauxtJBew"
+      ]
+    },
+    {
+      "description": "General dissatisfaction or issues not fitting other categories",
+      "aspect": "other",
+      "frequency": 0.12,
+      "evidence_review_ids": [
+        "05BQaIXNCUoOJbVA6e7dCw",
+        "1CFItpB7fn4nY84hLjipAQ",
+        "1to9fd3BBOz-Tc1np3LDbA",
+        "DrDkzaSgpBKr-JalMnXTgA",
+        "FODAyrOFnCiS8wipQPg4xQ",
+        "GxNF4aUTvokRoJL40XxTzQ",
+        "TCB-H8INkIxV7DCj8fTTjw",
+        "WMl5vUp9Lon2QqSUtNNd_g",
+        "WxE85IkigVakSW1vO8GFjw",
+        "bJl99uorAnrh6XFpegqkuA",
+        "tPwhCG_A7hNUv9Pb30_jDQ"
+      ]
+    },
+    {
+      "description": "Unpleasant or undesirable atmosphere",
+      "aspect": "ambience",
+      "frequency": 0.07,
+      "evidence_review_ids": [
+        "BDF5yKVAnsiuhv_NQYjF5g",
+        "SGkfGFtBYPGYgHHkqqKMEA",
+        "WxE85IkigVakSW1vO8GFjw",
+        "Xq6kVNE850gaUhTmsN0Jpw",
+        "maqU0o33hcKYGDFAC-cNJw",
+        "pM8qu4CUPBm_vJauxtJBew"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent or poor food quality",
+      "cause": "Inconsistent food preparation, ingredient quality, or lack of quality control.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Long wait times for service or food",
+      "cause": "Understaffing during busy periods or inefficient kitchen/service processes.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Unfriendly or unhelpful staff",
+      "cause": "Inadequate staff training in customer service or high pressure leading to low morale.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "High prices or poor value for money",
+      "cause": "Perceived poor value for money, possibly due to high prices relative to quality or portion sizes.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "General dissatisfaction or issues not fitting other categories",
+      "cause": "Unspecified operational issues, unmet expectations, or minor inconveniences.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Unpleasant or undesirable atmosphere",
+      "cause": "Issues with comfort, noise levels, decor, or general upkeep of the dining area.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

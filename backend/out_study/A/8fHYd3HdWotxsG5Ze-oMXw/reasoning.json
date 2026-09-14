@@ -1,0 +1,38 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report dissatisfaction with the quality of the food, indicating potential inconsistencies or issues with preparation.",
+      "aspect": "food_quality",
+      "frequency": 0.2857,
+      "evidence_review_ids": [
+        "3P5Q3yCNUOWopGRcv8JS2g",
+        "SN1sFjVe_cH6bKN0laBm7g",
+        "bA-BzLeqeaNaK09CVuO1Qg",
+        "xxbFNR8dmkPFyRyMcHzkvg"
+      ]
+    },
+    {
+      "description": "A recurring pattern of general negative experiences or issues that do not fit into specific categories, suggesting potential underlying operational or service gaps.",
+      "aspect": "other",
+      "frequency": 0.1428,
+      "evidence_review_ids": [
+        "SN1sFjVe_cH6bKN0laBm7g",
+        "bA-BzLeqeaNaK09CVuO1Qg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food, indicating potential inconsistencies or issues with preparation.",
+      "cause": "Inconsistent food preparation, poor ingredient sourcing, or inadequate quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A recurring pattern of general negative experiences or issues that do not fit into specific categories, suggesting potential underlying operational or service gaps.",
+      "cause": "Lack of clear processes for handling diverse customer issues, or minor operational inefficiencies that accumulate into a negative overall experience.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

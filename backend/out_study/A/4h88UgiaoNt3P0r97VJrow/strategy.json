@@ -1,0 +1,41 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality due to variability in cooking standards and recipe adherence.",
+      "action": "Implement mandatory, standardized culinary training for all kitchen staff, focusing on precise recipe adherence, portion control, and consistent cooking techniques for every dish.",
+      "category": "food",
+      "expected_impact": "Significantly improve food consistency and taste across all dishes and visits, leading to higher customer satisfaction and repeat business."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent food quality due to variability in ingredient freshness and quality control.",
+      "action": "Establish clear quality standards for all ingredient sourcing and implement daily quality control checks for incoming ingredients and prepared dishes before service.",
+      "category": "operations",
+      "expected_impact": "Ensure the freshness and quality of raw materials, reducing variability in the final dish quality and enhancing overall food safety."
+    },
+    {
+      "priority": 3,
+      "issue": "Potential high staff turnover contributing to inconsistent food quality and operational standards.",
+      "action": "Review kitchen staff compensation, benefits, and work environment. Develop and implement retention strategies, such as career development paths and team-building initiatives, to reduce turnover.",
+      "category": "HR",
+      "expected_impact": "Foster a more experienced and stable kitchen team, reducing variability caused by new, untrained staff and improving overall operational efficiency."
+    },
+    {
+      "priority": 4,
+      "issue": "Undefined general dissatisfaction ('other') indicating cumulative minor issues or unmet expectations.",
+      "action": "Implement a more granular customer feedback mechanism (e.g., short digital surveys, comment cards with specific categories like 'ambiance', 'cleanliness', 'value for money') to pinpoint specific 'other' issues.",
+      "category": "service",
+      "expected_impact": "Provide actionable insights into previously undefined areas of dissatisfaction, allowing for targeted improvements beyond food and service."
+    },
+    {
+      "priority": 5,
+      "issue": "Potential minor issues related to ambiance or perceived value contributing to general customer dissatisfaction.",
+      "action": "Conduct an internal audit of the restaurant's ambiance (lighting, music, cleanliness, comfort) and perceived value for money, comparing against local competitors and customer expectations.",
+      "category": "operations",
+      "expected_impact": "Proactively identify and address common 'soft' issues that contribute to general dissatisfaction, improving the overall customer experience and perception of value."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

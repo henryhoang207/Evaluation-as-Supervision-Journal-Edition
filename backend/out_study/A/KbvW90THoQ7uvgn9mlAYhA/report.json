@@ -1,0 +1,96 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Niche",
+  "sample_size": 34,
+  "executive_summary": "This report analyzes 34 customer reviews for 'Niche' restaurant, identifying key areas for improvement. The primary concerns revolve around inconsistent food quality, negative staff interactions, and excessive wait times. These issues are likely rooted in a lack of operational standardization, insufficient staff training, and workflow inefficiencies. Recommendations prioritize kitchen standardization, enhanced customer service training, and operational optimization to significantly improve the dining experience and customer satisfaction.",
+  "key_findings": [
+    "Customers frequently report issues with food quality, indicating inconsistency across dishes or visits (35% of reviews).",
+    "A notable number of reviews mention negative experiences with staff attitude, suggesting issues with service professionalism or friendliness (21% of reviews).",
+    "Customers frequently complain about long wait times, indicating potential inefficiencies in service or understaffing during busy periods (15% of reviews).",
+    "Several reviews express dissatisfaction with pricing, suggesting that customers feel the cost does not align with the value received (15% of reviews).",
+    "A few reviews mention other negative aspects not fitting into specific categories, indicating general dissatisfaction or minor operational issues (12% of reviews).",
+    "A smaller number of reviews point out specific negative aspects of the restaurant's ambience (9% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent Food Quality",
+      "cause": "Lack of standardized recipes, inconsistent ingredient sourcing, or varying skill levels among kitchen staff.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative Staff Interactions",
+      "cause": "Insufficient staff training in customer service, high staff turnover, or inadequate staffing levels leading to overworked and stressed employees.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Excessive Wait Times",
+      "cause": "Inefficient kitchen operations, inadequate staffing during peak hours, or poor table management.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Perceived High Pricing/Poor Value",
+      "cause": "Menu prices are not justified by the quality, portion size, or overall dining experience, or a mismatch between customer expectations and the restaurant's offering.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Minor Ambience Concerns",
+      "cause": "Specific design choices, noise levels, or comfort elements that do not appeal to all customers.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Miscellaneous Negative Experiences",
+      "cause": "Broad category, difficult to pinpoint without more specific details from the 'other' aspect. Could be minor operational glitches or specific customer expectations not met.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent Food Quality",
+      "action": "Implement a comprehensive kitchen standardization program. This includes documenting all recipes with precise measurements and cooking instructions, establishing clear quality control checks for incoming ingredients, and conducting regular training sessions for all kitchen staff on recipe adherence and plating standards.",
+      "category": "food",
+      "expected_impact": "Significant improvement in dish consistency and overall food quality, leading to higher customer satisfaction and repeat business."
+    },
+    {
+      "priority": 2,
+      "issue": "Negative Staff Interactions",
+      "action": "Develop and implement a mandatory customer service training program for all front-of-house staff, focusing on positive communication, conflict resolution, and proactive guest engagement. Additionally, review staffing levels during peak hours to ensure adequate support and reduce employee stress.",
+      "category": "service",
+      "expected_impact": "Enhanced customer experience, improved staff morale, and a reduction in negative service-related reviews."
+    },
+    {
+      "priority": 3,
+      "issue": "Excessive Wait Times",
+      "action": "Conduct a time-motion study of kitchen workflows and service processes to identify bottlenecks. Implement operational improvements such as pre-shift prep checklists, optimized kitchen station layouts, and a robust reservation/table management system. Adjust staffing schedules to align with peak demand.",
+      "category": "operations",
+      "expected_impact": "Reduced customer wait times, increased table turnover, and improved operational efficiency."
+    },
+    {
+      "priority": 4,
+      "issue": "Perceived High Pricing/Poor Value",
+      "action": "Review the menu pricing strategy in conjunction with portion sizes, ingredient costs, and competitor pricing. Consider offering value-added options (e.g., lunch specials, combo deals) or clearly communicating the quality and sourcing of ingredients to justify prices. Gather direct customer feedback on perceived value.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value, potentially leading to increased sales and reduced price-related complaints."
+    },
+    {
+      "priority": 5,
+      "issue": "Miscellaneous Negative Experiences",
+      "action": "Implement a structured feedback collection mechanism (e.g., comment cards, QR code surveys, direct manager check-ins) to capture specific details about 'other' negative experiences. Analyze this data regularly to identify emerging patterns or minor operational glitches.",
+      "category": "operations",
+      "expected_impact": "Proactive identification and resolution of minor issues before they escalate, leading to overall improved customer satisfaction."
+    },
+    {
+      "priority": 6,
+      "issue": "Minor Ambience Concerns",
+      "action": "Conduct a walk-through audit of the dining area focusing on lighting, music volume, seating comfort, and overall cleanliness. Consider minor adjustments like adding sound-dampening elements, adjusting lighting for different times of day, or refreshing decor elements based on customer feedback.",
+      "category": "ambience",
+      "expected_impact": "Enhanced dining environment, contributing to a more positive overall customer experience."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 34 reviews, which may not fully represent the entire customer base or all dining experiences.",
+    "Review data is qualitative and subjective, reflecting individual customer perceptions rather than objective metrics."
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,55 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and preparation",
+      "action": "Implement standardized recipes and portion controls across all kitchen stations. Conduct daily taste tests of key dishes by a senior chef or manager, and provide targeted training to kitchen staff on consistency and quality control. Review ingredient sourcing for critical items.",
+      "category": "food",
+      "expected_impact": "Significantly improve food consistency and quality, leading to higher customer satisfaction and fewer complaints about specific dishes."
+    },
+    {
+      "priority": 2,
+      "issue": "Poor staff attitude and customer service",
+      "action": "Develop and implement a mandatory customer service training program focusing on friendliness, attentiveness, and professional communication. Introduce a 'mystery shopper' program and regular performance reviews with constructive feedback. Consider incentives for excellent service.",
+      "category": "service",
+      "expected_impact": "Enhance the overall dining experience, increase positive interactions with staff, and improve the restaurant's reputation for service excellence."
+    },
+    {
+      "priority": 3,
+      "issue": "Excessive customer wait times",
+      "action": "Analyze historical data to identify peak hours and adjust staffing levels accordingly for both front-of-house (seating, ordering) and back-of-house (kitchen). Optimize kitchen workflow and implement a digital table management or reservation system to streamline seating and order processing.",
+      "category": "operations",
+      "expected_impact": "Reduce wait times for seating, ordering, and food delivery, leading to improved customer flow, higher table turnover, and increased customer satisfaction."
+    },
+    {
+      "priority": 4,
+      "issue": "Perceived poor value for money/high pricing",
+      "action": "Conduct a thorough competitive pricing analysis for similar restaurants in the area. Evaluate current menu item costs and portion sizes to ensure perceived value aligns with price. Consider introducing value-added promotions (e.g., lunch specials, happy hour) or clearly articulating the quality of ingredients/preparation on the menu.",
+      "category": "pricing",
+      "expected_impact": "Improve customer perception of value, potentially increasing sales and reducing price-related complaints without necessarily lowering prices across the board."
+    },
+    {
+      "priority": 5,
+      "issue": "Uninviting or uncomfortable restaurant ambience",
+      "action": "Assess and address specific ambience issues: for noise, consider sound-dampening panels or background music adjustments; for comfort, review seating arrangements and furniture. Refresh decor, lighting, and temperature controls to create a more inviting and pleasant dining environment.",
+      "category": "operations",
+      "expected_impact": "Create a more comfortable and enjoyable dining atmosphere, encouraging longer stays, repeat visits, and positive word-of-mouth."
+    },
+    {
+      "priority": 6,
+      "issue": "General dissatisfaction and operational inconsistencies",
+      "action": "Implement a structured system for collecting detailed customer feedback (e.g., digital surveys, comment cards) to pinpoint specific 'other' issues like order accuracy or specific service failures. Conduct daily pre-shift briefings to emphasize attention to detail and review common operational pitfalls.",
+      "category": "operations",
+      "expected_impact": "Reduce miscellaneous complaints, improve overall service consistency, and provide clearer insights into specific areas needing improvement."
+    },
+    {
+      "priority": 7,
+      "issue": "Issues with restaurant cleanliness",
+      "action": "Establish comprehensive daily and weekly cleaning checklists for all areas (dining room, restrooms, kitchen). Provide thorough training to all staff on sanitation protocols and conduct regular, unannounced cleanliness inspections by management to ensure adherence.",
+      "category": "operations",
+      "expected_impact": "Significantly improve hygiene standards, enhance customer perception of cleanliness, and ensure compliance with health regulations."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

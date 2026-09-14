@@ -219,6 +219,118 @@
       }
     },
     {
+      "defect_id": "A:9fajAXTAT1A_pcGakz64hA:reasoning_agent:1",
+      "source": "A",
+      "business_id": "9fajAXTAT1A_pcGakz64hA",
+      "business_name": "Honey Baked Ham Company",
+      "stage": "reasoning_agent",
+      "dump_dir": "out_study/A/9fajAXTAT1A_pcGakz64hA",
+      "classes": [
+        "api_error"
+      ],
+      "operators": [],
+      "genuine": false,
+      "excluded_reason": "api_error",
+      "cascade_of": null,
+      "usable": false,
+      "retry_feedback": "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+      "facts": {
+        "status_error": true,
+        "error_detail": "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+        "n_success": 10,
+        "patterns": []
+      }
+    },
+    {
+      "defect_id": "A:9fajAXTAT1A_pcGakz64hA:report_agent:3",
+      "source": "A",
+      "business_id": "9fajAXTAT1A_pcGakz64hA",
+      "business_name": "Honey Baked Ham Company",
+      "stage": "report_agent",
+      "dump_dir": "out_study/A/9fajAXTAT1A_pcGakz64hA",
+      "classes": [
+        "report_containment"
+      ],
+      "operators": [
+        "O6",
+        "O7"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": "reasoning_agent errored (api_error)",
+      "usable": false,
+      "retry_feedback": "the report must only restate upstream outputs. root causes not produced upstream: ['Lack of detailed review analysis output from upstream systems.'] | recommendations not produced upstream: ['Lack of detailed review insights', 'Uncategorized customer feedback', 'Absence of ongoing feedback monitoring']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [
+          "Lack of detailed review analysis output from upstream systems."
+        ],
+        "invented_recommendations": [
+          "Lack of detailed review insights",
+          "Uncategorized customer feedback",
+          "Absence of ongoing feedback monitoring",
+          "Limited representativeness of current data"
+        ],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    },
+    {
+      "defect_id": "A:4h88UgiaoNt3P0r97VJrow:strategy_agent:2",
+      "source": "A",
+      "business_id": "4h88UgiaoNt3P0r97VJrow",
+      "business_name": "Johnny's Jamaican Grill",
+      "stage": "strategy_agent",
+      "dump_dir": "out_study/A/4h88UgiaoNt3P0r97VJrow",
+      "classes": [
+        "untraceable_recommendation"
+      ],
+      "operators": [
+        "O5"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "these recommendation issues do not trace back to any reasoning pattern or root cause: ['Potential high staff turnover contributing to inconsistent food quality and operational standards.', \"Undefined general dissatisfaction ('other') indicating cumulative minor issues or unmet expectations.\", 'Potential minor issues related to ambiance or perceived value contributing to general customer dissatisfaction.']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": [
+          "Potential high staff turnover contributing to inconsistent food quality and operational standards.",
+          "Undefined general dissatisfaction ('other') indicating cumulative minor issues or unmet expectations.",
+          "Potential minor issues related to ambiance or perceived value contributing to general customer dissatisfaction."
+        ]
+      }
+    },
+    {
+      "defect_id": "A:v5kwdvmg-J8g-ll0nkc3Sw:strategy_agent:2",
+      "source": "A",
+      "business_id": "v5kwdvmg-J8g-ll0nkc3Sw",
+      "business_name": "The Libertine Liquor Bar",
+      "stage": "strategy_agent",
+      "dump_dir": "out_study/A/v5kwdvmg-J8g-ll0nkc3Sw",
+      "classes": [
+        "untraceable_recommendation"
+      ],
+      "operators": [
+        "O5"
+      ],
+      "genuine": true,
+      "excluded_reason": null,
+      "cascade_of": null,
+      "usable": true,
+      "retry_feedback": "these recommendation issues do not trace back to any reasoning pattern or root cause: ['Excessive customer wait times']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": [
+          "Excessive customer wait times"
+        ]
+      }
+    },
+    {
       "defect_id": "rep1:ZGznjpkqi6a_It4lAgCnYw:strategy_agent:2",
       "source": "rep1",
       "business_id": "ZGznjpkqi6a_It4lAgCnYw",
@@ -739,10 +851,15 @@
     }
   ],
   "warn_level_flags": {
-    "low_confidence": 5,
+    "low_confidence": 7,
     "frequency_corrected": 27
   },
   "cascades": [
+    {
+      "defect_id": "A:9fajAXTAT1A_pcGakz64hA:report_agent:3",
+      "stage": "report_agent",
+      "cascade_of": "reasoning_agent errored (api_error)"
+    },
     {
       "defect_id": "rep1:2qVZiMB22YPC2HCM62Gnbw:report_agent:3",
       "stage": "report_agent",
@@ -750,24 +867,24 @@
     }
   ],
   "summary": {
-    "retry_observations": 15,
-    "genuine": 11,
-    "cascade": 1,
-    "excluded": 3,
+    "retry_observations": 19,
+    "genuine": 13,
+    "cascade": 2,
+    "excluded": 4,
     "excluded_by_reason": {
-      "api_error": 3
+      "api_error": 4
     },
     "by_stage": {
-      "strategy_agent": 6,
+      "strategy_agent": 8,
       "reasoning_agent": 5
     },
     "by_class": {
-      "untraceable_recommendation": 6,
+      "untraceable_recommendation": 8,
       "misaligned_aspect": 2,
       "missing_evidence_id": 3
     },
-    "distinct_cells": 5,
-    "distinct_businesses": 4,
+    "distinct_cells": 7,
+    "distinct_businesses": 6,
     "cells": [
       {
         "business": "Ameristar Casino Resort Spa St. Charles",
@@ -782,11 +899,19 @@
         "stage": "strategy_agent"
       },
       {
+        "business": "Johnny's Jamaican Grill",
+        "stage": "strategy_agent"
+      },
+      {
         "business": "Nomzilla! Sushi Et Cetera",
         "stage": "reasoning_agent"
       },
       {
         "business": "Red Lobster",
+        "stage": "strategy_agent"
+      },
+      {
+        "business": "The Libertine Liquor Bar",
         "stage": "strategy_agent"
       }
     ],
@@ -795,6 +920,8 @@
       "Izzo's Illegal Burrito / strategy_agent": 4,
       "Nomzilla! Sushi Et Cetera / reasoning_agent": 3,
       "Ameristar Casino Resort Spa St. Charles / strategy_agent": 1,
+      "Johnny's Jamaican Grill / strategy_agent": 1,
+      "The Libertine Liquor Bar / strategy_agent": 1,
       "Ameristar Casino Resort Spa St. Charles / reasoning_agent": 2
     }
   }

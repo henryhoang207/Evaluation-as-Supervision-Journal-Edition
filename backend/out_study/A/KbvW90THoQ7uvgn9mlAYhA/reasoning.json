@@ -1,0 +1,116 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report issues with food quality, indicating inconsistency across dishes or visits. While many reviews praise food, a significant number highlight negative experiences.",
+      "aspect": "food_quality",
+      "frequency": 0.35,
+      "evidence_review_ids": [
+        "90xxFBMCNKQfvhBQsanniQ",
+        "ApLlJ8-f1_4KI4HhbDzmPg",
+        "AwYvzz4X2yTOjgnI4Os3Yg",
+        "Tq2QkBQcQWd0W6HbgYcXwA",
+        "dR-hJSaDZ0W5e2QWQe00HA",
+        "dlFDBMgAyiE0EqsdGo8s0Q",
+        "lSuQuRL5ShLZ65vE9qkETA",
+        "mLnqB_dIWx8RKeO98scgEg",
+        "nraJ9AEgoSIdzK1xgi9P2A",
+        "oJSwzYZjDHhGLFW16Dc18Q",
+        "pRUIemTQAYK6UU30zCaaFQ",
+        "vG2CWshAuEsnS84Tw2ZQWQ"
+      ]
+    },
+    {
+      "description": "A notable number of reviews mention negative experiences with staff attitude, suggesting issues with service professionalism or friendliness.",
+      "aspect": "staff_attitude",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "AwYvzz4X2yTOjgnI4Os3Yg",
+        "X95OSjmVoci9WbmY1y4FLQ",
+        "nraJ9AEgoSIdzK1xgi9P2A",
+        "oJSwzYZjDHhGLFW16Dc18Q",
+        "qhvX5i_YK3_0xSvT6Pj4mg",
+        "vG2CWshAuEsnS84Tw2ZQWQ",
+        "vqFcdSz2SlApNwtTcH-Pkg"
+      ]
+    },
+    {
+      "description": "Customers frequently complain about long wait times, indicating potential inefficiencies in service or understaffing during busy periods.",
+      "aspect": "wait_time",
+      "frequency": 0.15,
+      "evidence_review_ids": [
+        "BmxL6O3U4LSDzM2QixIreA",
+        "Tq2QkBQcQWd0W6HbgYcXwA",
+        "X95OSjmVoci9WbmY1y4FLQ",
+        "nraJ9AEgoSIdzK1xgi9P2A",
+        "oJSwzYZjDHhGLFW16Dc18Q"
+      ]
+    },
+    {
+      "description": "Several reviews express dissatisfaction with pricing, suggesting that customers feel the cost does not align with the value received.",
+      "aspect": "pricing",
+      "frequency": 0.15,
+      "evidence_review_ids": [
+        "AwYvzz4X2yTOjgnI4Os3Yg",
+        "dlFDBMgAyiE0EqsdGo8s0Q",
+        "lSuQuRL5ShLZ65vE9qkETA",
+        "oJSwzYZjDHhGLFW16Dc18Q",
+        "vqFcdSz2SlApNwtTcH-Pkg"
+      ]
+    },
+    {
+      "description": "A few reviews mention other negative aspects not fitting into specific categories, indicating general dissatisfaction or minor operational issues.",
+      "aspect": "other",
+      "frequency": 0.12,
+      "evidence_review_ids": [
+        "X95OSjmVoci9WbmY1y4FLQ",
+        "oJSwzYZjDHhGLFW16Dc18Q",
+        "vqFcdSz2SlApNwtTcH-Pkg",
+        "yXEmCDa-omWhQ_2H-kxFjA"
+      ]
+    },
+    {
+      "description": "A smaller number of reviews point out specific negative aspects of the restaurant's ambience.",
+      "aspect": "ambience",
+      "frequency": 0.09,
+      "evidence_review_ids": [
+        "JV9kxkvSrEsJzY7-ThS4VA",
+        "ZYaRt4mCtCfPyDYBu-SZzQ",
+        "vG2CWshAuEsnS84Tw2ZQWQ"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent Food Quality",
+      "cause": "Lack of standardized recipes, inconsistent ingredient sourcing, or varying skill levels among kitchen staff.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative Staff Interactions",
+      "cause": "Insufficient staff training in customer service, high staff turnover, or inadequate staffing levels leading to overworked and stressed employees.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Excessive Wait Times",
+      "cause": "Inefficient kitchen operations, inadequate staffing during peak hours, or poor table management.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Perceived High Pricing/Poor Value",
+      "cause": "Menu prices are not justified by the quality, portion size, or overall dining experience, or a mismatch between customer expectations and the restaurant's offering.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Minor Ambience Concerns",
+      "cause": "Specific design choices, noise levels, or comfort elements that do not appeal to all customers.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Miscellaneous Negative Experiences",
+      "cause": "Broad category, difficult to pinpoint without more specific details from the 'other' aspect. Could be minor operational glitches or specific customer expectations not met.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

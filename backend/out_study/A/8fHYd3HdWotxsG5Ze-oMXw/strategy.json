@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality due to preparation, sourcing, and inadequate quality control.",
+      "action": "Implement a comprehensive kitchen quality control program. This includes daily taste tests by the head chef, mandatory adherence to standardized recipes, and a review of all primary ingredient suppliers for quality and consistency. Conduct immediate retraining for all kitchen staff on core menu item preparation and plating standards.",
+      "category": "food",
+      "expected_impact": "Significant improvement in food consistency and overall customer satisfaction, directly addressing the most frequent complaint."
+    },
+    {
+      "priority": 2,
+      "issue": "General negative customer experiences stemming from undefined processes and minor operational inefficiencies.",
+      "action": "Develop and implement a 'Customer Issue Resolution Protocol' for front-of-house staff, empowering them with clear guidelines and limited authority to address common complaints on the spot. Additionally, conduct a weekly 15-minute operational huddle with all department heads (kitchen, FOH, bar) to identify and resolve minor cross-departmental inefficiencies.",
+      "category": "operations",
+      "expected_impact": "Reduction in general negative feedback, improved staff confidence in handling issues, and a smoother overall customer experience."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

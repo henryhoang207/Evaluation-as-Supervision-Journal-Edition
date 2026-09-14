@@ -1,0 +1,53 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Honey Baked Ham Company",
+  "sample_size": 14,
+  "executive_summary": "This report summarizes the review analysis for Honey Baked Ham Company based on a sample of 14 reviews. Due to the absence of detailed upstream analysis, specific findings and actionable insights cannot be provided at this time. Further detailed analysis is required to identify key areas for improvement.",
+  "key_findings": [
+    "No specific key findings were identified from the upstream analysis due to empty output."
+  ],
+  "root_causes": [
+    {
+      "pattern": "No specific patterns identified due to empty upstream data.",
+      "cause": "Lack of detailed review analysis output from upstream systems.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Lack of detailed review insights",
+      "action": "Conduct a comprehensive qualitative and quantitative analysis of the 14 reviews to identify recurring themes, sentiment, and specific areas of concern or praise.",
+      "category": "Data Analysis",
+      "expected_impact": "Establish a baseline understanding of customer feedback and identify primary areas for focus."
+    },
+    {
+      "priority": 2,
+      "issue": "Uncategorized customer feedback",
+      "action": "Categorize reviews by aspects such as food quality, service, ambiance, and value to pinpoint specific strengths and weaknesses.",
+      "category": "Data Structuring",
+      "expected_impact": "Enable targeted improvements and strategic planning based on specific operational areas."
+    },
+    {
+      "priority": 3,
+      "issue": "Absence of ongoing feedback monitoring",
+      "action": "Implement a system for regular review monitoring and analysis to track trends over time.",
+      "category": "Process Improvement",
+      "expected_impact": "Proactive identification of emerging issues and successes, allowing for timely interventions."
+    },
+    {
+      "priority": 4,
+      "issue": "Limited representativeness of current data",
+      "action": "Consider increasing the sample size for future analyses to gain more robust insights.",
+      "category": "Data Collection",
+      "expected_impact": "More reliable and generalizable conclusions about overall customer satisfaction and experience."
+    }
+  ],
+  "limitations": [
+    "The analysis is severely limited by the lack of detailed findings, root causes, and recommendations from the upstream processing.",
+    "The small sample size of 14 reviews may not be representative of the overall customer experience.",
+    "Without specific sentiment analysis or topic extraction, the report cannot offer actionable insights beyond general recommendations for further analysis."
+  ],
+  "status": "success",
+  "error_detail": null
+}

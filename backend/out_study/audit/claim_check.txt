@@ -1,0 +1,98 @@
+====================================================================================================
+CLAIM 1 — corruption vs fabrication, checked against the real corpus
+====================================================================================================
+item  tier   op/class                   flagged id                 len dist mechanism    A  B 
+----------------------------------------------------------------------------------------------------
+I01   tier2  O2                         76u6uwQN9kmZkRCN1jl7h_      22   20 FABRICATION  E  E 
+I03   tier2  O2                         X9INSP6BgFO-g617tiqDtw      22   20 FABRICATION  E  E 
+I04   tier2  O2                         YQ25B9e2q2pVUY24ZJ16M6      22   20 FABRICATION  E  E 
+I05   tier1  missing_evidence_id        E02DwAacaNvWgX-r7cIW7fA     23    1 CORRUPTION   T  T 
+                                        nearest real id -> E02DwAcaNvWgX-r7cIW7fA
+I05   tier1  missing_evidence_id        E02DwAacaNvWgX-r7cIW7fA     23    1 CORRUPTION   T  T 
+                                        nearest real id -> E02DwAcaNvWgX-r7cIW7fA
+I05   tier1  missing_evidence_id        E02DwAacaNvWgX-r7cIW7fA     23    1 CORRUPTION   T  T 
+                                        nearest real id -> E02DwAcaNvWgX-r7cIW7fA
+I05   tier1  missing_evidence_id        E02DwAacaNvWgX-r7cIW7fA     23    1 CORRUPTION   T  T 
+                                        nearest real id -> E02DwAcaNvWgX-r7cIW7fA
+I05   tier1  missing_evidence_id        E02DwAacaNvWgX-r7cIW7fA     23    1 CORRUPTION   T  T 
+                                        nearest real id -> E02DwAcaNvWgX-r7cIW7fA
+I05   tier1  missing_evidence_id        E02DwAacaNvWgX-r7cIW7fA     23    1 CORRUPTION   T  T 
+                                        nearest real id -> E02DwAcaNvWgX-r7cIW7fA
+I07   tier2  O2                         FYFNhTA5jc1_aMNcmKRqUl      22   20 FABRICATION  E  E 
+I08   tier1  missing_evidence_id        Q3nB9HVnhp2MCfmfmOj97yVg    24    2 CORRUPTION   T  T 
+                                        nearest real id -> Q3nB9HVnhp2MCfmOj97yVg
+I10   tier2  O1                         G0jj0BTXoDhFnRisK5BBg       21    1 CORRUPTION   T  E 
+                                        nearest real id -> G0jj0BTXoDhFnRisqK5BBg
+I15   tier2  O1                         jqAQLyaJJPBB7SugRrO0w       21    1 CORRUPTION   T  T 
+                                        nearest real id -> jqAQLyaJJPBB7SugRrO0rw
+I19   tier2  O1                         nbMqS33Dj4SM0FoXf2SYw       21    1 CORRUPTION   T  T 
+                                        nearest real id -> CnbMqS33Dj4SM0FoXf2SYw
+I27   tier2  O1                         B8VdMlcktsJuTN-ysjrKw       21    1 CORRUPTION   T  E 
+                                        nearest real id -> B80VdMlcktsJuTN-ysjrKw
+I30   tier1  missing_evidence_id        TQaE2hueuy2bQhy6lUqVJw      22    1 CORRUPTION   T  T 
+                                        nearest real id -> tQaE2hueuy2bQhy6lUqVJw
+I30   tier1  missing_evidence_id        TQaE2hueuy2bQhy6lUqVJw      22    1 CORRUPTION   T  T 
+                                        nearest real id -> tQaE2hueuy2bQhy6lUqVJw
+
+====================================================================================================
+CLAIM 2 — 'one stray citation in N', the misaligned-aspect items
+====================================================================================================
+  I06  misaligned_aspect          offending cites:  1 of 172 in the flagged pattern(s)   A=T B=T
+  I09  O3                         offending cites: 13 of 63 in the flagged pattern(s)   A=E B=E
+  I18  O3                         offending cites:  7 of 85 in the flagged pattern(s)   A=E B=E
+  I21  O3                         offending cites:  3 of 38 in the flagged pattern(s)   A=E B=E
+  I26  misaligned_aspect          offending cites:  1 of 168 in the flagged pattern(s)   A=T B=T
+item  class                pattern aspect   stray  cites in that pattern  A B
+----------------------------------------------------------------------------------
+I06   misaligned_aspect    food_quality         1                     55  T T
+I06   misaligned_aspect    staff_attitude       1                     40  T T
+I06   misaligned_aspect    pricing              1                     34  T T
+I06   misaligned_aspect    other                1                     27  T T
+I06   misaligned_aspect    wait_time            1                     16  T T
+I09   O3                   food_quality         9                     28  E E
+I09   O3                   other                7                     15  E E
+I09   O3                   pricing             13                     13  E E
+I09   O3                   staff_attitude       1                      7  E E
+I18   O3                   food_quality         4                     34  E E
+I18   O3                   staff_attitude       6                     23  E E
+I18   O3                   other                1                     10  E E
+I18   O3                   wait_time            2                      8  E E
+I18   O3                   pricing              7                      7  E E
+I18   O3                   cleanliness          1                      3  E E
+I21   O3                   food_quality         2                     19  E E
+I21   O3                   ambience             1                      8  E E
+I21   O3                   pricing              2                      8  E E
+I21   O3                   wait_time            3                      3  E E
+I26   misaligned_aspect    food_quality         1                     50  T T
+I26   misaligned_aspect    staff_attitude       1                     37  T T
+I26   misaligned_aspect    pricing              1                     32  T T
+I26   misaligned_aspect    other                1                     33  T T
+I26   misaligned_aspect    wait_time            1                     16  T T
+THRESHOLD = 0.35 (difflib SequenceMatcher, character-level)
+
+item  class                        lex tokens  A B   flagged issue -> best upstream match
+----------------------------------------------------------------------------------------------------------------------
+I02   untraceable_recommendation  0.23   0.10  T T   'Negative ambience.'
+                                                   -> "The restaurant's ambience is often described negatively, impacting the"
+I11   O5                          0.21   0.00  E E   'till float count skipped'
+                                                   -> 'There are recurring complaints about the negative attitude or unhelpfu'
+I12   untraceable_recommendation  0.31   0.29  T T   'Poor staff attitude and service quality.'
+                                                   -> 'Many reviews highlight negative experiences with staff, including rude'
+I14   untraceable_recommendation  0.35   0.25  T T   'Poor staff attitude and customer service.'
+                                                   -> 'Many reviews highlight negative interactions with staff, citing issues'
+I14   untraceable_recommendation  0.28   0.08  T T   'Excessive customer wait times.'
+                                                   -> 'Outdated interior design, poor lighting, uncomfortable seating, or exc'
+I14   untraceable_recommendation  0.33   0.11  T T   'Perceived poor value for money.'
+                                                   -> 'Mismatch between perceived value (e.g., food quality, portion size, se'
+I17   untraceable_recommendation  0.31   0.21  T T   'Unhygienic restaurant conditions.'
+                                                   -> "Several customers express concerns about the restaurant's cleanliness,"
+I17   untraceable_recommendation  0.32   0.44  T T   'Unpleasant or uninviting restaurant atmosphe'
+                                                   -> "Some customers are dissatisfied with the restaurant's atmosphere or en"
+I22   untraceable_recommendation  0.31   0.27  T T   'Unappealing or outdated dining atmosphere.'
+                                                   -> 'A few reviews mention a negative or unappealing atmosphere, impacting '
+I23   O5                          0.24   0.00  E E   'gift card ledger unreconciled'
+                                                   -> 'Understaffing during peak hours, inefficient kitchen operations, or po'
+I28   O5                          0.28   0.00  E E   'uniform size profile absent'
+                                                   -> 'Understaffing (kitchen or front-of-house), inefficient order processin'
+I29   untraceable_recommendation  0.31   0.17  T T   'Excessive customer wait times.'
+                                                   -> 'Customers consistently experience long wait times for seating, orderin'

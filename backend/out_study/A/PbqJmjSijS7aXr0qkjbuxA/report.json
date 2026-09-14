@@ -1,0 +1,96 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "The Keg Steakhouse And Bar",
+  "sample_size": 92,
+  "executive_summary": "An analysis of 92 customer reviews for The Keg Steakhouse And Bar reveals primary concerns around inconsistent food quality, long wait times, and staff attitude. Addressing these core issues through operational improvements, staff training, and quality control measures is crucial to enhance customer satisfaction and perceived value.",
+  "key_findings": [
+    "Inconsistent or poor food quality (26% of reviews)",
+    "Long wait times for service or food (23% of reviews)",
+    "Unfriendly or unhelpful staff (18% of reviews)",
+    "High prices or poor value for money (14% of reviews)",
+    "General dissatisfaction or issues not fitting other categories (12% of reviews)",
+    "Unpleasant or undesirable atmosphere (7% of reviews)"
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent or poor food quality",
+      "cause": "Inconsistent food preparation, ingredient quality, or lack of quality control.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Long wait times for service or food",
+      "cause": "Understaffing during busy periods or inefficient kitchen/service processes.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Unfriendly or unhelpful staff",
+      "cause": "Inadequate staff training in customer service or high pressure leading to low morale.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "High prices or poor value for money",
+      "cause": "Perceived poor value for money, possibly due to high prices relative to quality or portion sizes.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "General dissatisfaction or issues not fitting other categories",
+      "cause": "Unspecified operational issues, unmet expectations, or minor inconveniences.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Unpleasant or undesirable atmosphere",
+      "cause": "Issues with comfort, noise levels, decor, or general upkeep of the dining area.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent or poor food quality",
+      "action": "Implement standardized recipes and portioning guides for all dishes. Conduct daily taste tests and ingredient quality checks before service. Provide refresher training for kitchen staff on preparation techniques and consistency.",
+      "category": "food",
+      "expected_impact": "Significantly improve the consistency and overall quality of dishes, leading to higher customer satisfaction, reduced food waste, and increased positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Long wait times for service or food",
+      "action": "Analyze sales data to identify peak hours and adjust staffing levels for both kitchen and front-of-house accordingly. Implement a kitchen display system (KDS) or refine existing order-taking and food delivery processes to improve efficiency and flow.",
+      "category": "operations",
+      "expected_impact": "Reduce customer wait times, improve table turnover rates, and enhance the overall dining experience, leading to fewer complaints and increased customer loyalty."
+    },
+    {
+      "priority": 3,
+      "issue": "Unfriendly or unhelpful staff",
+      "action": "Implement mandatory customer service training for all staff, focusing on communication skills, problem-solving, and maintaining a positive attitude under pressure. Introduce a staff recognition program to boost morale and incentivize excellent service.",
+      "category": "service",
+      "expected_impact": "Foster a more welcoming and positive environment, improve customer interactions, and potentially increase tips and positive staff-related reviews."
+    },
+    {
+      "priority": 4,
+      "issue": "High prices or poor value for money",
+      "action": "Conduct a comprehensive review of menu pricing against competitor offerings, ingredient costs, and perceived value. Consider adjusting portion sizes, introducing value-oriented specials, or enhancing dish presentation to better justify current prices.",
+      "category": "pricing",
+      "expected_impact": "Align customer perception of value with pricing, potentially increasing sales, reducing price-related complaints, and attracting a broader customer base."
+    },
+    {
+      "priority": 5,
+      "issue": "General dissatisfaction or issues not fitting other categories",
+      "action": "Implement a direct customer feedback system (e.g., QR code surveys, digital comment cards, or direct manager check-ins) to gather more specific details on 'other' issues. Conduct regular staff meetings to identify and address minor operational friction points.",
+      "category": "customer feedback",
+      "expected_impact": "Uncover specific underlying issues that contribute to general dissatisfaction, allowing for targeted improvements and demonstrating responsiveness to customer concerns."
+    },
+    {
+      "priority": 6,
+      "issue": "Unpleasant or undesirable atmosphere",
+      "action": "Assess and address specific ambience issues such as lighting, music volume, cleanliness, and decor. Consider minor renovations or adjustments like sound dampening solutions, updated artwork, or improved seating comfort to create a more inviting environment.",
+      "category": "ambience",
+      "expected_impact": "Create a more inviting and comfortable dining environment, encouraging longer stays, repeat visits, and positive word-of-mouth."
+    }
+  ],
+  "limitations": [
+    "Analysis is based solely on online customer reviews, which may not represent the entire customer base and can be subject to bias.",
+    "The sample size of 92 reviews provides a snapshot but may not capture all nuances of customer experience."
+  ],
+  "status": "success",
+  "error_detail": null
+}

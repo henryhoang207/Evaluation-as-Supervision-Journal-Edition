@@ -1,0 +1,89 @@
+{
+  "business_name": "Honey Baked Ham Company",
+  "business_id": "9fajAXTAT1A_pcGakz64hA",
+  "run_config": {
+    "provider": "google-gemini (openai-compatible)",
+    "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "primary_model": "gemini-2.5-flash",
+    "fallback_model": "gemini-2.5-flash"
+  },
+  "pipeline_status": "complete",
+  "skipped_agents": [],
+  "failed_agent": null,
+  "errors": {},
+  "retry_counts": {},
+  "flags": [
+    "low_confidence:n=10"
+  ],
+  "last_verdict": "proceed",
+  "observations": [
+    {
+      "stage": "analysis_agent",
+      "would_be_verdict": "proceed_with_warning",
+      "flags": [
+        "low_confidence:n=10"
+      ],
+      "retry_feedback": null,
+      "facts": {
+        "n_loaded": 14,
+        "n_success": 10,
+        "failure_ratio": 0.2857142857142857,
+        "failure_details": [
+          "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+          "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+          "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]"
+        ],
+        "contradiction_rate": 0.0,
+        "contradictions": []
+      }
+    },
+    {
+      "stage": "reasoning_agent",
+      "would_be_verdict": "retry",
+      "flags": [],
+      "retry_feedback": "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+      "facts": {
+        "status_error": true,
+        "error_detail": "Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}]",
+        "n_success": 10,
+        "patterns": []
+      }
+    },
+    {
+      "stage": "strategy_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": []
+      }
+    },
+    {
+      "stage": "report_agent",
+      "would_be_verdict": "retry",
+      "flags": [],
+      "retry_feedback": "the report must only restate upstream outputs. root causes not produced upstream: ['Lack of detailed review analysis output from upstream systems.'] | recommendations not produced upstream: ['Lack of detailed review insights', 'Uncategorized customer feedback', 'Absence of ongoing feedback monitoring']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [
+          "Lack of detailed review analysis output from upstream systems."
+        ],
+        "invented_recommendations": [
+          "Lack of detailed review insights",
+          "Uncategorized customer feedback",
+          "Absence of ongoing feedback monitoring",
+          "Limited representativeness of current data"
+        ],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    }
+  ],
+  "phase": "A",
+  "mode": "observe",
+  "wall_clock_s": 91.4,
+  "stratum": "p25"
+}

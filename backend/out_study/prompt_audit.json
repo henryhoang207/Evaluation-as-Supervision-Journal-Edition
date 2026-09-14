@@ -1,0 +1,71 @@
+{
+  "constraints": [
+    {
+      "id": "evidence_resolves",
+      "stage": "reasoning_agent",
+      "supervisor_asserts": "evidence ids must resolve to reviews in the analysis output",
+      "feedback_fragment": "evidence ids not found in the analysis output",
+      "stated_in_prompt": false,
+      "prompt_evidence": null,
+      "prompt_says_instead": "evidence_review_ids: list of review_ids that support this pattern"
+    },
+    {
+      "id": "aspect_alignment",
+      "stage": "reasoning_agent",
+      "supervisor_asserts": "each evidence review must mention the pattern's aspect",
+      "feedback_fragment": "do not mention aspect",
+      "stated_in_prompt": false,
+      "prompt_evidence": null,
+      "prompt_says_instead": "aspect: the aspect category this pattern relates to"
+    },
+    {
+      "id": "recommendation_traceability",
+      "stage": "strategy_agent",
+      "supervisor_asserts": "each recommendation issue must trace to a reasoning pattern or root cause",
+      "feedback_fragment": "do not trace back to any reasoning pattern or root cause",
+      "stated_in_prompt": false,
+      "prompt_evidence": null,
+      "prompt_says_instead": "issue: the underlying problem being addressed"
+    },
+    {
+      "id": "report_containment",
+      "stage": "report_agent",
+      "supervisor_asserts": "the report must only restate upstream outputs",
+      "feedback_fragment": "the report must only restate upstream outputs",
+      "stated_in_prompt": false,
+      "prompt_evidence": null,
+      "prompt_says_instead": "Given upstream analysis, reasoning, and recommendation outputs, produce a clear report."
+    },
+    {
+      "id": "trusted_metadata",
+      "stage": "report_agent",
+      "supervisor_asserts": "business_name and sample_size must match the pipeline's values",
+      "feedback_fragment": "does not match the pipeline",
+      "stated_in_prompt": false,
+      "prompt_evidence": null,
+      "prompt_says_instead": "business_name: the restaurant name"
+    }
+  ],
+  "drift": [
+    "recommendation_traceability: retry string 'do not trace back to any reasoning pattern or root cause' no longer in supervision.py"
+  ],
+  "summary": {
+    "n_constraints": 5,
+    "stated_in_prompt": 0,
+    "disclosed_only_by_feedback": 5,
+    "gap_ids": [
+      "evidence_resolves",
+      "aspect_alignment",
+      "recommendation_traceability",
+      "report_containment",
+      "trusted_metadata"
+    ],
+    "c1_must_close": [
+      "evidence ids must resolve to reviews in the analysis output",
+      "each evidence review must mention the pattern's aspect",
+      "each recommendation issue must trace to a reasoning pattern or root cause",
+      "the report must only restate upstream outputs",
+      "business_name and sample_size must match the pipeline's values"
+    ]
+  }
+}

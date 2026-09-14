@@ -1,0 +1,176 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report issues with the quality or taste of the food.",
+      "aspect": "food_quality",
+      "frequency": 0.3,
+      "evidence_review_ids": [
+        "-YswS_GAxyokkNgurW3uSg",
+        "1BSkbw3arGa9fyCg5F2A5Q",
+        "57DtXAeSs5TlZITH848t5Q",
+        "5nRavp1sZi3AMGYVlHIxYA",
+        "6AuHa0mXr80k7gpg911i_g",
+        "B1LsDfWA0n1FsRAhn2viwg",
+        "DMRAfmzyXD5HL6DsSbau4Q",
+        "EQVFLZxQw5XmQ0BQMkSYyw",
+        "GzZPnuXPmiYzC5WeghSEcQ",
+        "H002TtA4ieLPgZMmg3-owQ",
+        "Jw__dD-D-AZ1uVgT1vlWZg",
+        "Kudt66Zf1tY3U-eWHbh5RA",
+        "Ml5PRB97no1SHTOPpc-Llg",
+        "PSW26pBid1ycnu9D0eykWA",
+        "WACoulIgi_s5odoegS8T6Q",
+        "WHcY7czs5XeR2_IBcSeIeA",
+        "_ZFm_2QV8OsIM8PG2bh_uw",
+        "avScybe0wG_XHo16R_p7SA",
+        "cpV5dEh6myVQ4xueEltn1w",
+        "dgnz1ZagnNnvmF9aQm_64g",
+        "f6AWdoEIPkm3AyByrsHNTQ",
+        "mZUVaLQDqm9B55IfBg4_QQ",
+        "mr-npy6FpQGzyx-ERsPQ5Q",
+        "qyli-xxRohWwj0zHJf0gjg",
+        "tAbwXldEZZ2cSw94nJC6bA",
+        "vpYM9FcD9mzEYFTorb2vWw",
+        "xRYNJav_3nifdNMBtTNbYw",
+        "yghcikfAFXu5m4ENuuZKlw"
+      ]
+    },
+    {
+      "description": "There are recurring complaints about the staff's attitude or service.",
+      "aspect": "staff_attitude",
+      "frequency": 0.22,
+      "evidence_review_ids": [
+        "9G7kSPPdLYqwWpuz9qOKMA",
+        "B1LsDfWA0n1FsRAhn2viwg",
+        "D8wsEcbExsu9AaZvqtd2ig",
+        "EQVFLZxQw5XmQ0BQMkSYyw",
+        "H002TtA4ieLPgZMmg3-owQ",
+        "Kudt66Zf1tY3U-eWHbh5RA",
+        "PNgFv_gXHQUUZQLwSQoYIQ",
+        "PSW26pBid1ycnu9D0eykWA",
+        "VB2GAKt1-7_4E9dMPi3dIg",
+        "WHcY7czs5XeR2_IBcSeIeA",
+        "_X0k6LhOPYmIAyXuElDRdg",
+        "c-hIxY83CGk9bItju9nioQ",
+        "dbuiEmQfqHBS9aq1WV0uKA",
+        "dgnz1ZagnNnvmF9aQm_64g",
+        "eV0cvhnZQKXgVyV4mdUvTg",
+        "f6AWdoEIPkm3AyByrsHNTQ",
+        "i-9CKNEzPEtAiU010meFlg",
+        "qyli-xxRohWwj0zHJf0gjg",
+        "sqEOtCo-lwqsrO0VKuD0Jg",
+        "yghcikfAFXu5m4ENuuZKlw"
+      ]
+    },
+    {
+      "description": "Customers often experience long wait times for service or food.",
+      "aspect": "wait_time",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "9G7kSPPdLYqwWpuz9qOKMA",
+        "D8wsEcbExsu9AaZvqtd2ig",
+        "GzZPnuXPmiYzC5WeghSEcQ",
+        "Kudt66Zf1tY3U-eWHbh5RA",
+        "PNgFv_gXHQUUZQLwSQoYIQ",
+        "VB2GAKt1-7_4E9dMPi3dIg",
+        "_X0k6LhOPYmIAyXuElDRdg",
+        "c-hIxY83CGk9bItju9nioQ",
+        "eV0cvhnZQKXgVyV4mdUvTg",
+        "f6AWdoEIPkm3AyByrsHNTQ",
+        "iCiNqGiLBYgjCJAntwmzmA",
+        "sqEOtCo-lwqsrO0VKuD0Jg",
+        "tAbwXldEZZ2cSw94nJC6bA"
+      ]
+    },
+    {
+      "description": "Many customers find the pricing to be too high or not offer good value.",
+      "aspect": "pricing",
+      "frequency": 0.08,
+      "evidence_review_ids": [
+        "DMRAfmzyXD5HL6DsSbau4Q",
+        "PNgFv_gXHQUUZQLwSQoYIQ",
+        "_ZFm_2QV8OsIM8PG2bh_uw",
+        "c-hIxY83CGk9bItju9nioQ",
+        "cpV5dEh6myVQ4xueEltn1w",
+        "dbuiEmQfqHBS9aq1WV0uKA",
+        "gfJyuQfTlRvtHjl8s-8Mhw"
+      ]
+    },
+    {
+      "description": "Several reviews mention concerns about the restaurant's cleanliness.",
+      "aspect": "cleanliness",
+      "frequency": 0.08,
+      "evidence_review_ids": [
+        "36FG5lbHHmW0o4dSHyl7Ig",
+        "B1LsDfWA0n1FsRAhn2viwg",
+        "Sg-I35oXzJRV4q69lqtokg",
+        "f6AWdoEIPkm3AyByrsHNTQ",
+        "i-9CKNEzPEtAiU010meFlg",
+        "iCiNqGiLBYgjCJAntwmzmA",
+        "qyli-xxRohWwj0zHJf0gjg"
+      ]
+    },
+    {
+      "description": "The restaurant's atmosphere or environment receives negative feedback.",
+      "aspect": "ambience",
+      "frequency": 0.05,
+      "evidence_review_ids": [
+        "5nRavp1sZi3AMGYVlHIxYA",
+        "EQVFLZxQw5XmQ0BQMkSYyw",
+        "PNgFv_gXHQUUZQLwSQoYIQ",
+        "mZUVaLQDqm9B55IfBg4_QQ",
+        "nL5OQOMpJ5gnS40n7IO4Ig"
+      ]
+    },
+    {
+      "description": "Miscellaneous negative issues are reported by multiple customers.",
+      "aspect": "other",
+      "frequency": 0.04,
+      "evidence_review_ids": [
+        "3SUusVBbNImMX-3W1UWKAg",
+        "Jw__dD-D-AZ1uVgT1vlWZg",
+        "WHcY7czs5XeR2_IBcSeIeA",
+        "_ZFm_2QV8OsIM8PG2bh_uw"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report issues with the quality or taste of the food.",
+      "cause": "Inconsistent food preparation, ingredient quality issues, or lack of quality control.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "There are recurring complaints about the staff's attitude or service.",
+      "cause": "Insufficient staff training, low morale, or inadequate staffing levels leading to stress.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers often experience long wait times for service or food.",
+      "cause": "Understaffing, inefficient kitchen operations, or poor table management during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Many customers find the pricing to be too high or not offer good value.",
+      "cause": "Perceived poor value for money, prices not aligning with food quality or portion sizes, or competitive pricing issues.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Several reviews mention concerns about the restaurant's cleanliness.",
+      "cause": "Lack of regular cleaning protocols, insufficient staff for cleaning duties, or poor hygiene standards.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "The restaurant's atmosphere or environment receives negative feedback.",
+      "cause": "Outdated decor, poor lighting, uncomfortable seating, or excessive noise levels.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Miscellaneous negative issues are reported by multiple customers.",
+      "cause": "Unspecified operational issues, poor management, or general dissatisfaction not fitting other categories.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

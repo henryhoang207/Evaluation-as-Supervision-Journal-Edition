@@ -1,0 +1,39 @@
+{
+  "patterns": [
+    {
+      "description": "A significant number of customers report negative experiences with food quality, suggesting potential inconsistencies in preparation, taste, or ingredient freshness across different visits or dishes.",
+      "aspect": "food_quality",
+      "frequency": 0.1176,
+      "evidence_review_ids": [
+        "DgMYc3p2DvD7BQ8gL-1WeQ",
+        "QdIeZFLHybTKnLel5mnNFA",
+        "lCk3kRsyDvzSm5Ba8FBoOA",
+        "r3dCTCLd_e_sCnYrwHHWAA"
+      ]
+    },
+    {
+      "description": "Several reviews contain general negative feedback categorized as \"other,\" indicating a broader sense of dissatisfaction that isn't tied to a single specific aspect like food or service. This could point to minor but cumulative issues affecting the overall customer experience.",
+      "aspect": "other",
+      "frequency": 0.0882,
+      "evidence_review_ids": [
+        "1GA9N0ZuZYdGRvgvlbxnjA",
+        "DgMYc3p2DvD7BQ8gL-1WeQ",
+        "EzBmhv0xsXQfr71NGAxXKw"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "A significant number of customers report negative experiences with food quality, suggesting potential inconsistencies in preparation, taste, or ingredient freshness across different visits or dishes.",
+      "cause": "Variability in cooking standards, ingredient sourcing, or recipe adherence. This could stem from insufficient staff training, high staff turnover, or lack of quality control checks in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Several reviews contain general negative feedback categorized as \"other,\" indicating a broader sense of dissatisfaction that isn't tied to a single specific aspect like food or service. This could point to minor but cumulative issues affecting the overall customer experience.",
+      "cause": "The generic nature of the \"other\" category makes specific root cause identification challenging without further context. It could be a combination of minor issues (e.g., small inconveniences, atmosphere not meeting expectations, perceived poor value for money not explicitly categorized as 'pricing').",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

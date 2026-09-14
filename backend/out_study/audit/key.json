@@ -1,0 +1,161 @@
+{
+  "seed": 20260826,
+  "n_items": 31,
+  "key": {
+    "I01": {
+      "tier": "tier2",
+      "label": "O2",
+      "source": "8jbGUpLnTwt6eO36l5VYEQ:O2"
+    },
+    "I02": {
+      "tier": "tier1",
+      "label": "untraceable_recommendation",
+      "source": "A:o3hDZ2nv80tApZMNQw2aZA:strategy_agent:2"
+    },
+    "I03": {
+      "tier": "tier2",
+      "label": "O2",
+      "source": "B0SPP0RsKkJxf6zK6mG9kw:O2"
+    },
+    "I04": {
+      "tier": "tier2",
+      "label": "O2",
+      "source": "26FBIjrkQ9SH-JPvvr0PXA:O2"
+    },
+    "I05": {
+      "tier": "tier1",
+      "label": "missing_evidence_id",
+      "source": "rep3:FnEWE7CdxTolKWEgVKAlsg:reasoning_agent:1"
+    },
+    "I06": {
+      "tier": "tier1",
+      "label": "misaligned_aspect",
+      "source": "A:FnEWE7CdxTolKWEgVKAlsg:reasoning_agent:1"
+    },
+    "I07": {
+      "tier": "tier2",
+      "label": "O2",
+      "source": "QeAouJuRkWWJl_IPgF1xWA:O2"
+    },
+    "I08": {
+      "tier": "tier1",
+      "label": "missing_evidence_id",
+      "source": "rep5:o3hDZ2nv80tApZMNQw2aZA:reasoning_agent:1"
+    },
+    "I09": {
+      "tier": "tier2",
+      "label": "O3",
+      "source": "_pHMElutAeebkqmYYNeI6w:O3"
+    },
+    "I10": {
+      "tier": "tier2",
+      "label": "O1",
+      "source": "gvAOc8vwczgVscNj-NN6hw:O1"
+    },
+    "I11": {
+      "tier": "tier2",
+      "label": "O5",
+      "source": "_pHMElutAeebkqmYYNeI6w:O5"
+    },
+    "I12": {
+      "tier": "tier1",
+      "label": "untraceable_recommendation",
+      "source": "A:_cXaVePsZOiKlXwsQ8vcxA:strategy_agent:2"
+    },
+    "I13": {
+      "tier": "tier2",
+      "label": "O6",
+      "source": "d1nD7knOKA5PzZK_HYG4JQ:O6"
+    },
+    "I14": {
+      "tier": "tier1",
+      "label": "untraceable_recommendation",
+      "source": "rep5:ZGznjpkqi6a_It4lAgCnYw:strategy_agent:2"
+    },
+    "I15": {
+      "tier": "tier2",
+      "label": "O1",
+      "source": "o3hDZ2nv80tApZMNQw2aZA:O1"
+    },
+    "I16": {
+      "tier": "tier2",
+      "label": "O6",
+      "source": "gk3hzKydevLKZ2FVmJdt-A:O6"
+    },
+    "I17": {
+      "tier": "tier1",
+      "label": "untraceable_recommendation",
+      "source": "rep1:ZGznjpkqi6a_It4lAgCnYw:strategy_agent:2"
+    },
+    "I18": {
+      "tier": "tier2",
+      "label": "O3",
+      "source": "Fd-CY5oUjewSTawi-O5Bqw:O3"
+    },
+    "I19": {
+      "tier": "tier2",
+      "label": "O1",
+      "source": "26FBIjrkQ9SH-JPvvr0PXA:O1"
+    },
+    "I20": {
+      "tier": "tier2",
+      "label": "O7",
+      "source": "-uzQNt-3jsRK5okUuJiQLA:O7"
+    },
+    "I21": {
+      "tier": "tier2",
+      "label": "O3",
+      "source": "i9R_CJQ5oN1tVglXpL-GCA:O3"
+    },
+    "I22": {
+      "tier": "tier1",
+      "label": "untraceable_recommendation",
+      "source": "rep4:ZGznjpkqi6a_It4lAgCnYw:strategy_agent:2"
+    },
+    "I23": {
+      "tier": "tier2",
+      "label": "O5",
+      "source": "Fd-CY5oUjewSTawi-O5Bqw:O5"
+    },
+    "I24": {
+      "tier": "tier2",
+      "label": "O7",
+      "source": "FnEWE7CdxTolKWEgVKAlsg:O7"
+    },
+    "I25": {
+      "tier": "tier2",
+      "label": "O6",
+      "source": "gvAOc8vwczgVscNj-NN6hw:O6"
+    },
+    "I26": {
+      "tier": "tier1",
+      "label": "misaligned_aspect",
+      "source": "rep5:FnEWE7CdxTolKWEgVKAlsg:reasoning_agent:1"
+    },
+    "I27": {
+      "tier": "tier2",
+      "label": "O1",
+      "source": "xjZHp1slZNUBJvQLuHSTTA:O1"
+    },
+    "I28": {
+      "tier": "tier2",
+      "label": "O5",
+      "source": "FnEWE7CdxTolKWEgVKAlsg:O5"
+    },
+    "I29": {
+      "tier": "tier1",
+      "label": "untraceable_recommendation",
+      "source": "A:ZGznjpkqi6a_It4lAgCnYw:strategy_agent:2"
+    },
+    "I30": {
+      "tier": "tier1",
+      "label": "missing_evidence_id",
+      "source": "rep1:o3hDZ2nv80tApZMNQw2aZA:reasoning_agent:1"
+    },
+    "I31": {
+      "tier": "tier2",
+      "label": "O7",
+      "source": "_cXaVePsZOiKlXwsQ8vcxA:O7"
+    }
+  }
+}

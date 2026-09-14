@@ -1,0 +1,43 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Suncoast Family Restaurant",
+  "sample_size": 14,
+  "executive_summary": "An analysis of 14 customer reviews for Suncoast Family Restaurant reveals that the primary area of concern is inconsistent food quality, frequently cited by customers. Secondary issues include general negative experiences, suggesting underlying operational or service gaps. Key recommendations focus on implementing a robust kitchen quality control program and establishing clear protocols for customer issue resolution to enhance overall customer satisfaction.",
+  "key_findings": [
+    "Customers frequently report dissatisfaction with the quality of the food, indicating potential inconsistencies or issues with preparation.",
+    "A recurring pattern of general negative experiences or issues that do not fit into specific categories, suggesting potential underlying operational or service gaps."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food, indicating potential inconsistencies or issues with preparation.",
+      "cause": "Inconsistent food preparation, poor ingredient sourcing, or inadequate quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A recurring pattern of general negative experiences or issues that do not fit into specific categories, suggesting potential underlying operational or service gaps.",
+      "cause": "Lack of clear processes for handling diverse customer issues, or minor operational inefficiencies that accumulate into a negative overall experience.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality due to preparation, sourcing, and inadequate quality control.",
+      "action": "Implement a comprehensive kitchen quality control program. This includes daily taste tests by the head chef, mandatory adherence to standardized recipes, and a review of all primary ingredient suppliers for quality and consistency. Conduct immediate retraining for all kitchen staff on core menu item preparation and plating standards.",
+      "category": "food",
+      "expected_impact": "Significant improvement in food consistency and overall customer satisfaction, directly addressing the most frequent complaint."
+    },
+    {
+      "priority": 2,
+      "issue": "General negative customer experiences stemming from undefined processes and minor operational inefficiencies.",
+      "action": "Develop and implement a 'Customer Issue Resolution Protocol' for front-of-house staff, empowering them with clear guidelines and limited authority to address common complaints on the spot. Additionally, conduct a weekly 15-minute operational huddle with all department heads (kitchen, FOH, bar) to identify and resolve minor cross-departmental inefficiencies.",
+      "category": "operations",
+      "expected_impact": "Reduction in general negative feedback, improved staff confidence in handling issues, and a smoother overall customer experience."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 14 reviews, which may not fully represent the entire customer base or capture all potential issues."
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,55 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Customers frequently report issues with the quality or taste of the food.",
+      "action": "Implement a comprehensive quality control program including daily ingredient checks, standardized recipe adherence audits, and regular taste tests by kitchen management. Consider reviewing current suppliers for better quality ingredients.",
+      "category": "food",
+      "expected_impact": "Significantly improved food consistency and taste, leading to higher customer satisfaction and fewer food-related complaints."
+    },
+    {
+      "priority": 2,
+      "issue": "There are recurring complaints about the staff's attitude or service.",
+      "action": "Conduct mandatory customer service training sessions focusing on positive attitude, effective communication, and conflict resolution. Implement a staff recognition program to boost morale and reinforce desired behaviors.",
+      "category": "service",
+      "expected_impact": "Enhanced customer experience, improved staff morale, and a reduction in negative service-related feedback."
+    },
+    {
+      "priority": 3,
+      "issue": "Customers often experience long wait times for service or food.",
+      "action": "Analyze peak hour traffic patterns and adjust staffing levels for both kitchen and front-of-house accordingly. Optimize kitchen workflow and implement a more efficient table management system to reduce bottlenecks.",
+      "category": "operations",
+      "expected_impact": "Reduced customer wait times, increased table turnover, and improved overall operational efficiency during busy periods."
+    },
+    {
+      "priority": 4,
+      "issue": "Many customers find the pricing to be too high or not offer good value.",
+      "action": "Conduct a competitive pricing analysis against similar local restaurants. Evaluate current portion sizes and ingredient costs to ensure perceived value aligns with pricing. Consider introducing value-oriented specials or combo meals.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value, potentially attracting a broader customer base and increasing sales volume."
+    },
+    {
+      "priority": 5,
+      "issue": "Several reviews mention concerns about the restaurant's cleanliness.",
+      "action": "Establish and strictly enforce a detailed daily, weekly, and monthly cleaning checklist for all areas, including dining room, restrooms, and kitchen. Allocate dedicated staff time for cleaning duties and conduct regular management spot checks.",
+      "category": "operations",
+      "expected_impact": "Enhanced customer comfort and confidence, improved health and safety compliance, and a better overall restaurant image."
+    },
+    {
+      "priority": 6,
+      "issue": "The restaurant's atmosphere or environment receives negative feedback.",
+      "action": "Conduct an internal audit of the dining area to identify specific issues with decor, lighting, seating comfort, and noise levels. Prioritize minor aesthetic updates or sound dampening solutions based on customer feedback and budget.",
+      "category": "facilities",
+      "expected_impact": "A more pleasant and comfortable dining experience, leading to increased customer satisfaction and longer stays."
+    },
+    {
+      "priority": 7,
+      "issue": "Miscellaneous negative issues are reported by multiple customers.",
+      "action": "Implement a robust feedback tracking system to categorize and analyze all customer comments, including 'other' issues. Conduct weekly management reviews of this data to identify emerging patterns and address minor operational issues proactively.",
+      "category": "management",
+      "expected_impact": "Proactive resolution of minor issues, preventing them from escalating into major complaints, and fostering continuous operational improvement."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

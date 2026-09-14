@@ -3,7 +3,7 @@
     "db_path": "C:\\Users\\hoanh\\OneDrive\\Tài liệu\\CS material\\COS30018\\Project\\COS30018_Group-4.1_Multi-Agent-System-for-Restaurant-Review-Analysis\\backend\\data\\processed\\yelp.db",
     "seed": 20260803,
     "category_filter": "Restaurants",
-    "per_stratum": 5,
+    "per_stratum": 7,
     "percentiles": [
       25,
       50,
@@ -28,7 +28,7 @@
       "stratum": "p25",
       "target_percentile": 25,
       "target_review_count": 14,
-      "n_businesses": 5,
+      "n_businesses": 7,
       "review_count_min": 14,
       "review_count_median": 14,
       "review_count_max": 14,
@@ -57,6 +57,16 @@
           "business_id": "QeAouJuRkWWJl_IPgF1xWA",
           "name": "Steak ’n Shake",
           "review_count": 14
+        },
+        {
+          "business_id": "9fajAXTAT1A_pcGakz64hA",
+          "name": "Honey Baked Ham Company",
+          "review_count": 14
+        },
+        {
+          "business_id": "8fHYd3HdWotxsG5Ze-oMXw",
+          "name": "Suncoast Family Restaurant",
+          "review_count": 14
         }
       ]
     },
@@ -64,7 +74,7 @@
       "stratum": "p50",
       "target_percentile": 50,
       "target_review_count": 34,
-      "n_businesses": 5,
+      "n_businesses": 7,
       "review_count_min": 34,
       "review_count_median": 34,
       "review_count_max": 34,
@@ -93,6 +103,16 @@
           "business_id": "d1nD7knOKA5PzZK_HYG4JQ",
           "name": "Tailgate Barbecue",
           "review_count": 34
+        },
+        {
+          "business_id": "KbvW90THoQ7uvgn9mlAYhA",
+          "name": "Niche",
+          "review_count": 34
+        },
+        {
+          "business_id": "4h88UgiaoNt3P0r97VJrow",
+          "name": "Johnny's Jamaican Grill",
+          "review_count": 34
         }
       ]
     },
@@ -100,7 +120,7 @@
       "stratum": "p75",
       "target_percentile": 75,
       "target_review_count": 92,
-      "n_businesses": 5,
+      "n_businesses": 7,
       "review_count_min": 92,
       "review_count_median": 92,
       "review_count_max": 92,
@@ -129,6 +149,16 @@
           "business_id": "Fd-CY5oUjewSTawi-O5Bqw",
           "name": "No. 1 Chinese",
           "review_count": 92
+        },
+        {
+          "business_id": "V2ORmEuA7WA1XwYmMpSxvg",
+          "name": "Famous Dave's Bar-B-Que",
+          "review_count": 92
+        },
+        {
+          "business_id": "PbqJmjSijS7aXr0qkjbuxA",
+          "name": "The Keg Steakhouse And Bar",
+          "review_count": 92
         }
       ]
     },
@@ -136,7 +166,7 @@
       "stratum": "p90",
       "target_percentile": 90,
       "target_review_count": 214,
-      "n_businesses": 5,
+      "n_businesses": 7,
       "review_count_min": 214,
       "review_count_median": 214,
       "review_count_max": 214,
@@ -164,6 +194,16 @@
         {
           "business_id": "2qVZiMB22YPC2HCM62Gnbw",
           "name": "Scarpetta",
+          "review_count": 214
+        },
+        {
+          "business_id": "v5kwdvmg-J8g-ll0nkc3Sw",
+          "name": "The Libertine Liquor Bar",
+          "review_count": 214
+        },
+        {
+          "business_id": "YJ-sr_YVhnsZaBl-j9tjCg",
+          "name": "Epic Pizza & Subs",
           "review_count": 214
         }
       ]

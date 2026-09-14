@@ -1,0 +1,83 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Epic Pizza & Subs",
+  "sample_size": 214,
+  "executive_summary": "Epic Pizza & Subs is facing significant challenges primarily related to inconsistent food quality and poor staff service, as highlighted by 214 customer reviews. Customers also frequently experience long wait times and perceive prices as too high for the value received. Addressing these core issues through standardized food preparation, comprehensive staff training, and operational efficiencies is crucial for improving customer satisfaction and overall business performance.",
+  "key_findings": [
+    "Customers frequently report dissatisfaction with the quality, taste, or consistency of the food.",
+    "A significant number of reviews mention staff being unfriendly, unhelpful, or providing poor service.",
+    "Customers experience various unspecified negative issues or general dissatisfaction that don't fit into other specific categories.",
+    "Customers frequently complain about long waits for seating, ordering, or receiving their food.",
+    "Customers perceive the prices to be too high for the quality or quantity of food/service received."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality, taste, or consistency of the food.",
+      "cause": "Inconsistent food preparation, quality control lapses, or issues with ingredient freshness/sourcing.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of reviews mention staff being unfriendly, unhelpful, or providing poor service.",
+      "cause": "Insufficient staff training in customer service, low staff morale, or understaffing leading to overworked employees.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers experience various unspecified negative issues or general dissatisfaction that don't fit into other specific categories.",
+      "cause": "A combination of minor operational inefficiencies, lack of attention to detail, or specific incidents not captured by other categories.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Customers frequently complain about long waits for seating, ordering, or receiving their food.",
+      "cause": "Inefficient kitchen workflow, inadequate staffing during busy periods, or poor table management.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers perceive the prices to be too high for the quality or quantity of food/service received.",
+      "cause": "Misalignment between menu pricing and customer expectations of value, or competitive pricing pressures.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality, taste, and freshness due to preparation, quality control, or sourcing issues.",
+      "action": "Implement a comprehensive kitchen audit: standardize recipes, conduct daily taste tests, train staff on consistent portioning and cooking techniques, and review ingredient supplier contracts for freshness and quality guarantees.",
+      "category": "food",
+      "expected_impact": "Significant improvement in customer satisfaction with food, leading to higher repeat visits and positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Poor staff attitude and service quality stemming from insufficient training, low morale, or understaffing.",
+      "action": "Launch a mandatory customer service training program focusing on empathy, communication, and problem-solving. Simultaneously, review staffing levels during peak hours and implement a staff recognition program to boost morale.",
+      "category": "service",
+      "expected_impact": "Enhanced customer experience, reduced negative service reviews, and improved staff retention."
+    },
+    {
+      "priority": 3,
+      "issue": "Unspecified negative experiences and general dissatisfaction, indicating minor operational inefficiencies or lack of attention to detail.",
+      "action": "Implement a daily manager walk-through checklist covering cleanliness, ambiance, minor maintenance, and staff readiness. Encourage staff to proactively identify and resolve small issues before they impact guests.",
+      "category": "operations",
+      "expected_impact": "Reduction in general complaints, improved overall guest perception, and a more polished dining environment."
+    },
+    {
+      "priority": 4,
+      "issue": "Long wait times for seating, ordering, and food delivery due to inefficient workflow, understaffing, or poor table management.",
+      "action": "Analyze peak hour traffic patterns and adjust staffing schedules accordingly. Implement a digital table management system and optimize kitchen workflow processes (e.g., prep lists, order sequencing) to reduce bottlenecks.",
+      "category": "operations",
+      "expected_impact": "Shorter wait times, improved table turnover, and increased customer satisfaction during busy periods."
+    },
+    {
+      "priority": 5,
+      "issue": "Customer perception of poor value for money, indicating a misalignment between pricing and perceived quality/quantity.",
+      "action": "Conduct a competitive pricing analysis and a menu engineering review. Consider offering value-added options (e.g., combo deals, loyalty programs) or slightly increasing portion sizes for key dishes to justify current pricing.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value, reduced complaints about pricing, and potentially increased sales."
+    }
+  ],
+  "limitations": [
+    "This analysis relies solely on customer review data, which may be subjective and not fully representative of all customer experiences.",
+    "It does not include internal operational data (e.g., sales figures, staff schedules, food cost reports) that could provide a more complete picture of root causes and potential solutions."
+  ],
+  "status": "success",
+  "error_detail": null
+}
