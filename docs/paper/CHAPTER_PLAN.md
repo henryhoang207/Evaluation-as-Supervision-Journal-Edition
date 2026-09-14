@@ -2,7 +2,13 @@
 
 **Mode:** `/ars-plan` (Socratic planning; originality-spectrum, very-high oversight)
 **Date:** 2026-08-02
-**Status:** Draft plan. Empirical chapters are specified but **not yet executed** — see §Evidence Ledger.
+**Status:** ⚠ **CONFERENCE-ERA — that paper is finished and under review.**
+Re-checked 2026-09-02. Its "not yet executed" framing is obsolete: Phase A,
+Phase B, the repetition sub-study and the judge all ran. For the *active*
+journal work start at [`NEXT_SESSION.md`](NEXT_SESSION.md). §1, §2, §4, §5 and
+§6 remain the source of truth for positioning, insights, the evidence ledger and
+the open decisions; §3 is superseded (see the warning below), and the page
+budget in §7 predates the written Method and Results.
 
 > [!WARNING]
 > **Section 3 below is superseded.** It is the original 6-page / 7-chapter

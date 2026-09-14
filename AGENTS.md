@@ -3,6 +3,15 @@
 This file tells Codex and Claude and team members how to work inside this repository.
 Read this before changing the project structure or implementation plan.
 
+> ⚠ **Partly stale — audited 2026-09-02.** The communication and working rules
+> below are current and binding. The *architecture* description predates the
+> deterministic hub supervisor (`backend/app/core/supervision.py`) that replaced
+> the failure-only orchestrator, and it points at `docs/LOCAL_LLM.md`, which
+> does not exist in this repository. For how to work here day to day see
+> [`CLAUDE.md`](CLAUDE.md); for the research work see
+> [`docs/paper/NEXT_SESSION.md`](docs/paper/NEXT_SESSION.md).
+> When code and this file disagree, the code wins.
+
 ## Communication
 
 - Talk straight, no filler.

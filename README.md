@@ -11,6 +11,15 @@ The cap is configurable and can be reduced per request.
 
 ## Current Status
 
+> ⚠ **Audited 2026-09-02.** This table describes the *course project*, which is
+> complete. The active work is the research paper — start at
+> [`docs/paper/NEXT_SESSION.md`](docs/paper/NEXT_SESSION.md), with
+> [`CLAUDE.md`](CLAUDE.md) for how to work in this repository.
+> **Sections 6 and 9 below are stale**: they describe the old failure-only
+> orchestrator ("retry, skip, or halt after stage failure"), which the
+> deterministic hub supervisor in `backend/app/core/supervision.py` replaced.
+> Where this file and the code disagree, the code wins.
+
 | Area | Status |
 | --- | --- |
 | Data loading, matching, preprocessing | Working; SQLite or raw JSON fallback |
@@ -18,10 +27,10 @@ The cap is configurable and can be reduced per request.
 | LangGraph orchestration | Implemented; chained-failure recovery regression passes |
 | FastAPI | Working: health, business search, report, and SSE progress endpoints |
 | React frontend | Working dashboard and pipeline monitor |
-| Offline tests | 71 backend and 2 frontend passed on 2026-07-14 |
+| Offline tests | **266 backend pass**, 13 integration deselected (2026-09-02; was 71 backend and 2 frontend on 2026-07-14) |
 | Live integration tests | 6 collected; not rerun during the 2026-07-14 audit |
 | Evaluation | All four tiers run live on the 73-review gold set; see [docs/EVALUATION_REPORT.md](docs/EVALUATION_REPORT.md) |
-| Local SQLite index | Not built in the audited checkout |
+| Local SQLite index | **Built** — `backend/data/processed/yelp.db`, 5.4 GB, gitignored. Rebuild offline with `python scripts/build_db.py` |
 
 ## Repository Structure
 

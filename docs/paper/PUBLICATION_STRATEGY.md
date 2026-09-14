@@ -17,10 +17,12 @@ claim is significant enough to carry a paper.
 | Conference paper #1 | **Submitted, under review** (confirmed 2026-08-24) |
 | — its claims | evaluation-as-supervision pattern + derivability precondition; 35% defect incidence; defect instability |
 | — authorship (D5) | resolved by submission |
-| Journal extension | planned; B1/B1b/B2/B3 + defect bank built and tested; **B4–B8 unbuilt** |
-| Repair result | **not measured** — no trial has run |
-| Testbed | one pipeline, one domain (Yelp restaurant reviews), one model (`gemini-2.5-flash`), 20 workloads |
-| Tier-1 natural defects | **11 usable**, 5 business × stage cells, 2 stages (reasoning 5, strategy 6) |
+| Journal extension | ⚠ **updated 2026-09-02.** **B1–B8 are all built, wired and tested** (266 tests) — the "B4–B8 unbuilt" row was true on 2026-08-24 and is not now |
+| Repair result | **not measured** — no trial has run, and that is still true |
+| Testbed | one pipeline, one domain (Yelp restaurant reviews), one model (`gemini-2.5-flash`), **28 workloads** (was 20; D11b collection, 2026-08-26) |
+| Tier-1 natural defects | **13 usable**, 7 business × stage cells, 6 businesses. ⚠ **But see §15 of `JOURNAL_PLAN.md`: the D13 audit found 9 of the original 11 are checker false positives**, so this row counts what the checker flagged, not what is real. This materially weakens §4's "is the claim significant enough" argument — re-read that section against it |
+| Tier-2 injection ceiling | **N = 142** repair-endpoint defects over 6 operators |
+| Methodology review | **D18–D21** adopted 2026-09-02 (`JOURNAL_PLAN.md` §3.7); `PREREGISTRATION.md` drafted, **not frozen** |
 
 ---
 
@@ -226,7 +228,7 @@ the journal vehicle. For a conference vehicle:
 | **ASE 2027** | TBA | **The omission in every prior version of this analysis.** AgentChaos — agent fault injection — is **ASE 2026, peer-reviewed, DOI `10.1145/3832783.3837437`**. That is direct, one-year-prior evidence that this community accepts this exact kind of work, and §14.8 already calls it our reference class. Check dates first. |
 | **ISSTA 2027** | 11 Jan 2027 | Realistic on time. The reframe (deterministic fault injection + runtime analysis for LLM pipelines) is plausible, but re-imports §12's direction problem: a testing venue asks what software artifact is under test, and "a restaurant review pipeline" is a soft answer. |
 | **EASE 2027** | unpublished | Good fit — CORE A, empirical SE evaluation. Blocked on dates. |
-| **CAIN 2027** | 30 Oct 2026 | Best topical fit, worst timing. **Not realistic:** B4–B8 unbuilt, ~980 calls unrun, no scorer, and a fresh 10+2-page paper — nine weeks part-time. Also the venue most restrictive about concurrent submission (§6.1). |
+| **CAIN 2027** | 30 Oct 2026 | Best topical fit, worst timing. **Not realistic** *(assessed 2026-08-24; B4–B8 have since been built and the scorer exists — the timing objection stands, the build objection does not)*: B4–B8 unbuilt, ~980 calls unrun, no scorer, and a fresh 10+2-page paper — nine weeks part-time. Also the venue most restrictive about concurrent submission (§6.1). |
 | **ESEM Registered Reports** | check cycle | **Strategically the strongest option and absent from every prior recommendation.** Submit the *protocol*: design review arrives exactly when it is useful, and in-principle acceptance survives a null A1 ≈ A3. It is the only format that rewards design work before results exist — which is the strongest part of this project. |
 | ICSE 2027 | closed (30 Jun 2026) | Main research track unavailable. |
 
@@ -238,6 +240,8 @@ the journal vehicle. For a conference vehicle:
       table above and changes `JOURNAL_PLAN` §10 if it lands.
 - [ ] **Check ASE 2027 dates** once announced.
 - [ ] **Email the #1 chairs** about an extended-version route (§6.5).
-- [ ] Decide whether downstream propagation is logged by B7 from the first run
-      (§5) — **this one blocks B7 and cannot be deferred.**
+- [x] ~~Decide whether downstream propagation is logged by B7 from the first run
+      (§5)~~ — ✅ **RESOLVED (D12).** `run_trial` persists `retried_output` plus a
+      `downstream_state` sufficient to re-run the later stages, so propagation
+      can be analysed without repeating a single trial.
 - [ ] Revisit this file when #1's decision arrives.

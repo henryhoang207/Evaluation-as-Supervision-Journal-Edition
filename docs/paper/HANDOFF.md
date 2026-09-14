@@ -1,9 +1,29 @@
-> **STALE — written 2026-08-03, before any run executed.** Read
-> `NEXT_SESSION.md` first; it supersedes this file. The sections on outstanding
-> build items and on "nothing has been run" are obsolete: Phase A, Phase B, the
-> repetition sub-study and the judge have all completed. §8 (page budget) is the
-> part still worth reading, but it predates §5 and §6 and underestimates the
-> overrun.
+> # HISTORICAL — do not act on this file
+>
+> **Written 2026-08-02/03, before any run executed, to produce the *conference*
+> paper. That paper is finished and under review.** Re-checked 2026-09-02.
+>
+> **Start at [`NEXT_SESSION.md`](NEXT_SESSION.md)**, then `JOURNAL_PLAN.md`
+> (authoritative) and `PREREGISTRATION.md` (the analysis document that must be
+> committed before the first trial).
+>
+> Three statements below are **wrong**, not merely stale. Each is corrected in
+> place where it appears:
+>
+> | Section | Claim | Truth |
+> |---|---|---|
+> | 1.3 | "`docs/paper/` is gitignored — never pushed" | **False, and dangerous.** `docs/paper/` is **tracked**; only build artefacts are ignored. Acting on this leaves the paper and the paid-for study dumps uncommitted. |
+> | 1.1 | write via the scratchpad and `cp` into place | Superseded — use the **8.3 short path** for `Read`/`Write`/`Edit`. |
+> | 10 | "token accounting does not exist anywhere in `app/`" | False. `BaseAgent.total_tokens_used` exists; see `JOURNAL_PLAN.md` B1. |
+>
+> Obsolete sections: **§2** (`main.tex` is complete, not "drafted except
+> §5–§6"), **§5** (the study ran), **§7** (its opening prompt tells a new
+> session to restructure a finished paper — do not run it), and §10's blocking
+> item.
+>
+> Still worth reading: **§6** (traps), **§8** (page budget, though it predates
+> the written §5–§6 and understates the overrun), and the findings in **§9–§10**,
+> which record how the sample and the database were fixed.
 
 # Paper Work — Session Handoff
 
@@ -32,13 +52,23 @@ as **two separate directories**.
 invisible to `ls`, `git status`, and Explorer. Earlier in this project, `Read`
 also failed on `README.md` even though it plainly exists.
 
-**Workaround that works:**
+**Workaround — superseded 2026-09-02.** The scratchpad-then-`cp` dance below
+still works, but it is no longer necessary. Use the **8.3 short path** for
+`Read`/`Write`/`Edit`; it resolves to the tracked tree:
+
+```
+C:\Users\hoanh\OneDrive\TAILIU~1\CSMATE~1\COS30018\Project\COS300~1.1_M\...
+```
+
+Bash with repo-relative paths also works. Verify with `git status --short`
+rather than trusting a Write success message. The original three-step
+workaround, kept for reference:
 
 1. `Write` the file into the scratchpad (its path is pure ASCII, so no split).
 2. `cp` it into place with **Bash**, using a **relative** path.
 3. Verify with `ls -la docs/paper/` — never trust the Write success message.
 
-### 1.2 Bash content cannot contain apostrophes
+### 1.2 Bash heredocs and apostrophes — overstated, but real
 
 The Bash tool wraps commands in `bash -c '...'`, so a single quote inside a
 heredoc body terminates the command early
@@ -48,12 +78,19 @@ heredoc body terminates the command early
 Route prose through a Python script file in the scratchpad instead of a heredoc,
 or use only double quotes in `python -c` invocations.
 
-### 1.3 `docs/paper/` is gitignored — intentionally
+### 1.3 WRONG — `docs/paper/` is TRACKED
 
-`.gitignore:64` ignores `docs/paper/`. The files stay local and are never
-pushed to GitHub, by explicit request. The `.gitignore` edit itself is
-uncommitted; it works from the working tree regardless, but committing that one
-line is what would make the rule survive for teammates.
+**Corrected 2026-09-02, verified with `git check-ignore` and `git ls-files`.**
+
+The original text claimed `.gitignore:64` ignored `docs/paper/` and that the
+files "stay local and are never pushed, by explicit request". **That is false.**
+`docs/paper/` is tracked; `.gitignore` ignores only build artefacts inside it
+(`*.bak`, `*.aux`, `*.log`, `*.out`, `*.synctex.gz`).
+
+This matters right now: **nothing from 2026-08-25 onward is committed**, and
+that includes 8 Phase-A dumps which cost real API budget and exist in exactly
+one place. A session that believed this section would leave them uncommitted.
+See `NEXT_SESSION.md` §11 for the manifest and the commit-first instruction.
 
 ---
 
@@ -162,7 +199,10 @@ retry-triggering defect, enforce). Roughly 1.5–2 h unattended, ~1.5 M tokens.
 
 ---
 
-## 7. Suggested opening prompt for the next session
+## 7. OBSOLETE — suggested opening prompt (2026-08-03)
+
+**Do not run this.** It instructs a new session to restructure `main.tex` into
+a scaffold. The paper is finished and under review. Kept as a record only.
 
 > Read `docs/paper/HANDOFF.md` and `docs/paper/CHAPTER_PLAN.md` (sections 3 and 7
 > especially). Do not explore the rest of the repository — the plan is
@@ -279,10 +319,13 @@ reviews and are not distinguishable in the results. Either raise
 `MAX_REVIEWS` (more tokens per run) or choose percentiles below the cap.
 Decide before running Phase A, since it changes what Figure 2 can show.
 
-### Still blocking Table 8
-**Token accounting does not exist anywhere in `app/`.** The runner records
-wall-clock but writes `total_tokens: null`. Capturing provider usage metadata
-in the agent base class is a fifth build item that was not in the plan.
+### Still blocking Table 8 — the diagnosis was WRONG
+
+The original text read: *"Token accounting does not exist anywhere in `app/`."*
+**It does.** `BaseAgent.total_tokens_used` and `reset_token_usage()` exist, and
+`eval/harness.py` already uses them correctly. `total_tokens` is null in the
+study runs only because `scripts/run_study.py` hard-codes it, under a comment
+repeating this same false claim. See `JOURNAL_PLAN.md` B1.
 
 ### Commands
 ```

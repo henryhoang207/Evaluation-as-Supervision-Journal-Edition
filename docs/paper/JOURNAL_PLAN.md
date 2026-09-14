@@ -43,7 +43,58 @@ arm set extended, statistics refined · **Status:** proposed, not yet agreed wit
 > D9/D10, D7 by D11, and D3 contradicted by §13.5. Decision **numbers are
 > unchanged**, so every cross-reference elsewhere in this file still resolves.
 > The table now runs D1–D17 in six groups, with ⛔ marking blockers and ❓
-> marking the four questions the Phase-0 memo must actually ask.
+> marking the questions the Phase-0 memo must actually ask. ⚠ **As of
+> 2026-08-26 only D5b is still ❓.** D11b, D8b and D8d are approved; **D13 is
+> ✅ COMPLETE — rated, scored and verified 2026-08-26. Its result is a finding
+> against the supervisor, not a reassurance: see §15.**
+
+> **Build-and-wire pass, 2026-08-25.** B4–B8 are built and the live
+> regeneration seam is **wired**: `run_injection_study._regenerate` re-runs the
+> defective stage through the production agent's own prompt
+> (`BaseAgent.build_prompt` / `run_messages` over `nodes.stage_payload`), so an
+> arm is a documented modification of the production prompt rather than a
+> re-typed lookalike. **No trial has run — not one LLM call.**
+>
+> This pass edits **§3, §6.1b and §6.2 in place**, replacing figures that were
+> multiplied by hand with figures the scripts compute. Every number below now
+> has a command that regenerates it, and `tests/` pins it. Headline changes: the
+> Tier-2 ceiling is **102**, not 160; the core budget is **822 trials**, not
+> ~980 (⚠ superseded the next day — D11b grows the sample to ≈143 defects and
+> the core to ≈1,180 trials; see the box below); and at N=102 the **MDE has caught D11b's threshold**, which is what
+> makes the +8-dump collection a blocker rather than a nicety.
+>
+> Arm wording was frozen on the same date (`scripts/arms.py`,
+> `NEXT_SESSION.md` §4a).
+
+> **✅ SUPERVISOR APPROVED, 2026-08-26** (reported by the author; see
+> `PHASE0_MEMO.md` for what was put to them). Three decisions now stand:
+>
+> - **D11b — keep X = 12 pp and grow the sample.** Collect 8 more Phase-A dumps
+>   in observe mode, N 102 → ≈143, MDE 10.8 pp with the occasion effect.
+>   ⚠ **The core grows with it: 822 → ≈1,180 trials.** The collection calls are
+>   the small part of that bill.
+> - **D8b — option (ii): one C0 base, shared by C0 and C1; only the retry
+>   prompt varies.** Decided on validity, not cost: regenerating the base under
+>   C1 would break the within-defect matching every other contrast relies on.
+>   The paper must therefore claim *retry-time constraint disclosure*, not a
+>   constraint-complete pipeline.
+>
+> - **D8d — the C1 cell runs at 40 defects (≈240 trials)**, not 80. C1 is
+>   reported as an estimate with a CI (D8c), so a ~1.4× wider interval is a
+>   small loss and it halves the cell's cost.
+>
+> **Study size as approved:** core ≈1,180 trials + C1 ≈240 = **≈1,420 trials
+> ≈ 1,420–4,260 calls**, before the placement, severity and P3 cells.
+>
+> **Still open: D5b** (local model identity — needed before Phase 4/C7, or
+> immediately if the ESEM registered-report route is taken) and **D13**
+> (second rater — the *scheduling* is free, but the rating must happen before
+> core results exist or the rater is not blind).
+>
+> ⚠ **One §7 item is not answered by "approved".** The warm-resample subset
+> (temperature > 0) is marked REQUIRED by D2 and is **not built**; the memo asks
+> for a *choice* — build it, drop it from D2, or defer it — and a ratification
+> does not make that choice. Still outstanding.
 
 **Relationship to other docs:** conference paper #1 is **submitted and under
 review** (`main.tex`; see `NEXT_SESSION.md`). This plan covers the journal
@@ -161,15 +212,16 @@ recommendation.
 | D9b ⛔ | **The design is not fully crossed, and must say so** | **A0 × P0 and A3 × P1 are structurally undefined.** A0 needs an artifact to correct; A3 stops being a bare re-draw the moment it is shown one. So A0 ∈ {P1, P2}, A3 ∈ {P0}, A1/A2 span all levels. B5's claim that "one function builds the message list from (arm, placement) so no cell is special-cased" is false as written. Declare the empty cells in the Method section or they read as unreported. |
 | D10 ⛔ | **Tier 2 runs at P1; Tier 1 runs at P0** | Tier 2 cannot run at P0: the injected defect would never enter the model's context, so measured repair would be dominated by the model reproducing its own clean output and arm differences would reflect only how feedback text perturbs generation — not the estimand. Core, ablation, severity and C1 cells run at **P1**; P0 becomes a diagnostic cell. Tier 1 runs at **P0**, because there the defect genuinely was the model's own and the production retry genuinely is blind to it. Full argument: §6.1. |
 | D8 ⛔ | **Constraint completeness** | The A1 feedback discloses obligations the stage prompts never state — verified against the code, all four rows (§13.1) — so A1 > A2 is not a specificity result without this control. Factor **C**: C0 production prompt, C1 constraint-complete prompt, crossed with A1/A2. C1 pre-registered and published verbatim. Two independent sources make it settled rather than optional (Huang §5; Kamoi Table 7 **Required** row). **This cell belongs in the conference core, not the journal** — deferring it breaks the very contrast such a paper would lead with. ⚠ But see D8c: it can no longer be a *test*. |
-| D8b ❓ | **What base output does C1 use?** | **Unresolved; it forks the build.** C1 changes the *stage prompt*, so the clean pre-injection output would change under it too. Either (i) regenerate the base under C1 — clean identification, costs a full generation pass — or (ii) inject into a C0 base and vary only the retry prompt — cheap, but the manipulation is retry-only and must be described that way. **Recommendation: (ii)**, since D8c shows (i) buys clean identification of an effect that cannot be detected at any affordable size. Supervisor decision requested. |
-| D8c ⛔ | **C1 is an estimate, not a test — the interaction is undetectable** | `scripts/analysis/power.py` §7: detecting a 6 pp interaction (constraint disclosure explaining half the A1−A2 gap) has power **0.12** at the planned 160/40 defects, **0.19** at 160/160, and **0.32** even at 320/320 — 2,560 trials. Report both gaps with CIs and pre-register the interpretation: *if the C1 gap CI includes zero while the C0 gap CI excludes it, that is suggestive, not conclusive.* Put the power figure in threats to validity. Kamoi's Required row is a **design** requirement — that prompt completeness is addressed — not a statistical one, so running the cell and publishing C1 satisfies it. Run C1 at 80 defects, not 40: half the CI width for double the calls. |
+| D8b ✅ | **What base output does C1 use?** | **DECIDED 2026-08-26, supervisor approved: option (ii) — one C0 base, shared by both C0 and C1; only the retry prompt varies.** The deciding argument is validity, not cost: **(i) breaks the matched design.** Every contrast here is matched within a defect (§14.1's session rule, D4b's blocking). Under (ii) C0 and C1 see the *identical* injected base, so C0-vs-C1 is matched exactly as the arms are; under (i) the two cells hold different base outputs and the difference-in-differences is confounded with whatever C1 changed about the clean output — plausibly including making it *cleaner*, which is the very thing C1 exists to do. Cost agrees (D8c: unreachable N). **Consequence for the write-up:** the manipulation is retry-time constraint disclosure, and the paper must say so — the claim is *"stating the constraints at retry time"*, not *"a constraint-complete pipeline"*. That is also the cheaper deployment change, so it is the more useful claim. ⚠ **The C1 cell's *size* is still open** — see D8d. |
+| D8d ✅ | **How large is the C1 cell?** | **DECIDED 2026-08-26: 40 defects × {A1,A2} × r=3 = ≈240 trials.** Split out of D8b because deciding the *base* did not decide the *budget*: at the specified 80 defects the cell was ≈480 trials, 58% of the core again, for a quantity D8c had already declared untestable. Since C1 is reported as an **estimate with a CI rather than a test**, a ~1.4× wider interval is a far smaller loss than it would be if we were trying to reject a null — and halving the cell buys back ≈240 trials. Dropping it was rejected: it would hand a referee the exact objection Huang §5 and Kamoi Table 7 already raise, and *"we knew and did not measure it"* reads worse than *"we measured it imprecisely"*. ⚠ Verify both citations in the PDFs before C1's text is filed. |
+| D8c ⛔ | **C1 is an estimate, not a test — the interaction is undetectable** | `scripts/analysis/power.py` §7: detecting a 6 pp interaction (constraint disclosure explaining half the A1−A2 gap) has power **0.109** at 160/40 defects, **0.136** at 160/80, **0.177** at 160/160 and **0.300** even at 320/320 — 2,560 trials (recomputed 2026-08-25 at `--sims 20000`; the row's earlier 0.12/0.19/0.32 were within Monte Carlo error of these, so this is a re-emission, not a correction). ⚠ **And every one of those N is unreachable**: the Tier-2 ceiling is 102, so the honest statement is stronger than the row's — the interaction is not merely underpowered, it is out of reach by a factor of three in sample. Report both gaps with CIs and pre-register the interpretation: *if the C1 gap CI includes zero while the C0 gap CI excludes it, that is suggestive, not conclusive.* Put the power figure in threats to validity. Kamoi's Required row is a **design** requirement — that prompt completeness is addressed — not a statistical one, so running the cell and publishing C1 satisfies it. Run C1 at 80 defects, not 40: half the CI width for double the calls. |
 
 ### 3.2 What is measured
 
 | # | Decision | Position |
 |---|---|---|
 | D3 | **Success criterion (frozen before runs)** | Supervisor verdict on the retried output is `proceed`/`proceed_with_warning` **and** the injected defect is genuinely resolved. ⚠ **"The descriptor no longer fires" is NOT the criterion.** §13.5 shows why: a fabricated evidence ID swapped for a *different* fabricated-but-resolving ID stops the descriptor firing while the output got worse. **Score the replacement value.** Earlier versions of this row froze the wrong criterion. |
-| D3b | **Outcome structure — corrected** | The original four classes were **not mutually exclusive** (`collateral` overlapped `repaired_clean`), so they could not be the multinomial D4 analysed them as. Outcome is now a **3-class multinomial** {`repaired`, `replaced`, `unrepaired`} **crossed with a binary collateral flag**. Collateral is a second dimension, not a fourth class. |
+| D3b | **Outcome structure — corrected** | The original four classes were **not mutually exclusive** (`collateral` overlapped `repaired_clean`), so they could not be the multinomial D4 analysed them as. Outcome is now a **3-class multinomial** {`repaired`, `replaced`, `unrepaired`} **crossed with a binary collateral flag**. Collateral is a second dimension, not a fourth class. ⚠ **Superseded 2026-09-02 by D18 (§3.7): the multinomial is now 4-class**, {`repaired`, `replaced`, `deleted`, `unrepaired`}, still crossed with the collateral flag. Mutual exclusivity survives because the four are decided in a fixed order, which is the property this row exists to protect. |
 | D3c | **Collateral threshold — measured, not chosen** | `scripts/analysis/churn.py` measures what an *unperturbed* pipeline already churns, from the repetition sub-study (same 5 businesses, 5 runs, same seed, temperature 0, no injection, no feedback). **There is no single threshold** — the floors differ by an order of magnitude: pattern aspects p95 churn **0.07** (closed 7-value enum), pattern descriptions **0.33**, root causes **0.29**. ⚠ Strategy recommendation issues measure 37% churn, **but that figure is confounded** — repetition runs regenerate every stage, so strategy churn compounds reasoning churn, whereas a replay trial pins upstream from the dump. Conditioning on near-identical upstream gives **23%** (n=13 pairs). Use 23% for the strategy stage; collateral there is **weak, not unmeasurable**. Set per-item-class thresholds above these floors and cite the calibration. |
 | D3d | **Exact-string matching is unusable for most items** | Same source: across identical runs, exact-match rates are **0.01** (pattern descriptions), **0.03** (root causes), **0.00** (recommendation issues). Those items are essentially never byte-identical between runs. The report-containment check relies on exact equality and only passes because the report agent copies from its own prompt payload within a single run. State this in the Method section before a referee finds it. |
 | D6 | **Injection scope** | Reasoning, strategy, report stages — their defects are item-level. Analysis excluded for two reasons: its defects are distributional (contradiction *rate*), and its measurement needs `reviews_df`, which the dumps do not carry. ⚠ **Tier 1 covers only reasoning and strategy** — the bank holds 0 report-stage and 0 analysis-stage defects (§5) — so Tier 2 carries the stage comparison outright. |
@@ -180,11 +232,11 @@ recommendation.
 |---|---|---|
 | D4 | **Primary endpoint — confirmatory set** | **Exactly three confirmatory tests**, alpha controlled across them (Holm): (1) **A1 vs A2** — feedback content; (2) **A2 vs A3** — bare trigger; (3) the **A1/A0 ratio**. Everything else in §8 is **exploratory and labelled as such**. ⚠ The CI on the A1/A0 ratio must come from a **cluster bootstrap over defect blocks**, not the independent-sample delta method the earlier version specified — the arms are matched by design. |
 | D4a | **Cochran's Q runs on a dichotomised outcome** | Q is a **binary** test and cannot take the multinomial of D3b. The earlier row asked for both in one sentence. Q is the omnibus over `repaired` vs not; the multinomial is reported descriptively and, if inference on it is wanted, via a separate model. |
-| D4b ⛔ | **Tier-1 blocking is over clusters, not defects** | 11 usable defects sit in **5 business × stage cells**, one holding 4. Blocking on defect identity alone treats near-duplicates as independent blocks and re-narrows exactly the CIs blocking exists to widen. Nest repeated observations within cell. |
-| D4c ⛔ | **Grid rebalanced — allocate by contrast difficulty** | The §6 grid gave A1 320 trials and the other arms 240 over only 5 businesses → **80 matched quadruples**, power **0.30**. But **A2-vs-A3 (28 pp) is already at 0.996 with 5 businesses**, so equal allocation overspends on the easy contrast. Allocate: **A1 and A2 at the full 160 defects, A3 at 40, A0 at 80.** |
-| D4d | **Power — computed, and it constrains the design** | `scripts/analysis/power.py`; simulation-based because arms are matched within defect, reps nest inside (defect, arm), and Tier-1 defects cluster — closed-form McNemar assumes independent pairs and overstates everything. At the plan's own predicted **12 pp** effect: 8×5 r=2 → **0.30** (MDE 22 pp); 8×20 r=2 → **0.80** (MDE 12 pp); 8×20 r=3 → 0.93. **160 defects is a hard ceiling** (8 operators × the 20 Phase-A dumps), so once the sample is exhausted **r is the only lever**; reps and blocks buy power about equally here (8×10 r=4 ≈ 8×20 r=2 ≈ 0.81), contrary to the usual advice. ⚠ A **shared-occasion effect** (§14.1 requires all arms for one defect in one session, so they share that moment's serving stack) raises arm-to-arm correlation, cuts discordant pairs, and drops 8×20 r=2 from 0.81 to **0.75**. **Plan r=3 if 0.80 is the target.** |
+| D4b ⛔ | **Tier-1 blocking is over clusters, not defects** | ⚠ **Figures refreshed 2026-09-02 from `defect_bank.py`: 13 usable defects in 7 business × stage cells across 6 businesses**, the largest holding 4 (was 11 / 5 / 4 before the D11b collection). The structural point is unchanged and is the reason this row exists. Blocking on defect identity alone treats near-duplicates as independent blocks and re-narrows exactly the CIs blocking exists to widen. Nest repeated observations within cell. |
+| D4c ⛔ | **Grid rebalanced — allocate by contrast difficulty** | The §6 grid gave A1 320 trials and the other arms 240 over only 5 businesses → **80 matched quadruples**, power **0.30**. But **A2-vs-A3 (28 pp) is already at 0.996 with 5 businesses**, so equal allocation overspends on the easy contrast. Allocate: **A1 and A2 at the full defect set, A3 at a quarter, A0 at a half.** ⚠ **Corrected 2026-08-25:** the allocation is over *defect subsets*, not over repetitions, and the full set is **102**, not 160. As built today (`--plan-only`): A1 102 defects / 306 trials, A2 102 / 306, A0 48 / 144, A3 22 / 66 — **822 trials at r=3**. ⚠ **After D11b (2026-08-26) the same fractions apply to ≈143 defects: ≈1,180 trials.** Take the figure from `--plan-only` once the dumps land, not from this row. |
+| D4d | **Power — computed, and it constrains the design** | `scripts/analysis/power.py`; simulation-based because arms are matched within defect, reps nest inside (defect, arm), and Tier-1 defects cluster — closed-form McNemar assumes independent pairs and overstates everything. At the plan's own predicted **12 pp** effect: 8×5 r=2 → **0.30** (MDE 22 pp); 8×20 r=2 → **0.80** (MDE 12 pp); 8×20 r=3 → 0.93. **160 defects is a hard ceiling** (8 operators × the 20 Phase-A dumps) ⚠ **corrected 2026-08-25: the real ceiling is 102 — see the banner at §4**, so once the sample is exhausted **r is the only lever**; reps and blocks buy power about equally here (8×10 r=4 ≈ 8×20 r=2 ≈ 0.81), contrary to the usual advice. ⚠ A **shared-occasion effect** (§14.1 requires all arms for one defect in one session, so they share that moment's serving stack) raises arm-to-arm correlation, cuts discordant pairs, and drops 8×20 r=2 from 0.81 to **0.75**. **Plan r=3 if 0.80 is the target.** ⚠ **Recomputed 2026-08-25 at the real defect counts** (`power.py` §9, `--sims 20000`, seed 42): **N=102, r=3 → power 0.801, MDE 11.9 pp**; with the occasion effect at SD 1.0, **0.755 and 12.6 pp**. **N=143 (+8 dumps), r=3 → 0.913 / 0.883, MDE 10.2 / 10.8 pp.** The r=2 row is not viable at either N (0.618 / 0.764). |
 | D4e | **Tier 1 supports no inference** | MDE ≈ **31 pp**, and the cluster bootstrap **over-rejects at 0.086** against a nominal 0.05 with 5 clusters (naive McNemar is conservative there at 0.026, but that is luck, not validity). Tier 1 is a realism anchor reported descriptively. Run no hypothesis test on it. |
-| D4f | **Pre-register as estimation, not NHST** | Given the MDEs, report A1 − A2 as a **difference with a CI** (half-width ≈ 0.7 × MDE: ±8 pp at 160 defects, ±11 pp at 80). A null then *says something* — "3 pp, 95% CI [−5, 11]" excludes large effects — instead of being indistinguishable from insufficient power. This also makes D11b's threshold meaningful. |
+| D4f | **Pre-register as estimation, not NHST** | Given the MDEs, report A1 − A2 as a **difference with a CI** (half-width ≈ 0.7 × MDE: **±8.3 pp at the current 102 defects, ±7.1 pp at 143** — recomputed 2026-08-25; the earlier ±8/±11 assumed 160/80). A null then *says something* — "3 pp, 95% CI [−5, 11]" excludes large effects — instead of being indistinguishable from insufficient power. This also makes D11b's threshold meaningful. |
 | D4g | **The go/no-go is a pre-specified interim analysis** | §10's "Tier 1 → preliminary analysis → go/no-go" *is* an interim look. Declare it descriptive-only with no stopping rule on the confirmatory tests, or specify an alpha-spending function. |
 | — | **Retained from the original D4** | Wilson CIs on all proportions; **never pool replayed-real with synthetic in a headline**; Tier 2 gives precision, Tier 1 gives realism; Just-style coupling licenses reading Tier-2 rates — **noting it covers only 4 of 8 operators** (§5). Publish whatever the sign is. |
 
@@ -195,26 +247,94 @@ recommendation.
 | D5 | **Models** | Hosted: `gemini-2.5-flash`, **pinned to a dated snapshot if the API exposes one** — recording drift after the fact is strictly worse than preventing it, and §14.1 only requires recording. Fallback **disabled** during trials (`LLM_DISABLE_FALLBACK=1`, built); a trial where fallback fired is discarded and logged. |
 | D5b ❓ | **Local model — a placeholder, not a decision** | "One open-weights instruct model via the existing Ollama profile" does not support C7's reproducibility claim, which is the journal's strongest generalisation asset. **Pre-register model, parameter count, quantisation, seed and runtime version by name.** Supervisor input requested. |
 | D5c | **No-injection control — downgraded** | The recorded clean Phase-A verdict is **not** a valid control: it was produced weeks earlier in a different serving epoch, which is precisely what §14.1 blocks against. Either re-run the clean condition **in-session as a fifth cell**, or report it as a historical reference value and stop calling it a control. |
-| D12 ⛔ | **Downstream propagation is in scope, and blocks B7** | Moving it in gives the journal an actual claim — *defect-level repair does not equal pipeline-level improvement* (MAST App. J) — instead of five ablations. **B7 must persist the full retried stage output plus enough state to re-run downstream stages later**, not just facts and verdict. Nearly free on the first pass; a full re-run of ~1,400 trials to recover afterwards. |
+| D12 ⛔ | **Downstream propagation is in scope, and blocks B7** | Moving it in gives the journal an actual claim — *defect-level repair does not equal pipeline-level improvement* (MAST App. J) — instead of five ablations. **B7 must persist the full retried stage output plus enough state to re-run downstream stages later**, not just facts and verdict. Nearly free on the first pass; a full re-run of the whole core to recover afterwards — **822 trials today, ≈1,180 after D11b** (corrected 2026-08-25 from ~1,400). **Built:** `run_trial` persists `retried_output` plus a `downstream_state` from which the later stages can be re-run — and clears the dump's own strategy/report outputs, which were produced from the *pre-injection* output of the retried stage and are not this trial's downstream. |
 
 ### 3.5 Publication
 
 | # | Decision | Position |
 |---|---|---|
 | D11 | **Number of papers** | Conference core and journal core are the same experiment, so **build and run first, then branch on the result**. Full analysis in `PUBLICATION_STRATEGY.md`. |
-| D11b ❓ | **The branch threshold, quantified** | "A1 ≫ A2" is not a criterion. X must be **≥ the MDE**, or the split would rest on an effect the design cannot reliably detect. At 160 defects that is 12 pp. Proposed: **split iff the A1 − A2 point estimate ≥ 12 pp AND its 95% CI excludes zero.** Supervisor sign-off requested — note the threshold falls out of the design rather than being chosen after seeing data, which is what makes the pre-registration real. |
+| D11b ✅ | **The branch threshold, quantified** | **DECIDED 2026-08-26, supervisor approved: keep X = 12 pp and fix the sample instead — collect 8 more Phase-A dumps, taking N from 102 to ≈143.** Rejected: lowering X (chooses the threshold after seeing what the design can detect); raising X to 13 (free and conservative, but forfeits the split and with it the ~6-month conference route); and buying the same precision with r=4 at N=102 (**≈1,120 trials against ≈1,180 — near-identical cost for a worse MDE, 11.2 pp vs 10.8 pp, because repetitions of one defect are correlated and a new defect is not**). The chosen option is the only one that also adds eight workloads, which answers the "n is small and clustered" objection in `PUBLICATION_STRATEGY.md` §4 with the same money. ⚠ **Budget consequence:** more defects means more trials — the core goes from 822 to **≈1,180**; the ~30–55 collection calls are the small part. Re-run `--plan-only` after collection for the exact figure. — Original reasoning follows. "A1 ≫ A2" is not a criterion. X must be **≥ the MDE**, or the split would rest on an effect the design cannot reliably detect. ⚠ **Corrected 2026-08-25 — the threshold is currently incoherent.** At the real N=102, r=3 the MDE is **11.9 pp**, a 0.1 pp margin under the proposed X of 12 pp — and **12.6 pp** once §14.1's shared-occasion effect is included, which puts the MDE *above* the threshold outright. Collecting 8 more Phase-A dumps takes N to ~143 and the MDE to **10.2 pp** (10.8 pp with the occasion effect), restoring a 1.8 pp margin (1.2 pp). **Fix the sample, not the threshold** — lowering X after seeing the MDE is the move a pre-registration exists to prevent. **The rule, as approved: split iff the A1 − A2 point estimate ≥ 12 pp AND its 95% CI excludes zero.** The threshold falls out of the design rather than being chosen after seeing data, which is what makes the pre-registration real — and it is why the sample moved instead of the threshold. |
 | D7 | **Venue** | **EMSE regular track for the journal vehicle** (§12). Conference vehicle open; ASE and the ESEM registered-report route are live options. ⚠ Every deadline cited in `PUBLICATION_STRATEGY.md` §8 is **unverified** — confirm against official CFPs. Ask the #1 chairs about an extended-version route while #1 is still under review. |
 
 ### 3.6 Threats this design does not remove
 
 | # | Item | Position |
 |---|---|---|
-| D13 ❓ | **The defect-bank audit has no second rater** | §5 requires two-pass review with disagreements recorded. A solo researcher cannot be their own second rater, and κ computed by one person is not inter-rater agreement. ⚠ **An LLM is not a legitimate second rater here** — it wrote `defect_bank.py`, which *defines* the bank, so rating its own classifier's output reproduces the circularity the audit exists to break. **Better split:** *groundedness* is factual and should be **verified programmatically** (is the evidence ID actually absent? does the review actually lack the aspect?) — no rater needed; *meaningfulness* is judgment and needs the supervisor as rater 2, over a much smaller set. Reportable as: "groundedness verified programmatically; defect meaningfulness rated independently by two humans." Supervisor decision requested. |
+| D13 ✅ | **EXECUTED 2026-08-26 — two blinded human raters, κ 0.870. ⚠ It found a supervisor precision bug rather than validating the bank; results and consequences in §15, and the decision it forces in `PHASE0_MEMO.md` §11.** The method as originally settled: | §5 requires two-pass review with disagreements recorded. A solo researcher cannot be their own second rater, and κ computed by one person is not inter-rater agreement. ⚠ **An LLM is not a legitimate second rater here** — it wrote `defect_bank.py`, which *defines* the bank, so rating its own classifier's output reproduces the circularity the audit exists to break. **Split the construct.** *Groundedness* is factual and **verified programmatically** — exhaustively, by `supervision.measure` and `tests/test_replay.py`. ⚠ It is **verification, not a second rating**: it answers an implementation question, and no κ applies to it. *Meaningfulness* is judgement and needs a second human. **Instrument built 2026-08-26: `scripts/analysis/rater_sheet.py`** (19 tests) — `--build` emits a blinded sheet of **31 items (all 11 Tier-1 defects plus 20 Tier-2 injections, round-robin so every one of the six repair operators is represented)** in seeded random order, plus a sealed `key.json`; `--score` returns raw agreement, Cohen's κ with a bootstrap CI, and every disagreement with its notes. One binary question per item — *an error, or a technicality of the check?* — plus **U** for unratable, excluded from κ and reported separately. Blinding hides tier, operator, class, business and defect id, and `tests/test_rater_sheet.py` fails if any of them leaks. ⚠ **It does not hide item shape** — an evidence-citation item cannot be made to look like a recommendation item — and that limit is stated rather than papered over. **Sequencing: the rating must happen before core results exist**, or the rater is no longer blind. Report κ **with a CI, or raw agreement and n**; 31 items does not support a bare κ. Reportable as: "groundedness verified programmatically; defect meaningfulness rated independently by two blinded humans." |
 | D14 | **A1 confounds *specific* with *correct*** | There is no specific-but-wrong feedback arm. Claim feedback **content** effects, not specificity effects; concede in limitations. |
-| D15 | **One model, one provider, one pipeline, one domain** | Everything is `gemini-2.5-flash` on Yelp restaurant reviews across 20 workloads. "Is this a property of the method or of this model?" has no answer in the data. C7 (local runtime) is the cheapest partial fix. This is the objection that rules out a top-tier venue at current scale — state it rather than let a referee state it. |
+| D15 | **One model, one provider, one pipeline, one domain** | Everything is `gemini-2.5-flash` on Yelp restaurant reviews across **28**
+workloads (20 until the D11b collection of 2026-08-26 — do not print 20). "Is this a property of the method or of this model?" has no answer in the data. C7 (local runtime) is the cheapest partial fix. This is the objection that rules out a top-tier venue at current scale — state it rather than let a referee state it. |
 | D16 | **The checks are shallow by design** | ID resolution, set membership, `difflib` ≥ 0.35, exact string containment. That determinism is the *thesis* — zero LLM calls, correct by construction — but a referee will read it as string matching and ask whether the defects are correspondingly shallow. Frame it as a deliberate trade, explicitly. |
 | D17 | **"Repair" here means repair by regeneration** | The retried stage regenerates its whole output rather than editing the faulty artifact, so what is measured is *regenerate-under-measured-feedback*, not *fix-this-object*. P1 narrows the gap by putting the artifact in context; it does not close it. Say "repair by regeneration" — overclaiming "self-repair" summons the referee who knows the self-correction literature. |
 
+### 3.7 Supervisor review of the methodology (2026-09-02)
+
+Four points from the supervisor, all four accepted. **Zero trials had run when
+they landed**, which is what makes them design amendments rather than post-hoc
+adjustment — and it is the last moment at which they could have been.
+
+Two of the four are new; D18 and D20 largely formalise or repair things the
+build already half-contained, which is the more useful kind of review finding.
+
+| # | Decision | Position |
+|---|---|---|
+| D18 ✅ | **`deleted` is a fifth outcome class — IMPLEMENTED 2026-09-02** | *"Add a fifth outcome class: `deleted`. The offending claim needs to be deleted rather than corrected."* Accepted, and it was fixing a live scoring bug rather than refining a taxonomy. **The built scorer handled deletion two different ways depending on which operator ran**: dropping the flagged item scored `replaced` for O1/O2/O3/O5 (`_injected_item` returned `None`, `_item_restored` returned `False`, and the trial fell through to the `CAN_REPLACE` branch) and `repaired` for O6/O7. For an *insertion* operator that is correct — the item was invented, so removing it **is** the fix — and O6/O7 keep scoring `repaired`. For a *substitution* operator it is evasion: an item the clean output had is gone, and the check passes only because there is nothing left to check. **Outcome is now a 4-class multinomial `{repaired, replaced, deleted, unrepaired}` still crossed with the binary collateral flag**, decided in a fixed order — check fires → `unrepaired`; item gone → `deleted`; item back to its clean value → `repaired`; else `replaced` — which is what keeps the classes mutually exclusive and so preserves D3b. Three consequences the change forced, none cosmetic: **(a)** deletion is decided by **identity, not index**. Retry regenerates the whole stage (D17), so index identity scored every retry that emitted fewer patterns as a deletion. Each substitution operator now anchors on the field it does *not* touch — `description` for O1/O2/O3, `action` for O5 (`_apply_o5` rewrites `issue` only). **(b)** the injected item is **excluded from the churn computation**. It was not, so a deletion raised `collateral` off the same event that set the outcome class, and on a single-pattern base pinned churn at 1.0 — the two dimensions were not independent. **(c)** `churn_rate` returned 1.0 for an empty pre-list, a latent bug reachable only once exclusion could empty it. ⚠ **One stated limit, checked rather than assumed:** excluding the item leaves the rate over n−1 against floors calibrated over n. That is the *correct* estimator for the non-injected population — rescaling to lost/n would understate it — but the flag's resolution becomes 1/(n−1), so on a small base one lost item can straddle a floor (measured: a 4-pattern base losing one unrelated pattern scores 0.333 against the 0.33 floor, where the full-list rate is 0.250). Matched design, so it touches the absolute collateral rate's resolution and never the between-arm comparison. **Dichotomy, pre-registered: `deleted` counts against `repaired`** in the Cochran's Q / McNemar outcome, or "drop the pattern you were asked about" scores as a supervisor success. An evidence list that survives but is *empty* is `replaced`, not `deleted` — the pattern is still asserted, now with no support at all. Power is untouched: the confirmatory tests were always run on a dichotomy. `CAN_DELETE` is named separately from `CAN_REPLACE` although the two sets coincide today — see D19, where they diverge. **9 new tests; suite 257 → 266.** |
+| D19 ✅⏳ | **O4 is reframed as the recompute-and-overwrite counterfactual** | *"The inflated-frequency cell can be reframed as a counterfactual confirming the overwrite decision in §4.5, rather than treated as an ordinary retry branch."* **The strongest of the four, and it revives an operator this plan had written off twice** — "dead as a repair cell" (§6.2) and the warn-level frequency sub-experiment listed as scope creep (§11) — while §4's own operator notes call it the only operator with real observed parameterisation (27 natural `frequency_corrected` observations). Conference §4.5 asserts a design principle — *any quantity the checker can compute should not be asked of the model* — and **neither paper contains a counterfactual for it**; §6.7 illustrates it, nothing tests it. The cell asks: *what would overwrite have cost had frequency divergence been routed to retry?* Overwrite is exact at 0 calls; retry is p<1 at 1–3 calls plus prose churn. **Design: O4 × {A1, A3}, P1, r=3.** A1 is best-case retry, A3 the floor; A2 is omitted because the cell is not about feedback content. **23 of 28 dumps are applicable** (measured 2026-09-02, `inject_defects.py --matrix`; the committed `injection_matrix.json` is stale at 20 dumps / 16 bases) → **≈138 trials**. **It needs no new frozen wording**: `supervision.py:323` already emits `frequency_corrected:{aspect}:{claimed}->{recomputed}`, a measured-fact string, and A1 routes it through the production template — `arms.py:AUTHORED_WORDING` is untouched. It *is* a new A1 instantiation for a check that produces no `retry_feedback` in production, so log it as a dated pre-registration addendum. ⚠ **Two prerequisites.** (i) **Not pooled into the A1−A2 primary contrast**, or N and the power gate move. (ii) **The scorer's O4 path is untested and needs D18 applied to it**: `IDENTITY_ANCHOR["O4"] = "description"` and O4 added to `CAN_DELETE` — dropping the pattern to avoid making a frequency claim is evasion — but **not** to `CAN_REPLACE`, since a frequency within tolerance of the recomputed value is correct by construction and has no passes-but-wrong-value mode. That is the case where the two sets diverge, and the reason D18 named them separately. ⚠ **Pre-specify the interpretation both ways or the cell reads as built to confirm a decision already shipped:** *if retry repairs frequency at ~100% with no collateral churn, overwrite is a cost optimisation, not a correctness one.* |
+| D20 ✅ | **Injection-validity gate, with its own denominator** | *"Add an injection-validity gate ensuring the supervisor performs the expected check before proceeding to retry; count the failures separately."* Accepted. **~80% already built and never wired**: `inject_defects.verify_injection()` exists and checks the right thing — the target class fired **and** no additional retry-level class appeared — but `run_injection_study.run()` goes `inject()` → straight to trials and never calls it. `run_trial` records `pre_facts`/`pre_verdict` and nothing asserts on them. Three changes. **(1)** Call `verify_injection` in **`build_plan`, not `run`** — it is pure `measure()` at zero API cost, so a failure must remove the defect *before* money is spent and must show up in `--plan-only`. **(2)** Add the second gate the supervisor names: `decide(...).verdict == "retry"`. A defect the supervisor flags but does not route to retry yields no arm contrast at all. **(3)** Two counters, two denominators: **injection success rate** and **trigger rate**, both reported. **This decides §14.3, which was left open:** untriggered defects are **excluded from the denominator and reported as a separate count** (AgentChaos's choice), *not* scored `unrepaired` — scoring them would score the arms on trials where the arms are identical by construction. ⚠ **Run the gate before re-running `power.py`.** N=142 clears the 12 pp threshold by **1.1 pp**; every defect the gate removes comes straight out of that margin. |
+| D21 ✅ | **The pre-registration becomes a document, and it forces the pooling decision** | *"Pre-specify measured-fact vs generic rejection as the primary comparison, before seeing results."* The **substance** is already decided and correct — §6.2 names A1/A2 the primary contrast, D4f pre-registers estimation-with-CI, D11b freezes the split rule, §8 fixes three confirmatory tests under Holm, §13.3 records directional predictions. What does not exist is a **frozen, dated, committed artifact**: it is spread across 1,572 lines of a plan carrying correction banners, and `PHASE0_MEMO.md` is a memo of *open* decisions, not a pre-registration. ⛔ **And nothing in this work is committed** — a pre-registration not in git before the first trial is not one. **Deliverable: `docs/paper/PREREGISTRATION.md`, drafted 2026-09-02, committed with a dated hash before any trial.** ⚠ **Writing it surfaced a collision nobody had noticed.** §15.6 (D13 audit) says *do not pool O1 with O2–O7* — O1 is the only production-like operator, the rest are more severe than anything production catches. Honour that in the **primary contrast** and N drops 142 → 118, because O1 carries 24 defects. Measured (`power.py --defects 118 --sims 6000 --seed 42`, a coarser run than the plan's 20,000): **118 at r=3 gives MDE 11.9 pp with the occasion effect against X = 12 pp — a 0.1 pp margin**, i.e. exactly the incoherent state D11b's eight extra dumps were collected to escape. r=4 restores it (10.5 pp) at ~944 trials on A1/A2 alone. **Recommendation, adopted in the draft: pool for the contrast, split for the rates.** A1−A2 is a claim about feedback *content*; there is no principled reason to estimate it inside the severe cell only. So: primary contrast at N=142; O1-vs-severe stratification pre-specified as a **secondary** analysis with CIs; **absolute repair rates never pooled**, which is what §15.6 is actually protecting. ⚠ **Supervisor decision required** — the alternative (primary contrast within the severe cell at r=4) is defensible and costs the trials above. It must be settled *before* the pre-registration is committed, because it is precisely the kind of choice that cannot be made after seeing data. |
+
+#### Closure of D19–D21 (2026-09-08)
+
+All four supervisor points are now discharged as far as they can be before the
+first trial. **Marker key: ✅ done · ✅⏳ decided and built, cell not yet run.**
+
+| # | What closed | What remains |
+|---|---|---|
+| D18 ✅ | Implemented 2026-09-02, suite 257 → 266. | — |
+| D19 ✅⏳ | **Decided in scope** (`PREREGISTRATION.md` §7), exploratory, sequenced after the core. Its scorer prerequisite is **built**: `IDENTITY_ANCHOR["O4"] = "description"`, `"O4"` added to `CAN_DELETE` and deliberately **not** to `CAN_REPLACE`. | The ~138-trial cell itself, after the core and on a confirmed budget. If the budget cannot cover it, the paper reports it as pre-registered and unrun. |
+| D20 ✅ | **Wired** into `run_injection_study.build_plan` — injection-validity gate plus the trigger gate (`decide(...).verdict == "retry"`), two counters against two denominators in `plan_summary`, and the runner keyed on `runnable` rather than `applicable`. | — |
+| D21 ✅ | `PREREGISTRATION.md` §11 is **empty**; all three decisions taken and recorded with their rejected alternatives. | The **freeze commit**. Until it exists there is no pre-registration. |
+
+**Three findings from doing the work, none of them cosmetic.**
+
+**1. The D20 gates remove nothing on this bank — 142/142 on both, across four
+seeds.** This was not expected: §6 of the pre-registration had been written
+warning that every gated-out defect eats into a 1.1 pp power margin. It does not
+happen, because `applicable()` already encodes most of what the gate re-checks.
+**N stays 142, 1,167 trials, and the power figure stands as computed rather than
+as a projection.** The gate is therefore a *standing guarantee*, not a filter,
+and must be reported as one — a 100% injection-success rate is only interesting
+prospectively, and claiming it as validation would oversell it.
+
+**2. D19's specification had a third gap it did not name.** It called for the
+anchor and the `CAN_DELETE` membership. Both alone are inert: `_hosts()` mapped
+no item list for O4, so `_base_host` returned `None`, `item_deleted` could never
+be True, and a retry that dropped the pattern rather than making a frequency
+claim would have kept scoring **`repaired`** — the exact evasion D18 was raised
+to fix, surviving in the one operator D18 did not touch. Fixed, with a test that
+fails against the old behaviour.
+
+**3. The matcher bug is larger than `PHASE0_MEMO.md` §11 says.** The memo quotes
+`untraceable_recommendation` as **6 of the 11** Tier-1 defects. That is the
+20-dump figure. The regenerated bank reads `untraceable_recommendation: 8` of
+`genuine: 13` — **8 of 13**. The memo understates its own question's blast
+radius and should be corrected before it goes to the supervisor. ⚠ Relatedly,
+`out_study/injection_matrix.json` is still the **20-dump** artifact
+(`n_dumps: 20`, `repair_operators: 102`) while `defect_bank.json` beside it has
+been regenerated at 28; it is tracked, so committing as-is puts a superseded
+number into the record.
+
+**What was decided by the author rather than the supervisor, and why.** Q3, Q4
+and Q5 of the memo were answered here without waiting, because each is a choice
+that becomes illegitimate once a result exists and the study cannot start
+without them. They are **open to override up to the freeze commit**. The two
+questions that are genuinely not the author's — **Q1** (fix the matcher now?)
+and **Q2** (what to tell the conference chairs about a paper in review) — remain
+open and block nothing, because neither touches the analysis the
+pre-registration specifies.
+
+---
 
 ### Phase-0 amendments after the Tier-A reading (2026-08-24)
 
@@ -281,6 +401,60 @@ above already incorporate these; the rest are recorded here.
 
 ---
 
+> ### ⚠ CORRECTION 2026-08-25 — the Tier-2 ceiling in this section is wrong
+>
+> **This section says 160 defects (8 operators × 20 Phase-A dumps). The real
+> figure is 102.** The multiplication assumed every operator can use every dump.
+> Four things break that, all now computed rather than asserted:
+>
+> - operators are **stage-specific**, and stages differ in **clean bases**
+>   (reasoning 18, strategy 17, report 19 of 20);
+> - **O3** requires a pattern with an aspect its *resolving* evidence lacks — 15,
+>   not 17;
+> - **O4 carries no repair endpoint.** A frequency divergence yields
+>   `proceed_with_warning`, never a retry, and `graph.py:140` then overwrites the
+>   claimed value deterministically. No retry, no LLM involvement, nothing to
+>   repair. It is retained as a *warn-level* operator.
+> - **O8 is a positive control.** `report_node` passes correct metadata in the
+>   prompt payload, so every arm copies it back at ~100%.
+>
+> Per operator: O1 17 · O2 17 · O3 15 · O4 16 · O5 15 · O6 19 · O7 19 · O8 19 =
+> **137 total, 102 with a repair endpoint.**
+>
+> **Consequences**, computed by `power.py` §9 at `--sims 20000`:
+>
+> | N | r | power | power w/ occasion | MDE | MDE w/ occ |
+> |---|---|---|---|---|---|
+> | 102 (now) | 3 | 0.801 | 0.755 | **11.9 pp** | **12.6 pp** |
+> | 143 (+8 dumps) | 3 | 0.913 | 0.883 | 10.2 pp | 10.8 pp |
+>
+> Monte Carlo estimates from `power.py --sims 20000` (seed 42; the MDE bisection runs at 6,666): power carries about **±0.01**, an MDE about **±0.3 pp**. Two significant figures is all that is real.
+>
+> ⚠ **The first version of this banner typed 0.790 / 11.9 / 0.902 / 10.2, and
+> those were right** — both MDEs reproduce exactly and the powers differ by
+> 0.011, inside Monte Carlo error. What the recomputation adds is not a
+> correction but two things the typed row could not carry: a **command that
+> re-emits them**, and the **shared-occasion column**, which is where the
+> threshold problem actually bites.
+>
+> **The MDE has caught D11b's 12 pp threshold** — a threshold defined as "must
+> be ≥ the MDE". Without the occasion effect the MDE is 11.9 pp against a 12 pp
+> threshold — a 0.1 pp margin, which is no margin. Under the occasion effect the
+> design will actually face, it is **12.6 pp, above the threshold outright**.
+> Either way the pre-registration is incoherent until more dumps are collected.
+> Measured yield is 5.1 repair defects per dump; **+8 dumps restores N≈143 and a
+> 1.8 pp margin (1.2 pp with the occasion effect).** The trial budget is **822**, not ~1,320,
+> because D4c allocates arms over defect *subsets*.
+>
+> Regenerate with `python scripts/inject_defects.py --root out_study --matrix`;
+> `tests/test_inject.py` pins every number above, so a stale plan fails the
+> suite. **Do not re-derive this by hand** — that is what produced 160.
+>
+> Also corrected: O4's `f ∈ {1.1, 1.5, 1.8}` multiplier is mis-specified for this
+> corpus. Median claimed frequency is 0.16, so f=1.1 moves it 0.016 — under the
+> 0.05 tolerance, a **silent no-op in 81 of 89 patterns**. Parameterize O4 as an
+> **absolute divergence**; keep 1.6–1.8× as provenance only.
+
 ## 4. Phase 1 — instrumentation and harness (~2–3 focused days)
 
 All build items anchor to existing code; golden tests gate each one.
@@ -301,7 +475,7 @@ reported as *skipped*, not passed — they need `reviews_df` and are out of scop
 | B3 | **Replay entry point** — `scripts/replay_stage.py` | **The dataset is not needed. Corrected 2026-08-24 (second review pass).** The three in-scope stages read only upstream *outputs*: `_measure_reasoning` needs `reasoning_output` + `analysis_results`; `_measure_strategy` needs `strategy_output` + `reasoning_output`; `_measure_report` needs `report_output` + `reasoning_output` + `strategy_output` + `business_name` + `len(analysis_results)`. `reviews_df` is read **only** by `_measure_analysis` (stars-vs-sentiment), and D6 excludes the analysis stage. Generation side is the same: `reasoning_node` / `strategy_node` / `report_node` rebuild their inputs purely from upstream dumps. So replay needs **no `loader`, no SQLite, no 5.34 GB review file, and no `MAX_REVIEW_SAMPLE=214`** — the four dump JSONs plus `_summary.json` are sufficient, and the study becomes runnable on a machine without the Yelp data. This removes most of the §11 replay-fidelity risk. **Golden test (kept, and now cheaper):** replaying every clean Phase-A dump must reproduce the recorded `observations[].facts` from `checkpoint.jsonl` exactly, with no seeded reload in the loop to drift. ⚠ **Trap:** do *not* route through `orchestrator_node`. `supervision.latest_stage` infers the stage by scanning backward from `report_output`, so a state holding all four dumps reports `report_agent` whichever stage you meant. Call `measure(stage, state)` / `decide(...)` with an explicit stage. |
 | B4 | **Injection operators** — `scripts/inject_defects.py` | Table below. Deterministic given seed; each application records a ground-truth descriptor for scoring. **O5–O7 insertion content comes from a fixed corpus frozen to disk — generated once, never regenerated per run.** Log per-operator applicability (an operator with nothing to corrupt is recorded, not silently skipped) and an injection success rate. |
 | B5 | Arms + placement | **Arms:** A0 = fresh-task correction framing (new prompt template, no retry language). A1 = production `_SUPERVISOR_FEEDBACK_PROMPT`. A2 = fixed generic-rejection string. A3 = plain re-call. **Placement is a four-level factor (D9), not two:** **P0** = defective output *absent* — the production path, and the default for Tier 1; **P1** = defective output in the **user** turn as an artifact under review — the default for Tier 2 (D10, §6.1); **P2** = defective output via a `prior_output` **assistant** turn; **P3** (exploratory) = P2 + correction marker, wording pinned per §14.5. Arm and placement are orthogonal in the implementation: one function builds the message list from (arm, placement) so no cell is special-cased. |
-| B6 | Outcome scorer — `scripts/analysis/score_repair.py` | Classifies each trial into D3's taxonomy from (pre-injection output, injected output, retried output, descriptor). Pure Python, unit-tested. Emits per-operator applicable-trials denominators. ⚠ **Collateral must be redefined — the specified metric cannot discriminate.** "Any added/removed/altered pattern-or-recommendation beyond the injected one" assumes retry is an *edit*. It is not: the retried stage regenerates its whole output from upstream state (see B3/§6.1), so essentially every trial changes essentially every item and the collateral rate pins at ~100% in **all** arms. Score it instead as semantic set-overlap against the **pre-injection** output (or restrict scoring to the items the feedback explicitly named). This is §13.5's replacement-value problem one level up, and it needs the same kind of golden test before any trial runs. **Must score the replacement *value*, not the disappearance of the original defect** — a swapped-but-still-wrong ID or a differently-wrong frequency is `replaced`, not `repaired`. Golden test for this case required before any trial (§13.5). |
+| B6 | Outcome scorer — `scripts/analysis/score_repair.py` | Classifies each trial into D3's taxonomy from (pre-injection output, injected output, retried output, descriptor). Pure Python, unit-tested. Emits per-operator applicable-trials denominators. ⚠ **Collateral must be redefined — the specified metric cannot discriminate.** "Any added/removed/altered pattern-or-recommendation beyond the injected one" assumes retry is an *edit*. It is not: the retried stage regenerates its whole output from upstream state (see B3/§6.1), so essentially every trial changes essentially every item and the collateral rate pins at ~100% in **all** arms. Score it instead as semantic set-overlap against the **pre-injection** output (or restrict scoring to the items the feedback explicitly named). This is §13.5's replacement-value problem one level up, and it needs the same kind of golden test before any trial runs. **Must score the replacement *value*, not the disappearance of the original defect** — a swapped-but-still-wrong ID or a differently-wrong frequency is `replaced`, not `repaired`. Golden test for this case required before any trial (§13.5). ✅ **Amended 2026-09-02 by D18 (§3.7): the outcome is 4-class, `deleted` added**, deletion is located by identity rather than index, and the injected item is excluded from the churn computation so the outcome class and the collateral flag stop being raised by the same event. 9 new tests. |
 | B8 | **A1 template information-equivalence audit + C1 prompt variant** | Blocks all trials. Diff every supervisor feedback string against the stage system prompt; where the feedback discloses a constraint the prompt omits (all four checked cases do — §13.1), either fold it into a pre-registered constraint-complete prompt C1 or record the delta. Publish C1 verbatim in an appendix. |
 | B7 | Batch runner — `scripts/run_injection_study.py` | Clone the `run_study.py` pattern: JSONL checkpoint with fsync, resume-by-skip, `--dry-run`, backoff on 429/503, `status_error` exclusion carried over verbatim. **Iteration order is `for defect: for arm: for repetition:` — never arm-outer.** All arms for one defect must execute contiguously in one session or the matched pairing is confounded with serving epoch (§14.1). Checkpoint granularity = defect, not trial. Record session id + served model snapshot per call; log the terminal supervisor verdict per trial (§14.4) and pre/post facts for **all** checks, not only the injected one (§14.6) — the latter is free, because `measure()` has no rule precedence and returns the entire measurement. ⚠ **Log `attempts_made` per trial and stratify or exclude on it.** `BaseAgent._run_with_retry` reacts to a JSON/schema failure by appending the model's own invalid output as an **assistant turn** plus a correction prompt. That silently converts the trial to a P2-like condition mid-flight, contaminating exactly the placement manipulation D9 measures — and it means **a trial is 1–3 LLM calls, not 1**, which every budget line in §6 currently assumes away. ⚠ **Resolve D12 before writing this runner.** If downstream propagation is in scope, the runner must persist the full retried stage output and enough state to re-run the *downstream* stages later — not just the facts and the verdict. Adding that to the record on the first pass is nearly free; recovering it afterwards means re-running every trial. |
 
@@ -501,62 +675,129 @@ defect, Tier-1 defects clustered — closed-form McNemar would overstate all of
 it). At the plan's own predicted effect, **A1 − A2 ≈ 12 pp** (A1 = 0.45 from
 §14.2; A2 = 0.33 from §13.3's "A2 captures ~70% of A1's gain"):
 
-| Design | Matched defects | Power | MDE @ 80% |
-|---|---|---|---|
-| **Arm ablation as specified (8 ops × 5 businesses, r=2)** | 40 | **0.30** | **22 pp** |
-| 8 × 10, r=2 | 80 | 0.50 | 16 pp |
-| 8 × 20, r=2 — **the whole sample** | 160 | 0.80 | 12 pp |
-| 8 × 20, r=3 | 160 | 0.93 | — |
-| Tier 1 (11 defects, 5 cells, r=3) | 11 | — | **31 pp** |
+⚠ **Recomputed 2026-08-25 against the measured defect counts.** The table
+below used to sweep "8 operators × N dumps", which assumes every operator can
+use every dump. It cannot — see the correction banner at the end of §3 — so the
+designs are now indexed by the **defect count the injector actually produces**.
+`power.py` §9 emits this table (`--sims 20000`, seed 42); `inject_defects.py
+--matrix` emits the counts.
 
-Four consequences:
+| Design | Matched defects | Power | Power w/ occasion | MDE @ 80% | MDE w/ occ |
+|---|---|---|---|---|---|
+| The sample before D11b, r=2 | 102 | 0.618 | 0.564 | 14.7 pp | 15.6 pp |
+| The sample before D11b, r=3 | 102 | 0.801 | 0.755 | 11.9 pp | 12.6 pp |
+| The sample before D11b, r=4 — *the rejected alternative* | 102 | 0.893 | 0.853 | 10.5 pp | 11.2 pp |
+| ✅ **THE DESIGN (D11b, 2026-08-26): +8 dumps, r=3** | **≈143** | **0.913** | **0.883** | **10.2 pp** | **10.8 pp** |
+| +8 dumps, r=4 | 143 | 0.967 | 0.948 | 8.9 pp | 9.5 pp |
+| Tier 1 (11 defects, 5 cells, r=3) | 11 | — | — | **32 pp** | — |
+
+Monte Carlo estimates from `power.py --sims 20000` (seed 42; the MDE bisection runs at 6,666): power carries about **±0.01**, an MDE about **±0.3 pp**. Two significant figures is all that is real.
+
+The "w/ occasion" columns are the honest ones: §14.1 forces all arms for one
+defect into a single session, so they share that moment's serving stack. That
+makes the arms *more* alike, cuts discordant pairs, and costs power.
+
+Five consequences:
 
 1. **A2 vs A3 (28 pp) is already at 0.996 with 5 businesses.** Equal allocation
-   across arms overspends on the easy contrast. Allocate by difficulty: A1 and
-   A2 at the full 160 defects, A3 at 40, A0 at 80.
-2. **160 defects is a hard ceiling** — 8 operators × the 20 Phase-A dumps. More
-   blocks would need new Phase-A runs (a full pipeline each), so **r is the only
-   lever left** once the sample is exhausted. Reps and blocks buy power about
-   equally here (8×10 r=4 ≈ 8×20 r=2 ≈ 0.81), which is contrary to the usual
-   advice and worth stating.
-3. **A shared-occasion effect makes all of the above optimistic.** §14.1 requires
-   all arms for one defect to run contiguously in one session, so they share the
-   serving stack of that moment; that raises arm-to-arm correlation, cuts
-   discordant pairs, and costs power. At occasion SD 1.0, 8 × 20 r=2 falls
-   0.81 → 0.75. **Plan for r=3 if 0.80 is the target.**
-4. **Tier 1 cannot support inference** — MDE ~31 pp, and the cluster bootstrap
+   across arms overspends on the easy contrast. Allocate by difficulty — as
+   built: A1 and A2 at all 102 defects, A0 at 48, A3 at 22 (D4c).
+2. **102 defects is the ceiling, not 160**, and it is set by the injector's
+   applicability matrix rather than by a multiplication. More blocks need new
+   Phase-A runs (a full pipeline each); **r is otherwise the only lever**, and
+   reps and blocks buy power about equally here, contrary to the usual advice.
+3. ✅ **RESOLVED by D11b, 2026-08-26 — the sample grows.** At N=102 the MDE was
+   11.9 pp against a 12 pp threshold (a 0.1 pp margin) and **12.6 pp under the
+   occasion effect the design will actually face** — above the threshold, which
+   is defined as "≥ the MDE". Rather than move the threshold, collect **8 more
+   Phase-A dumps**: N≈143, power 0.883 even with the occasion effect, MDE
+   10.2–10.8 pp, margin 1.2–1.8 pp. ⚠ Note what this costs beyond the ~30–55
+   collection calls: the core scales with the defect count, **822 → ≈1,180
+   trials**. The rejected alternative, r=4 at N=102, cost ≈1,120 trials for a
+   worse MDE (11.2 pp) — repetitions of one defect are correlated, a new defect
+   is not, so per call the eighth dump beats the fourth repetition.
+4. **r=2 is not viable at either N** (0.618 at 102, 0.764 at 143). r=3 is the
+   floor, which is what the runner defaults to.
+5. **Tier 1 cannot support inference** — MDE ~31 pp, and the cluster bootstrap
    over-rejects at 0.086. Descriptive only (§5).
 
 **Therefore: pre-register this as estimation, not NHST.** Report A1 − A2 with a
-CI (half-width ≈ 0.7 × MDE: ±8 pp at 160 defects). A null then *says* something —
-"3 pp, 95% CI [−5, 11]" excludes large effects — instead of being
-indistinguishable from insufficient power.
+CI (half-width ≈ 0.7 × MDE: **±8.3 pp at 102 defects, ±7.1 pp at 143**). A null
+then *says* something — "3 pp, 95% CI [−5, 11]" excludes large effects — instead
+of being indistinguishable from insufficient power.
 
 ### 6.2 Grid
 
-| Grid | Placement | Trials |
-|---|---|---|
-| Core: 8 operators × 20 businesses × A1 × r=2 | **P1** | 320 |
-| Arm ablation: 8 × 5 businesses × {A0, A2, A3} × r=2 | **P1** | 240 |
-| Placement: 8 × 5 × A1 × {**P0** production-absent, **P2** assistant-turn} × r=2 | P0, P2 | 160 |
-| Severity sweeps: O4 three levels + O1 two levels × 10 businesses × r=2 | P1 | ~100 |
-| **D8 constraint-completeness (§13.2b): 8 × 5 × {A1,A2} × C1 prompt × r=2** | P1 | 160 |
-| *(optional)* P3 exploratory cell: 8 × 5 × r=2 | P3 | 80 |
-| **Total** | | **~980 core; ~1,060 with P3** |
+⚠ **Rewritten 2026-08-25 from the built runner.** The old grid multiplied
+8 operators by 20 businesses and split the core from the arm ablation. Neither
+holds: **6 operators carry a repair endpoint** (O4 is warn-level, O8 a positive
+control), applicability varies by operator, and the runner allocates arms over
+**defect subsets** in one pass rather than running a core and an ablation
+separately. Regenerate the first block with
+`python scripts/run_injection_study.py --plan-only`.
 
-P1 is measured by the core cell, so the placement row buys the other two levels
-and the three-level contrast **P0 vs P1 vs P2** comes out whole. See D9 in §3
-for why P0 has to be named.
+**The core, as built** — one command, `--placement P1 --reps 3`. Two columns:
+what the runner enumerates today, and what it becomes once D11b's eight dumps
+land. ⚠ **The right-hand column is arithmetic, not measurement** — applicability
+varies per dump, so re-run `--plan-only` after collection and use what it
+prints. That is the whole point of the `--plan-only` gate.
+
+| Arm | Defects now | Trials now | Defects after D11b | Trials after D11b | Why this share (D4c) |
+|---|---|---|---|---|---|
+| A1 measured-fact feedback | 102 | 306 | ≈143 | ≈429 | the primary contrast |
+| A2 generic rejection | 102 | 306 | ≈143 | ≈429 | the primary contrast |
+| A0 capability ceiling | 48 | 144 | ≈67 | ≈201 | bounds A1; half the set is enough for a bound |
+| A3 bare re-draw | 22 | 66 | ≈31 | ≈93 | A2 vs A3 is at 0.996 with a quarter of the set |
+| **Total** | **102** | **822** | **≈143** | **≈1,180** | 120 planned, 18 inapplicable with a recorded reason |
+
+**Additional cells**, each another run of the same runner with different flags.
+Sizes are stated as *fractions of the 102*, not as fresh multiplications:
+
+| Cell | Placement | Size |
+|---|---|---|
+| Placement: A1 × {**P0** production-absent, **P2** assistant-turn}, r=3 | P0, P2 | 2 × a third of the set ≈ 200 |
+| **D8 constraint-completeness (§13.2b): {A1,A2} × C1 prompt, r=3** | P1 | **40 defects → ≈240 trials** (D8d). Per D8b the cell reuses the **same C0 base**, so it buys no extra generation pass |
+| Severity sweep: O1 two levels × a third of the set, r=3 | P1 | ~100 |
+| *(optional)* P3 exploratory: A1, r=3 | P3 | ~100 |
+
+⚠ The old grid's "O4 three levels" severity sweep is **dead as a repair cell** —
+O4 produces no retry, so there is nothing for an arm to act on. An O4 severity
+sweep measures *detection*, and belongs with C6 below.
+
+⚠ **Amended 2026-09-02 by D19 (§3.7).** That paragraph is right about the
+*production* routing and wrong about what follows from it. O4 produces no retry
+**because §4.5 decided it should not**, and that decision has no counterfactual
+anywhere in either paper. Routing it to retry deliberately, as a cell that is
+not part of the production path, measures what the overwrite bought:
+
+| Cell | Placement | Size |
+|---|---|---|
+| **D19 overwrite counterfactual: O4 × {A1, A3}, r=3** | P1 | **23 defects → ≈138 trials.** Not pooled into the primary contrast |
+
+A2 is omitted on purpose: the cell is about the *routing* decision, not about
+feedback content, so it needs a best case (A1) and a floor (A3) and nothing
+between them.
+
+P1 is measured by the core, so the placement row buys the other two levels and
+the three-level contrast **P0 vs P1 vs P2** comes out whole. See D9 in §3 for
+why P0 has to be named.
 
 Detection-side calibration (C6) is free: run `measure`/`decide` over every
-injected output offline — above-threshold severities confirm ~100% detection
-by construction; sub-threshold ones trace each check's detection curve.
+injected output offline — above-threshold severities confirm ~100% detection by
+construction; sub-threshold ones trace each check's detection curve. The
+injector already cross-checks itself against `supervision.measure` on all 137
+applicable injections.
 
-Budget: ~24 s/stage-call (derived: 597.3 s mean run ÷ ~25 calls for a p90
-business), so ~980 calls ≈ 6.5 h of pure inference; call it **3 nights**
-unattended once 429/503 backoff is included
-with backoff, using the checkpointed runner. Rate limits, not cost, binding —
-same as the conference study.
+**Budget.** ⚠ A trial is **1–3 LLM calls, not 1** — a schema failure appends the
+model's own invalid output and re-asks, which is why `attempts_made` is logged
+per trial. After D11b the core is ≈1,180 trials = **≈1,180–3,540 calls**. Add
+the C1 cell (240 or 480 trials, D8d) and the placement, severity and P3 cells,
+and the study as planned is **≈1,660–2,000 trials ≈ 1,700–6,000 calls**. At
+~24 s/stage-call (597.3 s mean run ÷ ~25 calls for a p90 business) the core
+alone is **8–24 h of pure inference**: three to five nights unattended with
+429/503 backoff, on the checkpointed runner. ⚠ **Check the API budget before starting** —
+`out_study/B/checkpoint.credit-depleted.jsonl.bak` records this ceiling being
+hit once already. Rate limits and credit, not wall-clock, are binding.
 
 ## 7. Phase 4 (stretch) — local deterministic arm
 
@@ -581,19 +822,24 @@ bound, ~2 nights; zero API cost.
   are matched by design (D4). Absolute rates alongside; block on defect identity
   throughout. **Exactly three confirmatory tests under Holm; everything else in
   this section is exploratory and must be labelled so (D4).**
-- ⚠ **Tier-1 blocking is over ~5 clusters, not 11 defects** (§5). The 11 usable
-  instances sit in 5 business × stage cells, with up to 4 observations in one
-  cell. Blocking on defect identity alone treats near-duplicates as independent
+- ⚠ **Tier-1 blocking is over ~7 clusters, not 13 defects** (§5; figures
+  refreshed 2026-09-02 from `defect_bank.py` — 11 in 5 cells before D11b). The
+  13 usable instances sit in 7 business × stage cells across 6 businesses, with
+  up to 4 observations in one cell. Blocking on defect identity alone treats near-duplicates as independent
   blocks and re-narrows the CIs the blocking was introduced to widen. Nest
   repeated observations inside the cell, or report the Tier-1 rate as a
   descriptive count with the cluster structure printed next to it. Decide which
   before running, not after seeing the width.
-- Outcome reported as a **3-class multinomial** {`repaired`, `replaced`,
-  `unrepaired`} **crossed with a binary collateral flag** — the original four
-  classes were not mutually exclusive (`collateral` overlapped `repaired_clean`)
-  and so could not be a multinomial at all (D3b). Plus the two-stage
-  chain *did the output change at all → did the targeted defect resolve*
-  (MAS-FIRE's O/L decomposition; global-success S stays out of scope).
+- Outcome reported as a **4-class multinomial** {`repaired`, `replaced`,
+  `deleted`, `unrepaired`} **crossed with a binary collateral flag** (D3b as
+  amended by D18). The *original* four classes were not mutually exclusive
+  (`collateral` overlapped `repaired_clean`) and so could not be a multinomial
+  at all; these four are, because they are decided in a fixed order. Plus the
+  two-stage chain *did the output change at all → did the targeted defect
+  resolve* (MAS-FIRE's O/L decomposition; global-success S stays out of scope).
+  **The dichotomy the confirmatory tests run on is strictly `repaired`**:
+  `deleted` counts against it (D18), and `deleted` is structurally unreachable
+  for the insertion operators O6/O7, where removing the item is the repair.
 - Control the **checkable-items-per-output** confound: hold fixed across arms,
   report conditional on it, run-both-ways.
 - Stratify by defect origin (replayed-real vs synthetic) and stage; never pool
@@ -649,7 +895,7 @@ Tier C debt outstanding) and the amendments are folded in. Revised:
 |---|---|---|
 | 1 | Tier-A reading; design decisions D1–D7 | ✅ done 2026-08-24 |
 | 1 | Tier-B reading (9 papers, 3 sittings) | ✅ done 2026-08-24 |
-| 2 | **Phase-0 memo → supervisor sign-off on D1–D17.** Seven block work (⛔ in §3): D8, D8c, D9b, D10, D4b, D4c, D12. Four are open questions for the supervisor (❓): **D8b** C1 base output · **D5b** local model identity · **D11b** split threshold · **D13** who audits the defect bank | ⬜ next |
+| 2 | **Phase-0 memo → supervisor sign-off on D1–D17.** Seven block work (⛔ in §3): D8, D8c, D9b, D10, D4b, D4c, D12. **D11b and D8b were decided 2026-08-26** (grow the sample; one shared C0 base). **D8d approved and D13 executed 2026-08-26.** One remains open (❓): **D5b** local model identity | 🟨 in progress |
 | 2 | B1/B1b/B2 instrumentation; B3 replay entry point; defect-bank inventory | ✅ done 2026-08-24 |
 | 2–3 | Build B4 (operators), B5 (arms × placement), B6 (scorer), B7 (runner), B8 (C1 audit) + golden tests incl. the §13.5 replacement-value test | ⬜ |
 | 3 | Tier 1 runs (**132** trials, P0) + preliminary analysis → go/no-go | ⬜ |
@@ -684,6 +930,11 @@ Tier C debt outstanding) and the amendments are folded in. Revised:
 - **Contamination.** Fallback-served calls: discard and log (B2). Never mix.
 - **Scope creep.** Judge re-runs on repaired reports and the warn-level
   frequency sub-experiment are out of scope unless weeks 5–6 are free.
+  ⚠ **The frequency half of that is reversed by D19 (§3.7), 2026-09-02.** Framed
+  as a warn-level sub-experiment it was scope creep; framed as the missing
+  counterfactual for §4.5's overwrite decision it is ≈138 trials that put a
+  measurement under a design principle the conference paper currently only
+  asserts. The judge re-runs remain out of scope.
   ⚠ **Downstream propagation is no longer on this list — see D12.** If the
   repair result splits off to a conference paper, propagation is one of only two
   items left that can carry a journal thesis, so it moves in scope. **Its
@@ -747,7 +998,7 @@ agent-reliability empirical work with no SE application domain.
 - **The methods are native SE.** Fault injection and the Just et al.
   mutants-vs-real-faults validation protocol are SE methodology; the
   MAS-FIRE / AgentChaos conversation sits in this literature.
-- **Scale is acceptable here.** One system, 20 workloads and ~800 injection
+- **Scale is acceptable here.** One system, **28** workloads and **~1,180** injection
   trials reads as a credible empirical case study in EMSE. It reads as thin in
   TOSEM/TSE.
 - Springer, Q1, and consistent with the LNCS toolchain already in use.
@@ -998,6 +1249,13 @@ state which: dropped from the denominator (AgentChaos's choice), or counted as
 `unrepaired`. The two give materially different rates. Report an injection
 trigger rate alongside the injection success rate (§13, B4).
 
+✅ **DECIDED 2026-09-02 by D20 (§3.7): dropped from the denominator and reported
+as a separate count.** Counting an untriggered defect `unrepaired` would score
+the arms on a trial where the arms are *identical by construction* — no retry
+fired, so no feedback of any kind reached the model, so A1, A2 and A3 are the
+same condition. The count is reported next to the rate, never folded into it.
+Both gates run at plan time, before any call is spent (D20).
+
 ### 14.4 Log the run-level verdict — free, and it pre-empts an overclaim
 
 MAST Appendix J (Table 7): verification failure modes appear frequently in
@@ -1134,3 +1392,280 @@ and 3.1 cannot arise by construction; and **3.2/3.3 are eliminated by the
 deterministic supervisor rather than mitigated** — which is the strongest single
 argument for zero LLM calls in the control path, and pairs with MAST §4's finding
 that prompted verifiers "perform only superficial checks".
+
+
+---
+
+## 15. Defect-bank audit results (D13) — executed 2026-08-26
+
+**This section reports a completed measurement. Where §5 or §13 assume the
+Tier-1 bank is a realism anchor for Tier 2, this section supersedes them.**
+
+Reproduce with, from `backend/`:
+
+```
+venv/Scripts/python.exe scripts/analysis/rater_sheet.py --score out_study/audit     --a out_study/audit/rating_a.csv --b out_study/audit/rating_b.csv
+venv/Scripts/python.exe scripts/analysis/verify_claims.py
+venv/Scripts/python.exe scripts/analysis/verify_claim2.py
+venv/Scripts/python.exe scripts/analysis/verify_claim3.py
+```
+
+### 15.1 Reliability
+
+Two **human** raters, independently, on the 31-item blinded sheet
+(11 Tier-1 + 20 Tier-2, seed 20260826).
+
+| | |
+|---|---|
+| Cohen's κ | **0.870**, 95% CI **[0.674, 1.000]** (bootstrap, 5,000 resamples) |
+| Raw agreement | **29/31** |
+| `U` (unratable) | **0** — the escape hatch was never needed |
+
+Report the CI, or raw agreement and n. Both disagreements were later resolved
+mechanically (§15.3), giving **31/31**; report that as a *resolved* figure, never
+as the blind κ.
+
+### 15.2 The result — meaningfulness separates by MECHANISM, not by tier
+
+| | n | both raters called it an error |
+|---|---|---|
+| **Tier 1 — real, production-caught defects** | 11 | **0 (0%)** |
+| **Tier 2 — injected** | 20 | 16 (80%) |
+
+Per operator, after resolving §15.3:
+
+| Operator | what it does | verdict |
+|---|---|---|
+| **O1** | drops one character from a **real** evidence id | **4/4 technicality** |
+| O2 | appends a **fabricated** id | 4/4 error |
+| O3 | mislabels a pattern's aspect | 3/3 error |
+| O5, O6, O7 | inject content alien to the corpus | 9/9 error |
+
+**O1 lands with Tier 1, not with its own tier.** Corruption and paraphrase
+misses are technicalities; fabrication, mislabelling and alien content are
+errors. O1 is therefore the only operator producing production-like defects.
+
+### 15.3 Verification of the raters' reasoning
+
+The raters' discriminator was *corruption of a real id* vs *fabrication*. It is
+mechanically checkable, and the check is unambiguous — edit distance to the real
+corpus is **bimodal with nothing in between**:
+
+| | items | min edit distance to a real review id |
+|---|---|---|
+| Tier-1 `missing_evidence_id` | 3 | **1–2** (corruption) |
+| O1 injected | 4 | **1** (corruption) |
+| O2 injected | 4 | **20** (fabrication) |
+
+Rater A was right on **11/11**, rater B on **9/11**. B's two errors (I10, I27)
+came from searching *the sheet* for a near-neighbour rather than the corpus: on
+those two items the source id was not cited in any other item, so B saw no
+neighbour and inferred fabrication. Both disagreements resolve in A's favour,
+confirmed independently by `inject_defects._apply_o1`, which deletes exactly one
+character from a real resolving id.
+
+⚠ **Instrument limitation to fix before any reuse:** the sheet gives the rater no
+way to test for a near-neighbour. A future sheet should either include the
+corpus id list or pre-compute the nearest-real-id distance as a stated fact.
+
+**Stray-citation ratios** (`misaligned_aspect` vs O3), within the *flagged*
+pattern:
+
+| | mismatching citations |
+|---|---|
+| Real `misaligned_aspect` | 1/27 and 1/33 — **~3%** |
+| Injected O3 | 13/13, 7/7, 3/3 — **100%** |
+
+### 15.4 ⚠ The finding: `untraceable_recommendation` is a precision failure
+
+Six of the 11 Tier-1 defects are `untraceable_recommendation`, and both raters
+independently called them **checker false negatives**. That is confirmed.
+
+`supervision._measure_strategy` scores an issue against upstream with
+`difflib.SequenceMatcher` — a **character-level** ratio — against
+`TRACE_SIMILARITY = 0.35`.
+
+| | lexical score (what the check uses) | content-word overlap |
+|---|---|---|
+| Real defects (6 Tier-1 items) | **0.23 – 0.35** | 0.08 – 0.44 |
+| Injected O5 (alien content) | **0.21 – 0.28** | **0.00, all three** |
+
+**The lexical bands overlap completely.** The check cannot separate
+"Negative ambience." from an upstream pattern reading *"the restaurant's
+ambience is often described negatively"* (0.23, fails) from "till float count
+skipped" against a staff-attitude complaint (0.21, also fails). Content-word
+overlap separates them perfectly on this sample.
+
+⚠ **One honest caveat.** I14's third issue ("Excessive customer wait times.")
+has a best content-word overlap of **0.08** — that dump appears to carry no
+strong wait-time upstream item, so that single issue may be genuinely
+untraceable. Two of its three map cleanly; the raters' blanket "all three" is
+slightly generous.
+
+### 15.5 Consequences — three, and none of them are cosmetic
+
+1. **9 of 11 production defects are checker false positives with a diagnosed
+   cause** (6 paraphrase misses, 3 single-character id corruptions where the
+   real evidence exists). The other 2 are ~1-in-30 stray citations.
+2. **Fixing the matcher shrinks the Tier-1 bank.** Content-word overlap
+   separates the sample perfectly, but re-running `defect_bank.py` afterwards
+   would likely take the bank from 11 toward ~2–5 — and Tier 1 is both the
+   replay tier and the realism anchor. **Measure this before deciding.**
+3. **Conference paper #1 is under review and this touches its numbers.** Its
+   retry counts embed this false-positive rate, uncharacterised. Whether that is
+   a note to the chairs, a camera-ready limitation, or a journal-paper finding is
+   a **supervisor decision** — see `PHASE0_MEMO.md` §11.
+
+### 15.6 What this does to the repair study
+
+- **The Tier-1 realism anchor anchors in the opposite direction.** Tier 2 minus
+  O1 is markedly *more severe* than anything the supervisor catches in
+  production, so the headline repair rate **cannot be read as a production
+  repair rate**. State this in the design, do not concede it in review.
+- **Do not pool O1 with O2–O7.** Report O1 as the production-like cell and the
+  rest as the severe cell. The audit is the evidence that justifies the split.
+- The estimand is narrowed, not invalidated: repair of *human-recognisable*
+  injected defects remains a well-posed and measurable quantity.
+
+
+---
+
+## 16. Delivered numbers after the D11b collection (2026-08-26)
+
+**Supersedes every figure in §5, §6 and §15 computed over 20 dumps.** The 8
+extra Phase-A dumps D11b approved were collected on 2026-08-26 in observe mode.
+Everything below is what a script printed, not a projection.
+
+### 16.1 The collection
+
+8 of 8 completed, ~49 minutes, `mode=observe`, `status=complete`, no skipped
+agents, and **`loaded_review_count == expected_review_count` on all 8** — no
+truncation. Two transient 503s on the first business self-recovered.
+
+⚠ **The 503 business contributes zero defects, correctly.** Honey Baked Ham
+Company recorded `status_error=True` at `reasoning_agent` (excluded: `api_error`)
+and its `report_agent` entry is the downstream **cascade** (excluded). Identical
+in shape to Scarpetta in the original 20. The bank's existing rules handled it
+with no intervention.
+
+⚠ **Second serving epoch.** The original 20 ran 2026-08-03, these on 2026-08-26,
+and the checkpoint does not record the model. §14.1 already covers this — all
+arms for one defect run in one session at trial time — so it does not confound,
+but it belongs in the methods section.
+
+### 16.2 Predicted vs delivered
+
+| Quantity | predicted | **delivered** |
+|---|---|---|
+| Dumps | 28 | **28** |
+| Tier-2 ceiling (N) | ≈143 | **142** |
+| Yield per dump | 5.1 | **5.07** |
+| Core trials | ≈1,180 | **1,167** |
+| Replay fidelity | — | **159 facts, 0 mismatches** |
+
+Arms allocate **A1 426 · A2 426 · A0 213 · A3 102**; the order invariant holds.
+Per-operator applicability is now **O1 24 · O2 24 · O3 22 · O4 23 · O5 20 ·
+O6 26 · O7 26 · O8 26**, 191 across all eight, **142** with a repair endpoint.
+
+### 16.3 Tier 1 grew, and grew in its worst class
+
+| | before | **after** |
+|---|---|---|
+| Retry observations | 15 | **19** |
+| Excluded `api_error` | 3 | **4** |
+| Cascades | 1 | **2** |
+| **Usable defects** | 11 | **13** |
+| By stage | strategy 6, reasoning 5 | **strategy 8, reasoning 5** |
+| Distinct cells / businesses | 5 / 4 | **7 / 6** |
+
+The clustering improvement is real and welcome — the old cluster bootstrap
+over-rejected at 0.086 against a nominal 0.05 on 5 cells.
+
+⚠ **But both new defects are `untraceable_recommendation`, taking that class to
+8 of 13.** §15.4 showed that is precisely the class the trace matcher gets wrong.
+**The bank grew in proportion to its least trustworthy class**, which strengthens
+`PHASE0_MEMO.md` §11 rather than weakening it.
+
+### 16.4 ⚠ NEW — the matcher is wrong in the OTHER direction too
+
+`tests/test_inject.py::test_corpus_margin_is_reported_not_assumed` is a tripwire
+on how close the injected O5 corpus issues come to tracing. **It fired.**
+
+Worst-case `difflib` similarity across 28 dumps is **0.444** — *above* the 0.35
+trace threshold, not merely near it — and **16 pairs now sit at or above
+threshold**. The worst offender:
+
+| injected issue | upstream candidate | difflib | content-word overlap |
+|---|---|---|---|
+| `uniform size profile absent` | `Unpleasant or undesirable atmosphere` | **0.444** | **0.00** |
+
+That injected string is **D13 item I28**, which *both* blinded raters called an
+error, noting it has no connection to any upstream content. Content-word overlap
+agrees at 0.00. The character matcher scores it 0.444 and would call it traceable.
+
+**So §15.4's finding generalises: the matcher misses real paraphrases AND matches
+unrelated strings.** Both failures have the same cause — it compares characters,
+not content.
+
+The study is **not** silently broken: `_o5_issue` stops selecting an
+over-threshold issue and O5's applicability absorbs it (hence O5's 20, the
+lowest of the six). But the margin the tripwire guarded is gone.
+
+⚠ **Do not "fix" this by editing `CORPUS_ISSUES`.** D13 rated those exact
+strings; changing them severs the audit from the operators it audited.
+
+### 16.5 Status of the power gate
+
+Recomputed at the delivered N=142, r=3, `--sims 20000`, seed 42:
+
+| | power | w/ occasion | MDE | **MDE w/ occasion** |
+|---|---|---|---|---|
+| 142 x r=3 | 0.912 | 0.875 | 10.2 pp | **10.9 pp** |
+
+**PASS — 10.9 pp against D11b's 12 pp threshold, margin 1.1 pp**, under the
+shared-occasion effect the design will actually face. At N=102 the MDE was
+12.6 pp, i.e. *above* the threshold, which is what made the pre-registration
+incoherent. It is coherent now.
+
+The prediction reproduced: 0.883 / 10.8 pp predicted against 0.875 / 10.9 pp
+delivered, both inside the estimator's own error (power ±0.01, MDE ±0.3 pp).
+Per §14's trap 35, that is reproduction, not drift.
+
+⚠ **The PASS is provisional.** N=142 was computed through the same broken
+matcher: `applicable()` rejects O5 bases via
+`no_corpus_issue_below_trace_threshold` and
+`base_not_clean:untraceable_recommendation`, both routed through
+`TRACE_SIMILARITY`. **O5 contributes 20 of the 142**, and the direction of a fix
+is genuinely uncertain — fewer falsely-unclean bases pushes O5 up, fewer
+genuinely non-tracing corpus issues pushes it down. With only 1.1 pp of margin
+this is not comfortable slack. §16.6 bounds it.
+
+### 16.6 O5 sensitivity — the power gate survives the matcher fix
+
+§16.5's PASS was provisional because N=142 is computed through the matcher
+§15.4 and §16.4 show to be broken. **O5 contributes 20 of the 142**, so the
+exposure is bounded by O5 going to zero (N=122) or growing modestly. Swept at
+`--sims 20000`, seed 42, over a range deliberately wider than that:
+
+| defects | r=3 power w/ occ | **r=3 MDE w/ occ** | margin vs X = 12 pp |
+|---|---|---|---|
+| **120** (worse than losing O5 entirely) | 0.823 | **11.7 pp** | 0.3 pp |
+| 130 | 0.845 | **11.3 pp** | 0.7 pp |
+| **142 (delivered)** | 0.874 | **10.8 pp** | 1.2 pp |
+| 150 | 0.895 | **10.6 pp** | 1.4 pp |
+
+**The gate holds across the entire plausible range.** Even at N=120 — below the
+worst case of O5 vanishing completely — the MDE stays under the 12 pp threshold.
+**The pre-registration remains coherent however §11 is decided**, so fixing the
+matcher does not force a re-plan.
+
+⚠ **One honest qualification.** At N=120 the margin is **0.3 pp**, which is the
+same size as the MDE's own Monte Carlo error. At the bottom of the range the
+gate "clears" only within noise. If a matcher fix takes N below ~130, the
+contingency is **r=4**, which buys MDE ≤ 10.4 pp everywhere in this range at the
+cost of more trials — and that decision can be made *after* §11, without redoing
+anything already run.
+
+⚠ **Do not read 10.8 pp here against 10.9 pp in §16.5 as a correction.** Same
+seed, but a different `--defects` list draws a different RNG stream; the gap is
+0.1 pp against a ±0.3 pp error. Trap 35 again.

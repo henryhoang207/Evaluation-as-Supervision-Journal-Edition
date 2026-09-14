@@ -23,8 +23,13 @@ Two tracks share one repository.
    Conference version **submitted and under review**; a journal extension
    (injected-defect repair study) is the active work. **Start at
    [`docs/paper/NEXT_SESSION.md`](docs/paper/NEXT_SESSION.md)**, with
-   `docs/paper/JOURNAL_PLAN.md` as the authoritative plan and
+   `docs/paper/JOURNAL_PLAN.md` as the authoritative plan,
+   `docs/paper/PREREGISTRATION.md` as the frozen analysis spec (⚠ **§11 blockers closed 2026-09-08; committed 2026-09-14 but NOT frozen — the
+   freeze is the annotated tag `prereg-freeze`, and no trial may run before it**),
+   `docs/paper/PHASE0_MEMO.md` for what awaits a supervisor answer, and
    `docs/paper/PUBLICATION_STRATEGY.md` for how many papers the work becomes.
+   ⛔ **`docs/paper/HANDOFF.md` is historical and contained three false
+   statements** (corrected in place 2026-09-02) — do not act on it.
 
 The system is the testbed; the paper is about its supervision layer. Changes to
 `supervision.py`, `graph.py`, or the agent prompts have paper consequences —
@@ -65,6 +70,16 @@ These cost real time every session.
 - **Use the project venv** — system Python lacks the deps:
   `backend/venv/Scripts/python.exe` (Python 3.14.3). PowerShell activate:
   `./venv/Scripts/Activate.ps1`. Install: `pip install -r requirements.txt`.
+- **The checkout is ~11 GB, and ~10.9 GB of it is regenerable and gitignored**
+  (measured 2026-09-02). `backend/data/processed/yelp.db` **5.4 GB** —
+  rebuildable offline from `raw/` with `python scripts/build_db.py`;
+  `backend/data/raw/*.json` **5.5 GB** — needs re-downloading;
+  `backend/venv` 378 MB; `frontend/node_modules` 88 MB. Tracked source is tiny:
+  `docs/` 3 MB, `backend/out_study/` 5.4 MB, `frontend/src` **75 KB**. If space
+  is needed, delete `yelp.db` first — it is a cache, not a source. ⚠ **Never
+  delete `backend/out_study/`**: it is tracked, partly uncommitted, and it cost
+  API budget. The repo lives in OneDrive, so those 11 GB also consume cloud
+  quota.
 
 ## Commands
 
@@ -94,15 +109,34 @@ venv/Scripts/python.exe -m pytest -m "not integration"
   `scripts/analysis/defect_bank.py` (Tier-1 defect inventory) and
   `scripts/replay_stage.py --verify out_study` (the replay-fidelity gate that
   gates every injection trial). Both are covered by `tests/test_replay.py`.
-- Re-running an *experiment* needs `MAX_REVIEW_SAMPLE=214` in the environment —
-  `loader.MAX_REVIEWS` is read at import, so `--sample-size` alone cannot lift
-  the cap. That guard is deliberate.
+- Re-running an *experiment* needs `MAX_REVIEW_SAMPLE` to cover the largest
+  business in the sample — `loader.MAX_REVIEWS` is read at import, so
+  `--sample-size` alone cannot lift the cap. That guard is deliberate and it
+  fired correctly on 2026-08-26.
+  ⚠ **The variable also bounds `ReportRequest.sample_size` in `app/main.py`**,
+  and `tests/test_data_pipeline.py` pins that bound — so the suite is green only
+  when `.env` and the test agree. `.env` holds **500**
+  (`loader.MAX_REVIEW_HARD_CEILING`, the highest legal value) and the test
+  matches. **1000 raises at import.** Prefer setting it inline for a collection
+  run: `MAX_REVIEW_SAMPLE=214 python scripts/run_study.py --phase A`.
+- **Phase-A study data is 28 dumps as of 2026-08-26** (was 20). Grow it with
+  `scripts/sample_businesses.py --per-stratum N --seed 20260803`, which is a
+  strict prefix-stable superset — never by hand-picking businesses.
 
 ## What is and is not tracked
 
 **Corrected 2026-08-24 — the previous version of this section was wrong.**
-`docs/paper/` and `backend/out_study/` are **tracked**, not ignored. `git status`
-is clean because the work is committed.
+`docs/paper/` and `backend/out_study/` are **tracked**, not ignored.
+
+⛔ **Run `git status --short` before anything else, and expect it to be dirty.**
+As of 2026-09-02 nothing from 2026-08-25 onward was committed — including **8
+Phase-A dumps that cost real API budget and exist in exactly one place**, a
+human audit that cannot be re-run (the raters are no longer blind), and the
+draft pre-registration. **`docs/paper/NEXT_SESSION.md` §11 is the manifest and
+the single source of truth for what is outstanding** — this file deliberately
+does not track it, because the previous version asserted "`git status` is clean
+because the work is committed", which was true when written and silently false
+for a week afterwards. Check, do not assume, in either direction.
 
 - The paper (`main.tex`, `references.bib`), the journal plan, the study dumps and
   the study checkpoints are all **in the repository**.
@@ -165,6 +199,14 @@ stay ignored.
   ("retry, skip, or halt after stage failure"). The hub supervisor replaced it;
   `supervision.py` and `docs/FINDINGS_2026-07-16.md` F7 are correct.
 - **`AGENTS.md`** predates the hub too, and points at `docs/LOCAL_LLM.md`.
+- ⛔ **`docs/paper/HANDOFF.md` — historical, and it contained three statements
+  that were *false*, not merely stale** (corrected in place 2026-09-02, banner
+  at the top). The dangerous one was §1.3: it claimed `docs/paper/` is
+  gitignored and "never pushed, by explicit request". It is **tracked**; only
+  build artefacts inside it are ignored. A session acting on that would leave
+  the paid-for study dumps uncommitted. Its §7 also tells a new session to
+  restructure `main.tex` into a scaffold — the paper is finished and under
+  review. Read it as a record; do not act on it.
 - `PROJECT_AUDIT.md`, `RUNNING.md`, `docs/DECISIONS.md`, `docs/PROGRESS.md`,
   `docs/RUN_TESTS.md`, `docs/PLAN.md`, `docs/LOCAL_LLM.md` and both
   `ORCHESTRATOR_*.md` **do not exist and are not tracked**. An earlier version of
