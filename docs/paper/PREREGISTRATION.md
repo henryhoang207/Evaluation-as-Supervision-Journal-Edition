@@ -1,12 +1,12 @@
 # Pre-registration — injected-defect repair study
 
-**Status: all four §11 blocking items closed 2026-09-08. First committed
-2026-09-14 for safekeeping — NOT yet frozen. The freeze is the annotated git
-tag `prereg-freeze`; no trial may run before that tag exists.**
+**Status: FROZEN 2026-09-14 at the annotated git tag `prereg-freeze`.** All six
+§11 items are closed. From here a change is a dated amendment under §0, and any
+result it touches is reported as exploratory. No trial ran before the tag.
 
-**§11 item 5 (O5 scoring) closed 2026-09-14. Item 6 — A3 is not a floor for
-injected defects — is OPEN, blocks the freeze tag, and is the author's
-decision.**
+**The last item closed was §11 item 6 (2026-09-14): A3 is re-roled as a
+regeneration baseline, and the confirmatory set is now the single A1-vs-A2
+test** (§2, §2.1).
 
 Why a tag, and not "the commit that adds it" (this header's wording until
 2026-09-14): the file had to be committed and pushed while the `PHASE0_MEMO.md`
@@ -89,7 +89,7 @@ Three things that sentence deliberately excludes:
 | **A1** | the production `_SUPERVISOR_FEEDBACK_PROMPT`, carrying the measured fact that triggered the verdict | primary |
 | **A2** | the same template with the measured facts removed — an authoritative but contentless rejection | primary |
 | A0 | the defect framed as a fresh correction task, no retry language | capability ceiling, bounds A1 |
-| A3 | the original prompt again, nothing added | floor; isolates the trigger from its content |
+| A3 | the original prompt again, nothing added — defined only at P0, where the injected output is absent | **regeneration baseline** (§11 item 6): what a fresh draw that never saw the defect scores. **Not a floor** for injected defects |
 
 Arm wording was frozen on 2026-08-25 in `backend/scripts/arms.py`
 (`AUTHORED_WORDING`), before this file and before any trial.
@@ -141,16 +141,27 @@ gone the other way, the answer would have been the severe cell at **r = 4**
 (MDE 10.5 pp, ~944 trials on A1/A2 alone) — never the severe cell at r = 3, and
 never a smaller X.
 
-### 2.1 Confirmatory tests — exactly three, under Holm
+### 2.1 Confirmatory test — exactly one
 
-1. Cochran's Q, omnibus over the matched arms within a defect, on the
-   dichotomised outcome (§2.3).
-2. Exact McNemar, **A1 vs A2** — feedback content.
-3. Exact McNemar, **A2 vs A3** — the bare trigger.
+**Exact McNemar, A1 vs A2** — feedback content — at α = 0.05, on the
+dichotomised outcome (§2.3).
 
-⚠ **The primary reported quantity is the estimate, not these tests** (D4f):
+⚠ **The primary reported quantity is the estimate, not this test** (D4f):
 A1 − A2 as a difference in rates with a 95% cluster-bootstrap CI over defect
-blocks. The three tests are reported under Holm alongside it.
+blocks. The test is reported alongside it.
+
+**Why one, when this section named three until 2026-09-14** (§11 item 6). The
+other two were Cochran's Q, an omnibus over the matched arms, and McNemar A2 vs
+A3, "the bare trigger". **Both rested on A3 being a near-zero floor, and for
+injected defects it is not one.** A3 exists only at P0, where the injected
+output never enters the context, so it regenerates a clean output and is
+estimated to score ≈ 53% `repaired` (O6/O7 100% by construction) against the 5%
+`power.py` assumed. A2 vs A3 would therefore come out reversed for a mechanical
+reason, and an omnibus that spans A3 would reject for the same reason. Both move
+to §3 item 9 as secondary, reinterpreted. With one confirmatory test there is no
+multiplicity to correct — which also makes the test consistent with `power.py`:
+every MDE in §6 was computed at an unadjusted α = 0.05, whereas a Holm-adjusted
+A1-vs-A2 test would have faced a stricter threshold than its power assumed.
 
 **How the per-defect dichotomy is formed from r = 3 repetitions — decided
 2026-09-08, §11 item 4.**
@@ -216,7 +227,7 @@ order, which is what makes them mutually exclusive:
 3. the item is back to its pre-injection value → **`repaired`**
 4. otherwise → **`replaced`**
 
-**The confirmatory tests run on the strict dichotomy `repaired` vs everything
+**The confirmatory test runs on the strict dichotomy `repaired` vs everything
 else.** In particular **`deleted` counts against repair**: deleting the item the
 supervisor complained about is evasion, and scoring it as success would let
 "drop the pattern you were asked about" register as a supervisor win. For the
@@ -332,8 +343,10 @@ none supports a headline claim.
 2. **A1/A0 ratio** with a cluster-bootstrap CI — how much of the model's
    capability ceiling the production feedback recovers. A0 is a ceiling, not a
    cost-matched competitor; calls per arm are disclosed.
-3. **A3 share of A1 by stratum**, not pooled — Self-Edit predicts the gap
-   widens on harder defects.
+3. **A3 by stratum — descriptive** (§11 item 6): what a fresh draw scores, per
+   operator, beside A1 and A2. Self-Edit's prediction that the A3 share of A1
+   changes with defect difficulty was about self-generated errors and is not
+   tested here.
 4. Per-class repair rates, with the directional prediction recorded in §5.
 5. Stratification by defect origin (replayed-real vs synthetic) and by stage.
 6. The two-stage chain *did the output change at all → did the targeted defect
@@ -347,6 +360,11 @@ none supports a headline claim.
    scorer. So the primary A1 − A2 estimate is also reported **without O5**
    (N = 122), and O5's rate is also reported with `repaired` ∪ `replaced` as
    success. Both are reported whatever they show.
+9. **A2 vs A3, and Cochran's Q across the arms — secondary since 2026-09-14**
+   (§11 item 6). Reported with exact p-values and CIs and no correction, and read
+   as *does re-presenting the defective output with a contentless rejection beat
+   regenerating from scratch without it* — never as the effect of a bare
+   trigger. Neither supports a headline claim.
 
 ---
 
@@ -387,16 +405,20 @@ both with and without them.
 |---|---|---|
 | A0 ceiling | high | neither literature disputes the underlying capability |
 | **A1** | high; single-retry repair ≈ **45%** | Arimbur §V.E assertion-error class — *not* ~70%; the power calculation runs off 45% |
-| **A2** | **≈70% of A1's gain over A3** | Self-Debug Simple rows, median 70% across seven model × benchmark settings |
-| A3 | near zero or negative | Self-Debug Table 3b; Huang intrinsic rows |
+| **A2** | **≈ 33%** — derived as 70% of A1's gain over a 5% floor. The number is kept because the primary MDE is computed at it; the floor it was derived from does not hold for A3 here (§11 item 6) | Self-Debug Simple rows, median 70% across seven model × benchmark settings |
+| A3 | **not a floor:** ≈ 100% on O6/O7 by construction; ≈ 53% pooled over the N = 142 mix (an estimate that understates the reasoning operators) | `scripts/analysis/a3_redraw.py`, §11 item 6. The earlier "near zero" came from Self-Debug Table 3b and Huang's intrinsic rows — self-generated errors, which a re-draw reproduces |
 | Class ordering | referential (O1/O2) > structural (O3, O6–O8) > semantic (O5) | — |
 | Placement | **P1 ≫ P3 ≈ P2**; P0 reported separately, not folded into the ordering | Role Relabeling §4.3 |
 | C1 interaction | **undetectable** — power 0.109–0.300 at N unreachable by a factor of three | D8c; reported as two gaps with CIs, never as a test |
 
-**Pre-committed negative result.** If A1 ≈ A3 — feedback content adds nothing
+~~**Pre-committed negative result.** If A1 ≈ A3 — feedback content adds nothing
 over a bare re-draw — that is a publishable finding against the self-correction
-literature's assumptions, and it is reported as the headline. The three-arm
-design is declared here so that this is a result rather than an excuse.
+literature's assumptions, and it is reported as the headline.~~
+
+**Withdrawn 2026-09-14** (§11 item 6). For injected defects, A1 ≈ A3 would be the
+expected consequence of A3 regenerating a clean output, not evidence against the
+self-correction literature, so it cannot be a pre-committed headline. What still
+makes a null informative is the estimate: A1 − A2 with its CI (§2, D4f).
 
 ---
 
@@ -455,7 +477,8 @@ its interpretation fixed both ways.**
 > seeing core results would not be, and neither would quietly dropping it if the
 > core comes out well.
 
-O4 × {A1, A3}, P1, r = 3, **23 applicable defects ≈ 138 trials** (measured
+O4 × {A1 at P1, A3 at P0 — the only placement A3 is defined at}, r = 3,
+**23 applicable defects ≈ 138 trials** (measured
 2026-09-02, `inject_defects.py --matrix`), about **+10% on top of the ≈1,420
 core + C1**. Frequency divergence is resolved by recompute-and-overwrite in
 production (§4.5) and never reaches a retry; this cell routes it to retry
@@ -463,6 +486,13 @@ deliberately, outside the production path, to measure what the overwrite bought.
 **Not pooled into the primary contrast** — O4 carries `ENDPOINT["O4"] =
 "warn_level"`, so it is excluded from `REPAIR_OPERATORS` in code and cannot leak
 into N = 142 by accident.
+
+**A3 in this cell is a regeneration baseline, not a floor** (§11 item 6). A fresh
+draw never sees the injected frequency and was estimated to repair it ≈ 93% of
+the time. So the counterfactual is read as **A1 against overwrite** — what
+routing the divergence to measured-fact feedback costs next to an exact, zero-call
+correction — and in both readings below, "retry" means A1. A3 is reported beside
+it as what regeneration alone gives.
 
 **Why in scope.** Conference §4.5 asserts a design principle — *any quantity the
 checker can compute should not be asked of the model* — and **neither paper
@@ -510,7 +540,10 @@ The scorer and the gates are code, not prose, and they are frozen at the same
 commit:
 
 - `backend/scripts/analysis/score_repair.py` — the 4-class outcome, the
-  collateral metric, the churn floors, and the O4 path added for §7. **27 tests.**
+  collateral metric, the churn floors, the O4 path added for §7, and O5's
+  content-word check and anchor (§2.3). Tested in `tests/test_score_repair.py`.
+- `backend/scripts/analysis/content_match.py` — the tokeniser and the two
+  calibrated thresholds, `TRACE_JACCARD = 0.10` and `ANCHOR_JACCARD = 0.20`.
 - `backend/scripts/inject_defects.py` — operators and `verify_injection`.
 - `backend/scripts/run_injection_study.py` — iteration order, **the D20 gates in
   `build_plan`**, the two denominators in `plan_summary`, checkpointing, the
@@ -570,7 +603,8 @@ Recorded here so that no reviewer has to discover them:
 | §11 item 5 built — O5 trace (D22) and anchor (D24) on content words | 2026-09-14 |
 | §11 items 1, 2, 4 confirmed by the author (pool · D19 after the core · majority) | 2026-09-14 |
 | §11 item 6 opened — A3 at P0 re-draws a clean output | 2026-09-14 |
-| **This document frozen — annotated tag `prereg-freeze`** | *after §11 item 6* |
+| §11 item 6 decided — A3 re-roled as a regeneration baseline; confirmatory set reduced to A1 vs A2 | 2026-09-14 |
+| **This document frozen — annotated tag `prereg-freeze`** | **2026-09-14** |
 | **First trial** | *not yet run* |
 
 ⚠ **The row above is the gate on every row below it.** Zero trials have run.
@@ -580,9 +614,9 @@ first LLM call this study will have made.
 
 ---
 
-## 11. The items that block the freeze — five closed, one open
+## 11. The items that blocked the freeze — all six closed
 
-All four closed **2026-09-08**. Three were decisions and are recorded in the
+Items 1–4 closed **2026-09-08**; items 5 and 6 closed **2026-09-14**. Three were decisions and are recorded in the
 sections they govern; one was a build task and is in the code. This section is
 kept as the record of what was open, what was chosen, and what was rejected —
 deleting it would erase the evidence that the choices were made before any
@@ -595,7 +629,7 @@ result existed.
 | 3 | The D20 gates are specified but not wired | **Wired** into `build_plan`, with two counters against two denominators. Both gates pass **142/142**; N does not move. | §4, §6, §8 |
 | 4 | How is the per-defect dichotomy formed from r = 3? | **Majority** — strictly more than half of completed repetitions. `any-of-3` and `unanimity` rejected, with reasons. | §2.1 |
 | 5 | **From Q1 (2026-09-14):** does the trace-matcher bug reach the study? | **Not the manipulation; yes the measurement.** Built: O5's check on content-word Jaccard ≥ 0.10 (D22), O5's `action` anchor on Jaccard ≥ 0.20 (D24); restoration kept on the production matcher, which calibrated best. O5 sensitivity analyses pre-registered. | §2.3, §3 item 8, plan §17.2–17.5 |
-| ⛔ 6 | **NEW 2026-09-14:** is A3 a floor for *injected* defects? | **No — measured.** A3 exists only at P0, where the injected output never enters the context (D10), so it re-draws a clean output. Estimated A3 repair ≈ 53% over the N = 142 mix — O6/O7 are 100% by construction, a 37% floor on their own — against the 5% `power.py` assumes. Confirmatory test 3, the §5 A3 prediction, the pre-committed negative result, and D19's A3 arm all rest on that assumption. **Author decision required** — options in plan §17.6. | §2.1, §5, §7, plan §17.6 |
+| 6 | **From item 5 (2026-09-14):** is A3 a floor for *injected* defects? | **No — measured; A3 re-roled (author, 2026-09-14).** A3 exists only at P0, where the injected output never enters the context (D10), so it regenerates a clean output: ≈ 53% `repaired` estimated, O6/O7 100% by construction, against the 5% `power.py` assumed. A3 is now a regeneration baseline. The confirmatory set is the single A1-vs-A2 test; A2 vs A3 and Cochran's Q move to secondary; the §5 A3 prediction is corrected and the pre-committed negative result withdrawn; D19 reads A1 against overwrite. **Rejected:** an added artifact-shown, no-rejection arm (new frozen wording, no literature behind its power assumption), and freezing as is. | §2, §2.1, §3 items 3 and 9, §5, §7, plan §17.6–17.7 |
 
 **Items 1, 2 and 4 were confirmed by the author on 2026-09-14**, as recorded
 above: pool the contrast; D19 in scope, run after the core; majority.

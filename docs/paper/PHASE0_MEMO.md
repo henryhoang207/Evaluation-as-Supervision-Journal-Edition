@@ -741,3 +741,9 @@ the budget is confirmed; reported as pre-registered and unrun if it cannot be.
 `PREREGISTRATION.md` §11 item 6, `JOURNAL_PLAN.md` §17.6. A3 re-draws at P0, where
 an injected defect is never in the context, so it is not a near-zero floor for
 Tier 2 (estimated ≈ 53% repair). It blocks the freeze.
+
+**§11 item 6 answered 2026-09-14 — A3 re-roled.** A3 is a regeneration baseline
+rather than a floor. The confirmatory set is the single A1-vs-A2 test; A2 vs A3
+and Cochran's Q are secondary; the near-zero prediction is corrected and the
+pre-committed negative result is withdrawn for injected defects
+(`JOURNAL_PLAN.md` §17.7). The pre-registration was frozen the same day.

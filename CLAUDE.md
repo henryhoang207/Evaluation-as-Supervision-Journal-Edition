@@ -24,8 +24,8 @@ Two tracks share one repository.
    (injected-defect repair study) is the active work. **Start at
    [`docs/paper/NEXT_SESSION.md`](docs/paper/NEXT_SESSION.md)**, with
    `docs/paper/JOURNAL_PLAN.md` as the authoritative plan,
-   `docs/paper/PREREGISTRATION.md` as the frozen analysis spec (⚠ **§11 blockers closed 2026-09-08; committed 2026-09-14 but NOT frozen — the
-   freeze is the annotated tag `prereg-freeze`, and no trial may run before it**),
+   `docs/paper/PREREGISTRATION.md` as the frozen analysis spec (✅ **FROZEN 2026-09-14 at the annotated tag `prereg-freeze`** — a change after
+   it is a dated §0 amendment, and any result it touches is exploratory),
    `docs/paper/PHASE0_MEMO.md` for what awaits a supervisor answer, and
    `docs/paper/PUBLICATION_STRATEGY.md` for how many papers the work becomes.
    ⛔ **`docs/paper/HANDOFF.md` is historical and contained three false

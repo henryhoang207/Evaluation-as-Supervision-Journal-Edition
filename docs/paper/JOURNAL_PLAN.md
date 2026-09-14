@@ -1888,3 +1888,33 @@ But four pre-registered things rest on the wrong assumption:
 - **(c) Keep everything as it is.** Rejected: the prediction and the power
   assumption are mechanically wrong, and a pre-registration that knowingly
   freezes them is worse than none.
+
+### 17.7 D25 — A3 re-roled as a regeneration baseline (author, 2026-09-14)
+
+Option (a) of §17.6, adopted. `PREREGISTRATION.md` §11 item 6 records it, and the
+pre-registration was frozen at the annotated tag `prereg-freeze` the same day.
+
+1. **A3 is a regeneration baseline, not a floor.** The arm, its wording, its P0
+   placement and its 102 trials are unchanged; only its interpretation changes.
+2. **The confirmatory set is the single A1-vs-A2 McNemar test, at α = 0.05.**
+3. **A2 vs A3 moves to secondary**, read as *re-presenting the defective output
+   with a contentless rejection versus regenerating from scratch*.
+4. **The §5 A3 prediction is corrected** and the pre-committed negative result
+   ("if A1 ≈ A3 … headline") is withdrawn for injected defects.
+5. **D19 reads A1 against overwrite**, with A3 beside it as what regeneration
+   alone gives. §7's "O4 × {A1, A3}, P1" contradicted the code — A3 is defined
+   only at P0 — and now says so.
+
+⚠ **One consequence went a step past option (a) as §17.6 worded it.** Option (a)
+said "Holm over two tests": Cochran's Q plus A1 vs A2. But Q is an omnibus over
+the matched arms, A3 among them, so an A3 that mechanically scores ≈ 53% would
+make Q reject for the same artifact that disqualified test 3. **Q therefore moves
+to secondary as well, leaving one confirmatory test.** That also repairs a
+mismatch nobody had noticed: `power.py` computes every MDE at an unadjusted
+α = 0.05 (`ALPHA = 0.05`, no Holm), so under the three-test Holm set the primary
+test would have faced a stricter threshold than its power was computed for.
+
+**What this supersedes in this plan:** D4's "exactly three confirmatory tests"
+(and its differing list, which already disagreed with the pre-registration); the
+"Exactly three confirmatory tests under Holm" sentence in §8; and the A3 row of
+the §13.3 prediction table. The pre-registration wins where they disagree.

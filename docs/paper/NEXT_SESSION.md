@@ -47,7 +47,7 @@ the scorer is corrected.
 | ~~1~~ | ✅ **DONE 2026-09-14** — O5's check on content words (D22) | — |
 | ~~2~~ | ✅ **DONE 2026-09-14** — O5 anchor on Jaccard ≥ 0.20 (D24); restoration stays on the production matcher | — |
 | ~~3~~ | ✅ **DONE 2026-09-14** — Q3 pool · Q4 D19 after the core · Q5 majority | — |
-| **⛔ 3b** | **Decide A3** (`PREREGISTRATION.md` §11 item 6, `JOURNAL_PLAN.md` §17.6): at P0 a bare re-draw never sees the injected defect, so it scores ≈ 53% `repaired` against the 5% `power.py` assumes | Blocks the tag. The smoke test waits too — it runs an A3 × P0 cell |
+| ~~3b~~ | ✅ **DONE 2026-09-14** — A3 re-roled as a regeneration baseline (D25); the confirmatory set is A1 vs A2 alone (`JOURNAL_PLAN.md` §17.7) | — |
 | **4** | **`git tag -a prereg-freeze`, push the tag** | The freeze |
 | 5 | Live 7-cell smoke test, 7–21 calls | First money |
 | 6 | The ≈1,180-trial core, after a budget check | — |

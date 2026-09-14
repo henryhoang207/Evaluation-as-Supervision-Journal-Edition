@@ -11,7 +11,11 @@ Effect sizes are taken from the plan, not invented:
     p(A1) = 0.45   Arimbur section V.E, assertion-error class (section 14.2) -
                    the hardest measured class and the direct analogue of a
                    schema-valid but ungrounded claim
-    p(A3) = 0.05   near floor; Self-Debug Table 3b, Huang intrinsic rows
+    p(A3) = 0.05   near floor; Self-Debug Table 3b, Huang intrinsic rows.
+                   NOT a floor for injected defects (PREREGISTRATION 11 item 6):
+                   A3 re-draws at P0 without ever seeing the defect, and
+                   scripts/analysis/a3_redraw.py estimates ~53%. Kept only
+                   because p(A2) is derived from it.
     p(A2) = 0.33   Self-Debug: A2 captures ~70% of A1's *gain* over A3
                    (section 13.3), i.e. 0.05 + 0.70 * (0.45 - 0.05)
     p(A0) = 0.65   capability ceiling; least constrained by literature, so it
@@ -244,7 +248,7 @@ def main() -> int:
         print(f"{label:<34} {nd:>11} {res['naive']:>9.3f} {res['cluster']:>9.3f}")
 
     print("\n" + "=" * 74)
-    print("3. POWER for A2 vs A3 (28pp) - the easier contrast")
+    print("3. POWER for A2 vs A3 (28pp) - SUPERSEDED: A3 is no floor for injected defects")
     print("=" * 74)
     print(f"{'design':<34} {'naive':>10} {'cluster':>10}")
     for label, nd, r in [
