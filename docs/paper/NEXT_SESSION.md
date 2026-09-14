@@ -48,9 +48,9 @@ the scorer is corrected.
 | ~~2~~ | ✅ **DONE 2026-09-14** — O5 anchor on Jaccard ≥ 0.20 (D24); restoration stays on the production matcher | — |
 | ~~3~~ | ✅ **DONE 2026-09-14** — Q3 pool · Q4 D19 after the core · Q5 majority | — |
 | ~~3b~~ | ✅ **DONE 2026-09-14** — A3 re-roled as a regeneration baseline (D25); the confirmatory set is A1 vs A2 alone (`JOURNAL_PLAN.md` §17.7) | — |
-| **4** | **`git tag -a prereg-freeze`, push the tag** | The freeze |
-| 5 | Live 7-cell smoke test, 7–21 calls | First money |
-| 6 | The ≈1,180-trial core, after a budget check | — |
+| ~~4~~ | ✅ **DONE 2026-09-14** — pre-registration frozen at annotated tag `prereg-freeze` (commit `5f78d21`), pushed | — |
+| ~~5~~ | ✅ **DONE 2026-09-14** — live smoke test **7/7 passed** (A1/A2 at P1; A1 at P0, P2, P3; A0 at P1; A3 at P0), fallback disabled, none skipped for provider errors, 6 min 49 s. It covers one reasoning-stage defect only, so the D22/D24 O5 scoring path has not yet run live | — |
+| **▶ 6** | **The ≈1,180-trial core (1,167 planned), after an API budget check** — `scripts/run_injection_study.py` with `LLM_DISABLE_FALLBACK=1`. The first rows it writes are the study's first trial data | A credit ceiling was hit once already; a trial is 1–3 calls |
 
 ### ▶ First actions, in order
 
