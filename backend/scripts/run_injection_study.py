@@ -34,6 +34,7 @@ Run (from backend/, venv active):
 
     python scripts/run_injection_study.py --dry-run          # no API key needed
     python scripts/run_injection_study.py --root out_study --out out_study/T2
+    python scripts/run_injection_study.py --c1 --out out_study/T2C1   # the D8 cell
 """
 
 from __future__ import annotations
@@ -79,6 +80,36 @@ score_repair = _load_by_path("score_repair", "analysis/score_repair.py")
 # same budget; only the first keeps each arm's blocks intact, which is what the
 # matched analysis needs.
 ARM_FRACTION = {"A1": 1.0, "A2": 1.0, "A3": 0.25, "A0": 0.5}
+
+# D8/D8d: the constraint-completeness cell. C1 is the stage prompt with the
+# supervisor's obligations stated up front (arms.C1_CONSTRAINTS); C0 is the
+# production prompt, which is what every core trial runs. Three properties,
+# each decided rather than convenient:
+#
+#   - **{A1, A2} only** (D8d). The cell exists to ask whether the A1-vs-A2 gap
+#     survives constraint disclosure, so it needs those two arms and no more.
+#   - **The same defect, the same injected base, the same session** (D8b
+#     option (ii)). The C1 cells are appended to the defect's own block rather
+#     than run as a second pass, so C0-vs-C1 is matched within a defect exactly
+#     as arm-vs-arm is. Regenerating the base under C1 would confound the
+#     difference-in-differences with C1 having made the clean output cleaner.
+#   - **A fraction over defects, on the same stride as ARM_FRACTION**, so
+#     growing the bank never reshuffles which defects already carry it.
+#
+# The fraction is written as the D8d count over the pre-registered N so the
+# arithmetic stays visible. ⚠ It realises **37 defects, not 40**: the stride is
+# applied per operator, and six independent floors lose three defects between
+# them. Stratifying is worth more than the round number -- a C1 subset that fell
+# in a block would confound the condition with operator, which is the one thing
+# a 6-defect gain could not buy back -- so the shortfall is reported rather than
+# tuned away. 37 x {A1,A2} x r=3 = **222 trials**, inside D8d's "~240".
+# ⚠ Off by default (``--c1``). The frozen core is 1,167 C0 trials and the
+# runner must keep producing exactly that unless the cell is asked for; C1 is
+# a post-freeze addition and is exploratory (PREREGISTRATION.md §0.1).
+C1_DEFECTS = 40           # D8d, against the pre-registered N below
+C1_N_AT_FREEZE = 142      # PREREGISTRATION.md §6 — the N the fraction is set at
+C1_FRACTION = C1_DEFECTS / C1_N_AT_FREEZE
+C1_ARMS = ("A1", "A2")
 
 DEFAULT_REPS = 3          # D4d: r=3 if 0.80 power is the target
 DEFAULT_PLACEMENT = "P1"  # D10: the Tier-2 core runs at P1, not the production P0
@@ -133,11 +164,15 @@ def _in_subset(index: int, fraction: float) -> bool:
     return int((index + 1) * fraction) > int(index * fraction)
 
 
-def _cells_for(index: int, reps: int, placement: str) -> list[dict]:
-    """Arm x repetition cells for one defect, in execution order.
+def _cells_for(index: int, reps: int, placement: str,
+               with_c1: bool = False) -> list[dict]:
+    """Arm x condition x repetition cells for one defect, in execution order.
 
     A3 is a determinism floor at P0 by construction; A0 cannot run at P0 at all
     (D9b). Enforced here rather than special-cased in the loop.
+
+    The C1 cells come last, as a block, so a defect that does not carry them
+    produces a byte-identical cell list to the one the frozen core planned.
     """
     cells: list[dict] = []
     for arm in ("A0", "A1", "A2", "A3"):
@@ -146,13 +181,20 @@ def _cells_for(index: int, reps: int, placement: str) -> list[dict]:
         arm_placement = "P0" if arm == "A3" else placement
         if not arms_mod.is_defined(arm, arm_placement):
             continue
-        cells.extend({"arm": arm, "placement": arm_placement, "rep": r}
+        cells.extend({"arm": arm, "placement": arm_placement,
+                      "condition": "C0", "rep": r}
                      for r in range(reps))
+    if with_c1 and _in_subset(index, C1_FRACTION):
+        for arm in C1_ARMS:
+            cells.extend({"arm": arm, "placement": placement,
+                          "condition": "C1", "rep": r}
+                         for r in range(reps))
     return cells
 
 
 def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLACEMENT,
-               seed: int = 0, operators: tuple[str, ...] | None = None) -> list[dict]:
+               seed: int = 0, operators: tuple[str, ...] | None = None,
+               with_c1: bool = False) -> list[dict]:
     """Every defect to run, in execution order, with its arms attached.
 
     One entry per (base, operator) — that is one *defect*. Its arms and their
@@ -231,7 +273,7 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
                 continue
 
             entry["runnable"] = True
-            entry["arms"] = _cells_for(op_index[op], reps, placement)
+            entry["arms"] = _cells_for(op_index[op], reps, placement, with_c1)
             op_index[op] += 1
             plan.append(entry)
     return plan
@@ -243,14 +285,28 @@ def plan_summary(plan: list[dict]) -> dict:
     ``injection_success_rate`` is over the *applicable* defects; ``trigger_rate``
     is over the ones whose injection verified. Reporting one pooled "yield"
     would hide which of the two moved.
+
+    ``core_trials`` is the C0 count and is reported separately from ``trials``
+    for the same reason: the pre-registration froze a 1,167-trial core, and a
+    single total that silently absorbed the C1 cell would stop anyone checking
+    the plan against it.
     """
     applicable = [d for d in plan if d.get("applicable")]
     verified = [d for d in applicable if d.get("injection_valid")]
     runnable = [d for d in plan if d.get("runnable")]
     by_arm: dict[str, int] = {}
+    by_condition: dict[str, int] = {}
+    by_cell: dict[str, int] = {}
+    c1_defects = 0
     for d in runnable:
+        if any(c.get("condition", "C0") == "C1" for c in d["arms"]):
+            c1_defects += 1
         for cell in d["arms"]:
+            condition = cell.get("condition", "C0")
             by_arm[cell["arm"]] = by_arm.get(cell["arm"], 0) + 1
+            by_condition[condition] = by_condition.get(condition, 0) + 1
+            key = f"{condition}:{cell['arm']}"
+            by_cell[key] = by_cell.get(key, 0) + 1
 
     def _rate(num: int, den: int) -> float | None:
         return round(num / den, 4) if den else None
@@ -268,6 +324,11 @@ def plan_summary(plan: list[dict]) -> dict:
         "defects_runnable": len(runnable),
         "trials": sum(len(d["arms"]) for d in runnable),
         "trials_by_arm": by_arm,
+        "trials_by_condition": by_condition,
+        "trials_by_cell": by_cell,
+        "core_trials": by_condition.get("C0", 0),
+        "c1_trials": by_condition.get("C1", 0),
+        "defects_c1": c1_defects,
         "operators": sorted({d["operator"] for d in runnable}),
     }
 
@@ -278,6 +339,11 @@ def verify_order(plan: list[dict]) -> list[str]:
     Within a defect, every arm's repetitions must be contiguous, and the defect
     must hold all of its arms. If the loop is ever rewritten arm-outer, this is
     what says so.
+
+    Contiguity is keyed on **(condition, arm)**, not on arm alone: the C1 cell
+    re-runs A1 and A2 under a different prompt, so arm alone would read a
+    correctly ordered C1 block as an arm-outer rewrite. The invariant it
+    protects is unchanged — one block per cell, all of them in one session.
     """
     problems = []
     for d in plan:
@@ -285,15 +351,24 @@ def verify_order(plan: list[dict]) -> list[str]:
         # carries no arms by design, and must not be reported as missing one.
         if not d.get("runnable", d.get("applicable")):
             continue
-        seen: list[str] = []
+        seen: list[tuple[str, str]] = []
         for cell in d["arms"]:
-            if not seen or seen[-1] != cell["arm"]:
-                if cell["arm"] in seen:
-                    problems.append(f"{d['defect_id']}: arm {cell['arm']} is not contiguous")
-                seen.append(cell["arm"])
+            key = (cell.get("condition", "C0"), cell["arm"])
+            if not seen or seen[-1] != key:
+                if key in seen:
+                    problems.append(
+                        f"{d['defect_id']}: arm {key[1]} under {key[0]} is not contiguous")
+                seen.append(key)
         # A0 and A3 run on subsets by design (D4c); the primary contrast does not.
-        if "A1" not in seen or "A2" not in seen:
-            problems.append(f"{d['defect_id']}: missing a primary arm ({seen})")
+        core = [arm for condition, arm in seen if condition == "C0"]
+        if "A1" not in core or "A2" not in core:
+            problems.append(f"{d['defect_id']}: missing a primary arm ({core})")
+        # A half-populated C1 cell yields no C0-vs-C1 contrast for this defect,
+        # which is the one thing the cell exists to produce (D8d).
+        c1 = [arm for condition, arm in seen if condition == "C1"]
+        if c1 and set(c1) != set(C1_ARMS):
+            problems.append(
+                f"{d['defect_id']}: the C1 cell is not {'/'.join(C1_ARMS)} ({c1})")
     return problems
 
 
@@ -318,6 +393,7 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
         "check_class": descriptor.check_class,
         "arm": cell["arm"],
         "placement": cell["placement"],
+        "condition": cell.get("condition", "C0"),
         "rep": cell["rep"],
         "session_id": session_id,
         "descriptor": descriptor.to_dict(),
@@ -427,6 +503,11 @@ def _regenerate(cell: dict, base_state: dict, injected_state: dict,
        this stage. They are not this trial's downstream, and leaving them in a
        field named ``downstream_state`` (D12) invites a later analysis to read
        them as such.
+    4. **Factor C reaches the prompt here and nowhere else.** C1 rewrites the
+       stage prompt this function just built; the *base output* it injects into
+       came from a dump generated under production, so it is C0's under either
+       condition. That is D8b option (ii), and it is what makes the cell a
+       claim about retry-time disclosure rather than about a whole pipeline.
     """
     from app.core import nodes  # noqa: PLC0415
 
@@ -446,6 +527,10 @@ def _regenerate(cell: dict, base_state: dict, injected_state: dict,
         cell["placement"],
         injected_output,
         feedback=getattr(decision, "retry_feedback", None),
+        # D8b: factor C varies the retry prompt only. The base output this
+        # trial injects into was generated under C0 either way.
+        condition=cell.get("condition", "C0"),
+        stage=stage,
     )
 
     result = agent.run_messages(messages, original_task, payload)
@@ -463,8 +548,9 @@ def _regenerate(cell: dict, base_state: dict, injected_state: dict,
 
 
 def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
-        dry_run: bool, limit: int | None = None, sleep: float = 0.0) -> int:
-    plan = build_plan(root, reps=reps, placement=placement, seed=seed)
+        dry_run: bool, limit: int | None = None, sleep: float = 0.0,
+        with_c1: bool = False) -> int:
+    plan = build_plan(root, reps=reps, placement=placement, seed=seed, with_c1=with_c1)
     problems = verify_order(plan)
     if problems:
         print("ORDER VIOLATION (section 14.1) — refusing to run:")
@@ -503,6 +589,9 @@ def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
           f"({s['injection_success_rate']}) · trigger {s['triggered']}/{s['injection_verified']} "
           f"({s['trigger_rate']})")
     print(f"trials : {s['trials']}  by arm {s['trials_by_arm']}")
+    if s["c1_trials"]:
+        print(f"cond   : core(C0) {s['core_trials']} · C1 {s['c1_trials']} "
+              f"on {s['defects_c1']} defects {s['trials_by_cell']}")
     print(f"resume : {len(done)} done, {len(pending)} pending\n")
 
     for i, defect in enumerate(pending, 1):
@@ -569,10 +658,15 @@ def main() -> int:
     ap.add_argument("--dry-run", action="store_true",
                     help="Enumerate the plan and make no LLM calls.")
     ap.add_argument("--plan-only", action="store_true", help="Print the plan summary and exit.")
+    ap.add_argument("--c1", action="store_true",
+                    help="Add the D8 constraint-completeness cell: {A1,A2} under the "
+                         "constraint-complete prompt, on a subset of defects (D8d). "
+                         "Off by default -- the frozen core is C0 only.")
     args = ap.parse_args()
 
     if args.plan_only:
-        plan = build_plan(args.root, args.reps, args.placement, args.seed)
+        plan = build_plan(args.root, args.reps, args.placement, args.seed,
+                          with_c1=args.c1)
         print(json.dumps(plan_summary(plan), indent=2))
         problems = verify_order(plan)
         print("order OK" if not problems else f"ORDER VIOLATIONS: {problems[:5]}")
@@ -585,7 +679,7 @@ def main() -> int:
             return 1
 
     return run(args.root, args.out, args.reps, args.placement, args.seed,
-               args.dry_run, args.limit, args.sleep)
+               args.dry_run, args.limit, args.sleep, args.c1)
 
 
 if __name__ == "__main__":

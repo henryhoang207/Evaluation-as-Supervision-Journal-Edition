@@ -517,3 +517,195 @@ def test_the_gates_are_free_and_run_before_the_runner_spends_anything(monkeypatc
     source = (BACKEND / "scripts" / "run_injection_study.py").read_text(encoding="utf-8")
     gate_call = source.index("verify_injection(op, injected, state)")
     assert gate_call < source.index("def run("), "the gate must run before run()"
+
+
+# ── D8/D8d: the constraint-completeness cell ──────────────────────────────────
+#
+# Wired 2026-09-20, after the prereg-freeze tag. The gate that matters most is
+# the first one: the frozen core must not move because the cell now exists.
+
+
+@needs_study
+def test_the_frozen_core_is_unchanged_when_the_c1_cell_is_not_asked_for():
+    """HARD GATE: 1,167 C0 trials, exactly as the pre-registration froze them.
+
+    The C1 cell is a post-freeze addition. A default that quietly added 222
+    trials to the core would spend budget the freeze did not cover and would
+    make --plan-only stop agreeing with PREREGISTRATION.md.
+    """
+    s = runner.plan_summary(runner.build_plan(str(STUDY_ROOT)))
+    assert s["trials"] == s["core_trials"] == 1167
+    assert s["c1_trials"] == 0 and s["defects_c1"] == 0
+    assert set(s["trials_by_condition"]) == {"C0"}
+
+
+@needs_study
+def test_the_c1_cell_is_a1_and_a2_only_at_full_repetitions():
+    """D8d: the cell asks whether the A1-vs-A2 gap survives disclosure."""
+    plan = [d for d in runner.build_plan(str(STUDY_ROOT), with_c1=True) if d["runnable"]]
+    carrying = [d for d in plan
+                if any(c["condition"] == "C1" for c in d["arms"])]
+    assert carrying
+
+    for defect in carrying:
+        c1 = [c for c in defect["arms"] if c["condition"] == "C1"]
+        assert {c["arm"] for c in c1} == set(runner.C1_ARMS)
+        for arm in runner.C1_ARMS:
+            assert sum(1 for c in c1 if c["arm"] == arm) == 3
+        # D10: the cell runs at the Tier-2 placement, like the core
+        assert all(c["placement"] == "P1" for c in c1)
+
+
+@needs_study
+def test_the_c1_cell_realises_the_size_the_plan_documents():
+    """37 defects and 222 trials, not D8d's round 40/240 — per-operator floors.
+
+    Pinned rather than rounded: if the bank grows and this moves, the number in
+    PREREGISTRATION.md section 0.1 has to move with it.
+    """
+    s = runner.plan_summary(runner.build_plan(str(STUDY_ROOT), with_c1=True))
+    assert s["defects_c1"] == 37
+    assert s["c1_trials"] == 222
+    assert s["core_trials"] == 1167
+    assert s["trials"] == 1167 + 222
+    assert s["trials_by_cell"]["C1:A1"] == s["trials_by_cell"]["C1:A2"] == 111
+
+
+@needs_study
+def test_the_c1_subset_is_stratified_by_operator():
+    """A subset falling in a block would confound the condition with operator."""
+    plan = [d for d in runner.build_plan(str(STUDY_ROOT), with_c1=True) if d["runnable"]]
+    by_op: dict[str, list[bool]] = {}
+    for d in plan:
+        by_op.setdefault(d["operator"], []).append(
+            any(c["condition"] == "C1" for c in d["arms"]))
+
+    assert len(by_op) > 1
+    for op, flags in by_op.items():
+        assert any(flags), f"{op} carries no C1 defect at all"
+        expected = [runner._in_subset(i, runner.C1_FRACTION) for i in range(len(flags))]
+        assert flags == expected, f"{op}: the C1 allocation is not a clean stride"
+
+
+@needs_study
+def test_the_c1_cell_shares_the_defect_and_therefore_the_session():
+    """D8b option (ii): C0 and C1 see the identical injected base.
+
+    The cells are appended to the defect's own block, so the C0-vs-C1 contrast
+    is matched within a defect exactly as arm-vs-arm is, and both run inside the
+    one session id (section 14.1).
+    """
+    plan = [d for d in runner.build_plan(str(STUDY_ROOT), with_c1=True) if d["runnable"]]
+    carrying = [d for d in plan if any(c["condition"] == "C1" for c in d["arms"])][0]
+
+    conditions = [c["condition"] for c in carrying["arms"]]
+    assert conditions == sorted(conditions, key=lambda c: c != "C0"), \
+        "the C1 cells must be one trailing block, not interleaved with the core"
+    assert conditions.count("C1") == 6
+
+
+@needs_study
+def test_adding_the_c1_cell_leaves_the_core_cells_byte_identical():
+    """The cell must extend the plan, never perturb it."""
+    core = runner.build_plan(str(STUDY_ROOT))
+    both = runner.build_plan(str(STUDY_ROOT), with_c1=True)
+    assert len(core) == len(both)
+
+    for a, b in zip(core, both):
+        assert a["defect_id"] == b["defect_id"]
+        assert a["arms"] == [c for c in b["arms"] if c["condition"] == "C0"]
+
+
+@needs_study
+def test_order_holds_with_the_c1_cell_attached():
+    """Contiguity is per (condition, arm): C1 re-runs A1 and A2 legitimately."""
+    assert runner.verify_order(runner.build_plan(str(STUDY_ROOT), with_c1=True)) == []
+
+
+def test_verify_order_catches_an_interleaved_c1_cell():
+    """The relaxed key must not have relaxed the invariant it protects."""
+    bad = [{
+        "defect_id": "d1", "applicable": True,
+        "arms": [
+            {"arm": "A1", "condition": "C0", "rep": 0},
+            {"arm": "A1", "condition": "C1", "rep": 0},
+            {"arm": "A1", "condition": "C0", "rep": 1},
+            {"arm": "A2", "condition": "C0", "rep": 0},
+        ],
+    }]
+    assert any("not contiguous" in p for p in runner.verify_order(bad))
+
+
+def test_verify_order_catches_a_half_populated_c1_cell():
+    """One arm under C1 yields no C0-vs-C1 contrast for that defect."""
+    bad = [{
+        "defect_id": "d1", "applicable": True,
+        "arms": [
+            {"arm": "A1", "condition": "C0", "rep": 0},
+            {"arm": "A2", "condition": "C0", "rep": 0},
+            {"arm": "A1", "condition": "C1", "rep": 0},
+        ],
+    }]
+    assert any("C1 cell is not" in p for p in runner.verify_order(bad))
+
+
+@needs_study
+def test_the_trial_row_records_the_condition():
+    """Unrecorded, a C1 trial is indistinguishable from a core one in the data."""
+    plan = [d for d in runner.build_plan(str(STUDY_ROOT), with_c1=True) if d["runnable"]]
+    defect = [d for d in plan if any(c["condition"] == "C1" for c in d["arms"])][0]
+    base = inject_defects.state_from_dump(defect["dump_dir"])
+    injected, descriptor = inject_defects.inject(defect["operator"], base, seed=0)
+
+    c1_cell = [c for c in defect["arms"] if c["condition"] == "C1"][0]
+    row = runner.run_trial(defect, c1_cell, base, injected, descriptor, "s", dry_run=True)
+    assert row["condition"] == "C1"
+
+    c0_cell = [c for c in defect["arms"] if c["condition"] == "C0"][0]
+    row = runner.run_trial(defect, c0_cell, base, injected, descriptor, "s", dry_run=True)
+    assert row["condition"] == "C0"
+
+
+@needs_study
+def test_the_c1_seam_states_the_constraints_in_productions_own_prompt(monkeypatch):
+    """The live seam must carry C1 into the system turn — and only there.
+
+    This is the one that would fail silently: a runner that dropped the
+    condition on the floor would still produce rows labelled C1.
+    """
+    from app.agents.reasoning_agent import ReasoningAgent
+
+    arms_mod = runner.arms_mod
+    _, base, injected, descriptor, decision = _reasoning_defect()
+
+    seen_c0, seen_c1 = {}, {}
+    monkeypatch.setattr(runner, "_agent_for",
+                        lambda stage: _capturing_agent(ReasoningAgent, seen_c0))
+    runner._regenerate({"arm": "A1", "placement": "P1", "condition": "C0"},
+                       base, injected, descriptor, decision)
+    monkeypatch.setattr(runner, "_agent_for",
+                        lambda stage: _capturing_agent(ReasoningAgent, seen_c1))
+    runner._regenerate({"arm": "A1", "placement": "P1", "condition": "C1"},
+                       base, injected, descriptor, decision)
+
+    block = arms_mod.constraint_block("reasoning_agent")
+    assert block not in seen_c0["messages"][0]["content"]
+    assert block in seen_c1["messages"][0]["content"]
+    assert seen_c1["messages"][0]["content"].rstrip().endswith(arms_mod.C1_CLOSING)
+    # everything downstream of the system turn is untouched by the condition
+    assert seen_c0["messages"][1:] == seen_c1["messages"][1:]
+
+
+@needs_study
+def test_a_cell_without_a_condition_key_still_runs_as_c0(monkeypatch):
+    """Resuming a checkpoint written before factor C existed must not crash."""
+    from app.agents.reasoning_agent import ReasoningAgent
+
+    _, base, injected, descriptor, decision = _reasoning_defect()
+    seen = {}
+    monkeypatch.setattr(runner, "_agent_for",
+                        lambda stage: _capturing_agent(ReasoningAgent, seen))
+
+    runner._regenerate({"arm": "A1", "placement": "P1"}, base, injected,
+                       descriptor, decision)
+    assert runner.arms_mod.C1_PREAMBLE not in seen["messages"][0]["content"]

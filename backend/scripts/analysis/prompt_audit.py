@@ -11,8 +11,10 @@ asserts in a retry string, does the stage's own system prompt state it? The
 output is the delta that D8's C1 prompt variant must close, and it is meant to
 be published verbatim in an appendix.
 
-It cannot decide *what C1 should say* — that is D8b, an open question for the
-Phase-0 memo. It reports the gap.
+It reports the gap. It does not decide what C1 should say: that wording lives
+in ``scripts/arms.py`` (``C1_CONSTRAINTS``), derived clause by clause from the
+``supervisor_asserts`` field below and never from the retry strings, which carry
+the measured facts and are A1's manipulation.
 
 Run (from backend/, venv active — read-only, no API calls, no dataset):
 
@@ -181,8 +183,9 @@ def report(result: dict) -> None:
         print("C1 (D8) must state these for A1 vs A2 to be a specificity contrast:")
         for text in s["c1_must_close"]:
             print(f"  - {text}")
-        print("\nD8b (open): whether C1 also regenerates the base output, or varies")
-        print("only the retry prompt over a C0 base, is a Phase-0 decision.")
+        print("\nD8b (decided 2026-08-26, option (ii)): C1 varies only the retry")
+        print("prompt over one shared C0 base. The wording is arms.C1_CONSTRAINTS;")
+        print("run `python scripts/arms.py` to print it verbatim.")
 
 
 def main() -> int:

@@ -8,6 +8,10 @@ result it touches is reported as exploratory. No trial ran before the tag.
 regeneration baseline, and the confirmatory set is now the single A1-vs-A2
 test** (§2, §2.1).
 
+**One amendment has been filed since the freeze — §0.1 A1 (2026-09-20), the C1
+constraint-complete prompt.** It adds no confirmatory claim and does not move
+the core.
+
 Why a tag, and not "the commit that adds it" (this header's wording until
 2026-09-14): the file had to be committed and pushed while the `PHASE0_MEMO.md`
 Q1 matcher decision was still being measured, because the same commit carries
@@ -55,6 +59,93 @@ what changed and why, and any result it touches is reported as exploratory.
 
 **Where this file and `JOURNAL_PLAN.md` disagree, this file wins** for anything
 it covers. The plan remains authoritative for everything else.
+
+### 0.1 Amendments after the freeze
+
+One line per amendment, dated, stating what changed and what it touches. The
+freeze tag `prereg-freeze` (commit `5f78d21`) remains the reference point: this
+section records every divergence from it.
+
+| # | Date | Change | Status of anything it touches |
+|---|---|---|---|
+| **A1** | **2026-09-20** | **The C1 constraint-complete prompt is written, and factor C is wired into the runner.** Nothing above changes. | Exploratory — as §2.1 already had it |
+
+**A1 — the C1 cell, in full.**
+
+*What existed at the freeze.* The B8 audit had run and is a passing gate:
+`prompt_audit.py` adjudicated **5 of 5** obligations the supervisor asserts in
+its retry feedback as stated in **no** stage prompt, and
+`out_study/prompt_audit.json` records them. D8 permits either folding those into
+a constraint-complete prompt **or recording the delta**; the delta was recorded,
+which is why the audit never blocked a trial. What did not exist was the C1
+prompt text itself, or any way for the runner to run the cell — the frozen plan
+is 1,167 trials, all of them C0 under a label that was never written down
+because it was the only condition.
+
+*What this amendment adds.* The wording (`scripts/arms.py`, `C1_PREAMBLE` and
+`C1_CONSTRAINTS`, printed verbatim by `python scripts/arms.py` and reproduced in
+the appendix) and the wiring (`--c1` on `run_injection_study.py`).
+
+*Why it is still exploratory, and was before this amendment.* D8c: detecting the
+interaction has power **0.109–0.300** at sample sizes the Tier-2 ceiling puts out
+of reach by a factor of three. §2.1 therefore already listed the C1 cell among
+the exploratory analyses, and §5 already pre-recorded the prediction that the
+interaction is undetectable and that the cell is reported **as two gaps with
+CIs, never as a test**. This amendment does not move the cell between
+categories; it makes an exploratory cell runnable. The confirmatory set is
+unchanged and remains the single McNemar A1-vs-A2 at α = 0.05 (§2.1).
+
+*What it does not touch.* The primary contrast, the outcome dichotomy, the
+blocking, the exclusions, the split rule, the power gate, and the core's size.
+`--c1` is **off by default** precisely so that the frozen core cannot move by
+accident, and `test_the_frozen_core_is_unchanged_when_the_c1_cell_is_not_asked_for`
+pins it at 1,167 C0 trials.
+
+*Two files on §8's frozen list did change, and that is the point of filing this.*
+`arms.py` gains the C1 wording and an `apply_condition` that is a no-op under
+C0; `run_injection_study.py` gains the condition dimension, the `--c1` flag, and
+a `condition` field on every trial row. Both changes are **additive**: with the
+flag off, `build_plan` returns the same defects carrying the same cells, and
+`test_adding_the_c1_cell_leaves_the_core_cells_byte_identical` asserts the core
+cells are unchanged element for element when the flag is on. The scorer,
+`content_match.py`, `inject_defects.py` and `power.py` are untouched. Two
+invariants were **widened** rather than relaxed: `verify_order` now keys
+contiguity on (condition, arm), because the C1 cell legitimately re-runs A1 and
+A2, and it gained a check that a C1 cell holding only one arm is an error — a
+half-populated cell yields no C0-vs-C1 contrast for that defect. Both new
+failure modes have tests.
+
+*The design, restated so this section stands alone.*
+
+- **C0** is the production stage prompt. **C1** is that same prompt with the
+  stage's own supervisor obligations spliced in ahead of its closing output
+  instruction. Nothing else differs — same turns, same roles, same arm text.
+- **One shared C0 base** (D8b option (ii)): both conditions inject into the
+  identical base output, and only the retry prompt varies. The claim the cell
+  licenses is therefore about **stating the constraints at retry time**, not
+  about a constraint-complete pipeline. The paper must say so.
+- **Crossed with {A1, A2} only** (D8d), at r = 3, on a stratified subset.
+- Each clause restates the audit's `supervisor_asserts` field — the *obligation*
+  — and never a retry string, which carries this defect's measured facts and is
+  A1's manipulation. The **frequency** check is deliberately excluded: it
+  resolves to `proceed_with_warning`, never to `retry`, so it never reaches an
+  A1 feedback string, and stating it would give C1 information A1 does not have.
+
+*Realised size, pinned here because it is not D8d's round number.* The subset is
+selected by the same per-operator stride the arm subsets use, so that the
+condition cannot fall in a block and confound itself with operator. Six
+independent floors cost three defects against D8d's 40:
+
+| | D8d as approved | Realised at N = 142 |
+|---|---|---|
+| Defects | 40 | **37** (6/6/6/5/7/7 across O1/O2/O3/O5/O6/O7) |
+| Trials | ≈240 | **222** = 37 × {A1, A2} × r = 3 |
+
+37 was preferred to a fraction tuned until it read 40: stratification is worth
+more than the round number, and the cell is reported as an estimate with a CI,
+where three defects move the interval by about 4%. `--plan-only --c1` prints
+both numbers, and a test pins them — if the bank grows, this table must move
+with it.
 
 ---
 
@@ -205,8 +296,9 @@ analysis script.
 
 Everything else in the analysis is **exploratory** and is labelled so in the
 paper. This includes: the placement effects, the placement × arm interaction,
-the C1 constraint-completeness cell, the severity sweep, per-operator rates,
-the collateral comparison, best-of-k curves, and the D19 counterfactual (§7).
+the C1 constraint-completeness cell (built 2026-09-20; §0.1 A1), the severity
+sweep, per-operator rates, the collateral comparison, best-of-k curves, and the
+D19 counterfactual (§7).
 
 ### 2.2 Blocking
 
@@ -547,9 +639,10 @@ commit:
 - `backend/scripts/inject_defects.py` — operators and `verify_injection`.
 - `backend/scripts/run_injection_study.py` — iteration order, **the D20 gates in
   `build_plan`**, the two denominators in `plan_summary`, checkpointing, the
-  exclusions. **28 tests.**
+  exclusions. **28 tests**, plus 12 added 2026-09-20 for the C1 cell (§0.1 A1),
+  which is off unless `--c1` is passed.
 - `backend/scripts/analysis/power.py` — the MDEs quoted above.
-- `backend/scripts/arms.py` — `AUTHORED_WORDING`, frozen 2026-08-25.
+- `backend/scripts/arms.py` — `AUTHORED_WORDING`, frozen 2026-08-25; extended 2026-09-20 by §0.1 A1 with `C1_PREAMBLE` and `C1_CONSTRAINTS` (the C1 cell's wording, which D8 requires be published verbatim).
 
 **The gates live in `build_plan`, not `run()`, and that placement is part of the
 specification.** Both are pure `measure()`/`decide()` at zero API cost, so a

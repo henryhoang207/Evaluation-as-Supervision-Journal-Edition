@@ -51,6 +51,7 @@ the scorer is corrected.
 | ~~4~~ | ✅ **DONE 2026-09-14** — pre-registration frozen at annotated tag `prereg-freeze` (commit `5f78d21`), pushed | — |
 | ~~5~~ | ✅ **DONE 2026-09-14** — live smoke test **7/7 passed** (A1/A2 at P1; A1 at P0, P2, P3; A0 at P1; A3 at P0), fallback disabled, none skipped for provider errors, 6 min 49 s. It covers one reasoning-stage defect only, so the D22/D24 O5 scoring path has not yet run live | — |
 | **▶ 6** | **The ≈1,180-trial core (1,167 planned), after an API budget check** — `scripts/run_injection_study.py` with `LLM_DISABLE_FALLBACK=1`. The first rows it writes are the study's first trial data | A credit ceiling was hit once already; a trial is 1–3 calls |
+| 7 | **The C1 cell, after the core** — same runner, `--c1`, **222 trials** on 37 defects. Built 2026-09-20; exploratory, and it changes nothing above | It reuses the C0 base (D8b), so it is retry trials only. Sequenced after the core because it is an estimate with a CI, never a test (D8c) |
 
 ### ▶ First actions, in order
 
@@ -85,13 +86,13 @@ O1 takes N from 142 to 118 and the MDE from 10.9 pp to **11.9 pp against the
 
 | | |
 |---|---|
-| Tests | **278 pass**, 13 integration deselected (266 → 278: +9 wiring the D20 gates, +3 for the D19 scorer path) |
-| Gates | replay **159/0** · injector cross-check 191 applicable · prompt audit 5/5 · scorer selftest · `--plan-only` **1,167 trials**, order OK · suite **278 pass** · ✅ **D20 gates wired and passing 142/142 on both** (injection success 1.00, trigger 1.00) |
+| Tests | **322 pass**, 13 integration deselected. Measured 2026-09-20; the 278 recorded here was the 2026-09-08 figure and had not been updated through the 2026-09-14 matcher/A3 work. **+24 on 2026-09-20** for the C1 cell |
+| Gates | replay **159/0** · injector cross-check 191 applicable · prompt audit 5/5 · scorer selftest · `--plan-only` **1,167 trials** (and **1,389** with `--c1`), order OK · suite **322 pass** · ✅ **D20 gates wired and passing 142/142 on both** (injection success 1.00, trigger 1.00) |
 | **Collection (D11b)** | ✅ **DONE 2026-08-26.** 8/8 ok, observe mode, no truncation, ~49 min. **28 dumps.** N **142** (predicted ≈143), yield **5.07**/dump. Tier 1 **11 → 13**, cells 5→7, businesses 4→6 |
 | **Power gate** | ✅ **PASS at N=142, r=3** — MDE **10.9 pp** w/ occasion vs X **12 pp**, margin **1.1 pp** (§16.5). ✅ **And it survives the matcher fix**: swept 120–150, MDE stays under 12 pp even below the worst case of losing O5 entirely (§16.6). Contingency if N drops under ~130 is **r=4** |
 | **D13 audit** | ✅ **complete 2026-08-26.** κ **0.870** CI [0.674, 1.000], 29/31 raw, 0 `U`, two human raters. **Tier 1: 0/11 called an error. Tier 2: 16/20.** See §15 of the plan |
 | Decided & approved | **D11b** grow the sample (+8 dumps, N→≈143, X stays 12 pp) · **D8b** one shared C0 base · **D8d** C1 at 40 defects · the four §7 positions |
-| Study size approved | core **≈1,180** trials + C1 **≈240** = **≈1,420 trials ≈ 1,420–4,260 calls** |
+| Study size approved | core **≈1,180** trials + C1 **≈240** = **≈1,420 trials ≈ 1,420–4,260 calls**. Realised: core **1,167** + C1 **222** = **1,389** |
 | Still outstanding | **D5b** local model · **§7 item 3** warm-resample (REQUIRED by D2, not built, needs a *choice*) · ⛔ **the `untraceable_recommendation` matcher bug** — fix it, and decide what it means for the paper under review (memo §11) · ⛔ **D19** O4 counterfactual: in scope? · ⛔ **D20** gates specified, **not wired** · ⛔ **D21** pre-registration DRAFT, 4 blockers (memo §12) |
 
 ### ⛔ NUMBERS SUPERSEDED 2026-08-26 — read this before believing anything below

@@ -22,7 +22,7 @@
       "id": "recommendation_traceability",
       "stage": "strategy_agent",
       "supervisor_asserts": "each recommendation issue must trace to a reasoning pattern or root cause",
-      "feedback_fragment": "do not trace back to any reasoning pattern or root cause",
+      "feedback_fragment": "do not trace back to any reasoning",
       "stated_in_prompt": false,
       "prompt_evidence": null,
       "prompt_says_instead": "issue: the underlying problem being addressed"
@@ -46,9 +46,7 @@
       "prompt_says_instead": "business_name: the restaurant name"
     }
   ],
-  "drift": [
-    "recommendation_traceability: retry string 'do not trace back to any reasoning pattern or root cause' no longer in supervision.py"
-  ],
+  "drift": [],
   "summary": {
     "n_constraints": 5,
     "stated_in_prompt": 0,
