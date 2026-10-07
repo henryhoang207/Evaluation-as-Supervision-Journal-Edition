@@ -773,7 +773,9 @@ Recorded here so that no reviewer has to discover them:
 | Interim budget look after 12 defects (§0.1 A4) | 2026-10-05 |
 | **Core complete — 1,167 trials, 1,149 usable, 18 `status_error`** | **2026-10-07** |
 | Confirmatory analysis code written and run (§0.1 A4) | 2026-10-07 |
-| §0.1 A2 and A3 — D19 and C1 passes wired | 2026-10-07 |
+| §0.1 A2 and A3 — D19 and C1 passes wired, committed and pushed (`4d03268`) before either ran | 2026-10-07 |
+| **D19 pass complete — 138 trials, all usable** | **2026-10-07** |
+| **C1 pass complete — 444 trials, all usable** | **2026-10-07** |
 
 ---
 

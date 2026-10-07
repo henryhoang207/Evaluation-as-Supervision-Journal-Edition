@@ -362,8 +362,21 @@ def _rate_ci(cellmap: dict, arm: str, seed: int) -> dict:
     if not len(per_defect):
         return {"arm": arm, "n_defects": 0}
     lo, hi = cluster_bootstrap_ci(per_defect, np.random.default_rng(seed))
-    return {"arm": arm, "n_defects": int(len(per_defect)),
-            "rate": float(per_defect.mean()), "ci95": [lo, hi]}
+    out = {"arm": arm, "n_defects": int(len(per_defect)),
+           "rate": float(per_defect.mean()), "ci95": [lo, hi]}
+    # A percentile bootstrap of a constant is that constant: [1.0, 1.0] when
+    # every defect scored 1.0, which reads as certainty. Report the exact
+    # Clopper-Pearson interval over defects beside it in that case.
+    if np.all(per_defect == 1.0) or np.all(per_defect == 0.0):
+        out["exact_ci95_defects"] = clopper_pearson(int(per_defect.sum()), len(per_defect))
+    return out
+
+
+def clopper_pearson(k: int, n: int, alpha: float = ALPHA) -> list[float]:
+    """Exact two-sided binomial interval for k successes in n."""
+    lo = 0.0 if k == 0 else float(stats.beta.ppf(alpha / 2, k, n - k + 1))
+    hi = 1.0 if k == n else float(stats.beta.ppf(1 - alpha / 2, k + 1, n - k))
+    return [lo, hi]
 
 
 def analyse_c1(rows: list[dict], core_rows: list[dict] | None = None,

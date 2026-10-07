@@ -1,0 +1,114 @@
+{
+  "provenance": {
+    "script_sha256": "bccc08b4396ec0041a418193fd17b8c31183faa85276faaf5f2c0852f037b9f7",
+    "seed": 20260803,
+    "n_boot": 10000,
+    "trials_usable": 444,
+    "exclusions": {},
+    "served_models": {
+      "gemini-2.5-flash": 447
+    }
+  },
+  "gap_C0": {
+    "arms": "A1-A2",
+    "n_defects": 37,
+    "dropped": 0,
+    "rate_A1": 0.9459459459459459,
+    "rate_A2": 0.9639639639639639,
+    "estimate": -0.01801801801801802,
+    "ci95": [
+      -0.06306306306306307,
+      0.01801801801801802
+    ],
+    "majority_A1": 35,
+    "majority_A2": 36,
+    "discordant": {
+      "A1_only": 0,
+      "A2_only": 1
+    },
+    "mcnemar_p": 1.0,
+    "reps_per_cell": {
+      "3/3": 37
+    }
+  },
+  "gap_C1": {
+    "arms": "A1-A2",
+    "n_defects": 37,
+    "dropped": 0,
+    "rate_A1": 0.9279279279279278,
+    "rate_A2": 0.9459459459459459,
+    "estimate": -0.01801801801801802,
+    "ci95": [
+      -0.06306306306306307,
+      0.018018018018018018
+    ],
+    "majority_A1": 34,
+    "majority_A2": 35,
+    "discordant": {
+      "A1_only": 0,
+      "A2_only": 1
+    },
+    "mcnemar_p": 1.0,
+    "reps_per_cell": {
+      "3/3": 37
+    }
+  },
+  "gap_C1_minus_gap_C0": {
+    "n_defects": 37,
+    "estimate": 3.00060276925718e-18,
+    "ci95": [
+      -0.06306306306306306,
+      0.06306306306306307
+    ]
+  },
+  "rates": {
+    "C0|A1": {
+      "arm": "A1",
+      "n_defects": 37,
+      "rate": 0.9459459459459459,
+      "ci95": [
+        0.8738738738738737,
+        1.0
+      ]
+    },
+    "C0|A2": {
+      "arm": "A2",
+      "n_defects": 37,
+      "rate": 0.9639639639639639,
+      "ci95": [
+        0.9009009009009008,
+        1.0
+      ]
+    },
+    "C1|A1": {
+      "arm": "A1",
+      "n_defects": 37,
+      "rate": 0.9279279279279278,
+      "ci95": [
+        0.8378378378378378,
+        1.0
+      ]
+    },
+    "C1|A2": {
+      "arm": "A2",
+      "n_defects": 37,
+      "rate": 0.9459459459459459,
+      "ci95": [
+        0.8738738738738737,
+        1.0
+      ]
+    }
+  },
+  "drift_vs_core": {
+    "pairs": 222,
+    "same_outcome_class": 213,
+    "byte_identical_output": 185,
+    "flips_core_to_rerun": {
+      "deleted->repaired": 2,
+      "repaired->replaced": 1,
+      "repaired->unrepaired": 1,
+      "replaced->repaired": 2,
+      "unrepaired->repaired": 3
+    }
+  }
+}

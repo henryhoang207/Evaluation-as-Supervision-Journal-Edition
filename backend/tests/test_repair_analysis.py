@@ -253,3 +253,22 @@ def test_d19_reads_retry_against_an_exact_zero_call_overwrite():
     assert res["A1_retry"]["rate"] == pytest.approx(2 / 3)
     assert res["A3_regeneration"]["rate"] == pytest.approx(1.0)
     assert res["A1_minus_A3"]["n_defects"] == 1
+
+
+def test_an_all_success_arm_gets_an_exact_interval_not_just_a_degenerate_bootstrap():
+    cm = {(f"d{i}", "A1"): [1, 1, 1] for i in range(23)}
+    r = ra._rate_ci(cm, "A1", seed=0)
+    assert r["ci95"] == [1.0, 1.0]                       # the bootstrap of a constant
+    lo, hi = r["exact_ci95_defects"]
+    assert hi == 1.0 and lo == pytest.approx(0.025 ** (1 / 23))   # 23/23 -> [0.852, 1]
+
+
+def test_a_mixed_arm_carries_no_exact_interval():
+    cm = {("d1", "A1"): [1, 0, 1], ("d2", "A1"): [1, 1, 1]}
+    assert "exact_ci95_defects" not in ra._rate_ci(cm, "A1", seed=0)
+
+
+def test_clopper_pearson_matches_known_values():
+    assert ra.clopper_pearson(0, 10) == [0.0, pytest.approx(0.3084971)]
+    lo, hi = ra.clopper_pearson(5, 10)
+    assert lo == pytest.approx(0.187086, abs=1e-5) and hi == pytest.approx(0.812914, abs=1e-5)
