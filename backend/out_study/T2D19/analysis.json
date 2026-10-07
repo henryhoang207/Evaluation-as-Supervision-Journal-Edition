@@ -1,0 +1,77 @@
+{
+  "provenance": {
+    "script_sha256": "2f783150abb32318063b2a305b1392f8e18bea0554dc864e5f6baecefe9bc520",
+    "seed": 20260803,
+    "n_boot": 10000,
+    "trials_usable": 138,
+    "exclusions": {},
+    "served_models": {
+      "gemini-2.5-flash": 142
+    },
+    "total_tokens": 3090558
+  },
+  "overwrite": {
+    "rate": 1.0,
+    "llm_calls": 0,
+    "note": "exact by construction"
+  },
+  "A1_retry": {
+    "arm": "A1",
+    "n_defects": 23,
+    "rate": 1.0,
+    "ci95": [
+      1.0,
+      1.0
+    ]
+  },
+  "A3_regeneration": {
+    "arm": "A3",
+    "n_defects": 23,
+    "rate": 0.9710144927536232,
+    "ci95": [
+      0.9275362318840579,
+      1.0
+    ]
+  },
+  "A1_minus_A3": {
+    "arms": "A1-A3",
+    "n_defects": 23,
+    "dropped": 0,
+    "rate_A1": 1.0,
+    "rate_A3": 0.9710144927536232,
+    "estimate": 0.028985507246376815,
+    "ci95": [
+      0.0,
+      0.07246376811594205
+    ],
+    "majority_A1": 23,
+    "majority_A3": 23,
+    "discordant": {
+      "A1_only": 0,
+      "A3_only": 0
+    },
+    "mcnemar_p": 1.0,
+    "reps_per_cell": {
+      "3/3": 23
+    }
+  },
+  "outcome_classes": {
+    "A1|repaired": 69,
+    "A3|deleted": 2,
+    "A3|repaired": 67
+  },
+  "collateral_by_arm": {
+    "A1": {
+      "rate": 0.0,
+      "measurable": 69
+    },
+    "A3": {
+      "rate": 0.30434782608695654,
+      "measurable": 69
+    }
+  },
+  "llm_calls_per_trial": {
+    "A1": 1.0,
+    "A3": 1.0579710144927537
+  }
+}
