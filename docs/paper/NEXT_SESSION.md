@@ -9,7 +9,21 @@ it is the authoritative plan. This file is the map.
 
 ---
 
-## 0. Thirty seconds — where things actually stand (2026-09-08)
+## 0. ▶ 2026-10-07 — THE CORE HAS RUN. Read this block; everything below it is history
+
+| | |
+|---|---|
+| **Core** | ✅ Ran 2026-10-05 → 07 into `backend/out_study/T2/checkpoint.jsonl`. **1,167 trials, 1,149 usable, 18 `status_error`** (network drops + one overnight laptop sleep). All `gemini-2.5-flash`, no fallback, 16.6M tokens. Re-scored offline: **1,149/1,149 agree** with the live scores |
+| **Confirmatory (§2.1)** | **Null at ceiling.** N = 139 (3 lost their A1/A2 pair). A1 94.7 %, A2 94.0 %, **A1 − A2 = +0.7 pp, 95 % CI [−2.9, +4.3]**, exact McNemar p = 0.75 (discordant 6 vs 4). **Split rule not met → no branch.** Same without `attempts_made > 1` trials |
+| **Why at ceiling** | 68 % of A1, 53 % of A2 and 45 % of A3 retries are **byte-identical to the clean pre-injection output** — at temperature 0 the model re-derives its original answer from unchanged upstream state. A0 100 %, A3 ≈ 95 % on the severe cell. Predictions were A1 ≈ 45 %, A2 ≈ 33 %, A3 ≈ 53 %. O1 is the only cell with headroom (≈ 85 %) |
+| **Analysis code** | `scripts/analysis/repair_analysis.py` (`--cell core|c1|d19`), 28 tests. Output `out_study/T2/analysis.json` |
+| **Post-core passes** | Wired 2026-10-07 as prereg **§0.1 A2 (D19)** and **A3 (C1 as its own pass, C0 re-run beside it)**; A4 records the analysis code and the one interim budget look. `run_injection_study.py --cell d19` (23 defects, 138 trials → `T2D19`) and `--cell c1` (37 defects, 444 trials → `T2C1`). **Launched 2026-10-07 14:00** |
+| Suite | **358 pass**, 13 integration deselected (2026-10-07) |
+| ⛔ Not committed | `out_study/T2/` (paid data, one copy), the post-core passes' output, the runner/analysis changes, these docs |
+
+---
+
+## 0a. Thirty seconds — where things actually stood (2026-09-08)
 
 **The build is wired, the D11b collection is DONE, and the pre-registration's
 four blockers are CLOSED (2026-09-08). Zero *trials* have run.** The only calls

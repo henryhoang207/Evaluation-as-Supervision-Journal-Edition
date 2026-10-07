@@ -34,7 +34,12 @@ Run (from backend/, venv active):
 
     python scripts/run_injection_study.py --dry-run          # no API key needed
     python scripts/run_injection_study.py --root out_study --out out_study/T2
-    python scripts/run_injection_study.py --c1 --out out_study/T2C1   # the D8 cell
+    python scripts/run_injection_study.py --cell c1    # the D8 cell, own pass (prereg 0.1 A3)
+    python scripts/run_injection_study.py --cell d19   # the overwrite counterfactual (0.1 A2)
+
+``--c1`` (C1 appended to every core defect) predates the core run and is kept
+for the record; after the core ran it would re-run all 1,167 core trials, so
+the cell runs as ``--cell c1`` instead.
 """
 
 from __future__ import annotations
@@ -114,6 +119,23 @@ C1_ARMS = ("A1", "A2")
 DEFAULT_REPS = 3          # D4d: r=3 if 0.80 power is the target
 DEFAULT_PLACEMENT = "P1"  # D10: the Tier-2 core runs at P1, not the production P0
 
+# The passes the runner can make, each into its own checkpoint. ``core`` is the
+# frozen 1,167-trial plan; the other two were added after it ran (2026-10-07).
+#
+#   c1  -- PREREGISTRATION.md 0.1 A3. The D8 cell as a pass of its own, on the
+#          same 37 defects ``--c1`` selects. Each carries {A1, A2} under C0 *and*
+#          C1, so C0-vs-C1 is matched within one session (14.1) instead of
+#          against core trials run days earlier. The re-run C0 cells double as
+#          a measurement of serving drift against the core.
+#   d19 -- 7 and 0.1 A2. O4 x {A1 at P1, A3 at P0}, r = 3, every applicable
+#          defect. O4 resolves to ``proceed_with_warning`` in production and is
+#          overwritten, never retried; this pass routes it to retry on purpose,
+#          outside the production path, to measure what the overwrite bought.
+CELLS = ("core", "c1", "d19")
+CELL_OUT = {"core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19"}
+D19_OPERATORS = ("O4",)
+D19_CELLS = (("A1", DEFAULT_PLACEMENT), ("A3", "P0"))
+
 
 # ── checkpointing ─────────────────────────────────────────────────────────────
 
@@ -192,9 +214,41 @@ def _cells_for(index: int, reps: int, placement: str,
     return cells
 
 
+def _c1_cells(index: int, reps: int, placement: str) -> list[dict]:
+    """The C1 pass: {A1, A2} under C0 then C1, on the ``--c1`` stride, else none."""
+    if not _in_subset(index, C1_FRACTION):
+        return []
+    return [{"arm": arm, "placement": placement, "condition": condition, "rep": r}
+            for condition in ("C0", "C1") for arm in C1_ARMS for r in range(reps)]
+
+
+def _d19_cells(reps: int) -> list[dict]:
+    """The D19 pass: A1 at the Tier-2 placement, A3 at P0 -- the only one it has."""
+    return [{"arm": arm, "placement": placement, "condition": "C0", "rep": r}
+            for arm, placement in D19_CELLS for r in range(reps)]
+
+
+def d19_decision(decision):
+    """Route O4's warn-level measurement to a retry, for the D19 pass only.
+
+    Production resolves frequency divergence with ``proceed_with_warning`` and
+    overwrites the value; ``retry_feedback`` is None, so A1 would have nothing
+    to carry. The measured facts already exist as the decision's
+    ``frequency_corrected:{aspect}:{claimed}->{recomputed}`` flags, so A1
+    receives exactly those, joined the way production joins retry problems
+    (`` | ``) and wrapped by the unchanged production template. No new wording
+    is authored (PREREGISTRATION.md section 7). Production's own ``decide`` is
+    not touched; this function exists only in the runner.
+    """
+    flags = [f for f in decision.flags if f.startswith("frequency_corrected:")]
+    if not flags:
+        return decision
+    return supervision.Decision("retry", list(decision.flags), " | ".join(flags))
+
+
 def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLACEMENT,
                seed: int = 0, operators: tuple[str, ...] | None = None,
-               with_c1: bool = False) -> list[dict]:
+               with_c1: bool = False, cell: str = "core") -> list[dict]:
     """Every defect to run, in execution order, with its arms attached.
 
     One entry per (base, operator) — that is one *defect*. Its arms and their
@@ -221,7 +275,14 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
     ``unrepaired`` — scoring it would score the arms on a trial where the arms
     are identical by construction.
     """
-    operators = operators or inject_defects.REPAIR_OPERATORS
+    if cell not in CELLS:
+        raise ValueError(f"unknown cell {cell!r}; expected one of {CELLS}")
+    if cell != "core" and with_c1:
+        raise ValueError("--c1 extends the core plan; the c1 and d19 passes are separate")
+    operators = operators or (D19_OPERATORS if cell == "d19" else inject_defects.REPAIR_OPERATORS)
+    # D19 inverts the trigger gate: O4 must reach the warn-level verdict that
+    # production overwrites, and must not already be routed to retry.
+    expected_verdict = "proceed_with_warning" if cell == "d19" else "retry"
     plan: list[dict] = []
     # Per-operator counter so the arm subsets are stratified by operator rather
     # than falling in a block wherever one operator happens to sit in the order.
@@ -238,6 +299,7 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
                 "operator": op, "seed": seed,
                 "applicable": False, "injection_valid": None, "triggers": None,
                 "runnable": False, "reason": None, "gate": None, "arms": [],
+                "cell": cell,
             }
 
             ok, reason = inject_defects.applicable(op, state)
@@ -266,15 +328,28 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
                 plan.append(entry)
                 continue
 
-            entry["triggers"] = detail["verdict"] == "retry"
+            entry["triggers"] = detail["verdict"] == expected_verdict
             if not entry["triggers"]:
-                entry["reason"] = f"no_retry_verdict:{detail['verdict']}"
+                kind = "warning" if cell == "d19" else "retry"
+                entry["reason"] = f"no_{kind}_verdict:{detail['verdict']}"
                 plan.append(entry)
                 continue
 
-            entry["runnable"] = True
-            entry["arms"] = _cells_for(op_index[op], reps, placement, with_c1)
+            if cell == "c1":
+                arms = _c1_cells(op_index[op], reps, placement)
+            elif cell == "d19":
+                arms = _d19_cells(reps)
+            else:
+                arms = _cells_for(op_index[op], reps, placement, with_c1)
             op_index[op] += 1
+            if not arms:
+                # Cleared every gate, but the c1 pass does not carry it. Not
+                # runnable in this pass; the stride above still counted it.
+                entry["reason"] = "not_in_c1_subset"
+                plan.append(entry)
+                continue
+            entry["runnable"] = True
+            entry["arms"] = arms
             plan.append(entry)
     return plan
 
@@ -293,6 +368,7 @@ def plan_summary(plan: list[dict]) -> dict:
     """
     applicable = [d for d in plan if d.get("applicable")]
     verified = [d for d in applicable if d.get("injection_valid")]
+    triggered = [d for d in verified if d.get("triggers")]
     runnable = [d for d in plan if d.get("runnable")]
     by_arm: dict[str, int] = {}
     by_condition: dict[str, int] = {}
@@ -318,9 +394,11 @@ def plan_summary(plan: list[dict]) -> dict:
         "injection_verified": len(verified),
         "injection_failed": len(applicable) - len(verified),
         "injection_success_rate": _rate(len(verified), len(applicable)),
-        "triggered": len(runnable),
-        "untriggered": len(verified) - len(runnable),
-        "trigger_rate": _rate(len(runnable), len(verified)),
+        "triggered": len(triggered),
+        "untriggered": len(verified) - len(triggered),
+        "trigger_rate": _rate(len(triggered), len(verified)),
+        # Cleared every gate but not carried by this pass (the c1 subset).
+        "not_in_pass": len(triggered) - len(runnable),
         "defects_runnable": len(runnable),
         "trials": sum(len(d["arms"]) for d in runnable),
         "trials_by_arm": by_arm,
@@ -361,7 +439,8 @@ def verify_order(plan: list[dict]) -> list[str]:
                 seen.append(key)
         # A0 and A3 run on subsets by design (D4c); the primary contrast does not.
         core = [arm for condition, arm in seen if condition == "C0"]
-        if "A1" not in core or "A2" not in core:
+        needed = ("A1", "A3") if d.get("cell") == "d19" else ("A1", "A2")
+        if any(arm not in core for arm in needed):
             problems.append(f"{d['defect_id']}: missing a primary arm ({core})")
         # A half-populated C1 cell yields no C0-vs-C1 contrast for this defect,
         # which is the one thing the cell exists to produce (D8d).
@@ -385,6 +464,9 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
     stage = descriptor.stage
     pre_facts = supervision.measure(stage, injected_state)
     pre_decision = supervision.decide(stage, pre_facts, {})
+    # D19 only: what reaches the arm is the routed decision; the row still
+    # records the verdict production itself returned.
+    routed = d19_decision(pre_decision) if defect.get("cell") == "d19" else pre_decision
 
     row = {
         "defect_id": defect["defect_id"],
@@ -400,7 +482,8 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
         # 14.6: the entire measurement, not only the injected check.
         "pre_facts": pre_facts,
         "pre_verdict": pre_decision.verdict,
-        "retry_feedback": pre_decision.retry_feedback,
+        "retry_feedback": routed.retry_feedback,
+        "cell": defect.get("cell", "core"),
     }
 
     if dry_run:
@@ -413,7 +496,7 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
     started = time.time()
     calls_before = len(BaseAgent.call_log)
     try:
-        retried_state = _regenerate(cell, base_state, injected_state, descriptor, pre_decision)
+        retried_state = _regenerate(cell, base_state, injected_state, descriptor, routed)
     except Exception as exc:  # noqa: BLE001 — recorded, not swallowed
         row.update(status="error", error_type=type(exc).__name__, error_detail=str(exc)[:400])
         return row
@@ -549,8 +632,9 @@ def _regenerate(cell: dict, base_state: dict, injected_state: dict,
 
 def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
         dry_run: bool, limit: int | None = None, sleep: float = 0.0,
-        with_c1: bool = False) -> int:
-    plan = build_plan(root, reps=reps, placement=placement, seed=seed, with_c1=with_c1)
+        with_c1: bool = False, cell: str = "core") -> int:
+    plan = build_plan(root, reps=reps, placement=placement, seed=seed, with_c1=with_c1,
+                      cell=cell)
     problems = verify_order(plan)
     if problems:
         print("ORDER VIOLATION (section 14.1) — refusing to run:")
@@ -579,7 +663,9 @@ def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
 
     path = checkpoint_path(out_dir)
     done = load_done(path)
-    pending = [d for d in plan if d["defect_id"] not in done]
+    # A defect a pass does not carry is not written to that pass's checkpoint.
+    pending = [d for d in plan if d["defect_id"] not in done
+               and (d.get("runnable") or d.get("reason") != "not_in_c1_subset")]
     if limit:
         pending = pending[:limit]
 
@@ -647,7 +733,8 @@ def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", default="out_study")
-    ap.add_argument("--out", default="out_study/T2")
+    ap.add_argument("--out", default=None,
+                    help="Checkpoint directory; defaults per --cell (core: out_study/T2).")
     ap.add_argument("--reps", type=int, default=DEFAULT_REPS)
     ap.add_argument("--placement", default=DEFAULT_PLACEMENT,
                     choices=list(arms_mod.PLACEMENTS))
@@ -662,11 +749,17 @@ def main() -> int:
                     help="Add the D8 constraint-completeness cell: {A1,A2} under the "
                          "constraint-complete prompt, on a subset of defects (D8d). "
                          "Off by default -- the frozen core is C0 only.")
+    ap.add_argument("--cell", default="core", choices=list(CELLS),
+                    help="Which pass to make: the frozen core, the C1 cell as its own "
+                         "pass (prereg 0.1 A3), or the D19 counterfactual (0.1 A2).")
     args = ap.parse_args()
+    if args.c1 and args.cell != "core":
+        ap.error("--c1 extends the core plan; use --cell c1 for the C1 pass")
+    out_dir = args.out or CELL_OUT[args.cell]
 
     if args.plan_only:
         plan = build_plan(args.root, args.reps, args.placement, args.seed,
-                          with_c1=args.c1)
+                          with_c1=args.c1, cell=args.cell)
         print(json.dumps(plan_summary(plan), indent=2))
         problems = verify_order(plan)
         print("order OK" if not problems else f"ORDER VIOLATIONS: {problems[:5]}")
@@ -678,8 +771,8 @@ def main() -> int:
             print("No LLM configured. Use --dry-run, or set OPENAI_API_KEY.")
             return 1
 
-    return run(args.root, args.out, args.reps, args.placement, args.seed,
-               args.dry_run, args.limit, args.sleep, args.c1)
+    return run(args.root, out_dir, args.reps, args.placement, args.seed,
+               args.dry_run, args.limit, args.sleep, args.c1, args.cell)
 
 
 if __name__ == "__main__":

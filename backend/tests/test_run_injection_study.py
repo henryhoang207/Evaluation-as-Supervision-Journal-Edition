@@ -709,3 +709,127 @@ def test_a_cell_without_a_condition_key_still_runs_as_c0(monkeypatch):
     runner._regenerate({"arm": "A1", "placement": "P1"}, base, injected,
                        descriptor, decision)
     assert runner.arms_mod.C1_PREAMBLE not in seen["messages"][0]["content"]
+
+
+# ── the post-core passes (PREREGISTRATION.md section 0.1 A2, A3) ─────────────
+
+
+@needs_study
+def test_the_default_pass_is_still_the_frozen_core():
+    """HARD GATE: adding passes must not move the 1,167-trial core."""
+    s = runner.plan_summary(runner.build_plan(str(STUDY_ROOT), cell="core"))
+    assert s["trials"] == s["core_trials"] == 1167
+    assert s["not_in_pass"] == 0
+
+
+@needs_study
+def test_the_c1_pass_runs_the_same_37_defects_the_c1_flag_selects():
+    flagged = {d["defect_id"] for d in runner.build_plan(str(STUDY_ROOT), with_c1=True)
+               if any(c["condition"] == "C1" for c in d["arms"])}
+    c1_pass = {d["defect_id"] for d in runner.build_plan(str(STUDY_ROOT), cell="c1")
+               if d["runnable"]}
+    assert c1_pass == flagged and len(c1_pass) == 37
+
+
+@needs_study
+def test_the_c1_pass_matches_c0_and_c1_inside_one_defect():
+    """Section 14.1: the C0 comparator runs in the same session as C1."""
+    plan = [d for d in runner.build_plan(str(STUDY_ROOT), cell="c1") if d["runnable"]]
+    for d in plan:
+        cells = [(c["condition"], c["arm"]) for c in d["arms"]]
+        assert cells == ([("C0", "A1")] * 3 + [("C0", "A2")] * 3
+                         + [("C1", "A1")] * 3 + [("C1", "A2")] * 3)
+        assert all(c["placement"] == "P1" for c in d["arms"])
+    s = runner.plan_summary(runner.build_plan(str(STUDY_ROOT), cell="c1"))
+    assert s["trials"] == 444 and s["c1_trials"] == 222
+    assert s["untriggered"] == 0 and s["not_in_pass"] == 105
+    assert runner.verify_order(runner.build_plan(str(STUDY_ROOT), cell="c1")) == []
+
+
+@needs_study
+def test_the_d19_pass_is_o4_with_a1_at_p1_and_a3_at_p0():
+    plan = runner.build_plan(str(STUDY_ROOT), cell="d19")
+    runnable = [d for d in plan if d["runnable"]]
+    assert {d["operator"] for d in plan} == {"O4"}
+    assert len(runnable) == 23                      # PREREGISTRATION.md section 7
+    for d in runnable:
+        assert [(c["arm"], c["placement"]) for c in d["arms"]] == (
+            [("A1", "P1")] * 3 + [("A3", "P0")] * 3)
+    assert runner.verify_order(plan) == []
+    assert runner.plan_summary(plan)["trials"] == 138
+
+
+@needs_study
+def test_the_d19_gate_requires_the_warning_production_overwrites():
+    """D19 inverts the trigger: O4 must reach proceed_with_warning, not retry."""
+    for d in runner.build_plan(str(STUDY_ROOT), cell="d19"):
+        if d["runnable"]:
+            assert d["gate"]["verdict"] == "proceed_with_warning"
+
+
+def test_d19_routes_only_the_frequency_flags_into_the_feedback():
+    decision = runner.supervision.Decision(
+        "proceed_with_warning",
+        ["frequency_corrected:food:0.6->0.30", "low_confidence:n=12",
+         "frequency_corrected:service:0.5->0.20"])
+    routed = runner.d19_decision(decision)
+    assert routed.verdict == "retry"
+    assert routed.retry_feedback == (
+        "frequency_corrected:food:0.6->0.30 | frequency_corrected:service:0.5->0.20")
+    # production's own decision object is left alone
+    assert decision.verdict == "proceed_with_warning" and decision.retry_feedback is None
+
+
+def test_d19_leaves_a_decision_without_frequency_flags_unchanged():
+    decision = runner.supervision.Decision("proceed")
+    assert runner.d19_decision(decision) is decision
+
+
+@needs_study
+def test_a_d19_trial_records_productions_verdict_and_the_routed_feedback():
+    defect = [d for d in runner.build_plan(str(STUDY_ROOT), cell="d19") if d["runnable"]][0]
+    base = inject_defects.state_from_dump(defect["dump_dir"])
+    injected, descriptor = inject_defects.inject("O4", base, seed=0)
+    row = runner.run_trial(defect, defect["arms"][0], base, injected, descriptor,
+                           "s", dry_run=True)
+    assert row["pre_verdict"] == "proceed_with_warning"
+    assert row["retry_feedback"].startswith("frequency_corrected:")
+    assert row["cell"] == "d19"
+
+
+@needs_study
+def test_the_d19_a1_prompt_carries_the_measured_frequency(monkeypatch):
+    from app.agents.reasoning_agent import ReasoningAgent
+
+    defect = [d for d in runner.build_plan(str(STUDY_ROOT), cell="d19") if d["runnable"]][0]
+    base = inject_defects.state_from_dump(defect["dump_dir"])
+    injected, descriptor = inject_defects.inject("O4", base, seed=0)
+    decision = runner.supervision.decide(
+        "reasoning_agent", runner.supervision.measure("reasoning_agent", injected), {})
+    routed = runner.d19_decision(decision)
+    seen = {}
+    monkeypatch.setattr(runner, "_agent_for",
+                        lambda stage: _capturing_agent(ReasoningAgent, seen))
+    runner._regenerate({"arm": "A1", "placement": "P1"}, base, injected, descriptor, routed)
+    tail = "".join(m["content"] for m in seen["messages"][2:])
+    assert routed.retry_feedback in tail
+
+
+def test_the_c1_flag_cannot_be_combined_with_a_separate_pass():
+    with pytest.raises(ValueError):
+        runner.build_plan(str(STUDY_ROOT), with_c1=True, cell="d19")
+
+
+def test_a_pass_the_c1_cell_does_not_carry_is_not_written_to_its_checkpoint(tmp_path, monkeypatch):
+    plan = [
+        {"defect_id": "a:O1", "operator": "O1", "runnable": False,
+         "reason": "not_in_c1_subset", "arms": []},
+    ]
+    monkeypatch.setattr(runner, "build_plan", lambda *a, **k: plan)
+    monkeypatch.setattr(runner, "verify_order", lambda p: [])
+    monkeypatch.setattr(runner, "plan_summary", lambda p: {
+        "defects_runnable": 0, "defects_inapplicable": 0, "injection_verified": 0,
+        "defects_applicable": 0, "injection_success_rate": None, "triggered": 0,
+        "trigger_rate": None, "trials": 0, "trials_by_arm": {}, "c1_trials": 0})
+    assert runner.run("r", str(tmp_path), 3, "P1", 0, dry_run=True, cell="c1") == 0
+    assert not (tmp_path / "checkpoint.jsonl").exists()

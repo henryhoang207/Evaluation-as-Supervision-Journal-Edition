@@ -8,9 +8,9 @@ result it touches is reported as exploratory. No trial ran before the tag.
 regeneration baseline, and the confirmatory set is now the single A1-vs-A2
 test** (§2, §2.1).
 
-**One amendment has been filed since the freeze — §0.1 A1 (2026-09-20), the C1
-constraint-complete prompt.** It adds no confirmatory claim and does not move
-the core.
+**Four amendments have been filed since the freeze (§0.1 A1–A4).** None adds a
+confirmatory claim or moves the core. **The core ran 2026-10-05 → 07** (1,167
+trials, 1,149 usable).
 
 Why a tag, and not "the commit that adds it" (this header's wording until
 2026-09-14): the file had to be committed and pushed while the `PHASE0_MEMO.md`
@@ -69,6 +69,9 @@ section records every divergence from it.
 | # | Date | Change | Status of anything it touches |
 |---|---|---|---|
 | **A1** | **2026-09-20** | **The C1 constraint-complete prompt is written, and factor C is wired into the runner.** Nothing above changes. | Exploratory — as §2.1 already had it |
+| **A2** | **2026-10-07** | **The D19 pass is wired** (`--cell d19`): the trigger gate inverted to `proceed_with_warning` for O4 only, and A1 fed production's own `frequency_corrected` flags. | Exploratory — as §7 already had it |
+| **A3** | **2026-10-07** | **The C1 cell runs as its own pass** (`--cell c1`), its C0 comparators re-run in the same session: 37 defects, 444 trials. | Exploratory; the re-run C0 cells also measure serving drift |
+| **A4** | **2026-10-07** | **The confirmatory analysis code is written; one interim budget look is disclosed.** No rule changes. | None — records how §2–§4 were implemented |
 
 **A1 — the C1 cell, in full.**
 
@@ -146,6 +149,72 @@ more than the round number, and the cell is reported as an estimate with a CI,
 where three defects move the interval by about 4%. `--plan-only --c1` prints
 both numbers, and a test pins them — if the bank grows, this table must move
 with it.
+
+**A2 — the D19 pass is wired (2026-10-07).**
+
+*What §7 already fixed.* The cell (O4 × {A1 at P1, A3 at P0}, r = 3), its size
+(23 defects ≈ 138 trials), its sequencing (after the core) and both readings of
+its result. §7 also said it is "a new A1 instantiation for a check that produces
+no `retry_feedback` in production", to be logged as a dated addendum. This is
+that addendum.
+
+*What this amendment adds.* `run_injection_study.py --cell d19`, into its own
+checkpoint `out_study/T2D19`. Two pieces of wiring had no specification and are
+fixed here, before the pass runs:
+
+- **The trigger gate is inverted for this pass only.** D20's trigger gate
+  requires `retry`; O4 never reaches it — production returns
+  `proceed_with_warning` and overwrites the value. The D19 gate therefore
+  requires `proceed_with_warning`, which is the state whose overwrite the cell
+  measures. Injection validity (D20 gate 2) is unchanged. All 23 applicable
+  defects clear both gates.
+- **What A1 receives.** `d19_decision()` takes the decision's own
+  `frequency_corrected:{aspect}:{claimed}->{recomputed}` flags — the measured
+  facts `supervision.py` already emits — joins them with ` | ` (how production
+  joins retry problems) and hands them to the unchanged production template.
+  Nothing else is added: no prose, no new wording. Production's `decide()` is not
+  modified; the routing exists only in the runner, and the trial row records
+  production's own verdict (`pre_verdict: proceed_with_warning`) beside the
+  routed feedback.
+
+*What it does not touch.* The core, the confirmatory test, the scorer (its O4
+path was built 2026-09-08), `inject_defects.py`, `arms.py`. Tests pin the core at
+1,167 trials with `--cell core`, the D19 plan at 23 defects / 138 trials with A1
+at P1 and A3 at P0, and the feedback routing.
+
+**A3 — the C1 cell runs as its own pass, with its C0 comparators re-run beside
+it (2026-10-07; author's decision).**
+
+*Why A1's wiring could not be used as written.* A1 attached the C1 cells to
+the core defects, to run in the same pass. The core ran without `--c1`
+(2026-10-05 → 07), as the plan sequenced it. After that, `--c1` cannot produce
+the cell correctly: into `T2` it skips every C1 defect as already done, and into
+a fresh directory it re-runs all 1,167 core trials as well. More importantly,
+C1 run alone would be compared with C0 trials from a different session days
+earlier, which §14.1 forbids for any within-defect contrast.
+
+*What this amendment does.* `--cell c1` runs the **same 37 defects** `--c1`
+selects (same stride, pinned by a test), each carrying **{A1, A2} under C0 and
+then under C1**, r = 3, in one session per defect: **444 trials** into
+`out_study/T2C1`. The C0-vs-C1 contrast is computed from this pass alone, so it
+is matched within a session as §14.1 requires. The re-run C0 cells are not
+pooled with the core's; compared against the core's C0 cells for the same
+defects, they are a **test-retest measurement of serving drift**, reported as
+such (exploratory).
+
+*Status.* Exploratory, as A1 had it: two gaps with CIs (C0: A1 − A2; C1: A1 −
+A2), never a test. Nothing confirmatory changes.
+
+**A4 — the confirmatory analysis code, and one interim look (2026-10-07).**
+
+`scripts/analysis/repair_analysis.py` implements §2–§4 and §6. It was written
+after the core finished, transcribing rules this document fixed, and tested on
+synthetic rows (`tests/test_repair_analysis.py`) before it read real data; its
+SHA-256 is written into every output. One interim look happened during the core:
+on 2026-10-05, after 12 of 142 defects, outcome counts and per-trial token
+usage were inspected **to check the budget**. Nothing about the design, the
+stopping point or the analysis changed as a result, and the run continued to
+completion. It is disclosed so a reader does not have to take that on trust.
 
 ---
 
@@ -698,12 +767,13 @@ Recorded here so that no reviewer has to discover them:
 | §11 item 6 opened — A3 at P0 re-draws a clean output | 2026-09-14 |
 | §11 item 6 decided — A3 re-roled as a regeneration baseline; confirmatory set reduced to A1 vs A2 | 2026-09-14 |
 | **This document frozen — annotated tag `prereg-freeze`** | **2026-09-14** |
-| **First trial** | *not yet run* |
-
-⚠ **The row above is the gate on every row below it.** Zero trials have run.
-The first spend after the freeze is the 7-cell live smoke test
-(`tests/test_injection_seam_live.py -m integration`, 7–21 calls), which is the
-first LLM call this study will have made.
+| Live 7-cell smoke test passed, 7/7 | 2026-09-14 |
+| §0.1 A1 — C1 prompt written and wired | 2026-09-20 |
+| **First core trial** | **2026-10-05** |
+| Interim budget look after 12 defects (§0.1 A4) | 2026-10-05 |
+| **Core complete — 1,167 trials, 1,149 usable, 18 `status_error`** | **2026-10-07** |
+| Confirmatory analysis code written and run (§0.1 A4) | 2026-10-07 |
+| §0.1 A2 and A3 — D19 and C1 passes wired | 2026-10-07 |
 
 ---
 
