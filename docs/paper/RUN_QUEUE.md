@@ -32,7 +32,7 @@ where every design decision is filed, **before** its run.
 |---|---|---|---|
 | Q1 | **Placement pass** (§0.1 A5) — `--cell placement` → `T2P` | ✅ done 2026-10-07 22:47, verified | 540 trials. Verify, then `repair_analysis.py --cell placement` (reports with/without `attempts_made > 1`; P0 report-stage schema retries are concentrated) |
 | Q2 | **O1 severity sweep** (§0.1 A6) — `--cell severity` → `T2S` | ▶ running (started 22:47) | 144 trials. Verify, then `--cell severity` |
-| Q3 | **Warm resampling** (plan D2, "REQUIRED"; §0.1 A7 to file) | ⬜ to build | Defaults below. Needs a temperature parameter threaded through `BaseAgent` with default 0 |
+| Q3 | **Warm resampling** (plan D2, "REQUIRED"; §0.1 A7 filed) — `--cell warm` → `T2W` | 🔧 built, suite 387 green, pushed; launches after Q2 | Defaults below. Needs a temperature parameter threaded through `BaseAgent` with default 0 |
 | Q4 | **Downstream propagation** (plan D12; §0.1 A8 to file) | ⬜ to build | Re-run the stages downstream of each retried output from the persisted `downstream_state`; endpoint fixed in the amendment before running. The prereg §3 item 6 put global success out of scope, so this is exploratory by amendment |
 | Q5 | **Tier-1 replay** (prereg §3 item 5; §0.1 A9 to file) | ⬜ to build | 13 real defects × {A1, A2, A3} at P0 (A0 undefined at P0, D9b) × r = 3 = 117 trials. Judged by the same checks (plan §5 Tier 1, item 2), descriptive only (MDE ≈ 31 pp) |
 | Q6 | **Second model — C7** (plan D5b) | ⛔ **blocked on the author** | Needs: model by name, size, quantisation, seed, runtime version; local (hardware?) or hosted. The loop stops here if unanswered |
@@ -55,3 +55,4 @@ where every design decision is filed, **before** its run.
 
 - 2026-10-07 — queue created; Q1 running, Q2 chained behind it.
 - 2026-10-07 23:45 — **Q1 verified**: 71/71 rows, 540/540 trials (1 `status_error`), 45/45 defects in one session, offline re-score 539/539, descriptors identical. A1 repair P0 94.1 %, P1 97.8 %, P2 97.8 %, P3 97.0 %; P1−P2 0.0 pp [−4.4, +4.4], P1−P3 +0.7 pp, P3−P2 −0.7 pp, P1−P0 +3.7 pp [−1.5, +9.6]. §5 prediction P1 ≫ P3 ≈ P2: **P3 ≈ P2 holds, P1 ≫ P2/P3 does not** (ceiling). All 16 report-stage defects needed a schema retry at P0 (50 of 52 multi-attempt trials); without them P0 = 90.8 % on 29 defects. Collateral P0 38 % vs P1 1 %. Drift of re-run P1 vs core: 97 % same class, 81 % byte-identical.
+- 2026-10-07 23:50 — **Q3 built**: `BaseAgent.temperature` (class default 0, written to the call log), `--cell warm` (45 defects, 675 trials, 270 at T=0 / 405 at T=1), `repair_analysis.py --cell warm` (gaps, byte-identity, best-of-k, tokens). §0.1 A7 filed with both readings fixed. Fast tests 51 pass; core plan still 1,167.

@@ -336,3 +336,46 @@ def test_factor_passes_report_every_level_also_without_multi_attempt_trials():
     sa = res["without_multi_attempt_trials"]
     assert sa["rates"]["P0"]["n_defects"] == 1           # one P0 rep survives
     assert sa["contrasts"]["P1-P0"]["reps_per_cell"] == {"3/1": 1}
+
+
+
+# -- the warm-resample pass (section 0.1 A7) ----------------------------------
+
+
+def _warm_row(defect, spec, op="O2"):
+    """spec: {(arm, temperature): [outcomes]}"""
+    ts = []
+    for (arm, temp), outs in spec.items():
+        for i, o in enumerate(outs):
+            t = _trial(defect, arm, o, i, op=op)
+            t["temperature"] = temp
+            t["total_tokens"] = 100 if temp == 0.0 else 120
+            t["retried_output"] = {"o": o}
+            ts.append(t)
+    return _row(defect, ts, op)
+
+
+def test_warm_reports_both_gaps_and_their_difference():
+    rows = [_warm_row("d1", {("A1", 0.0): ["repaired"] * 3, ("A2", 0.0): ["repaired"] * 3,
+                             ("A1", 1.0): ["repaired"] * 3, ("A2", 1.0): ["unrepaired"] * 3,
+                             ("A3", 1.0): ["unrepaired", "repaired", "repaired"]})]
+    res = ra.analyse_warm(rows, seed=0)
+    assert res["contrasts"]["A1@T0-A2@T0"]["estimate"] == pytest.approx(0.0)
+    assert res["contrasts"]["A1@T1-A2@T1"]["estimate"] == pytest.approx(1.0)
+    assert res["gap_T1_minus_gap_T0"]["estimate"] == pytest.approx(1.0)
+    assert res["mean_tokens_per_trial"]["A1@T1"] == pytest.approx(120)
+
+
+def test_best_of_k_follows_repetition_order():
+    rows = [_warm_row("d1", {("A3", 1.0): ["unrepaired", "repaired", "unrepaired"]}),
+            _warm_row("d2", {("A3", 1.0): ["unrepaired", "unrepaired", "unrepaired"]})]
+    bok = ra.analyse_warm(rows, seed=0)["A3_best_of_k_T1"]
+    assert bok["1"]["rate"] == pytest.approx(0.0)
+    assert bok["2"]["rate"] == pytest.approx(0.5)
+    assert bok["3"]["rate"] == pytest.approx(0.5)
+
+
+def test_warm_levels_name_arm_and_temperature():
+    assert ra.warm_level({"arm": "A1", "temperature": 0.0}) == "A1@T0"
+    assert ra.warm_level({"arm": "A3", "temperature": 1.0}) == "A3@T1"
+    assert ra.warm_level({"arm": "A2"}) == "A2@T0"   # rows written before the field existed

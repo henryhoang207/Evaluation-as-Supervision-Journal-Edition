@@ -8,7 +8,7 @@ result it touches is reported as exploratory. No trial ran before the tag.
 regeneration baseline, and the confirmatory set is now the single A1-vs-A2
 test** (§2, §2.1).
 
-**Six amendments have been filed since the freeze (§0.1 A1–A6).** None adds a
+**Seven amendments have been filed since the freeze (§0.1 A1–A7).** None adds a
 confirmatory claim or moves the core. **The core ran 2026-10-05 → 07** (1,167
 trials, 1,149 usable).
 
@@ -74,6 +74,7 @@ section records every divergence from it.
 | **A4** | **2026-10-07** | **The confirmatory analysis code is written; one interim budget look is disclosed.** No rule changes. | None — records how §2–§4 were implemented |
 | **A5** | **2026-10-07** | **The placement pass is wired** (`--cell placement`): A1 × {P0, P1, P2, P3}, r = 3, on a one-third per-operator stride — 45 defects, 540 trials — with P1 re-run in-session. | Exploratory — as §2.1 already had it; the §5 prediction is unchanged |
 | **A6** | **2026-10-07** | **The O1 severity sweep is defined and wired** (`--cell severity`): level 2 = every resolving evidence id of the targeted pattern corrupted; A1 at P1, r = 3, all 24 O1 defects, both levels in-session — 144 trials. | Exploratory — as §2.1 already had it |
+| **A7** | **2026-10-07** | **The warm-resample cell (plan D2) is wired** (`--cell warm`): temperature 1.0 on the placement subset — A1/A2 at 0 and 1.0, A3 at 1.0, r = 3, 675 trials. Designed after the ceiling was seen; both readings fixed below. | Exploratory |
 
 **A1 — the C1 cell, in full.**
 
@@ -291,6 +292,55 @@ levels × r = 3, which is what this realises at 24.
 *Analysis* (`repair_analysis.py --cell severity`): A1 repair rate at each level
 with CIs and the paired level 1 − level 2 contrast; the re-run level 1 cells
 are compared with the core's O1 A1 trials as a drift measurement.
+
+**A7 — the warm-resample cell (2026-10-07).**
+
+*What existed before the freeze.* Plan D2 marks "the warm-resample subset
+(temperature > 0)" **REQUIRED**: it carries the Olausson equal-budget comparison,
+"the first thing a testing venue asks about A3". It was never built — `BaseAgent`
+hard-coded temperature 0 — and `PHASE0_MEMO.md` §7 item 3 asked for a choice
+(build, drop or defer) that was still open at the freeze. This document did not
+mention it. `PUBLICATION_STRATEGY.md` lists it in the "run first" set.
+
+*What existed when this was written — stated because it matters.* The core
+(null at ceiling), D19, C1 and placement (A1 at 94–98 % at every placement) had
+run, and the core had shown **why** it sits at ceiling: 68 % of A1, 53 % of A2
+and 45 % of A3 retries reproduce the clean pre-injection output byte for byte —
+at temperature 0 the model re-derives its original answer. **This cell was
+designed after seeing that**, and its first read tests that explanation. It is
+exploratory and cannot be anything else.
+
+*Design.*
+
+- **Temperature 1.0.** D2 cites Tyen §4(d), which needed temperature 1 to force
+  a different step; it is also the provider's default sampling temperature.
+- **Defects:** the placement subset — 45 defects, one-third per-operator
+  stride — so the cell stratifies exactly as A5 did.
+- **Cells, one session per defect, r = 3:** A1@P1 and A2@P1 at temperature 0 (the
+  in-session comparators, as for C1 and placement), A1@P1 and A2@P1 at 1.0, and
+  A3@P0 at 1.0 → 15 trials per defect, **675 trials** into `out_study/T2W`.
+- **How it is built.** `BaseAgent.temperature` is a class attribute defaulting
+  to 0, read by `_create` and written to the call log. Production never sets
+  it; the runner sets it on each trial's own freshly constructed agent. Tests
+  pin the class default at 0 and the core plan at 1,167 temperature-0 trials.
+
+*Reads, fixed before the pass runs* (`repair_analysis.py --cell warm`):
+
+1. **The mechanism.** The share of retries byte-identical to the clean output,
+   per (arm, temperature).
+2. **The contrast.** A1 − A2 at temperature 1 beside the in-session gap at 0,
+   both with CIs, and their difference with a CI — two gaps, never a test.
+3. **The equal-budget baseline.** A3's best-of-k (k = 1..3, in repetition order)
+   at temperature 1 against A1's single shot at 0, with mean tokens per trial,
+   so a best-of-k costs k × A3's tokens.
+4. Every estimate also without `attempts_made > 1` trials (§4).
+
+*Interpretation, fixed both ways.* **If** the byte-identity share falls at
+temperature 1 while repair stays near ceiling and A1 − A2 stays near zero, the
+core's null is not an artefact of verbatim re-derivation: the defects are easy
+for this model however it samples. **If** repair falls at temperature 1 and the
+A1 − A2 gap opens, the core's null was a temperature-0 artefact, and the paper
+says so in those words.
 
 ---
 
@@ -853,6 +903,8 @@ Recorded here so that no reviewer has to discover them:
 | **D19 pass complete — 138 trials, all usable** | **2026-10-07** |
 | **C1 pass complete — 444 trials, all usable** | **2026-10-07** |
 | §0.1 A5 and A6 — placement pass and O1 severity sweep defined and wired, committed and pushed before either ran | 2026-10-07 |
+| **Placement pass complete — 540 trials, 539 usable** | **2026-10-07** |
+| §0.1 A7 — warm-resample cell wired, committed and pushed before it ran | 2026-10-07 |
 
 ---
 

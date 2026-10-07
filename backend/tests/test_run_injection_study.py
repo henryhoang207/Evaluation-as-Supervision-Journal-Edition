@@ -912,3 +912,63 @@ def test_a_placement_pass_defect_outside_the_subset_is_not_written(tmp_path):
             (tmp_path / "checkpoint.jsonl").read_text(encoding="utf-8").splitlines()]
     assert all(r.get("status") in ("dry-run", "skipped") for r in rows)
     assert not any(runner.not_in_pass(r) for r in rows)
+
+
+
+# -- the warm-resample pass (section 0.1 A7) ----------------------------------
+
+
+@needs_study
+def test_the_warm_pass_runs_t0_comparators_beside_t1_on_the_placement_subset():
+    plan = runner.build_plan(str(STUDY_ROOT), cell="warm")
+    runnable = [d for d in plan if d["runnable"]]
+    placement_ids = {d["defect_id"] for d in runner.build_plan(str(STUDY_ROOT), cell="placement")
+                     if d["runnable"]}
+    assert {d["defect_id"] for d in runnable} == placement_ids and len(runnable) == 45
+    for d in runnable:
+        assert [(c["arm"], c["placement"], c["temperature"]) for c in d["arms"]] == (
+            [("A1", "P1", 0.0)] * 3 + [("A1", "P1", 1.0)] * 3
+            + [("A2", "P1", 0.0)] * 3 + [("A2", "P1", 1.0)] * 3 + [("A3", "P0", 1.0)] * 3)
+    s = runner.plan_summary(plan)
+    assert s["trials"] == 675 and s["trials_by_temperature"] == {"0.0": 270, "1.0": 405}
+    assert runner.verify_order(plan) == []
+
+
+def test_verify_order_catches_a_warm_arm_missing_a_temperature():
+    bad = [{"defect_id": "d", "runnable": True, "cell": "warm", "arms": [
+        {"arm": "A1", "placement": "P1", "rep": 0, "temperature": 0.0},
+        {"arm": "A2", "placement": "P1", "rep": 0, "temperature": 0.0},
+        {"arm": "A2", "placement": "P1", "rep": 0, "temperature": 1.0},
+        {"arm": "A3", "placement": "P0", "rep": 0, "temperature": 1.0}]}]
+    assert any("A1 temperatures" in p for p in runner.verify_order(bad))
+
+
+@needs_study
+def test_the_warm_seam_sets_the_temperature_on_the_trials_own_agent(monkeypatch):
+    from app.agents.reasoning_agent import ReasoningAgent
+
+    _, base, injected, descriptor, decision = _reasoning_defect()
+    agents = []
+
+    def make(stage):
+        agent = _capturing_agent(ReasoningAgent, {})
+        agents.append(agent)
+        return agent
+
+    monkeypatch.setattr(runner, "_agent_for", make)
+    runner._regenerate({"arm": "A1", "placement": "P1", "temperature": 1.0},
+                       base, injected, descriptor, decision)
+    runner._regenerate({"arm": "A1", "placement": "P1"}, base, injected, descriptor, decision)
+    assert agents[0].temperature == 1.0
+    assert agents[1].temperature == 0.0
+    assert ReasoningAgent.temperature == 0.0      # the class default is never touched
+
+
+@needs_study
+def test_the_trial_row_records_the_temperature():
+    _, base, injected, descriptor, _ = _reasoning_defect()
+    defect = {"defect_id": "x", "operator": descriptor.operator, "cell": "warm"}
+    row = runner.run_trial(defect, {"arm": "A1", "placement": "P1", "rep": 0,
+                                    "temperature": 1.0},
+                           base, injected, descriptor, "s", dry_run=True)
+    assert row["temperature"] == 1.0

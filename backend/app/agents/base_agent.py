@@ -103,6 +103,12 @@ class BaseAgent(ABC):
         cls.reset_token_usage()
         cls.reset_call_log()
 
+    # Sampling temperature. Production pins 0 and nothing in production sets
+    # it; the injection study's warm-resample cell (PREREGISTRATION.md section
+    # 0.1 A7) sets it on its own, freshly constructed agent instance. A class
+    # attribute, so every existing construction path keeps the production value.
+    temperature: float = 0.0
+
     def __init__(self) -> None:
         self._client = OpenAI(**llm_config.client_kwargs())
         self._model = llm_config.primary_model()
@@ -181,6 +187,7 @@ class BaseAgent(ABC):
                 "prompt_tokens": getattr(usage, "prompt_tokens", None) if usage else None,
                 "completion_tokens": getattr(usage, "completion_tokens", None) if usage else None,
                 "total_tokens": tokens,
+                "temperature": self.temperature,
             }
         )
 
@@ -188,7 +195,7 @@ class BaseAgent(ABC):
         return self._client.chat.completions.create(
             model=model,
             messages=messages,
-            temperature=0,
+            temperature=self.temperature,
             response_format={"type": "json_object"},
         )
 

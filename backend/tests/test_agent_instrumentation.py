@@ -151,3 +151,36 @@ def test_fallback_flag_is_read_per_call_not_at_import(monkeypatch):
     assert base_agent.fallback_disabled() is True
     monkeypatch.setenv(base_agent.FALLBACK_DISABLED_ENV, "0")
     assert base_agent.fallback_disabled() is False
+
+
+
+# -- temperature (PREREGISTRATION.md section 0.1 A7) --------------------------
+
+
+def test_production_temperature_is_zero_and_reaches_the_request():
+    """Production pins temperature 0. Only the warm-resample cell changes it,
+    on its own agent instance, so the class default must stay 0."""
+    assert BaseAgent.temperature == 0.0
+    sent = {}
+
+    class _Completions:
+        def create(self, **kwargs):
+            sent.update(kwargs)
+            return _Response()
+
+    agent = _Agent([])
+    agent._client = type("C", (), {"chat": type("Ch", (), {"completions": _Completions()})()})()
+    BaseAgent._create(agent, "m", [{"role": "user", "content": "x"}])
+    assert sent["temperature"] == 0.0
+
+    agent.temperature = 1.0
+    BaseAgent._create(agent, "m", [{"role": "user", "content": "x"}])
+    assert sent["temperature"] == 1.0
+    assert BaseAgent.temperature == 0.0
+
+
+def test_the_call_log_records_the_temperature_used():
+    agent = _Agent([_Response()])
+    agent.temperature = 1.0
+    agent._call_llm([{"role": "user", "content": "x"}])
+    assert BaseAgent.call_log[0]["temperature"] == 1.0

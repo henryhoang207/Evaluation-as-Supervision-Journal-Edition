@@ -45,6 +45,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import sys
 from collections import Counter, defaultdict
@@ -474,17 +475,18 @@ def analyse_d19(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
     }
 
 
-def factor_cells(trials: list[dict], level_of, arm: str = "A1",
+def factor_cells(trials: list[dict], level_of, arm: str | None = "A1",
                  success=("repaired",)) -> dict:
     """{(defect_id, level): [0/1 per rep]} for one arm, the level read by ``level_of``.
 
     The placement and severity passes vary a factor *within* one arm, so the
     second key is the factor level rather than the arm; ``contrast`` and
-    ``_rate_ci`` take it unchanged.
+    ``_rate_ci`` take it unchanged. ``arm=None`` keeps every arm, for passes
+    whose levels are (arm, factor) pairs.
     """
     out: dict = defaultdict(list)
     for t in trials:
-        if t["arm"] != arm or t.get("condition", "C0") != "C0":
+        if (arm is not None and t["arm"] != arm) or t.get("condition", "C0") != "C0":
             continue
         out[(t["defect_id"], level_of(t))].append(1 if outcome_class(t) in success else 0)
     return dict(out)
@@ -554,6 +556,126 @@ def analyse_severity(rows: list[dict], core_rows: list[dict] | None = None,
         core_rows, 1, lambda t: t["arm"] == "A1" and t.get("operator") == "O1")
 
 
+WARM_LEVELS = ("A1@T0", "A2@T0", "A1@T1", "A2@T1", "A3@T1")
+
+
+def warm_level(t: dict) -> str:
+    return f"{t['arm']}@T{float(t.get('temperature', 0.0)):g}"
+
+
+def _gap_difference(cm: dict, a1: str, b1: str, a0: str, b0: str, seed: int) -> dict:
+    """Per-defect (a1 - b1) - (a0 - b0), bootstrapped over defects."""
+    vals = []
+    for d in sorted({d for d, _ in cm}):
+        parts = [cm.get((d, lv)) for lv in (a1, b1, a0, b0)]
+        if all(parts):
+            m = [np.mean(p) for p in parts]
+            vals.append((m[0] - m[1]) - (m[2] - m[3]))
+    vals = np.array(vals)
+    lo, hi = cluster_bootstrap_ci(vals, np.random.default_rng(seed))
+    return {"n_defects": int(len(vals)),
+            "estimate": float(vals.mean()) if len(vals) else None, "ci95": [lo, hi]}
+
+
+def best_of_k(cm: dict, level: str, k_max: int, seed: int) -> dict:
+    """Share of defects repaired by at least one of the first k draws, k = 1..k_max.
+
+    Draws are taken in repetition order, which is execution order, so this is
+    the curve a caller resampling k times would have seen -- not the best k of
+    any order, which would be the same number for every k >= the first success.
+    """
+    reps = [v for (d, lv), v in sorted(cm.items()) if lv == level and v]
+    out = {}
+    for k in range(1, k_max + 1):
+        hits = np.array([1.0 if any(r[:k]) else 0.0 for r in reps if len(r) >= k])
+        if not len(hits):
+            continue
+        lo, hi = cluster_bootstrap_ci(hits, np.random.default_rng(seed))
+        out[str(k)] = {"rate": float(hits.mean()), "ci95": [lo, hi], "n_defects": int(len(hits))}
+    return out
+
+
+def _clean_outputs(rows: list[dict], root: str) -> dict:
+    """{defect_id: the pre-injection output of its stage}, from the study dumps."""
+    spec = importlib.util.spec_from_file_location(
+        "inject_defects", Path(__file__).resolve().parents[1] / "inject_defects.py")
+    inj = importlib.util.module_from_spec(spec)
+    sys.modules["inject_defects"] = inj
+    spec.loader.exec_module(inj)
+    dirs = {Path(d).name: d for d in inj.base_dirs(root)}
+    out = {}
+    for r in rows:
+        trials = r.get("trials") or []
+        if not trials:
+            continue
+        base = inj.state_from_dump(dirs[r["defect_id"].rsplit(":", 1)[0]])
+        out[r["defect_id"]] = base.get(inj.OUTPUT_KEY[trials[0]["stage"]])
+    return out
+
+
+def analyse_warm(rows: list[dict], core_rows: list[dict] | None = None,
+                 seed: int = DEFAULT_SEED, root: str | None = None) -> dict:
+    """Section 0.1 A7: the warm-resample cell. Exploratory.
+
+    Three reads, fixed in the amendment before the pass ran: the A1 - A2 gap at
+    temperature 1 beside the in-session gap at 0 (two gaps with CIs and their
+    difference); how often a retry reproduces the clean output byte for byte at
+    each temperature (the ceiling mechanism); and A3's best-of-k at temperature
+    1 against A1's single shot at 0, with tokens per trial (the equal-budget
+    baseline plan D2 requires).
+    """
+    trials, excluded = usable_trials(rows)
+    cm = factor_cells(trials, warm_level, arm=None)
+    tokens = defaultdict(list)
+    multi = Counter()
+    for t in trials:
+        tokens[warm_level(t)].append(t.get("total_tokens") or 0)
+        if (t.get("attempts_made") or 0) > 1:
+            multi[warm_level(t)] += 1
+    trials_sa, _ = usable_trials(rows, drop_multi_attempt=True)
+    cm_sa = factor_cells(trials_sa, warm_level, arm=None)
+    contrasts = (("A1@T0", "A2@T0"), ("A1@T1", "A2@T1"), ("A1@T1", "A1@T0"),
+                 ("A2@T1", "A2@T0"))
+    out = {
+        "provenance": {
+            "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "seed": seed, "n_boot": N_BOOT, "trials_usable": len(trials),
+            "exclusions": dict(excluded),
+            "served_models": dict(Counter(m for r in rows for t in r.get("trials", [])
+                                          for m in (t.get("served_models") or []))),
+            "total_tokens": int(sum(t.get("total_tokens") or 0 for t in trials)),
+        },
+        "rates": {lv: _rate_ci(cm, lv, seed) for lv in WARM_LEVELS},
+        "contrasts": {f"{a}-{b}": contrast(cm, a, b, seed) for a, b in contrasts},
+        "gap_T1_minus_gap_T0": _gap_difference(cm, "A1@T1", "A2@T1", "A1@T0", "A2@T0", seed),
+        "A3_best_of_k_T1": best_of_k(cm, "A3@T1", 3, seed),
+        "mean_tokens_per_trial": {lv: float(np.mean(v)) for lv, v in sorted(tokens.items())},
+        "outcome_classes": {f"{lv}|{o}": n for (lv, o), n in sorted(
+            Counter((warm_level(t), outcome_class(t)) for t in trials).items())},
+        "multi_attempt_trials_by_level": {lv: multi.get(lv, 0) for lv in WARM_LEVELS},
+        "without_multi_attempt_trials": {
+            "rates": {lv: _rate_ci(cm_sa, lv, seed) for lv in WARM_LEVELS},
+            "contrasts": {f"{a}-{b}": contrast(cm_sa, a, b, seed) for a, b in contrasts},
+        },
+    }
+    if root is not None:
+        clean = _clean_outputs(rows, root)
+        canon = lambda o: json.dumps(o, sort_keys=True, ensure_ascii=False)
+        same, n = Counter(), Counter()
+        for t in trials:
+            if t["defect_id"] in clean:
+                n[warm_level(t)] += 1
+                same[warm_level(t)] += canon(t.get("retried_output")) == canon(clean[t["defect_id"]])
+        out["byte_identical_to_clean"] = {
+            lv: {"identical": same[lv], "trials": n[lv],
+                 "share": same[lv] / n[lv] if n[lv] else None} for lv in WARM_LEVELS}
+    if core_rows is not None:
+        rerun = [t for t in trials if float(t.get("temperature", 0.0)) == 0.0]
+        core = [t for t in usable_trials(core_rows)[0] if t["arm"] in ("A1", "A2")]
+        out["drift_vs_core"] = _drift(rerun, core)
+    return out
+
+
 def _collateral(trials: list[dict]) -> dict:
     out = {}
     for arm in sorted({t["arm"] for t in trials}):
@@ -603,9 +725,11 @@ def print_summary(res: dict) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--cell", default="core",
-                    choices=("core", "c1", "d19", "placement", "severity"))
+                    choices=("core", "c1", "d19", "placement", "severity", "warm"))
     ap.add_argument("--checkpoint", default=None,
-                    help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P or T2S")
+                    help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P, T2S or T2W")
+    ap.add_argument("--root", default="out_study",
+                    help="--cell warm: the study dumps, for the byte-identity read")
     ap.add_argument("--core-checkpoint", default="out_study/T2/checkpoint.jsonl",
                     help="c1/placement/severity: the core, for the serving-drift comparison")
     ap.add_argument("--json", default=None, help="write the full result here")
@@ -613,7 +737,7 @@ def main() -> int:
     args = ap.parse_args()
     checkpoint = args.checkpoint or {
         "core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
-        "placement": "out_study/T2P", "severity": "out_study/T2S",
+        "placement": "out_study/T2P", "severity": "out_study/T2S", "warm": "out_study/T2W",
     }[args.cell] + "/checkpoint.jsonl"
     if args.cell == "core":
         res = analyse(load_rows(checkpoint), seed=args.seed)
@@ -626,6 +750,8 @@ def main() -> int:
             res = analyse_placement(load_rows(checkpoint), core, seed=args.seed)
         elif args.cell == "severity":
             res = analyse_severity(load_rows(checkpoint), core, seed=args.seed)
+        elif args.cell == "warm":
+            res = analyse_warm(load_rows(checkpoint), core, seed=args.seed, root=args.root)
         else:
             res = analyse_d19(load_rows(checkpoint), seed=args.seed)
         print(json.dumps({k: v for k, v in res.items() if k != "provenance"}, indent=2))
