@@ -904,6 +904,7 @@ Recorded here so that no reviewer has to discover them:
 | **C1 pass complete — 444 trials, all usable** | **2026-10-07** |
 | §0.1 A5 and A6 — placement pass and O1 severity sweep defined and wired, committed and pushed before either ran | 2026-10-07 |
 | **Placement pass complete — 540 trials, 539 usable** | **2026-10-07** |
+| **Severity sweep complete — 144 trials, all usable** | **2026-10-08** |
 | §0.1 A7 — warm-resample cell wired, committed and pushed before it ran | 2026-10-07 |
 
 ---

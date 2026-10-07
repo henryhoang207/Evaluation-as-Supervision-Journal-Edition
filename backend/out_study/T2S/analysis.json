@@ -1,0 +1,136 @@
+{
+  "provenance": {
+    "script_sha256": "15bd67eca1ca39ddc0db573024554823b3882b1bbfc5e24c310ffb99799066be",
+    "seed": 20260803,
+    "n_boot": 10000,
+    "trials_usable": 144,
+    "exclusions": {},
+    "served_models": {
+      "gemini-2.5-flash": 147
+    },
+    "total_tokens": 3613838
+  },
+  "rates": {
+    "1": {
+      "arm": 1,
+      "n_defects": 24,
+      "rate": 0.861111111111111,
+      "ci95": [
+        0.7222222222222222,
+        0.9722222222222223
+      ]
+    },
+    "2": {
+      "arm": 2,
+      "n_defects": 24,
+      "rate": 0.888888888888889,
+      "ci95": [
+        0.763888888888889,
+        0.986111111111111
+      ]
+    }
+  },
+  "contrasts": {
+    "1-2": {
+      "arms": "1-2",
+      "n_defects": 24,
+      "dropped": 0,
+      "rate_1": 0.861111111111111,
+      "rate_2": 0.888888888888889,
+      "estimate": -0.027777777777777776,
+      "ci95": [
+        -0.11111111111111112,
+        0.05555555555555557
+      ],
+      "majority_1": 20,
+      "majority_2": 21,
+      "discordant": {
+        "1_only": 1,
+        "2_only": 2
+      },
+      "mcnemar_p": 1.0,
+      "reps_per_cell": {
+        "3/3": 24
+      }
+    }
+  },
+  "outcome_classes": {
+    "1|deleted": 2,
+    "1|repaired": 62,
+    "1|replaced": 8,
+    "2|repaired": 64,
+    "2|replaced": 8
+  },
+  "collateral_by_level": {
+    "1": {
+      "rate": 0.027777777777777776,
+      "measurable": 72
+    },
+    "2": {
+      "rate": 0.0,
+      "measurable": 72
+    }
+  },
+  "multi_attempt_trials_by_level": {
+    "1": 1,
+    "2": 2
+  },
+  "without_multi_attempt_trials": {
+    "rates": {
+      "1": {
+        "arm": 1,
+        "n_defects": 24,
+        "rate": 0.861111111111111,
+        "ci95": [
+          0.7222222222222222,
+          0.9722222222222223
+        ]
+      },
+      "2": {
+        "arm": 2,
+        "n_defects": 24,
+        "rate": 0.9166666666666666,
+        "ci95": [
+          0.8055555555555555,
+          1.0
+        ]
+      }
+    },
+    "contrasts": {
+      "1-2": {
+        "arms": "1-2",
+        "n_defects": 24,
+        "dropped": 0,
+        "rate_1": 0.861111111111111,
+        "rate_2": 0.9166666666666666,
+        "estimate": -0.05555555555555556,
+        "ci95": [
+          -0.125,
+          0.0
+        ],
+        "majority_1": 20,
+        "majority_2": 22,
+        "discordant": {
+          "1_only": 0,
+          "2_only": 2
+        },
+        "mcnemar_p": 0.5,
+        "reps_per_cell": {
+          "2/3": 1,
+          "3/1": 1,
+          "3/3": 22
+        }
+      }
+    }
+  },
+  "drift_vs_core": {
+    "pairs": 72,
+    "same_outcome_class": 69,
+    "byte_identical_output": 55,
+    "flips_core_to_rerun": {
+      "deleted->repaired": 1,
+      "repaired->replaced": 1,
+      "replaced->repaired": 1
+    }
+  }
+}
