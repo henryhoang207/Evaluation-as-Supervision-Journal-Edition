@@ -676,6 +676,80 @@ def analyse_warm(rows: list[dict], core_rows: list[dict] | None = None,
     return out
 
 
+TIER1_ARMS = ("A1", "A2", "A3")
+
+
+def _cell_bootstrap(per_defect: dict, cell_of: dict, seed: int, n_boot: int = N_BOOT):
+    """Percentile CI of a mean over defects, resampling business x stage cells.
+
+    Tier-1 defects nest in their cell (section 2.2), so the resampling unit is
+    the cell; a bootstrap over defects would treat neighbours as independent.
+    """
+    cells = sorted({cell_of[d] for d in per_defect})
+    by_cell = {c: [per_defect[d] for d in per_defect if cell_of[d] == c] for c in cells}
+    rng = np.random.default_rng(seed)
+    boot = []
+    for _ in range(n_boot):
+        pick = rng.integers(0, len(cells), size=len(cells))
+        vals = [v for i in pick for v in by_cell[cells[i]]]
+        boot.append(np.mean(vals))
+    lo, hi = np.percentile(boot, [2.5, 97.5])
+    return [float(lo), float(hi)]
+
+
+def analyse_tier1(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
+    """Section 0.1 A8: the production retry on real defects. Descriptive only.
+
+    No hypothesis test is run (plan section 5, Tier 1: MDE about 31 pp, and a
+    cluster bootstrap with few cells over-rejects). Rates are defect-level
+    means of the repetitions; intervals resample business x stage cells.
+    """
+    usable = [t for r in rows for t in r.get("trials", []) if t.get("status") == "ok"]
+    excluded = Counter(t.get("status") for r in rows for t in r.get("trials", [])
+                       if t.get("status") != "ok")
+    cell_of = {t["defect_id"]: t["cell"] for t in usable}
+
+    def per_arm(field: str, arm: str, only=None) -> dict:
+        reps: dict = defaultdict(list)
+        for t in usable:
+            if t["arm"] != arm or t.get(field) is None:
+                continue
+            if only is not None and not only(t):
+                continue
+            reps[t["defect_id"]].append(1.0 if t[field] else 0.0)
+        per_defect = {d: float(np.mean(v)) for d, v in reps.items()}
+        if not per_defect:
+            return {"n_defects": 0}
+        return {"rate": float(np.mean(list(per_defect.values()))),
+                "ci95_cells": _cell_bootstrap(per_defect, cell_of, seed),
+                "n_defects": len(per_defect),
+                "n_cells": len({cell_of[d] for d in per_defect})}
+
+    trace = lambda t: "untraceable_recommendation" in (t.get("classes") or [])
+    return {
+        "provenance": {
+            "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "seed": seed, "n_boot": N_BOOT, "trials_usable": len(usable),
+            "exclusions": dict(excluded),
+            "served_models": dict(Counter(m for r in rows for t in r.get("trials", [])
+                                          for m in (t.get("served_models") or []))),
+            "total_tokens": int(sum(t.get("total_tokens") or 0 for t in usable)),
+        },
+        "note": "descriptive only: no hypothesis test (plan section 5, Tier 1)",
+        "accepted": {a: per_arm("accepted", a) for a in TIER1_ARMS},
+        "target_resolved": {a: per_arm("target_resolved", a) for a in TIER1_ARMS},
+        "trace_class_production": {a: per_arm("accepted", a, trace) for a in TIER1_ARMS},
+        "trace_class_content_words": {a: per_arm("trace_resolved_content", a, trace)
+                                      for a in TIER1_ARMS},
+        "same_as_original_output": {a: per_arm("same_as_original", a) for a in TIER1_ARMS},
+        "by_stage_accepted": {
+            f"{s}|{a}": per_arm("accepted", a, lambda t, s=s: t["stage"] == s)
+            for s in sorted({t["stage"] for t in usable}) for a in TIER1_ARMS},
+        "multi_attempt_trials_by_arm": dict(Counter(
+            t["arm"] for t in usable if (t.get("attempts_made") or 0) > 1)),
+    }
+
+
 def _collateral(trials: list[dict]) -> dict:
     out = {}
     for arm in sorted({t["arm"] for t in trials}):
@@ -725,7 +799,7 @@ def print_summary(res: dict) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--cell", default="core",
-                    choices=("core", "c1", "d19", "placement", "severity", "warm"))
+                    choices=("core", "c1", "d19", "placement", "severity", "warm", "tier1"))
     ap.add_argument("--checkpoint", default=None,
                     help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P, T2S or T2W")
     ap.add_argument("--root", default="out_study",
@@ -738,6 +812,7 @@ def main() -> int:
     checkpoint = args.checkpoint or {
         "core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
         "placement": "out_study/T2P", "severity": "out_study/T2S", "warm": "out_study/T2W",
+        "tier1": "out_study/T1",
     }[args.cell] + "/checkpoint.jsonl"
     if args.cell == "core":
         res = analyse(load_rows(checkpoint), seed=args.seed)
@@ -752,6 +827,8 @@ def main() -> int:
             res = analyse_severity(load_rows(checkpoint), core, seed=args.seed)
         elif args.cell == "warm":
             res = analyse_warm(load_rows(checkpoint), core, seed=args.seed, root=args.root)
+        elif args.cell == "tier1":
+            res = analyse_tier1(load_rows(checkpoint), seed=args.seed)
         else:
             res = analyse_d19(load_rows(checkpoint), seed=args.seed)
         print(json.dumps({k: v for k, v in res.items() if k != "provenance"}, indent=2))

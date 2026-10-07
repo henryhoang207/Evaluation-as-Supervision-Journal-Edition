@@ -8,7 +8,7 @@ result it touches is reported as exploratory. No trial ran before the tag.
 regeneration baseline, and the confirmatory set is now the single A1-vs-A2
 test** (§2, §2.1).
 
-**Seven amendments have been filed since the freeze (§0.1 A1–A7).** None adds a
+**Eight amendments have been filed since the freeze (§0.1 A1–A8).** None adds a
 confirmatory claim or moves the core. **The core ran 2026-10-05 → 07** (1,167
 trials, 1,149 usable).
 
@@ -75,6 +75,7 @@ section records every divergence from it.
 | **A5** | **2026-10-07** | **The placement pass is wired** (`--cell placement`): A1 × {P0, P1, P2, P3}, r = 3, on a one-third per-operator stride — 45 defects, 540 trials — with P1 re-run in-session. | Exploratory — as §2.1 already had it; the §5 prediction is unchanged |
 | **A6** | **2026-10-07** | **The O1 severity sweep is defined and wired** (`--cell severity`): level 2 = every resolving evidence id of the targeted pattern corrupted; A1 at P1, r = 3, all 24 O1 defects, both levels in-session — 144 trials. | Exploratory — as §2.1 already had it |
 | **A7** | **2026-10-07** | **The warm-resample cell (plan D2) is wired** (`--cell warm`): temperature 1.0 on the placement subset — A1/A2 at 0 and 1.0, A3 at 1.0, r = 3, 675 trials. Designed after the ceiling was seen; both readings fixed below. | Exploratory |
+| **A8** | **2026-10-08** | **The Tier-1 replay is wired** (`run_tier1_replay.py`): 13 real defects × {A1, A2, A3} at P0 × r = 3 = 117 trials, judged by the supervisor's own checks, intervals over cells. | Descriptive only — as plan §5 had it; serves §3 item 5 |
 
 **A1 — the C1 cell, in full.**
 
@@ -341,6 +342,43 @@ core's null is not an artefact of verbatim re-derivation: the defects are easy
 for this model however it samples. **If** repair falls at temperature 1 and the
 A1 − A2 gap opens, the core's null was a temperature-0 artefact, and the paper
 says so in those words.
+
+**A8 — the Tier-1 replay (2026-10-08).**
+
+*What existed before the freeze.* §3 item 5 pre-specifies "stratification by
+defect origin (replayed-real vs synthetic)", which needs trials on the real,
+production-caught defects. Plan §5 (Tier 1) fixed the design: placement **P0**
+(D10 — the defect really was the model's own and the production retry really is
+blind to it), arms {A0, A1, A2, A3}, r = 3, "repair judged at that stage by the
+same checks", **descriptive only** (MDE ≈ 31 pp; "no hypothesis test may be run
+on Tier 1"). No runner existed.
+
+*What this amendment fixes.*
+
+- **The bank:** the 13 usable entries of `analysis/defect_bank.py` (8
+  `untraceable_recommendation` at strategy, 3 `missing_evidence_id` and 2
+  `misaligned_aspect` at reasoning) in 7 business × stage cells. A defect runs
+  only if replaying its dump reproduces the recorded retry exactly — verdict,
+  fired classes and feedback string. **All 13 do.**
+- **Arms A1, A2, A3 at P0, r = 3 → 117 trials** into `out_study/T1`. A0 cannot
+  run at P0 (D9b), so the plan's 132 realises as 117. A1 at P0 *is* the
+  production retry.
+- **Outcome.** No clean reference exists for a real defect, so there is no
+  replacement value. A retried output is **accepted** when no retry-level class
+  fires on it; **target resolved** when none of the originally fired classes
+  does. For the trace class, D22's content-word trace is reported beside the
+  production verdict. Also reported: how often a retry returns the original
+  defective output unchanged.
+- **Intervals resample business × stage cells**, never defects (§2.2). No
+  p-values.
+- **A caveat recorded before the run:** D13's blinded raters called **0 of 11**
+  of these defects an error — most are checker false positives (§15 of the
+  plan). This cell therefore measures what the production retry *does*, not
+  whether it repairs a real fault.
+
+*Runner:* `scripts/run_tier1_replay.py` (fallback disabled, one session per
+defect, resume by whole defect, `status_error` excluded, same row fields as the
+Tier-2 runner). *Analysis:* `repair_analysis.py --cell tier1`.
 
 ---
 
@@ -906,6 +944,7 @@ Recorded here so that no reviewer has to discover them:
 | **Placement pass complete — 540 trials, 539 usable** | **2026-10-07** |
 | **Severity sweep complete — 144 trials, all usable** | **2026-10-08** |
 | §0.1 A7 — warm-resample cell wired, committed and pushed before it ran | 2026-10-07 |
+| §0.1 A8 — Tier-1 replay wired, committed and pushed before it ran | 2026-10-08 |
 
 ---
 

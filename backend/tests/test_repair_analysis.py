@@ -6,6 +6,7 @@ before it was ever pointed at real trial data.
 """
 
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -379,3 +380,41 @@ def test_warm_levels_name_arm_and_temperature():
     assert ra.warm_level({"arm": "A1", "temperature": 0.0}) == "A1@T0"
     assert ra.warm_level({"arm": "A3", "temperature": 1.0}) == "A3@T1"
     assert ra.warm_level({"arm": "A2"}) == "A2@T0"   # rows written before the field existed
+
+
+
+# -- Tier-1 replay (section 0.1 A8) --------------------------------------------
+
+
+def _t1_trial(defect, cell, arm, accepted, rep=0, trace=False):
+    return {"defect_id": defect, "cell": cell, "arm": arm, "rep": rep, "status": "ok",
+            "stage": "strategy_agent" if trace else "reasoning_agent",
+            "classes": ["untraceable_recommendation"] if trace else ["missing_evidence_id"],
+            "accepted": accepted, "target_resolved": accepted,
+            "trace_resolved_content": (not accepted) if trace else None,
+            "same_as_original": not accepted, "served_models": ["m"], "attempts_made": 1}
+
+
+def test_tier1_rates_average_reps_per_defect_and_run_no_test():
+    rows = [{"defect_id": "d1", "trials": [_t1_trial("d1", "c1", "A1", True, 0),
+                                            _t1_trial("d1", "c1", "A1", False, 1)]},
+            {"defect_id": "d2", "trials": [_t1_trial("d2", "c2", "A1", True, 0)]}]
+    res = ra.analyse_tier1(rows, seed=0)
+    assert res["accepted"]["A1"]["rate"] == pytest.approx(0.75)
+    assert res["accepted"]["A1"]["n_cells"] == 2
+    assert "mcnemar" not in json.dumps(res)
+
+
+def test_tier1_reports_the_trace_class_both_ways():
+    rows = [{"defect_id": "d1", "trials": [_t1_trial("d1", "c1", "A1", True, trace=True)]}]
+    res = ra.analyse_tier1(rows, seed=0)
+    assert res["trace_class_production"]["A1"]["rate"] == pytest.approx(1.0)
+    assert res["trace_class_content_words"]["A1"]["rate"] == pytest.approx(0.0)
+
+
+def test_the_cell_bootstrap_resamples_cells_not_defects():
+    # Two defects in one cell and one in another: a cell draw moves both together.
+    per_defect = {"a": 1.0, "b": 1.0, "c": 0.0}
+    cell_of = {"a": "x", "b": "x", "c": "y"}
+    lo, hi = ra._cell_bootstrap(per_defect, cell_of, seed=0, n_boot=2000)
+    assert lo == pytest.approx(0.0) and hi == pytest.approx(1.0)
