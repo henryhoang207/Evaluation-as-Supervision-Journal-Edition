@@ -1,0 +1,326 @@
+{
+  "provenance": {
+    "script_sha256": "df140439e1d4432d22eb688dc485f2cfeed177413b56f00574ea22282d1c1f49",
+    "seed": 20260803,
+    "n_boot": 10000,
+    "trials_usable": 539,
+    "exclusions": {
+      "provider_failure": 1
+    },
+    "served_models": {
+      "gemini-2.5-flash": 591
+    },
+    "total_tokens": 5647171
+  },
+  "rates": {
+    "P0": {
+      "arm": "P0",
+      "n_defects": 45,
+      "rate": 0.9407407407407407,
+      "ci95": [
+        0.8814814814814814,
+        0.9851851851851853
+      ]
+    },
+    "P1": {
+      "arm": "P1",
+      "n_defects": 45,
+      "rate": 0.9777777777777777,
+      "ci95": [
+        0.9407407407407407,
+        1.0
+      ]
+    },
+    "P2": {
+      "arm": "P2",
+      "n_defects": 45,
+      "rate": 0.9777777777777777,
+      "ci95": [
+        0.9333333333333333,
+        1.0
+      ]
+    },
+    "P3": {
+      "arm": "P3",
+      "n_defects": 45,
+      "rate": 0.9703703703703703,
+      "ci95": [
+        0.9111111111111111,
+        1.0
+      ]
+    }
+  },
+  "contrasts": {
+    "P1-P2": {
+      "arms": "P1-P2",
+      "n_defects": 45,
+      "dropped": 0,
+      "rate_P1": 0.9777777777777777,
+      "rate_P2": 0.9777777777777777,
+      "estimate": -2.4671622769447924e-18,
+      "ci95": [
+        -0.044444444444444446,
+        0.044444444444444446
+      ],
+      "majority_P1": 44,
+      "majority_P2": 44,
+      "discordant": {
+        "P1_only": 1,
+        "P2_only": 1
+      },
+      "mcnemar_p": 1.0,
+      "reps_per_cell": {
+        "3/3": 45
+      }
+    },
+    "P1-P3": {
+      "arms": "P1-P3",
+      "n_defects": 45,
+      "dropped": 0,
+      "rate_P1": 0.9777777777777777,
+      "rate_P3": 0.9703703703703703,
+      "estimate": 0.007407407407407407,
+      "ci95": [
+        -0.022222222222222223,
+        0.044444444444444446
+      ],
+      "majority_P1": 44,
+      "majority_P3": 44,
+      "discordant": {
+        "P1_only": 1,
+        "P3_only": 1
+      },
+      "mcnemar_p": 1.0,
+      "reps_per_cell": {
+        "3/3": 45
+      }
+    },
+    "P3-P2": {
+      "arms": "P3-P2",
+      "n_defects": 45,
+      "dropped": 0,
+      "rate_P3": 0.9703703703703703,
+      "rate_P2": 0.9777777777777777,
+      "estimate": -0.0074074074074074086,
+      "ci95": [
+        -0.022222222222222223,
+        0.0
+      ],
+      "majority_P3": 44,
+      "majority_P2": 44,
+      "discordant": {
+        "P3_only": 0,
+        "P2_only": 0
+      },
+      "mcnemar_p": 1.0,
+      "reps_per_cell": {
+        "3/3": 45
+      }
+    },
+    "P1-P0": {
+      "arms": "P1-P0",
+      "n_defects": 45,
+      "dropped": 0,
+      "rate_P1": 0.9777777777777777,
+      "rate_P0": 0.9407407407407407,
+      "estimate": 0.03703703703703704,
+      "ci95": [
+        -0.014814814814814817,
+        0.09629629629629631
+      ],
+      "majority_P1": 44,
+      "majority_P0": 43,
+      "discordant": {
+        "P1_only": 2,
+        "P0_only": 1
+      },
+      "mcnemar_p": 1.0,
+      "reps_per_cell": {
+        "3/2": 1,
+        "3/3": 44
+      }
+    }
+  },
+  "outcome_classes": {
+    "P0|deleted": 5,
+    "P0|repaired": 126,
+    "P0|replaced": 3,
+    "P1|deleted": 1,
+    "P1|repaired": 132,
+    "P1|replaced": 2,
+    "P2|deleted": 3,
+    "P2|repaired": 132,
+    "P3|deleted": 3,
+    "P3|repaired": 131,
+    "P3|replaced": 1
+  },
+  "collateral_by_level": {
+    "P0": {
+      "rate": 0.38372093023255816,
+      "measurable": 86
+    },
+    "P1": {
+      "rate": 0.011494252873563218,
+      "measurable": 87
+    },
+    "P2": {
+      "rate": 0.034482758620689655,
+      "measurable": 87
+    },
+    "P3": {
+      "rate": 0.034482758620689655,
+      "measurable": 87
+    }
+  },
+  "multi_attempt_trials_by_level": {
+    "P0": 50,
+    "P1": 2,
+    "P2": 0,
+    "P3": 0
+  },
+  "without_multi_attempt_trials": {
+    "rates": {
+      "P0": {
+        "arm": "P0",
+        "n_defects": 29,
+        "rate": 0.9080459770114943,
+        "ci95": [
+          0.8160919540229884,
+          0.9770114942528735
+        ]
+      },
+      "P1": {
+        "arm": "P1",
+        "n_defects": 45,
+        "rate": 0.9777777777777777,
+        "ci95": [
+          0.9407407407407407,
+          1.0
+        ]
+      },
+      "P2": {
+        "arm": "P2",
+        "n_defects": 45,
+        "rate": 0.9777777777777777,
+        "ci95": [
+          0.9333333333333333,
+          1.0
+        ]
+      },
+      "P3": {
+        "arm": "P3",
+        "n_defects": 45,
+        "rate": 0.9703703703703703,
+        "ci95": [
+          0.9111111111111111,
+          1.0
+        ]
+      }
+    },
+    "contrasts": {
+      "P1-P2": {
+        "arms": "P1-P2",
+        "n_defects": 45,
+        "dropped": 0,
+        "rate_P1": 0.9777777777777777,
+        "rate_P2": 0.9777777777777777,
+        "estimate": -2.4671622769447924e-18,
+        "ci95": [
+          -0.044444444444444446,
+          0.044444444444444446
+        ],
+        "majority_P1": 44,
+        "majority_P2": 44,
+        "discordant": {
+          "P1_only": 1,
+          "P2_only": 1
+        },
+        "mcnemar_p": 1.0,
+        "reps_per_cell": {
+          "1/3": 1,
+          "3/3": 44
+        }
+      },
+      "P1-P3": {
+        "arms": "P1-P3",
+        "n_defects": 45,
+        "dropped": 0,
+        "rate_P1": 0.9777777777777777,
+        "rate_P3": 0.9703703703703703,
+        "estimate": 0.007407407407407407,
+        "ci95": [
+          -0.022222222222222223,
+          0.044444444444444446
+        ],
+        "majority_P1": 44,
+        "majority_P3": 44,
+        "discordant": {
+          "P1_only": 1,
+          "P3_only": 1
+        },
+        "mcnemar_p": 1.0,
+        "reps_per_cell": {
+          "1/3": 1,
+          "3/3": 44
+        }
+      },
+      "P3-P2": {
+        "arms": "P3-P2",
+        "n_defects": 45,
+        "dropped": 0,
+        "rate_P3": 0.9703703703703703,
+        "rate_P2": 0.9777777777777777,
+        "estimate": -0.0074074074074074086,
+        "ci95": [
+          -0.022222222222222223,
+          0.0
+        ],
+        "majority_P3": 44,
+        "majority_P2": 44,
+        "discordant": {
+          "P3_only": 0,
+          "P2_only": 0
+        },
+        "mcnemar_p": 1.0,
+        "reps_per_cell": {
+          "3/3": 45
+        }
+      },
+      "P1-P0": {
+        "arms": "P1-P0",
+        "n_defects": 29,
+        "dropped": 0,
+        "rate_P1": 0.9655172413793104,
+        "rate_P0": 0.9080459770114943,
+        "estimate": 0.057471264367816105,
+        "ci95": [
+          -0.02298850574712644,
+          0.16091954022988506
+        ],
+        "majority_P1": 28,
+        "majority_P0": 27,
+        "discordant": {
+          "P1_only": 2,
+          "P0_only": 1
+        },
+        "mcnemar_p": 1.0,
+        "reps_per_cell": {
+          "3/1": 1,
+          "3/2": 1,
+          "3/3": 27
+        }
+      }
+    }
+  },
+  "drift_vs_core": {
+    "pairs": 135,
+    "same_outcome_class": 131,
+    "byte_identical_output": 110,
+    "flips_core_to_rerun": {
+      "deleted->repaired": 2,
+      "repaired->replaced": 1,
+      "replaced->repaired": 1
+    }
+  },
+  "prediction": "P1 >> P3 ~ P2; P0 reported separately (PREREGISTRATION.md section 5)"
+}

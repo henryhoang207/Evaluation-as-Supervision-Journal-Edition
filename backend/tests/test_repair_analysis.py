@@ -322,3 +322,17 @@ def test_severity_contrasts_level_1_against_level_2():
     c = res["contrasts"]["1-2"]
     assert c["estimate"] == pytest.approx(2 / 3)
     assert c["discordant"] == {"1_only": 1, "2_only": 0}
+
+
+def test_factor_passes_report_every_level_also_without_multi_attempt_trials():
+    """Section 4 applies to the exploratory passes too: with and without."""
+    rows = [_placement_row("d1", {"P0": ["repaired"] * 3, "P1": ["repaired"] * 3,
+                                  "P2": ["repaired"] * 3, "P3": ["repaired"] * 3})]
+    for t in rows[0]["trials"]:
+        if t["placement"] == "P0" and t["rep"] < 2:
+            t["attempts_made"] = 2
+    res = ra.analyse_placement(rows, seed=0)
+    assert res["multi_attempt_trials_by_level"] == {"P0": 2, "P1": 0, "P2": 0, "P3": 0}
+    sa = res["without_multi_attempt_trials"]
+    assert sa["rates"]["P0"]["n_defects"] == 1           # one P0 rep survives
+    assert sa["contrasts"]["P1-P0"]["reps_per_cell"] == {"3/1": 1}

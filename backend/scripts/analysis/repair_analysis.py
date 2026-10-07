@@ -511,6 +511,19 @@ def _factor_report(rows: list[dict], level_of, levels, contrasts, seed: int,
             str(lv): _collateral([t for t in trials if level_of(t) == lv]).get("A1")
             for lv in levels},
     }
+    # Section 4: trials with attempts_made > 1 are analysed separately, and every
+    # estimate is also reported without them. A schema retry appends the
+    # model's own invalid output as an assistant turn, a P2-like condition, so
+    # where retries concentrate in one level the contrast is partly a
+    # contamination contrast.
+    multi = Counter(str(level_of(t)) for t in trials if (t.get("attempts_made") or 0) > 1)
+    trials_sa, _ = usable_trials(rows, drop_multi_attempt=True)
+    cm_sa = factor_cells(trials_sa, level_of)
+    out["multi_attempt_trials_by_level"] = {str(lv): multi.get(str(lv), 0) for lv in levels}
+    out["without_multi_attempt_trials"] = {
+        "rates": {str(lv): _rate_ci(cm_sa, lv, seed) for lv in levels},
+        "contrasts": {f"{a}-{b}": contrast(cm_sa, a, b, seed) for a, b in contrasts},
+    }
     if core_rows is not None:
         rerun = [t for t in trials if level_of(t) == comparator_level]
         core = [t for t in usable_trials(core_rows)[0] if comparator_filter(t)]
