@@ -347,7 +347,11 @@ def _fabricate_id(rng: random.Random, by_id: dict[str, dict]) -> str:
 # ── injection ─────────────────────────────────────────────────────────────────
 
 
-def inject(op: str, state: dict, seed: int = 0, delta: float = 0.15) -> tuple[dict, Descriptor]:
+SEVERITY_LEVELS: tuple[int, ...] = (1, 2)
+
+
+def inject(op: str, state: dict, seed: int = 0, delta: float = 0.15,
+           severity: int = 1) -> tuple[dict, Descriptor]:
     """Apply ``op`` to a copy of ``state``. Never mutates the caller's state.
 
     ``delta`` parameterises O4 as an **absolute** frequency divergence rather
@@ -356,7 +360,18 @@ def inject(op: str, state: dict, seed: int = 0, delta: float = 0.15) -> tuple[di
     the 0.05 tolerance, producing no measurable defect in 81 of 89 patterns.
     Absolute divergence is the unit the check itself uses and is constructible
     for every pattern.
+
+    ``severity`` exists for O1 only (PREREGISTRATION.md section 0.1 A6). Level 1
+    is the frozen operator, byte for byte: the default path is untouched and
+    its descriptor carries no new key. Level 2 applies level 1 and then, from
+    the same random stream, drops one character from **every other resolving
+    evidence id of the same pattern** -- so per-id damage is identical and only
+    the extent varies, and level 2 always contains level 1's corruption.
     """
+    if severity not in SEVERITY_LEVELS:
+        raise ValueError(f"severity must be one of {SEVERITY_LEVELS}, got {severity!r}")
+    if severity != 1 and op != "O1":
+        raise ValueError(f"severity levels are defined for O1 only, not {op}")
     descriptor = Descriptor(
         operator=op,
         stage=STAGE[op],
@@ -377,8 +392,30 @@ def inject(op: str, state: dict, seed: int = 0, delta: float = 0.15) -> tuple[di
     by_id = _analysis_index(out)
     handler = _HANDLERS[op]
     handler(out, by_id, rng, descriptor, delta)
+    if severity == 2:
+        _escalate_o1(out, by_id, rng, descriptor)
     descriptor.applied = True
     return out, descriptor
+
+
+def _escalate_o1(out, by_id, rng, d):
+    """O1 severity 2: every remaining resolving id of the pattern loses a char.
+
+    Runs after ``_apply_o1`` on the same ``rng``, so level 1's draw is consumed
+    first and reproduced exactly. A 21-character string cannot equal a real
+    22-character id, so no corrupted id can resolve to a different review.
+    """
+    idx = d.target["pattern_index"]
+    ids = _patterns(out)[idx]["evidence_review_ids"]
+    also = []
+    for j, rid in enumerate(ids):
+        if rid not in by_id:
+            continue  # level 1's id, or an id that never resolved
+        drop = rng.randrange(len(rid))
+        ids[j] = rid[:drop] + rid[drop + 1:]
+        also.append({"evidence_index": j, "before": rid, "after": ids[j]})
+    d.target["severity"] = 2
+    d.target["also_corrupted"] = also
 
 
 def _apply_o1(out, by_id, rng, d, _delta):

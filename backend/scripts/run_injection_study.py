@@ -36,6 +36,8 @@ Run (from backend/, venv active):
     python scripts/run_injection_study.py --root out_study --out out_study/T2
     python scripts/run_injection_study.py --cell c1    # the D8 cell, own pass (prereg 0.1 A3)
     python scripts/run_injection_study.py --cell d19   # the overwrite counterfactual (0.1 A2)
+    python scripts/run_injection_study.py --cell placement  # A1 x {P0..P3} (0.1 A5)
+    python scripts/run_injection_study.py --cell severity   # O1 at two levels (0.1 A6)
 
 ``--c1`` (C1 appended to every core defect) predates the core run and is kept
 for the record; after the core ran it would re-run all 1,167 core trials, so
@@ -131,10 +133,22 @@ DEFAULT_PLACEMENT = "P1"  # D10: the Tier-2 core runs at P1, not the production 
 #          defect. O4 resolves to ``proceed_with_warning`` in production and is
 #          overwritten, never retried; this pass routes it to retry on purpose,
 #          outside the production path, to measure what the overwrite bought.
-CELLS = ("core", "c1", "d19")
-CELL_OUT = {"core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19"}
+#   placement -- 0.1 A5. A1 x {P0, P1, P2, P3}, r = 3, on a third of the
+#          defects (per-operator stride, as the plan sized it). P1 is re-run in
+#          the same session as the other three for the reason c1 re-runs C0.
+#   severity  -- 0.1 A6. O1 at level 1 (the frozen operator) and level 2 (every
+#          resolving id of the targeted pattern corrupted), A1 at P1, r = 3,
+#          all O1 defects. Both levels in one session per defect.
+CELLS = ("core", "c1", "d19", "placement", "severity")
+CELL_OUT = {"core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
+            "placement": "out_study/T2P", "severity": "out_study/T2S"}
 D19_OPERATORS = ("O4",)
 D19_CELLS = (("A1", DEFAULT_PLACEMENT), ("A3", "P0"))
+PLACEMENT_FRACTION = 1 / 3
+PLACEMENT_LEVELS = ("P0", "P1", "P2", "P3")
+SEVERITY_OPERATORS = ("O1",)
+# Arms the order check requires each pass's defects to hold.
+REQUIRED_ARMS = {"d19": ("A1", "A3"), "placement": ("A1",), "severity": ("A1",)}
 
 
 # ── checkpointing ─────────────────────────────────────────────────────────────
@@ -228,6 +242,27 @@ def _d19_cells(reps: int) -> list[dict]:
             for arm, placement in D19_CELLS for r in range(reps)]
 
 
+def _placement_cells(index: int, reps: int) -> list[dict]:
+    """The placement pass: A1 at every level, on the one-third stride, else none."""
+    if not _in_subset(index, PLACEMENT_FRACTION):
+        return []
+    return [{"arm": "A1", "placement": level, "condition": "C0", "rep": r}
+            for level in PLACEMENT_LEVELS for r in range(reps)]
+
+
+def _severity_cells(reps: int, placement: str) -> list[dict]:
+    """The severity pass: A1 at the Tier-2 placement, both O1 levels."""
+    return [{"arm": "A1", "placement": placement, "condition": "C0", "rep": r,
+             "severity": level}
+            for level in inject_defects.SEVERITY_LEVELS for r in range(reps)]
+
+
+def not_in_pass(entry: dict) -> bool:
+    """Cleared every gate but this pass's subset does not carry it."""
+    reason = entry.get("reason") or ""
+    return reason.startswith("not_in_") and reason.endswith("_subset")
+
+
 def d19_decision(decision):
     """Route O4's warn-level measurement to a retry, for the D19 pass only.
 
@@ -279,7 +314,8 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
         raise ValueError(f"unknown cell {cell!r}; expected one of {CELLS}")
     if cell != "core" and with_c1:
         raise ValueError("--c1 extends the core plan; the c1 and d19 passes are separate")
-    operators = operators or (D19_OPERATORS if cell == "d19" else inject_defects.REPAIR_OPERATORS)
+    operators = operators or {"d19": D19_OPERATORS, "severity": SEVERITY_OPERATORS}.get(
+        cell, inject_defects.REPAIR_OPERATORS)
     # D19 inverts the trigger gate: O4 must reach the warn-level verdict that
     # production overwrites, and must not already be routed to retry.
     expected_verdict = "proceed_with_warning" if cell == "d19" else "retry"
@@ -335,17 +371,32 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
                 plan.append(entry)
                 continue
 
+            if cell == "severity":
+                # Level 2 must clear the same two gates, or the levels would not
+                # be comparable defect for defect. Both levels or neither.
+                inj2, _ = inject_defects.inject(op, state, seed=seed, severity=2)
+                valid2, detail2 = inject_defects.verify_injection(op, inj2, state)
+                entry["gate_severity2"] = detail2
+                if not (valid2 and detail2["verdict"] == "retry"):
+                    entry["reason"] = f"severity2_gate:{detail2['verdict']}"
+                    plan.append(entry)
+                    continue
+
             if cell == "c1":
                 arms = _c1_cells(op_index[op], reps, placement)
             elif cell == "d19":
                 arms = _d19_cells(reps)
+            elif cell == "placement":
+                arms = _placement_cells(op_index[op], reps)
+            elif cell == "severity":
+                arms = _severity_cells(reps, placement)
             else:
                 arms = _cells_for(op_index[op], reps, placement, with_c1)
             op_index[op] += 1
             if not arms:
-                # Cleared every gate, but the c1 pass does not carry it. Not
-                # runnable in this pass; the stride above still counted it.
-                entry["reason"] = "not_in_c1_subset"
+                # Cleared every gate, but this pass's subset does not carry it.
+                # Not runnable here; the stride above still counted it.
+                entry["reason"] = f"not_in_{cell}_subset"
                 plan.append(entry)
                 continue
             entry["runnable"] = True
@@ -373,6 +424,8 @@ def plan_summary(plan: list[dict]) -> dict:
     by_arm: dict[str, int] = {}
     by_condition: dict[str, int] = {}
     by_cell: dict[str, int] = {}
+    by_placement: dict[str, int] = {}
+    by_severity: dict[str, int] = {}
     c1_defects = 0
     for d in runnable:
         if any(c.get("condition", "C0") == "C1" for c in d["arms"]):
@@ -383,6 +436,9 @@ def plan_summary(plan: list[dict]) -> dict:
             by_condition[condition] = by_condition.get(condition, 0) + 1
             key = f"{condition}:{cell['arm']}"
             by_cell[key] = by_cell.get(key, 0) + 1
+            by_placement[cell["placement"]] = by_placement.get(cell["placement"], 0) + 1
+            level = str(cell.get("severity", 1))
+            by_severity[level] = by_severity.get(level, 0) + 1
 
     def _rate(num: int, den: int) -> float | None:
         return round(num / den, 4) if den else None
@@ -404,6 +460,8 @@ def plan_summary(plan: list[dict]) -> dict:
         "trials_by_arm": by_arm,
         "trials_by_condition": by_condition,
         "trials_by_cell": by_cell,
+        "trials_by_placement": by_placement,
+        "trials_by_severity": by_severity,
         "core_trials": by_condition.get("C0", 0),
         "c1_trials": by_condition.get("C1", 0),
         "defects_c1": c1_defects,
@@ -439,9 +497,19 @@ def verify_order(plan: list[dict]) -> list[str]:
                 seen.append(key)
         # A0 and A3 run on subsets by design (D4c); the primary contrast does not.
         core = [arm for condition, arm in seen if condition == "C0"]
-        needed = ("A1", "A3") if d.get("cell") == "d19" else ("A1", "A2")
+        needed = REQUIRED_ARMS.get(d.get("cell"), ("A1", "A2"))
         if any(arm not in core for arm in needed):
             problems.append(f"{d['defect_id']}: missing a primary arm ({core})")
+        # The two factor passes are useless half-populated: a defect missing a
+        # level contributes no within-defect contrast for it.
+        if d.get("cell") == "placement":
+            levels = {c["placement"] for c in d["arms"]}
+            if levels != set(PLACEMENT_LEVELS):
+                problems.append(f"{d['defect_id']}: placement levels {sorted(levels)}")
+        if d.get("cell") == "severity":
+            levels = {c.get("severity", 1) for c in d["arms"]}
+            if levels != set(inject_defects.SEVERITY_LEVELS):
+                problems.append(f"{d['defect_id']}: severity levels {sorted(levels)}")
         # A half-populated C1 cell yields no C0-vs-C1 contrast for this defect,
         # which is the one thing the cell exists to produce (D8d).
         c1 = [arm for condition, arm in seen if condition == "C1"]
@@ -484,6 +552,7 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
         "pre_verdict": pre_decision.verdict,
         "retry_feedback": routed.retry_feedback,
         "cell": defect.get("cell", "core"),
+        "severity": cell.get("severity", 1),
     }
 
     if dry_run:
@@ -665,7 +734,7 @@ def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
     done = load_done(path)
     # A defect a pass does not carry is not written to that pass's checkpoint.
     pending = [d for d in plan if d["defect_id"] not in done
-               and (d.get("runnable") or d.get("reason") != "not_in_c1_subset")]
+               and (d.get("runnable") or not not_in_pass(d))]
     if limit:
         pending = pending[:limit]
 
@@ -695,9 +764,15 @@ def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
         if not descriptor.applied:
             append_row(path, {**defect, "status": "skipped", "reason": descriptor.reason})
             continue
+        # Only the severity pass varies the injection within a defect; every
+        # other pass uses level 1 for every cell, exactly as before.
+        injections = {1: (injected_state, descriptor)}
+        for level in sorted({c.get("severity", 1) for c in defect["arms"]} - {1}):
+            injections[level] = inject_defects.inject(
+                defect["operator"], base_state, seed=defect["seed"], severity=level)
 
         trials = [
-            run_trial(defect, cell, base_state, injected_state, descriptor,
+            run_trial(defect, cell, base_state, *injections[cell.get("severity", 1)],
                       session_id, dry_run)
             for cell in defect["arms"]
         ]
@@ -751,7 +826,8 @@ def main() -> int:
                          "Off by default -- the frozen core is C0 only.")
     ap.add_argument("--cell", default="core", choices=list(CELLS),
                     help="Which pass to make: the frozen core, the C1 cell as its own "
-                         "pass (prereg 0.1 A3), or the D19 counterfactual (0.1 A2).")
+                         "pass (prereg 0.1 A3), the D19 counterfactual (0.1 A2), the "
+                         "placement cell (0.1 A5) or the O1 severity sweep (0.1 A6).")
     args = ap.parse_args()
     if args.c1 and args.cell != "core":
         ap.error("--c1 extends the core plan; use --cell c1 for the C1 pass")

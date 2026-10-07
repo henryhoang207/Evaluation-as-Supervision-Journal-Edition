@@ -474,6 +474,73 @@ def analyse_d19(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
     }
 
 
+def factor_cells(trials: list[dict], level_of, arm: str = "A1",
+                 success=("repaired",)) -> dict:
+    """{(defect_id, level): [0/1 per rep]} for one arm, the level read by ``level_of``.
+
+    The placement and severity passes vary a factor *within* one arm, so the
+    second key is the factor level rather than the arm; ``contrast`` and
+    ``_rate_ci`` take it unchanged.
+    """
+    out: dict = defaultdict(list)
+    for t in trials:
+        if t["arm"] != arm or t.get("condition", "C0") != "C0":
+            continue
+        out[(t["defect_id"], level_of(t))].append(1 if outcome_class(t) in success else 0)
+    return dict(out)
+
+
+def _factor_report(rows: list[dict], level_of, levels, contrasts, seed: int,
+                   core_rows: list[dict] | None, comparator_level, comparator_filter) -> dict:
+    trials, excluded = usable_trials(rows)
+    cm = factor_cells(trials, level_of)
+    out = {
+        "provenance": {
+            "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "seed": seed, "n_boot": N_BOOT, "trials_usable": len(trials),
+            "exclusions": dict(excluded),
+            "served_models": dict(Counter(m for r in rows for t in r.get("trials", [])
+                                          for m in (t.get("served_models") or []))),
+            "total_tokens": int(sum(t.get("total_tokens") or 0 for t in trials)),
+        },
+        "rates": {str(lv): _rate_ci(cm, lv, seed) for lv in levels},
+        "contrasts": {f"{a}-{b}": contrast(cm, a, b, seed) for a, b in contrasts},
+        "outcome_classes": {f"{lv}|{o}": n for (lv, o), n in sorted(
+            Counter((level_of(t), outcome_class(t)) for t in trials).items())},
+        "collateral_by_level": {
+            str(lv): _collateral([t for t in trials if level_of(t) == lv]).get("A1")
+            for lv in levels},
+    }
+    if core_rows is not None:
+        rerun = [t for t in trials if level_of(t) == comparator_level]
+        core = [t for t in usable_trials(core_rows)[0] if comparator_filter(t)]
+        out["drift_vs_core"] = _drift(rerun, core)
+    return out
+
+
+def analyse_placement(rows: list[dict], core_rows: list[dict] | None = None,
+                      seed: int = DEFAULT_SEED) -> dict:
+    """Section 0.1 A5: A1 at P0-P3, matched within defect and session.
+
+    Section 5 recorded the prediction before any result: **P1 >> P3 ~ P2**, with
+    P0 reported separately and not folded into the ordering. Exploratory.
+    """
+    res = _factor_report(
+        rows, lambda t: t["placement"], ("P0", "P1", "P2", "P3"),
+        (("P1", "P2"), ("P1", "P3"), ("P3", "P2"), ("P1", "P0")), seed,
+        core_rows, "P1", lambda t: t["arm"] == "A1" and t["placement"] == "P1")
+    res["prediction"] = "P1 >> P3 ~ P2; P0 reported separately (PREREGISTRATION.md section 5)"
+    return res
+
+
+def analyse_severity(rows: list[dict], core_rows: list[dict] | None = None,
+                     seed: int = DEFAULT_SEED) -> dict:
+    """Section 0.1 A6: O1 at level 1 vs level 2, A1 at P1. Exploratory."""
+    return _factor_report(
+        rows, lambda t: t.get("severity", 1), (1, 2), ((1, 2),), seed,
+        core_rows, 1, lambda t: t["arm"] == "A1" and t.get("operator") == "O1")
+
+
 def _collateral(trials: list[dict]) -> dict:
     out = {}
     for arm in sorted({t["arm"] for t in trials}):
@@ -522,24 +589,30 @@ def print_summary(res: dict) -> None:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--cell", default="core", choices=("core", "c1", "d19"))
+    ap.add_argument("--cell", default="core",
+                    choices=("core", "c1", "d19", "placement", "severity"))
     ap.add_argument("--checkpoint", default=None,
-                    help="defaults per --cell: out_study/T2, T2C1 or T2D19")
+                    help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P or T2S")
     ap.add_argument("--core-checkpoint", default="out_study/T2/checkpoint.jsonl",
-                    help="--cell c1 only: the core, for the serving-drift comparison")
+                    help="c1/placement/severity: the core, for the serving-drift comparison")
     ap.add_argument("--json", default=None, help="write the full result here")
     ap.add_argument("--seed", type=int, default=DEFAULT_SEED)
     args = ap.parse_args()
     checkpoint = args.checkpoint or {
         "core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
+        "placement": "out_study/T2P", "severity": "out_study/T2S",
     }[args.cell] + "/checkpoint.jsonl"
     if args.cell == "core":
         res = analyse(load_rows(checkpoint), seed=args.seed)
         print_summary(res)
     else:
+        core = load_rows(args.core_checkpoint) if Path(args.core_checkpoint).exists() else None
         if args.cell == "c1":
-            core = load_rows(args.core_checkpoint) if Path(args.core_checkpoint).exists() else None
             res = analyse_c1(load_rows(checkpoint), core, seed=args.seed)
+        elif args.cell == "placement":
+            res = analyse_placement(load_rows(checkpoint), core, seed=args.seed)
+        elif args.cell == "severity":
+            res = analyse_severity(load_rows(checkpoint), core, seed=args.seed)
         else:
             res = analyse_d19(load_rows(checkpoint), seed=args.seed)
         print(json.dumps({k: v for k, v in res.items() if k != "provenance"}, indent=2))

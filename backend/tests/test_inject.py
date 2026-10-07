@@ -259,3 +259,53 @@ def test_applicability_matrix_pins_the_tier2_ceiling():
     # O8's 19 control trials and O4's 16 warn-level trials sit outside it.
     assert m["summary"]["repair_operator_ids"] == ["O1", "O2", "O3", "O5", "O6", "O7"]
     assert m["summary"]["repair_operators"] == 142
+
+
+# ── O1 severity levels (PREREGISTRATION.md section 0.1 A6) ───────────────────
+
+
+def _o1_bases():
+    return [b for b in _bases() if inject_defects.applicable("O1", b)[0]]
+
+
+@needs_study
+def test_o1_severity_1_is_the_frozen_operator_byte_for_byte():
+    """The core ran at level 1; the severity parameter must not have moved it."""
+    for base in _o1_bases():
+        a, da = inject_defects.inject("O1", base, seed=0)
+        b, db = inject_defects.inject("O1", base, seed=0, severity=1)
+        assert a == b and da.to_dict() == db.to_dict()
+        assert "severity" not in da.target
+
+
+@needs_study
+def test_o1_severity_2_contains_level_1_and_breaks_every_resolving_id():
+    for base in _o1_bases():
+        _, d1 = inject_defects.inject("O1", base, seed=0)
+        out2, d2 = inject_defects.inject("O1", base, seed=0, severity=2)
+        idx = d2.target["pattern_index"]
+        assert idx == d1.target["pattern_index"]
+        ids = inject_defects._patterns(out2)[idx]["evidence_review_ids"]
+        assert ids[d1.target["evidence_index"]] == d1.target["after"]
+        by_id = inject_defects._analysis_index(out2)
+        assert inject_defects._resolving(inject_defects._patterns(out2)[idx], by_id) == []
+        # per-id damage is one character, as at level 1
+        for c in d2.target["also_corrupted"]:
+            assert len(c["after"]) == len(c["before"]) - 1
+        assert d2.target["severity"] == 2
+
+
+@needs_study
+def test_o1_severity_2_trips_only_its_own_check():
+    for base in _o1_bases():
+        out2, _ = inject_defects.inject("O1", base, seed=0, severity=2)
+        valid, detail = inject_defects.verify_injection("O1", out2, base)
+        assert valid, detail
+        assert detail["verdict"] == "retry"
+
+
+def test_severity_is_defined_for_o1_only_and_only_at_two_levels():
+    with pytest.raises(ValueError):
+        inject_defects.inject("O2", {}, severity=2)
+    with pytest.raises(ValueError):
+        inject_defects.inject("O1", {}, severity=3)

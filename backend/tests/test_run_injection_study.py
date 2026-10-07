@@ -833,3 +833,82 @@ def test_a_pass_the_c1_cell_does_not_carry_is_not_written_to_its_checkpoint(tmp_
         "trigger_rate": None, "trials": 0, "trials_by_arm": {}, "c1_trials": 0})
     assert runner.run("r", str(tmp_path), 3, "P1", 0, dry_run=True, cell="c1") == 0
     assert not (tmp_path / "checkpoint.jsonl").exists()
+
+
+# ── the placement and severity passes (section 0.1 A5, A6) ──────────────────
+
+
+@needs_study
+def test_the_placement_pass_runs_a1_at_all_four_levels_on_a_third():
+    plan = runner.build_plan(str(STUDY_ROOT), cell="placement")
+    runnable = [d for d in plan if d["runnable"]]
+    assert len(runnable) == 45
+    for d in runnable:
+        assert [(c["arm"], c["placement"]) for c in d["arms"]] == [
+            ("A1", level) for level in runner.PLACEMENT_LEVELS for _ in range(3)]
+    s = runner.plan_summary(plan)
+    assert s["trials"] == 540 and s["not_in_pass"] == 97
+    assert s["trials_by_placement"] == {"P0": 135, "P1": 135, "P2": 135, "P3": 135}
+    assert runner.verify_order(plan) == []
+
+
+@needs_study
+def test_the_placement_subset_is_a_per_operator_stride():
+    plan = [d for d in runner.build_plan(str(STUDY_ROOT), cell="placement")
+            if d.get("triggers")]
+    by_op: dict[str, list[bool]] = {}
+    for d in plan:
+        by_op.setdefault(d["operator"], []).append(d["runnable"])
+    for op, flags in by_op.items():
+        expected = [runner._in_subset(i, runner.PLACEMENT_FRACTION) for i in range(len(flags))]
+        assert flags == expected, op
+
+
+@needs_study
+def test_the_severity_pass_runs_both_o1_levels_in_one_defect():
+    plan = runner.build_plan(str(STUDY_ROOT), cell="severity")
+    runnable = [d for d in plan if d["runnable"]]
+    assert {d["operator"] for d in plan} == {"O1"} and len(runnable) == 24
+    for d in runnable:
+        assert [(c["arm"], c["placement"], c["severity"]) for c in d["arms"]] == (
+            [("A1", "P1", 1)] * 3 + [("A1", "P1", 2)] * 3)
+        assert d["gate_severity2"]["verdict"] == "retry"
+    s = runner.plan_summary(plan)
+    assert s["trials"] == 144 and s["trials_by_severity"] == {"1": 72, "2": 72}
+    assert runner.verify_order(plan) == []
+
+
+def test_verify_order_catches_a_half_populated_placement_or_severity_defect():
+    bad_p = [{"defect_id": "d", "runnable": True, "cell": "placement",
+              "arms": [{"arm": "A1", "placement": "P0", "rep": 0},
+                       {"arm": "A1", "placement": "P1", "rep": 0}]}]
+    bad_s = [{"defect_id": "d", "runnable": True, "cell": "severity",
+              "arms": [{"arm": "A1", "placement": "P1", "rep": 0, "severity": 1}]}]
+    assert any("placement levels" in p for p in runner.verify_order(bad_p))
+    assert any("severity levels" in p for p in runner.verify_order(bad_s))
+
+
+@needs_study
+def test_a_severity_trial_runs_on_its_own_levels_injection(tmp_path):
+    """Each cell must see the injection of its own level, not the defect's first."""
+    assert runner.run(str(STUDY_ROOT), str(tmp_path), 3, "P1", 0, dry_run=True,
+                      limit=1, cell="severity") == 0
+    row = json.loads((tmp_path / "checkpoint.jsonl").read_text(encoding="utf-8").splitlines()[0])
+    by_level = {}
+    for t in row["trials"]:
+        by_level.setdefault(t["severity"], set()).add(json.dumps(t["descriptor"], sort_keys=True))
+    assert set(by_level) == {1, 2}
+    assert all(len(v) == 1 for v in by_level.values())
+    d1 = json.loads(next(iter(by_level[1])))
+    d2 = json.loads(next(iter(by_level[2])))
+    assert "severity" not in d1["target"] and d2["target"]["severity"] == 2
+
+
+@needs_study
+def test_a_placement_pass_defect_outside_the_subset_is_not_written(tmp_path):
+    assert runner.run(str(STUDY_ROOT), str(tmp_path), 3, "P1", 0, dry_run=True,
+                      limit=3, cell="placement") == 0
+    rows = [json.loads(l) for l in
+            (tmp_path / "checkpoint.jsonl").read_text(encoding="utf-8").splitlines()]
+    assert all(r.get("status") in ("dry-run", "skipped") for r in rows)
+    assert not any(runner.not_in_pass(r) for r in rows)

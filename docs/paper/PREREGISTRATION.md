@@ -8,7 +8,7 @@ result it touches is reported as exploratory. No trial ran before the tag.
 regeneration baseline, and the confirmatory set is now the single A1-vs-A2
 test** (§2, §2.1).
 
-**Four amendments have been filed since the freeze (§0.1 A1–A4).** None adds a
+**Six amendments have been filed since the freeze (§0.1 A1–A6).** None adds a
 confirmatory claim or moves the core. **The core ran 2026-10-05 → 07** (1,167
 trials, 1,149 usable).
 
@@ -72,6 +72,8 @@ section records every divergence from it.
 | **A2** | **2026-10-07** | **The D19 pass is wired** (`--cell d19`): the trigger gate inverted to `proceed_with_warning` for O4 only, and A1 fed production's own `frequency_corrected` flags. | Exploratory — as §7 already had it |
 | **A3** | **2026-10-07** | **The C1 cell runs as its own pass** (`--cell c1`), its C0 comparators re-run in the same session: 37 defects, 444 trials. | Exploratory; the re-run C0 cells also measure serving drift |
 | **A4** | **2026-10-07** | **The confirmatory analysis code is written; one interim budget look is disclosed.** No rule changes. | None — records how §2–§4 were implemented |
+| **A5** | **2026-10-07** | **The placement pass is wired** (`--cell placement`): A1 × {P0, P1, P2, P3}, r = 3, on a one-third per-operator stride — 45 defects, 540 trials — with P1 re-run in-session. | Exploratory — as §2.1 already had it; the §5 prediction is unchanged |
+| **A6** | **2026-10-07** | **The O1 severity sweep is defined and wired** (`--cell severity`): level 2 = every resolving evidence id of the targeted pattern corrupted; A1 at P1, r = 3, all 24 O1 defects, both levels in-session — 144 trials. | Exploratory — as §2.1 already had it |
 
 **A1 — the C1 cell, in full.**
 
@@ -215,6 +217,80 @@ on 2026-10-05, after 12 of 142 defects, outcome counts and per-trial token
 usage were inspected **to check the budget**. Nothing about the design, the
 stopping point or the analysis changed as a result, and the run continued to
 completion. It is disclosed so a reader does not have to take that on trust.
+
+**What the core, D19 and C1 results were when A5 and A6 were written.** Both
+amendments were filed after those three cells had run (core A1 ≈ 95 %, A2 ≈ 94 %,
+at ceiling; D19 A1 100 %; C1 gaps both −1.8 pp). They are recorded here so that
+nobody has to wonder whether the two cells below were designed to escape the
+ceiling: their size and arms follow the plan's §6.2 grid, which predates every
+result, and the one parameter the plan left undefined — O1's second severity
+level — was chosen by the author between two candidates fixed before either
+was run (below). Neither cell changes the confirmatory test.
+
+**A5 — the placement pass (2026-10-07).**
+
+*What the plan fixed before the freeze.* JOURNAL_PLAN §6.2: "Placement: A1 ×
+{P0, P2}, r = 3, a third of the set", plus "(optional) P3 exploratory: A1, r =
+3". D9 defines the four levels; §14.5 pinned P3's wording (`arms.P3_MARKER`,
+frozen 2026-08-25). §5 above recorded the prediction **P1 ≫ P3 ≈ P2, with P0
+reported separately**. The live smoke test ran A1 at P0, P2 and P3 on
+2026-09-14.
+
+*What this amendment fixes.*
+
+- **All four levels, P3 included.** P3 was optional in the plan but §5 makes a
+  prediction about it, and an unrun predicted cell is worse than a run one.
+- **P1 is re-run inside the pass.** The core's P1 trials ran days earlier in
+  other sessions; §14.1 forbids within-defect contrasts across sessions, and the
+  C1 pass measured that drift is real (96 % same outcome class, 83 %
+  byte-identical). This follows the author's A3 decision for the identical
+  problem. The re-run P1 cells also give a second drift measurement.
+- **The subset** is "a third of the set" by the same per-operator stride as
+  every other subset (`_in_subset`, fraction 1/3): **45 defects**
+  (8/8/7/6/8/8 across O1/O2/O3/O5/O6/O7) × 4 levels × r = 3 = **540 trials**,
+  into `out_study/T2P`.
+- **A1 only**, as the plan sized it. The "placement × arm interaction" §2.1
+  lists is therefore **not estimable** from this cell; the paper says so rather
+  than borrowing A2 from the core across sessions.
+
+*Analysis* (`repair_analysis.py --cell placement`): A1 repair rate per level
+with defect-bootstrap CIs, and the paired within-defect contrasts P1 − P2,
+P1 − P3, P3 − P2 (the prediction) and P1 − P0. Estimates with CIs; the exact
+McNemar printed beside each is descriptive.
+
+**A6 — the O1 severity sweep (2026-10-07; levels and arms chosen by the author).**
+
+*What the plan fixed before the freeze.* JOURNAL_PLAN §6.2: "Severity sweep: O1
+two levels × a third of the set, r = 3, P1, ~100". The two levels were never
+defined, and `_apply_o1` had no severity parameter: it drops one character from
+one resolving evidence id of one pattern.
+
+*The decision.* Two candidates were put to the author before either was built
+or run: (a) **extent** — every resolving evidence id of the targeted pattern
+loses one character, so per-id damage is unchanged and the pattern keeps no
+valid support; (b) **depth** — 11 of the single id's 22 characters dropped,
+which the supervisor's check reports exactly as it reports level 1. **The author
+chose (a).** It also chose **A1 only** over A1 and A2.
+
+*How it is built.* `inject(..., severity=2)` runs the frozen O1 operator first
+and then, from the same random stream, corrupts every remaining resolving id of
+the same pattern. **Level 1 is untouched**: on all 1,167 core trials the
+modified injector reproduces the stored descriptor exactly, and a test pins
+level 1 byte for byte. Level 2 always contains level 1's corruption, leaves the
+pattern with no resolving id, and clears both D20 gates on 24/24 O1 defects —
+checked in `build_plan`, so a defect enters only if **both** levels pass. The
+scorer is unchanged: O1 restoration already compares the pattern's whole
+evidence-id set.
+
+*Size.* **All 24 O1 defects** × {level 1, level 2} × A1 at P1 × r = 3 =
+**144 trials**, both levels in one session per defect, into `out_study/T2S`.
+"A third of the set" in the plan cannot apply to one operator's 24 defects and
+still yield "~100"; the plan's ~100 was all O1 defects at the time (17) × two
+levels × r = 3, which is what this realises at 24.
+
+*Analysis* (`repair_analysis.py --cell severity`): A1 repair rate at each level
+with CIs and the paired level 1 − level 2 contrast; the re-run level 1 cells
+are compared with the core's O1 A1 trials as a drift measurement.
 
 ---
 
@@ -776,6 +852,7 @@ Recorded here so that no reviewer has to discover them:
 | §0.1 A2 and A3 — D19 and C1 passes wired, committed and pushed (`4d03268`) before either ran | 2026-10-07 |
 | **D19 pass complete — 138 trials, all usable** | **2026-10-07** |
 | **C1 pass complete — 444 trials, all usable** | **2026-10-07** |
+| §0.1 A5 and A6 — placement pass and O1 severity sweep defined and wired, committed and pushed before either ran | 2026-10-07 |
 
 ---
 

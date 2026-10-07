@@ -272,3 +272,53 @@ def test_clopper_pearson_matches_known_values():
     assert ra.clopper_pearson(0, 10) == [0.0, pytest.approx(0.3084971)]
     lo, hi = ra.clopper_pearson(5, 10)
     assert lo == pytest.approx(0.187086, abs=1e-5) and hi == pytest.approx(0.812914, abs=1e-5)
+
+
+# ── the placement and severity passes (section 0.1 A5, A6) ──────────────────
+
+
+def _placement_row(defect, by_level, op="O2"):
+    ts = []
+    for level, outs in by_level.items():
+        for i, o in enumerate(outs):
+            t = _trial(defect, "A1", o, i, op=op, placement=level)
+            t["retried_output"] = {"o": o}
+            ts.append(t)
+    return _row(defect, ts, op)
+
+
+def test_placement_contrasts_pair_levels_within_a_defect():
+    rows = [_placement_row("d1", {"P0": ["repaired"] * 3, "P1": ["repaired"] * 3,
+                                  "P2": ["unrepaired"] * 3, "P3": ["repaired"] * 3})]
+    res = ra.analyse_placement(rows, seed=0)
+    assert res["rates"]["P2"]["rate"] == pytest.approx(0.0)
+    assert res["contrasts"]["P1-P2"]["estimate"] == pytest.approx(1.0)
+    assert res["contrasts"]["P3-P2"]["estimate"] == pytest.approx(1.0)
+    assert res["contrasts"]["P1-P0"]["estimate"] == pytest.approx(0.0)
+    assert "P1 >> P3 ~ P2" in res["prediction"]
+
+
+def test_placement_drift_compares_only_the_rerun_p1_cells_with_the_core():
+    rows = [_placement_row("d1", {"P0": ["unrepaired"] * 3, "P1": ["repaired"] * 3,
+                                  "P2": ["repaired"] * 3, "P3": ["repaired"] * 3})]
+    core = [_pair("d1", ["repaired", "repaired", "unrepaired"], ["repaired"] * 3)]
+    for t in core[0]["trials"]:
+        t["retried_output"] = {"o": t["outcome"]["outcome"]}
+    drift = ra.analyse_placement(rows, core, seed=0)["drift_vs_core"]
+    assert drift["pairs"] == 3                    # P1 x 3 reps vs core A1 x 3 reps
+    assert drift["flips_core_to_rerun"] == {"unrepaired->repaired": 1}
+
+
+def test_severity_contrasts_level_1_against_level_2():
+    ts = []
+    for level, outs in ((1, ["repaired"] * 3), (2, ["replaced", "repaired", "replaced"])):
+        for i, o in enumerate(outs):
+            t = _trial("x:O1", "A1", o, i, op="O1")
+            t["severity"] = level
+            ts.append(t)
+    res = ra.analyse_severity([_row("x:O1", ts, op="O1")], seed=0)
+    assert res["rates"]["1"]["rate"] == pytest.approx(1.0)
+    assert res["rates"]["2"]["rate"] == pytest.approx(1 / 3)
+    c = res["contrasts"]["1-2"]
+    assert c["estimate"] == pytest.approx(2 / 3)
+    assert c["discordant"] == {"1_only": 1, "2_only": 0}
