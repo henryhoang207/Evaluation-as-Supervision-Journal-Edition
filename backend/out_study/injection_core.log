@@ -1,0 +1,164 @@
+LLM_DISABLE_FALLBACK=1 (no silent model failover)
+defects: 142 runnable, 26 inapplicable
+gates  : injection 142/142 (1.0) · trigger 142/142 (1.0)
+trials : 1167  by arm {'A1': 426, 'A2': 426, 'A0': 213, 'A3': 102}
+resume : 0 done, 168 pending
+
+[1/168] -uzQNt-3jsRK5okUuJiQLA:O1  6 trials
+[2/168] -uzQNt-3jsRK5okUuJiQLA:O2  6 trials
+[3/168] -uzQNt-3jsRK5okUuJiQLA:O3  6 trials
+[4/168] -uzQNt-3jsRK5okUuJiQLA:O5  6 trials
+[5/168] -uzQNt-3jsRK5okUuJiQLA:O6  6 trials
+[6/168] -uzQNt-3jsRK5okUuJiQLA:O7  6 trials
+[7/168] 26FBIjrkQ9SH-JPvvr0PXA:O1  9 trials
+[8/168] 26FBIjrkQ9SH-JPvvr0PXA:O2  9 trials
+[9/168] 26FBIjrkQ9SH-JPvvr0PXA:O3  9 trials
+[10/168] 26FBIjrkQ9SH-JPvvr0PXA:O5  9 trials
+[11/168] 26FBIjrkQ9SH-JPvvr0PXA:O6  9 trials
+[12/168] 26FBIjrkQ9SH-JPvvr0PXA:O7  9 trials
+[19/168] 4h88UgiaoNt3P0r97VJrow:O1  6 trials
+[20/168] 4h88UgiaoNt3P0r97VJrow:O2  6 trials
+[21/168] 4h88UgiaoNt3P0r97VJrow:O3  6 trials
+[23/168] 4h88UgiaoNt3P0r97VJrow:O6  6 trials
+[24/168] 4h88UgiaoNt3P0r97VJrow:O7  6 trials
+[25/168] 8fHYd3HdWotxsG5Ze-oMXw:O1  12 trials
+[26/168] 8fHYd3HdWotxsG5Ze-oMXw:O2  12 trials
+[27/168] 8fHYd3HdWotxsG5Ze-oMXw:O3  12 trials
+[28/168] 8fHYd3HdWotxsG5Ze-oMXw:O5  6 trials
+[29/168] 8fHYd3HdWotxsG5Ze-oMXw:O6  12 trials
+[30/168] 8fHYd3HdWotxsG5Ze-oMXw:O7  12 trials
+[31/168] 8jbGUpLnTwt6eO36l5VYEQ:O1  6 trials
+[32/168] 8jbGUpLnTwt6eO36l5VYEQ:O2  6 trials
+[33/168] 8jbGUpLnTwt6eO36l5VYEQ:O3  6 trials
+[34/168] 8jbGUpLnTwt6eO36l5VYEQ:O5  12 trials
+[35/168] 8jbGUpLnTwt6eO36l5VYEQ:O6  6 trials
+[36/168] 8jbGUpLnTwt6eO36l5VYEQ:O7  6 trials
+[43/168] B0SPP0RsKkJxf6zK6mG9kw:O1  9 trials
+[44/168] B0SPP0RsKkJxf6zK6mG9kw:O2  9 trials
+[45/168] B0SPP0RsKkJxf6zK6mG9kw:O3  9 trials
+[46/168] B0SPP0RsKkJxf6zK6mG9kw:O5  6 trials
+[47/168] B0SPP0RsKkJxf6zK6mG9kw:O6  9 trials
+[48/168] B0SPP0RsKkJxf6zK6mG9kw:O7  9 trials
+[49/168] Fd-CY5oUjewSTawi-O5Bqw:O1  6 trials
+[50/168] Fd-CY5oUjewSTawi-O5Bqw:O2  6 trials
+[51/168] Fd-CY5oUjewSTawi-O5Bqw:O3  6 trials
+[52/168] Fd-CY5oUjewSTawi-O5Bqw:O5  9 trials
+[53/168] Fd-CY5oUjewSTawi-O5Bqw:O6  6 trials
+[54/168] Fd-CY5oUjewSTawi-O5Bqw:O7  6 trials
+[58/168] FnEWE7CdxTolKWEgVKAlsg:O5  6 trials
+[59/168] FnEWE7CdxTolKWEgVKAlsg:O6  12 trials
+[60/168] FnEWE7CdxTolKWEgVKAlsg:O7  12 trials
+[61/168] KCVLunGXXLTVnP2sP2bhuQ:O1  12 trials
+[62/168] KCVLunGXXLTVnP2sP2bhuQ:O2  12 trials
+[63/168] KCVLunGXXLTVnP2sP2bhuQ:O3  12 trials
+[64/168] KCVLunGXXLTVnP2sP2bhuQ:O5  12 trials
+[65/168] KCVLunGXXLTVnP2sP2bhuQ:O6  6 trials
+[66/168] KCVLunGXXLTVnP2sP2bhuQ:O7  6 trials
+[67/168] KbvW90THoQ7uvgn9mlAYhA:O1  6 trials
+[68/168] KbvW90THoQ7uvgn9mlAYhA:O2  6 trials
+[69/168] KbvW90THoQ7uvgn9mlAYhA:O3  6 trials
+[70/168] KbvW90THoQ7uvgn9mlAYhA:O5  6 trials
+[71/168] KbvW90THoQ7uvgn9mlAYhA:O6  9 trials
+[72/168] KbvW90THoQ7uvgn9mlAYhA:O7  9 trials
+[73/168] PbqJmjSijS7aXr0qkjbuxA:O1  9 trials
+[74/168] PbqJmjSijS7aXr0qkjbuxA:O2  9 trials
+[75/168] PbqJmjSijS7aXr0qkjbuxA:O3  9 trials
+[76/168] PbqJmjSijS7aXr0qkjbuxA:O5  9 trials
+[77/168] PbqJmjSijS7aXr0qkjbuxA:O6  6 trials
+[78/168] PbqJmjSijS7aXr0qkjbuxA:O7  6 trials
+[79/168] QeAouJuRkWWJl_IPgF1xWA:O1  6 trials
+[80/168] QeAouJuRkWWJl_IPgF1xWA:O2  6 trials
+[81/168] QeAouJuRkWWJl_IPgF1xWA:O3  6 trials
+[82/168] QeAouJuRkWWJl_IPgF1xWA:O5  6 trials
+[83/168] QeAouJuRkWWJl_IPgF1xWA:O6  12 trials
+[84/168] QeAouJuRkWWJl_IPgF1xWA:O7  12 trials
+[85/168] V2ORmEuA7WA1XwYmMpSxvg:O1  12 trials
+[86/168] V2ORmEuA7WA1XwYmMpSxvg:O2  12 trials
+[87/168] V2ORmEuA7WA1XwYmMpSxvg:O3  12 trials
+[88/168] V2ORmEuA7WA1XwYmMpSxvg:O5  12 trials
+[89/168] V2ORmEuA7WA1XwYmMpSxvg:O6  6 trials
+[90/168] V2ORmEuA7WA1XwYmMpSxvg:O7  6 trials
+[91/168] YJ-sr_YVhnsZaBl-j9tjCg:O1  6 trials
+[92/168] YJ-sr_YVhnsZaBl-j9tjCg:O2  6 trials
+[93/168] YJ-sr_YVhnsZaBl-j9tjCg:O3  6 trials
+[94/168] YJ-sr_YVhnsZaBl-j9tjCg:O5  6 trials
+[95/168] YJ-sr_YVhnsZaBl-j9tjCg:O6  9 trials
+[96/168] YJ-sr_YVhnsZaBl-j9tjCg:O7  9 trials
+[97/168] ZGznjpkqi6a_It4lAgCnYw:O1  9 trials
+[98/168] ZGznjpkqi6a_It4lAgCnYw:O2  9 trials
+LLM_DISABLE_FALLBACK=1 (no silent model failover)
+defects: 142 runnable, 26 inapplicable
+gates  : injection 142/142 (1.0) · trigger 142/142 (1.0)
+trials : 1167  by arm {'A1': 426, 'A2': 426, 'A0': 213, 'A3': 102}
+resume : 98 done, 70 pending
+
+[1/70] ZGznjpkqi6a_It4lAgCnYw:O3  9 trials
+[3/70] ZGznjpkqi6a_It4lAgCnYw:O6  6 trials
+[4/70] ZGznjpkqi6a_It4lAgCnYw:O7  6 trials
+[5/70] _cXaVePsZOiKlXwsQ8vcxA:O1  6 trials
+[6/70] _cXaVePsZOiKlXwsQ8vcxA:O2  6 trials
+[7/70] _cXaVePsZOiKlXwsQ8vcxA:O3  6 trials
+[9/70] _cXaVePsZOiKlXwsQ8vcxA:O6  12 trials
+[10/70] _cXaVePsZOiKlXwsQ8vcxA:O7  12 trials
+[11/70] _pHMElutAeebkqmYYNeI6w:O1  12 trials
+[12/70] _pHMElutAeebkqmYYNeI6w:O2  12 trials
+
+--- resumed 2026-10-07T08:15:51
+
+--- resumed 2026-10-07 (Start-Process; stdout captured in TEMP, appended here)
+LLM_DISABLE_FALLBACK=1 (no silent model failover)
+defects: 142 runnable, 26 inapplicable
+gates  : injection 142/142 (1.0) · trigger 142/142 (1.0)
+trials : 1167  by arm {'A1': 426, 'A2': 426, 'A0': 213, 'A3': 102}
+resume : 110 done, 58 pending
+
+[1/58] _pHMElutAeebkqmYYNeI6w:O3  12 trials
+[2/58] _pHMElutAeebkqmYYNeI6w:O5  9 trials
+[3/58] _pHMElutAeebkqmYYNeI6w:O6  6 trials
+[4/58] _pHMElutAeebkqmYYNeI6w:O7  6 trials
+[5/58] d1nD7knOKA5PzZK_HYG4JQ:O1  6 trials
+[6/58] d1nD7knOKA5PzZK_HYG4JQ:O2  6 trials
+[7/58] d1nD7knOKA5PzZK_HYG4JQ:O3  6 trials
+[8/58] d1nD7knOKA5PzZK_HYG4JQ:O5  6 trials
+[9/58] d1nD7knOKA5PzZK_HYG4JQ:O6  9 trials
+[10/58] d1nD7knOKA5PzZK_HYG4JQ:O7  9 trials
+[15/58] dutm97q2F4a6RV6YQ0uLHw:O6  6 trials
+[16/58] dutm97q2F4a6RV6YQ0uLHw:O7  6 trials
+[17/58] fpoy10eejKRpe9DhkUB9wg:O1  9 trials
+[18/58] fpoy10eejKRpe9DhkUB9wg:O2  9 trials
+[19/58] fpoy10eejKRpe9DhkUB9wg:O3  9 trials
+[20/58] fpoy10eejKRpe9DhkUB9wg:O5  12 trials
+[21/58] fpoy10eejKRpe9DhkUB9wg:O6  12 trials
+[22/58] fpoy10eejKRpe9DhkUB9wg:O7  12 trials
+[23/58] gk3hzKydevLKZ2FVmJdt-A:O1  6 trials
+[24/58] gk3hzKydevLKZ2FVmJdt-A:O2  6 trials
+[26/58] gk3hzKydevLKZ2FVmJdt-A:O5  6 trials
+[27/58] gk3hzKydevLKZ2FVmJdt-A:O6  6 trials
+[28/58] gk3hzKydevLKZ2FVmJdt-A:O7  6 trials
+[29/58] gvAOc8vwczgVscNj-NN6hw:O1  12 trials
+[30/58] gvAOc8vwczgVscNj-NN6hw:O2  12 trials
+[31/58] gvAOc8vwczgVscNj-NN6hw:O3  6 trials
+[32/58] gvAOc8vwczgVscNj-NN6hw:O5  9 trials
+[33/58] gvAOc8vwczgVscNj-NN6hw:O6  9 trials
+[34/58] gvAOc8vwczgVscNj-NN6hw:O7  9 trials
+[35/58] i9R_CJQ5oN1tVglXpL-GCA:O1  6 trials
+[36/58] i9R_CJQ5oN1tVglXpL-GCA:O2  6 trials
+[37/58] i9R_CJQ5oN1tVglXpL-GCA:O3  12 trials
+[38/58] i9R_CJQ5oN1tVglXpL-GCA:O5  6 trials
+[39/58] i9R_CJQ5oN1tVglXpL-GCA:O6  6 trials
+[40/58] i9R_CJQ5oN1tVglXpL-GCA:O7  6 trials
+[41/58] o3hDZ2nv80tApZMNQw2aZA:O1  9 trials
+[42/58] o3hDZ2nv80tApZMNQw2aZA:O2  9 trials
+[45/58] o3hDZ2nv80tApZMNQw2aZA:O6  12 trials
+[46/58] o3hDZ2nv80tApZMNQw2aZA:O7  12 trials
+[47/58] v5kwdvmg-J8g-ll0nkc3Sw:O1  6 trials
+[48/58] v5kwdvmg-J8g-ll0nkc3Sw:O2  6 trials
+[49/58] v5kwdvmg-J8g-ll0nkc3Sw:O3  6 trials
+[51/58] v5kwdvmg-J8g-ll0nkc3Sw:O6  6 trials
+[52/58] v5kwdvmg-J8g-ll0nkc3Sw:O7  6 trials
+[53/58] xjZHp1slZNUBJvQLuHSTTA:O1  12 trials
+[54/58] xjZHp1slZNUBJvQLuHSTTA:O2  12 trials
+[55/58] xjZHp1slZNUBJvQLuHSTTA:O3  9 trials
+[56/58] xjZHp1slZNUBJvQLuHSTTA:O5  12 trials
+[57/58] xjZHp1slZNUBJvQLuHSTTA:O6  9 trials
+[58/58] xjZHp1slZNUBJvQLuHSTTA:O7  9 trials
