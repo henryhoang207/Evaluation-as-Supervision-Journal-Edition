@@ -1,0 +1,220 @@
+{
+  "provenance": {
+    "script_sha256": "6f8110b5c66f8fdb6f4ca688fe8ea8d20b9f02aa6073648ff16ab4a3c9503253",
+    "seed": 20260803,
+    "n_boot": 10000,
+    "trials_usable": 117,
+    "exclusions": {},
+    "served_models": {
+      "gemini-2.5-flash": 126
+    },
+    "total_tokens": 4129830
+  },
+  "note": "descriptive only: no hypothesis test (plan section 5, Tier 1)",
+  "accepted": {
+    "A1": {
+      "rate": 0.282051282051282,
+      "ci95_cells": [
+        0.15143097643097647,
+        0.46166666666666484
+      ],
+      "n_defects": 13,
+      "n_cells": 7
+    },
+    "A2": {
+      "rate": 0.7692307692307693,
+      "ci95_cells": [
+        0.5555555555555555,
+        0.8974358974358972
+      ],
+      "n_defects": 13,
+      "n_cells": 7
+    },
+    "A3": {
+      "rate": 0.25641025641025644,
+      "ci95_cells": [
+        0.1282051282051282,
+        0.4166666666666667
+      ],
+      "n_defects": 13,
+      "n_cells": 7
+    }
+  },
+  "target_resolved": {
+    "A1": {
+      "rate": 0.38461538461538464,
+      "ci95_cells": [
+        0.1515151515151515,
+        0.6363636363636364
+      ],
+      "n_defects": 13,
+      "n_cells": 7
+    },
+    "A2": {
+      "rate": 0.7692307692307693,
+      "ci95_cells": [
+        0.5555555555555555,
+        0.8974358974358972
+      ],
+      "n_defects": 13,
+      "n_cells": 7
+    },
+    "A3": {
+      "rate": 0.3333333333333333,
+      "ci95_cells": [
+        0.20512820512820512,
+        0.48148148148148145
+      ],
+      "n_defects": 13,
+      "n_cells": 7
+    }
+  },
+  "trace_class_production": {
+    "A1": {
+      "rate": 0.29166666666666663,
+      "ci95_cells": [
+        0.06666666666666667,
+        0.6
+      ],
+      "n_defects": 8,
+      "n_cells": 5
+    },
+    "A2": {
+      "rate": 0.7916666666666666,
+      "ci95_cells": [
+        0.4,
+        0.9583333333333333
+      ],
+      "n_defects": 8,
+      "n_cells": 5
+    },
+    "A3": {
+      "rate": 0.29166666666666663,
+      "ci95_cells": [
+        0.125,
+        0.5333333333333333
+      ],
+      "n_defects": 8,
+      "n_cells": 5
+    }
+  },
+  "trace_class_content_words": {
+    "A1": {
+      "rate": 0.875,
+      "ci95_cells": [
+        0.7857142857142857,
+        1.0
+      ],
+      "n_defects": 8,
+      "n_cells": 5
+    },
+    "A2": {
+      "rate": 1.0,
+      "ci95_cells": [
+        1.0,
+        1.0
+      ],
+      "n_defects": 8,
+      "n_cells": 5
+    },
+    "A3": {
+      "rate": 0.7916666666666666,
+      "ci95_cells": [
+        0.6,
+        1.0
+      ],
+      "n_defects": 8,
+      "n_cells": 5
+    }
+  },
+  "same_as_original_output": {
+    "A1": {
+      "rate": 0.0,
+      "ci95_cells": [
+        0.0,
+        0.0
+      ],
+      "n_defects": 13,
+      "n_cells": 7
+    },
+    "A2": {
+      "rate": 0.0,
+      "ci95_cells": [
+        0.0,
+        0.0
+      ],
+      "n_defects": 13,
+      "n_cells": 7
+    },
+    "A3": {
+      "rate": 0.4871794871794872,
+      "ci95_cells": [
+        0.375,
+        0.5438596491228069
+      ],
+      "n_defects": 13,
+      "n_cells": 7
+    }
+  },
+  "by_stage_accepted": {
+    "reasoning_agent|A1": {
+      "rate": 0.26666666666666666,
+      "ci95_cells": [
+        0.16666666666666666,
+        0.3333333333333333
+      ],
+      "n_defects": 5,
+      "n_cells": 2
+    },
+    "reasoning_agent|A2": {
+      "rate": 0.7333333333333333,
+      "ci95_cells": [
+        0.6666666666666666,
+        0.7777777777777777
+      ],
+      "n_defects": 5,
+      "n_cells": 2
+    },
+    "reasoning_agent|A3": {
+      "rate": 0.2,
+      "ci95_cells": [
+        0.1111111111111111,
+        0.3333333333333333
+      ],
+      "n_defects": 5,
+      "n_cells": 2
+    },
+    "strategy_agent|A1": {
+      "rate": 0.29166666666666663,
+      "ci95_cells": [
+        0.06666666666666667,
+        0.6
+      ],
+      "n_defects": 8,
+      "n_cells": 5
+    },
+    "strategy_agent|A2": {
+      "rate": 0.7916666666666666,
+      "ci95_cells": [
+        0.4,
+        0.9583333333333333
+      ],
+      "n_defects": 8,
+      "n_cells": 5
+    },
+    "strategy_agent|A3": {
+      "rate": 0.29166666666666663,
+      "ci95_cells": [
+        0.125,
+        0.5333333333333333
+      ],
+      "n_defects": 8,
+      "n_cells": 5
+    }
+  },
+  "multi_attempt_trials_by_arm": {
+    "A1": 4,
+    "A3": 3,
+    "A2": 2
+  }
+}
