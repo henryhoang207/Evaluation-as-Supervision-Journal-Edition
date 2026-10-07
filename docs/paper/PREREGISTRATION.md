@@ -944,6 +944,7 @@ Recorded here so that no reviewer has to discover them:
 | **Placement pass complete — 540 trials, 539 usable** | **2026-10-07** |
 | **Severity sweep complete — 144 trials, all usable** | **2026-10-08** |
 | §0.1 A7 — warm-resample cell wired, committed and pushed before it ran | 2026-10-07 |
+| **Warm-resample cell complete — 675 trials, all usable** | **2026-10-08** |
 | §0.1 A8 — Tier-1 replay wired, committed and pushed before it ran | 2026-10-08 |
 
 ---
