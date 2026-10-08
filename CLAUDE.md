@@ -21,7 +21,13 @@ Two tracks share one repository.
 
 2. **The research paper** the supervisor became — *"Evaluation as Supervision"*.
    Conference version **submitted and under review**; a journal extension
-   (injected-defect repair study) is the active work. **Start at
+   (injected-defect repair study) is the active work. Its experiments are
+   **done except C7** (a second model): results in
+   [`docs/paper/RESULTS.md`](docs/paper/RESULTS.md), the C7 procedure in
+   [`docs/paper/C7_RUNBOOK.md`](docs/paper/C7_RUNBOOK.md), and the journal
+   paper — **journal only, decided 2026-10-08** — is to be written from
+   [`docs/paper/JOURNAL_PAPER_PLAN.md`](docs/paper/JOURNAL_PAPER_PLAN.md).
+   **Start at
    [`docs/paper/NEXT_SESSION.md`](docs/paper/NEXT_SESSION.md)**, with
    `docs/paper/JOURNAL_PLAN.md` as the authoritative plan,
    `docs/paper/PREREGISTRATION.md` as the frozen analysis spec (✅ **FROZEN 2026-09-14 at the annotated tag `prereg-freeze`** — a change after
@@ -63,6 +69,11 @@ These cost real time every session.
 - **Long bash heredocs fail on apostrophes.** A few lines survive; a long prose
   body dies with ``unexpected EOF while looking for matching `'``. Use the
   `Write` tool for prose, or `python - <<'PYEOF'` for scripted edits.
+- **Long LLM runs (hours)** are launched detached with PowerShell
+  `Start-Process`, logs in `%TEMP%`. Such a process **dies if the Claude desktop
+  app restarts**, and a laptop sleep or network drop turns in-flight calls into
+  permanent `status_error` exclusions. Stopping on purpose is safe: resume
+  skips finished defects. `RUN_QUEUE.md` holds the rules every run follows.
 - **The Bash cwd persists between calls** and does not reliably reset. Start with
   `cd "$(git rev-parse --show-toplevel)"` rather than assuming.
 - **Always run backend commands from `backend/`** — paths and pytest config

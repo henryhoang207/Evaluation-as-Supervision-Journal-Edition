@@ -35,7 +35,7 @@ where every design decision is filed, **before** its run.
 | Q3 | **Warm resampling** (plan D2, "REQUIRED"; §0.1 A7 filed) — `--cell warm` → `T2W` | ✅ done 2026-10-08 04:09, verified | Defaults below. Needs a temperature parameter threaded through `BaseAgent` with default 0 |
 | Q4 | **Downstream propagation** (plan D12; §0.1 A9; endpoint (b), author's choice) — `run_downstream.py` → `T2D` | ✅ done 2026-10-08 12:09, verified |
 | Q5 | **Tier-1 replay** (prereg §3 item 5; §0.1 A8 filed) — `run_tier1_replay.py` → `T1` | ✅ done 2026-10-08 06:36, verified | 13 real defects × {A1, A2, A3} at P0 (A0 undefined at P0, D9b) × r = 3 = 117 trials. Judged by the same checks (plan §5 Tier 1, item 2), descriptive only (MDE ≈ 31 pp) |
-| Q6 | **Second model — C7** (plan D5b) | ⛔ **waiting on the author's server** (RTX 5060): recommendation given 2026-10-08 — Qwen2.5-7B-Instruct Q4_K_M via Ollama, 32k context; needs the server set up and its LAN address |
+| Q6 | **Second model — C7** (plan D5b) | ⛔ **waiting on the author's server** (RTX 5060) | Full procedure in **`C7_RUNBOOK.md`**: server setup → gates G1–G4 → `--cell c7` → amendment A10 → run (≈ 360 trials, $0) |
 
 ### Q3 defaults (to be filed as A7 — the author may change them before launch)
 
@@ -68,3 +68,4 @@ where every design decision is filed, **before** its run.
 - 2026-10-08 12:20 — **Q4 verified**: 90/90 defects, 447/447 conditions ok, one session each, offline re-judge of every downstream stage 447/447. E3: unrepaired +8.2 pp over the noise floor, A1 +4.1 pp, A1 − unrepaired −4.2 pp. E2 (O5): planted issue in the report 70 % → 0 % with repair. Report check: 14/14 propagating runs accepted, 6/6 non-propagating rejected. Total spent ≈ 53.1 M tokens.
 - 2026-10-08 12:20 — **Loop stopped at Q6**: waiting for the author's RTX 5060 server (address, Ollama version, model digest).
 - 2026-10-08 — **Offline items done (no API cost):** O5 matcher sensitivity (§2.3) — the confirmatory A1 − A2 is +0.72 pp [−2.9, +4.3] under all four criteria, primary recomputation reproduces 157/157 stored O5 outcomes; defect origin (§3 item 5) — A1 accepted at P0 for 98.5 % of injected vs 28.2 % of real defects; change-then-resolve (§3 item 6); class ordering — §5 prediction reversed (structural 98.6 % > semantic 93.0 % > referential 89.6 %); C6 detection curves (frequency step at 0.05; trace: difflib flags 5.0 % of grounded issues and misses 4 % of foreign ones, content-word 0 % / 0 %); coupling 13/13. Results consolidated in `RESULTS.md`; stale status lines in PUBLICATION_STRATEGY, JOURNAL_PLAN and NEXT_SESSION marked superseded. Suite 411 pass.
+- 2026-10-08 — **Author decided: journal only** (no conference split). Next session: C7 (`C7_RUNBOOK.md`) and writing (`JOURNAL_PAPER_PLAN.md`).

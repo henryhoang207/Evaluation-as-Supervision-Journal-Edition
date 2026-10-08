@@ -9,7 +9,34 @@ it is the authoritative plan. This file is the map.
 
 ---
 
-## 0. ▶ 2026-10-07 — THE CORE HAS RUN. Read this block; everything below it is history
+## 0. ▶ START HERE (2026-10-08) — two tracks left: C7 and the journal paper
+
+**Where things stand.** Every experiment that runs on Gemini is **done, verified
+and pushed** (core, D19, C1, placement, severity, warm, Tier-1 replay,
+downstream propagation), and every pre-specified offline analysis with it. The
+whole record is **[`RESULTS.md`](RESULTS.md)**. Spend ≈ 53 M tokens (≈ $95 at a
+realistic input/output mix) of the $150 budget. Suite **411 pass**. The working
+tree was clean and in sync with `origin/main` at the end of 2026-10-08.
+
+**Decided 2026-10-08 by the author: journal only** — no conference split (the
+pre-registered split rule was not met). Venue per `JOURNAL_PLAN.md` D7: **EMSE
+regular track**.
+
+| Track | Start with | First step |
+|---|---|---|
+| **C7 — the second model** | **[`C7_RUNBOOK.md`](C7_RUNBOOK.md)** | The author sets up Ollama on the RTX 5060 machine (Qwen2.5-7B-Instruct Q4_K_M, `num_ctx 32768`, LAN access) and reports its IP, Ollama version and model digest. Then gates G1–G4 → build `--cell c7` → amendment A10 → run (≈ 360 trials, $0) |
+| **The journal paper** | **[`JOURNAL_PAPER_PLAN.md`](JOURNAL_PAPER_PLAN.md)** | Settle authorship and the extension declaration; download the Springer Nature template; draft Study design and Results first, from `PREREGISTRATION.md` and `RESULTS.md`. **Do not edit `main.tex`** (conference #1, under review) |
+
+**Document map.** `RESULTS.md` (numbers, with sources) · `PREREGISTRATION.md`
+(frozen design, amendments §0.1 A1–A9) · `RUN_QUEUE.md` (run history and the
+rules runs follow) · `C7_RUNBOOK.md` · `JOURNAL_PAPER_PLAN.md` ·
+`JOURNAL_PLAN.md` (authoritative plan; reading tables in §2, venue in §12) ·
+`PUBLICATION_STRATEGY.md`. The table below is the per-cell results summary;
+everything after it is history.
+
+---
+
+## 0b. Results summary, 2026-10-07/08 (every Gemini cell)
 
 | | |
 |---|---|
