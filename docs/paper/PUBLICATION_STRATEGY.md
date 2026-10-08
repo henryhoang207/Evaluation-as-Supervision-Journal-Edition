@@ -18,11 +18,11 @@ claim is significant enough to carry a paper.
 | — its claims | evaluation-as-supervision pattern + derivability precondition; 35% defect incidence; defect instability |
 | — authorship (D5) | resolved by submission |
 | Journal extension | ⚠ **updated 2026-09-02.** **B1–B8 are all built, wired and tested** (266 tests) — the "B4–B8 unbuilt" row was true on 2026-08-24 and is not now |
-| Repair result | **not measured** — no trial has run, and that is still true |
+| Repair result | ✅ **measured 2026-10-05 → 08.** Null at ceiling: A1 − A2 = +0.7 pp, 95 % CI [−2.9, +4.3], exact McNemar p = 0.75, N = 139. The split rule (≥ 12 pp and CI excluding zero) is **not met**, so the table's **null row applies**: do not split. The vehicle choice itself is the author's. Every cell except C7 has run — full record in `RESULTS.md` |
 | Testbed | one pipeline, one domain (Yelp restaurant reviews), one model (`gemini-2.5-flash`), **28 workloads** (was 20; D11b collection, 2026-08-26) |
 | Tier-1 natural defects | **13 usable**, 7 business × stage cells, 6 businesses. ⚠ **But see §15 of `JOURNAL_PLAN.md`: the D13 audit found 9 of the original 11 are checker false positives**, so this row counts what the checker flagged, not what is real. This materially weakens §4's "is the claim significant enough" argument — re-read that section against it |
 | Tier-2 injection ceiling | **N = 142** repair-endpoint defects over 6 operators |
-| Methodology review | **D18–D21** adopted 2026-09-02 (`JOURNAL_PLAN.md` §3.7); `PREREGISTRATION.md` drafted, **not frozen** |
+| Methodology review | **D18–D21** adopted 2026-09-02 (`JOURNAL_PLAN.md` §3.7); `PREREGISTRATION.md` **frozen 2026-09-14** at tag `prereg-freeze`, amendments §0.1 A1–A9 filed before each post-core cell ran |
 
 ---
 

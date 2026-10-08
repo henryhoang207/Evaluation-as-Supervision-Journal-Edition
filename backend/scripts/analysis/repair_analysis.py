@@ -750,6 +750,107 @@ def analyse_tier1(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
     }
 
 
+# ── O5 matcher sensitivity (section 2.3, D22) ────────────────────────────────
+
+
+O5_CRITERIA = ("content_jaccard_0.10", "content_jaccard_0.05", "containment_gt_0",
+               "production_difflib")
+
+
+def o5_class_without_firing(detail: dict) -> str:
+    """The outcome class a trial gets when the trace check does *not* fire.
+
+    Steps 2-4 of section 2.3 depend only on the item, never on the matcher, so
+    they can be re-derived from what the scorer stored: gone -> ``deleted``,
+    present but not restored -> ``replaced``, else ``repaired``.
+    """
+    if detail.get("can_delete") and detail.get("pre_item") is not None \
+            and not detail.get("item_located"):
+        return "deleted"
+    if detail.get("can_replace") and not detail.get("item_restored"):
+        return "replaced"
+    return "repaired"
+
+
+def analyse_o5_sensitivity(rows: list[dict], root: str = "out_study",
+                           seed: int = DEFAULT_SEED) -> dict:
+    """Section 2.3: O5 re-scored under every trace criterion the document names.
+
+    The primary is the content-word trace (Jaccard >= 0.10); the production
+    difflib verdict is the named secondary; containment > 0 and Jaccard >= 0.05
+    are the named sensitivities. Each criterion is recomputed from the retried
+    output against the same upstream candidates, the outcome class re-derived,
+    and the primary A1 - A2 contrast re-estimated with O5 scored that way.
+    """
+    spec = importlib.util.spec_from_file_location(
+        "inject_defects", Path(__file__).resolve().parents[1] / "inject_defects.py")
+    inj = importlib.util.module_from_spec(spec)
+    sys.modules["inject_defects"] = inj
+    spec.loader.exec_module(inj)
+    from app.core import supervision  # noqa: PLC0415 -- path set by inject_defects
+    cm_mod = _content_match_module()
+    dirs = {Path(d).name: d for d in inj.base_dirs(root)}
+
+    def fires(criterion: str, issues: list[str], candidates: list[str], state: dict) -> bool:
+        if criterion == "content_jaccard_0.10":
+            return bool(cm_mod.untraceable(issues, candidates, threshold=0.10))
+        if criterion == "content_jaccard_0.05":
+            return bool(cm_mod.untraceable(issues, candidates, threshold=0.05))
+        if criterion == "containment_gt_0":
+            return any(max((cm_mod.containment(i, c) for c in candidates if c), default=0.0) == 0.0
+                       for i in issues)
+        facts = supervision.measure("strategy_agent", state)
+        return bool(facts.get("untraceable_issues"))
+
+    reclassified: dict = {c: {} for c in O5_CRITERIA}
+    primary_matches_stored = 0
+    n = 0
+    for r in rows:
+        if r.get("operator") != "O5" or not r.get("trials"):
+            continue
+        base = inj.state_from_dump(dirs[r["defect_id"].rsplit(":", 1)[0]])
+        for t in r["trials"]:
+            if t.get("status") != "ok":
+                continue
+            state = dict(base)
+            state["strategy_output"] = t.get("retried_output")
+            state["report_output"] = None
+            issues = [str(x.get("issue") or "") for x in
+                      ((t.get("retried_output") or {}).get("recommendations") or [])]
+            candidates = inj._trace_candidates(state)
+            detail = t["outcome"]["detail"]
+            for crit in O5_CRITERIA:
+                cls = "unrepaired" if fires(crit, issues, candidates, state) \
+                    else o5_class_without_firing(detail)
+                reclassified[crit][(t["defect_id"], t["arm"], t["rep"])] = cls
+            n += 1
+            primary_matches_stored += \
+                reclassified["content_jaccard_0.10"][(t["defect_id"], t["arm"], t["rep"])] \
+                == t["outcome"]["outcome"]
+
+    trials, _ = usable_trials(rows)
+    planned = planned_cells(rows)
+    out = {"o5_trials": n,
+           "primary_reproduces_stored_outcomes": f"{primary_matches_stored}/{n}",
+           "by_criterion": {}}
+    for crit in O5_CRITERIA:
+        relabelled = []
+        for t in trials:
+            key = (t["defect_id"], t["arm"], t["rep"])
+            if t["operator"] == "O5" and key in reclassified[crit]:
+                t = {**t, "outcome": {**t["outcome"], "outcome": reclassified[crit][key]}}
+            relabelled.append(t)
+        o5_rates = rates_by([t for t in relabelled if t["operator"] == "O5"], lambda t: "O5")
+        out["by_criterion"][crit] = {
+            "o5_class_counts": {
+                f"{arm}|{cls}": cnt for (arm, cls), cnt in sorted(Counter(
+                    (k[1], v) for k, v in reclassified[crit].items()).items())},
+            "o5_rates": o5_rates,
+            "primary_A1_minus_A2": contrast(cells(relabelled, planned=planned), "A1", "A2", seed),
+        }
+    return out
+
+
 # ── downstream propagation (section 0.1 A9) ──────────────────────────────────
 
 
@@ -952,7 +1053,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--cell", default="core",
                     choices=("core", "c1", "d19", "placement", "severity", "warm", "tier1",
-                             "downstream"))
+                             "downstream", "o5sens"))
     ap.add_argument("--checkpoint", default=None,
                     help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P, T2S or T2W")
     ap.add_argument("--root", default="out_study",
@@ -965,7 +1066,7 @@ def main() -> int:
     checkpoint = args.checkpoint or {
         "core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
         "placement": "out_study/T2P", "severity": "out_study/T2S", "warm": "out_study/T2W",
-        "tier1": "out_study/T1", "downstream": "out_study/T2D",
+        "tier1": "out_study/T1", "downstream": "out_study/T2D", "o5sens": "out_study/T2",
     }[args.cell] + "/checkpoint.jsonl"
     if args.cell == "core":
         res = analyse(load_rows(checkpoint), seed=args.seed)
@@ -984,6 +1085,11 @@ def main() -> int:
             res = analyse_tier1(load_rows(checkpoint), seed=args.seed)
         elif args.cell == "downstream":
             res = analyse_downstream(load_rows(checkpoint), seed=args.seed)
+        elif args.cell == "o5sens":
+            res = analyse_o5_sensitivity(load_rows(checkpoint), root=args.root, seed=args.seed)
+            res["provenance"] = {
+                "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                "seed": args.seed}
         else:
             res = analyse_d19(load_rows(checkpoint), seed=args.seed)
         print(json.dumps({k: v for k, v in res.items() if k != "provenance"}, indent=2))

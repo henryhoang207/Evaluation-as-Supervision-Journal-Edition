@@ -1,0 +1,223 @@
+{
+  "o5_trials": 157,
+  "primary_reproduces_stored_outcomes": "157/157",
+  "by_criterion": {
+    "content_jaccard_0.10": {
+      "o5_class_counts": {
+        "A0|repaired": 28,
+        "A1|repaired": 53,
+        "A1|replaced": 4,
+        "A2|deleted": 3,
+        "A2|repaired": 50,
+        "A2|replaced": 4,
+        "A3|deleted": 1,
+        "A3|repaired": 13,
+        "A3|replaced": 1
+      },
+      "o5_rates": {
+        "O5|A0": {
+          "rate": 1.0,
+          "n_defects": 10
+        },
+        "O5|A1": {
+          "rate": 0.9298245614035087,
+          "n_defects": 19
+        },
+        "O5|A2": {
+          "rate": 0.8771929824561402,
+          "n_defects": 19
+        },
+        "O5|A3": {
+          "rate": 0.8666666666666666,
+          "n_defects": 5
+        }
+      },
+      "primary_A1_minus_A2": {
+        "arms": "A1-A2",
+        "n_defects": 139,
+        "dropped": 3,
+        "rate_A1": 0.9472422062350121,
+        "rate_A2": 0.9400479616306954,
+        "estimate": 0.007194244604316547,
+        "ci95": [
+          -0.02877697841726619,
+          0.04316546762589929
+        ],
+        "majority_A1": 131,
+        "majority_A2": 129,
+        "discordant": {
+          "A1_only": 6,
+          "A2_only": 4
+        },
+        "mcnemar_p": 0.75390625,
+        "reps_per_cell": {
+          "3/3": 139
+        }
+      }
+    },
+    "content_jaccard_0.05": {
+      "o5_class_counts": {
+        "A0|repaired": 28,
+        "A1|repaired": 53,
+        "A1|replaced": 4,
+        "A2|deleted": 3,
+        "A2|repaired": 50,
+        "A2|replaced": 4,
+        "A3|deleted": 1,
+        "A3|repaired": 13,
+        "A3|replaced": 1
+      },
+      "o5_rates": {
+        "O5|A0": {
+          "rate": 1.0,
+          "n_defects": 10
+        },
+        "O5|A1": {
+          "rate": 0.9298245614035087,
+          "n_defects": 19
+        },
+        "O5|A2": {
+          "rate": 0.8771929824561402,
+          "n_defects": 19
+        },
+        "O5|A3": {
+          "rate": 0.8666666666666666,
+          "n_defects": 5
+        }
+      },
+      "primary_A1_minus_A2": {
+        "arms": "A1-A2",
+        "n_defects": 139,
+        "dropped": 3,
+        "rate_A1": 0.9472422062350121,
+        "rate_A2": 0.9400479616306954,
+        "estimate": 0.007194244604316547,
+        "ci95": [
+          -0.02877697841726619,
+          0.04316546762589929
+        ],
+        "majority_A1": 131,
+        "majority_A2": 129,
+        "discordant": {
+          "A1_only": 6,
+          "A2_only": 4
+        },
+        "mcnemar_p": 0.75390625,
+        "reps_per_cell": {
+          "3/3": 139
+        }
+      }
+    },
+    "containment_gt_0": {
+      "o5_class_counts": {
+        "A0|repaired": 28,
+        "A1|repaired": 53,
+        "A1|replaced": 4,
+        "A2|deleted": 3,
+        "A2|repaired": 50,
+        "A2|replaced": 4,
+        "A3|deleted": 1,
+        "A3|repaired": 13,
+        "A3|replaced": 1
+      },
+      "o5_rates": {
+        "O5|A0": {
+          "rate": 1.0,
+          "n_defects": 10
+        },
+        "O5|A1": {
+          "rate": 0.9298245614035087,
+          "n_defects": 19
+        },
+        "O5|A2": {
+          "rate": 0.8771929824561402,
+          "n_defects": 19
+        },
+        "O5|A3": {
+          "rate": 0.8666666666666666,
+          "n_defects": 5
+        }
+      },
+      "primary_A1_minus_A2": {
+        "arms": "A1-A2",
+        "n_defects": 139,
+        "dropped": 3,
+        "rate_A1": 0.9472422062350121,
+        "rate_A2": 0.9400479616306954,
+        "estimate": 0.007194244604316547,
+        "ci95": [
+          -0.02877697841726619,
+          0.04316546762589929
+        ],
+        "majority_A1": 131,
+        "majority_A2": 129,
+        "discordant": {
+          "A1_only": 6,
+          "A2_only": 4
+        },
+        "mcnemar_p": 0.75390625,
+        "reps_per_cell": {
+          "3/3": 139
+        }
+      }
+    },
+    "production_difflib": {
+      "o5_class_counts": {
+        "A0|repaired": 28,
+        "A1|repaired": 53,
+        "A1|replaced": 4,
+        "A2|deleted": 3,
+        "A2|repaired": 50,
+        "A2|replaced": 4,
+        "A3|deleted": 1,
+        "A3|repaired": 11,
+        "A3|replaced": 1,
+        "A3|unrepaired": 2
+      },
+      "o5_rates": {
+        "O5|A0": {
+          "rate": 1.0,
+          "n_defects": 10
+        },
+        "O5|A1": {
+          "rate": 0.9298245614035087,
+          "n_defects": 19
+        },
+        "O5|A2": {
+          "rate": 0.8771929824561402,
+          "n_defects": 19
+        },
+        "O5|A3": {
+          "rate": 0.7333333333333333,
+          "n_defects": 5
+        }
+      },
+      "primary_A1_minus_A2": {
+        "arms": "A1-A2",
+        "n_defects": 139,
+        "dropped": 3,
+        "rate_A1": 0.9472422062350121,
+        "rate_A2": 0.9400479616306954,
+        "estimate": 0.007194244604316547,
+        "ci95": [
+          -0.02877697841726619,
+          0.04316546762589929
+        ],
+        "majority_A1": 131,
+        "majority_A2": 129,
+        "discordant": {
+          "A1_only": 6,
+          "A2_only": 4
+        },
+        "mcnemar_p": 0.75390625,
+        "reps_per_cell": {
+          "3/3": 139
+        }
+      }
+    }
+  },
+  "provenance": {
+    "script_sha256": "f01abac0492b1a42982be550f2ec2b29b031505c0b982c63f37e16839ac36ea4",
+    "seed": 20260803
+  }
+}

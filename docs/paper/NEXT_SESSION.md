@@ -28,7 +28,8 @@ it is the authoritative plan. This file is the map.
 | **C1 — constraint completeness (§0.1 A1/A3)** | ✅ `out_study/T2C1`, 37 defects, **444/444 usable**, all 12 trials per defect in one session. Gap under C0 **−1.8 pp [−6.3, +1.8]**, under C1 **−1.8 pp [−6.3, +1.8]**, difference **0.0 pp [−6.3, +6.3]** — two gaps with CIs, never a test (D8c). Stating the constraints at retry time changed nothing measurable; prediction was "undetectable" |
 | **Serving drift (C1 pass vs core)** | 222 re-run C0 trials paired with the core's by defect/arm/rep: **96 % same outcome class, 83 % byte-identical output**. Temperature 0 is not run-to-run determinism (§14.1); 9 flips, 7 of them toward `repaired` |
 | Suite | **358 pass**, 13 integration deselected (2026-10-07); `test_repair_analysis.py` now 31 |
-| Commits | `2515fcf` core data + analysis · `4d03268` passes + amendments A2–A4 · `212d02f` D19 data · C1 data and these results in the commit after |
+| Commits | `2515fcf` core data + analysis · `4d03268` passes + amendments A2–A4 · `212d02f` D19 data · `66c0e07` C1 · `c13f5af` placement · `e657b65` severity · `0f20f66` warm · `657bd00` Tier 1 · `0428190` downstream |
+| **Results record** | **`RESULTS.md`** — every cell's numbers with their source, the §5 predictions against results, and the remaining secondaries: O5 matcher sensitivity (confirmatory result unchanged under all four criteria), defect origin (A1 accepted at P0 for 98.5 % of injected vs 28.2 % of real defects), change-then-resolve, class ordering (prediction reversed), C6 detection curves, coupling 13/13 |
 
 ---
 
@@ -190,7 +191,7 @@ was merged and is gone.
 | Track | State |
 |---|---|
 | Conference paper #1 | **Submitted, under review.** Nothing to do but wait — except the cheap, time-sensitive item: email the chairs about an extended-version route *while* it is in review. |
-| Journal / repair study | **Build complete and wired. No trial has run.** Not one LLM call has been made toward this study. |
+| Journal / repair study | ~~Build complete and wired. No trial has run.~~ **Superseded — see §0:** every cell except C7 ran 2026-10-05 → 08. |
 
 ### ✅ Decisions taken and approved 2026-08-26
 
@@ -1089,7 +1090,7 @@ venv/Scripts/python.exe -m pytest tests/test_injection_seam_live.py -v -m integr
   **§7 item 3** (the warm-resample subset, marked REQUIRED by D2 and not built —
   it needs a *choice*, which a ratification does not make). D13 needs a
   **person**, not a decision.
-- **Still not verified:** no trial has run, no memo is written, and
+- *(Superseded — see §0.)* **Still not verified:** no trial has run, no memo is written, and
   `run_injection_study._regenerate` is deliberately unwired (§4 item 2). The
   eight extra Phase-A dumps (§4 item 1) have not been collected.
 

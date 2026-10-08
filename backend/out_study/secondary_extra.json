@@ -1,0 +1,333 @@
+{
+  "origin": {
+    "note": "Real defects run at P0 by design (D10); injected ones are taken at P0 from the placement pass (A1) and the core (A3). Same criterion for both: the supervisor routes the retried output to no retry. Descriptive; the real cell has 13 defects in 7 cells.",
+    "A1|reasoning_agent": {
+      "real": {
+        "rate": 0.26666666666666666,
+        "ci95": [
+          0.06666666666666667,
+          0.4666666666666667
+        ],
+        "n_defects": 5
+      },
+      "injected": {
+        "rate": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n_defects": 23
+      }
+    },
+    "A1|strategy_agent": {
+      "real": {
+        "rate": 0.29166666666666663,
+        "ci95": [
+          0.08333333333333333,
+          0.5416666666666666
+        ],
+        "n_defects": 8
+      },
+      "injected": {
+        "rate": 0.8888888888888888,
+        "ci95": [
+          0.6666666666666666,
+          1.0
+        ],
+        "n_defects": 6
+      }
+    },
+    "A1|all": {
+      "real": {
+        "rate": 0.282051282051282,
+        "ci95": [
+          0.1282051282051282,
+          0.46153846153846156
+        ],
+        "n_defects": 13
+      },
+      "injected": {
+        "rate": 0.9851851851851853,
+        "ci95": [
+          0.9555555555555556,
+          1.0
+        ],
+        "n_defects": 45
+      }
+    },
+    "A3|reasoning_agent": {
+      "real": {
+        "rate": 0.2,
+        "ci95": [
+          0.0,
+          0.4666666666666666
+        ],
+        "n_defects": 5
+      },
+      "injected": {
+        "rate": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n_defects": 17
+      }
+    },
+    "A3|strategy_agent": {
+      "real": {
+        "rate": 0.29166666666666663,
+        "ci95": [
+          0.08333333333333333,
+          0.5
+        ],
+        "n_defects": 8
+      },
+      "injected": {
+        "rate": 0.8666666666666666,
+        "ci95": [
+          0.6,
+          1.0
+        ],
+        "n_defects": 5
+      }
+    },
+    "A3|all": {
+      "real": {
+        "rate": 0.25641025641025644,
+        "ci95": [
+          0.10256410256410256,
+          0.4102564102564103
+        ],
+        "n_defects": 13
+      },
+      "injected": {
+        "rate": 0.980392156862745,
+        "ci95": [
+          0.9411764705882352,
+          1.0
+        ],
+        "n_defects": 34
+      }
+    }
+  },
+  "change_then_resolve": {
+    "core|A0": {
+      "trials": 209,
+      "changed": 209,
+      "changed_share": 1.0,
+      "repaired_given_changed": 1.0
+    },
+    "core|A1": {
+      "trials": 421,
+      "changed": 421,
+      "changed_share": 1.0,
+      "repaired_given_changed": 0.9477434679334917
+    },
+    "core|A2": {
+      "trials": 417,
+      "changed": 417,
+      "changed_share": 1.0,
+      "repaired_given_changed": 0.9400479616306955
+    },
+    "core|A3": {
+      "trials": 102,
+      "changed": 102,
+      "changed_share": 1.0,
+      "repaired_given_changed": 0.9215686274509803
+    },
+    "tier1|A1": {
+      "trials": 39,
+      "changed": 39,
+      "changed_share": 1.0,
+      "accepted_given_changed": 0.28205128205128205
+    },
+    "tier1|A2": {
+      "trials": 39,
+      "changed": 39,
+      "changed_share": 1.0,
+      "accepted_given_changed": 0.7692307692307693
+    },
+    "tier1|A3": {
+      "trials": 39,
+      "changed": 20,
+      "changed_share": 0.5128205128205128,
+      "accepted_given_changed": 0.5
+    }
+  },
+  "class_ordering": {
+    "referential": {
+      "rate": 0.8958333333333334,
+      "ci95": [
+        0.8055555555555555,
+        0.9722222222222222
+      ],
+      "n_defects": 48
+    },
+    "structural": {
+      "rate": 0.9864864864864865,
+      "ci95": [
+        0.9639639639639639,
+        1.0
+      ],
+      "n_defects": 74
+    },
+    "semantic": {
+      "rate": 0.9298245614035087,
+      "ci95": [
+        0.8245614035087719,
+        1.0
+      ],
+      "n_defects": 19
+    },
+    "observed_order": [
+      "structural",
+      "semantic",
+      "referential"
+    ],
+    "predicted_order": [
+      "referential",
+      "structural",
+      "semantic"
+    ],
+    "prediction_holds": false,
+    "per_operator": {
+      "O1": 0.8472222222222222,
+      "O2": 0.9444444444444443,
+      "O3": 1.0,
+      "O5": 0.9298245614035087,
+      "O6": 1.0,
+      "O7": 0.9615384615384616
+    }
+  },
+  "c6_frequency": {
+    "bases": 23,
+    "tolerance": 0.05,
+    "curve": {
+      "0": {
+        "detected": 0.0,
+        "verdicts": {
+          "proceed": 23
+        }
+      },
+      "0.01": {
+        "detected": 0.0,
+        "verdicts": {
+          "proceed": 23
+        }
+      },
+      "0.02": {
+        "detected": 0.0,
+        "verdicts": {
+          "proceed": 23
+        }
+      },
+      "0.03": {
+        "detected": 0.0,
+        "verdicts": {
+          "proceed": 23
+        }
+      },
+      "0.04": {
+        "detected": 0.0,
+        "verdicts": {
+          "proceed": 23
+        }
+      },
+      "0.05": {
+        "detected": 0.5217391304347826,
+        "verdicts": {
+          "proceed": 11,
+          "proceed_with_warning": 12
+        }
+      },
+      "0.051": {
+        "detected": 1.0,
+        "verdicts": {
+          "proceed_with_warning": 23
+        }
+      },
+      "0.06": {
+        "detected": 1.0,
+        "verdicts": {
+          "proceed_with_warning": 23
+        }
+      },
+      "0.08": {
+        "detected": 1.0,
+        "verdicts": {
+          "proceed_with_warning": 23
+        }
+      },
+      "0.1": {
+        "detected": 1.0,
+        "verdicts": {
+          "proceed_with_warning": 23
+        }
+      },
+      "0.15": {
+        "detected": 1.0,
+        "verdicts": {
+          "proceed_with_warning": 23
+        }
+      },
+      "0.2": {
+        "detected": 1.0,
+        "verdicts": {
+          "proceed_with_warning": 23
+        }
+      },
+      "0.3": {
+        "detected": 1.0,
+        "verdicts": {
+          "proceed_with_warning": 23
+        }
+      }
+    }
+  },
+  "c6_trace": {
+    "grounded_issues": {
+      "n": 139,
+      "production_difflib_fires": 0.050359712230215826,
+      "content_jaccard_fires": 0.0
+    },
+    "foreign_corpus_issues": {
+      "n": 150,
+      "production_difflib_fires": 0.96,
+      "content_jaccard_fires": 1.0
+    },
+    "grounded_by_production_similarity": {
+      "[0.20,0.30)": {
+        "n": 3,
+        "production_difflib_fires": 1.0,
+        "content_jaccard_fires": 0.0
+      },
+      "[0.30,0.35)": {
+        "n": 4,
+        "production_difflib_fires": 1.0,
+        "content_jaccard_fires": 0.0
+      },
+      "[0.35,0.45)": {
+        "n": 29,
+        "production_difflib_fires": 0.0,
+        "content_jaccard_fires": 0.0
+      },
+      "[0.45,1.01)": {
+        "n": 103,
+        "production_difflib_fires": 0.0,
+        "content_jaccard_fires": 0.0
+      }
+    },
+    "note": "A grounded issue is a recommendation from a clean observe-mode strategy output; 'fires' on it is a false positive. A foreign issue is a corpus issue placed on another business; 'fires' on it is a true positive."
+  },
+  "coupling": {
+    "real_defects": 13,
+    "with_a_synthetic_operator": 13,
+    "share": 1.0,
+    "classes": {
+      "untraceable_recommendation": 8,
+      "misaligned_aspect": 2,
+      "missing_evidence_id": 3
+    },
+    "note": "by construction at the check-class level: every class that fires has an operator"
+  }
+}

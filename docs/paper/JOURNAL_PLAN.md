@@ -53,7 +53,9 @@ arm set extended, statistics refined · **Status:** proposed, not yet agreed wit
 > defective stage through the production agent's own prompt
 > (`BaseAgent.build_prompt` / `run_messages` over `nodes.stage_payload`), so an
 > arm is a documented modification of the production prompt rather than a
-> re-typed lookalike. **No trial has run — not one LLM call.**
+> re-typed lookalike. **No trial has run — not one LLM call.** ⚠ *Superseded
+> 2026-10-08: every cell except C7 has run (core, D19, C1, placement, severity,
+> warm, Tier-1 replay, downstream propagation) — see `RESULTS.md`.*
 >
 > This pass edits **§3, §6.1b and §6.2 in place**, replacing figures that were
 > multiplied by hand with figures the scripts compute. Every number below now
@@ -898,9 +900,9 @@ Tier C debt outstanding) and the amendments are folded in. Revised:
 | 2 | **Phase-0 memo → supervisor sign-off on D1–D17.** Seven block work (⛔ in §3): D8, D8c, D9b, D10, D4b, D4c, D12. **D11b and D8b were decided 2026-08-26** (grow the sample; one shared C0 base). **D8d approved and D13 executed 2026-08-26.** One remains open (❓): **D5b** local model identity | 🟨 in progress |
 | 2 | B1/B1b/B2 instrumentation; B3 replay entry point; defect-bank inventory | ✅ done 2026-08-24 |
 | 2–3 | Build B4 (operators), B5 (arms × placement), B6 (scorer), B7 (runner), B8 (C1 audit **and the C1 prompt**, 2026-09-20) + golden tests incl. the §13.5 replacement-value test | ✅ |
-| 3 | Tier 1 runs (**132** trials, P0) + preliminary analysis → go/no-go | ⬜ |
-| 4 | Tier 2 grids (~980 calls, 3 nights) + analysis | ⬜ |
-| 5 | (stretch) local deterministic arm — now higher value, see §14.1 | ⬜ |
+| 3 | Tier 1 runs (**132** trials, P0) + preliminary analysis → go/no-go | ✅ ran 2026-10-08 as 117 trials (A0 undefined at P0) — prereg A8; the go/no-go step was overtaken by the frozen pre-registration |
+| 4 | Tier 2 grids (~980 calls, 3 nights) + analysis | ✅ ran 2026-10-05 → 08: core 1,167 trials, then D19, C1, placement, severity, warm and downstream — `RESULTS.md` |
+| 5 | (stretch) local deterministic arm — now higher value, see §14.1 | ⏳ C7: model recommended 2026-10-08 (Qwen2.5-7B-Instruct Q4_K_M, Ollama, RTX 5060); waiting on the author's server |
 | 6–7 | Writing; stats hardening; related-work integration; Tier-C skim | ⬜ |
 | 8 | `/ars-citation-check`; internal review; supervisor pass; submit | ⬜ |
 

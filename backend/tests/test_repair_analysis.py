@@ -460,3 +460,36 @@ def test_downstream_endpoints_are_paired_within_a_defect():
     assert e2["unrepaired"]["rate"] == pytest.approx(1.0) and e2["A1"]["rate"] == pytest.approx(0.0)
     # a defect repaired at its own stage whose pipeline run is not accepted
     assert res["coupling_defect_level_vs_E1"]["A2|core_repaired=True|accepted=False"] == 1
+
+
+
+# -- O5 matcher sensitivity (section 2.3, D22) ---------------------------------
+
+
+@pytest.mark.parametrize("detail, expected", [
+    ({"can_delete": True, "can_replace": True, "pre_item": "x", "item_located": False,
+      "item_restored": False}, "deleted"),
+    ({"can_delete": True, "can_replace": True, "pre_item": "x", "item_located": True,
+      "item_restored": False}, "replaced"),
+    ({"can_delete": True, "can_replace": True, "pre_item": "x", "item_located": True,
+      "item_restored": True}, "repaired"),
+])
+def test_the_class_without_firing_follows_section_2_3_steps_2_to_4(detail, expected):
+    assert ra.o5_class_without_firing(detail) == expected
+
+
+_CORE = Path(__file__).resolve().parent.parent / "out_study" / "T2" / "checkpoint.jsonl"
+
+
+@pytest.mark.skipif(not _CORE.exists(), reason="core checkpoint not present")
+def test_recomputing_the_primary_o5_criterion_reproduces_every_stored_outcome():
+    rows = ra.load_rows(str(_CORE))
+    res = ra.analyse_o5_sensitivity(rows, root=str(_CORE.parent.parent))
+    n = res["o5_trials"]
+    assert n > 0 and res["primary_reproduces_stored_outcomes"] == f"{n}/{n}"
+    # the looser criteria can only fire less often than the primary
+    prim = res["by_criterion"]["content_jaccard_0.10"]["o5_class_counts"]
+    for crit in ("content_jaccard_0.05", "containment_gt_0"):
+        loose = res["by_criterion"][crit]["o5_class_counts"]
+        assert sum(v for k, v in loose.items() if k.endswith("|unrepaired")) <= \
+            sum(v for k, v in prim.items() if k.endswith("|unrepaired"))
