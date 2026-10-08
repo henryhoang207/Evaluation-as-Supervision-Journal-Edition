@@ -418,3 +418,45 @@ def test_the_cell_bootstrap_resamples_cells_not_defects():
     cell_of = {"a": "x", "b": "x", "c": "y"}
     lo, hi = ra._cell_bootstrap(per_defect, cell_of, seed=0, n_boot=2000)
     assert lo == pytest.approx(0.0) and hi == pytest.approx(1.0)
+
+
+
+# -- downstream propagation (section 0.1 A9) ----------------------------------
+
+
+def _report(causes, issues):
+    return {"root_causes": [{"cause": c} for c in causes],
+            "recommendations": [{"issue": i} for i in issues]}
+
+
+def _ds_cond(name, rep, report, accepted=True, core_outcome=None):
+    return {"condition": name, "rep": rep, "status": "ok", "accepted": accepted,
+            "final_report": report, "core_outcome": core_outcome, "served_models": ["m"]}
+
+
+def test_content_divergence_is_the_share_of_reference_claims_left_unmatched():
+    ref = ["slow kitchen service at dinner", "cold food served late"]
+    assert ra.content_divergence(ref, list(ref)) == pytest.approx(0.0)
+    assert ra.content_divergence(ref, ["slow kitchen service at dinner"]) == pytest.approx(0.5)
+    assert ra.content_divergence(ref, []) == pytest.approx(1.0)
+    assert ra.content_divergence([], ["x"]) is None
+
+
+def test_downstream_endpoints_are_paired_within_a_defect():
+    clean = _report(["slow kitchen service"], ["hire more line cooks"])
+    other = _report(["parking is limited"], ["add valet parking"])
+    rows = [{"defect_id": "d1", "operator": "O5", "injected_issue": "add valet parking",
+             "conditions": [
+                 _ds_cond("clean", 0, clean), _ds_cond("clean", 1, clean),
+                 _ds_cond("unrepaired", 0, other, accepted=True),
+                 _ds_cond("A1", 0, clean, core_outcome="repaired"),
+                 _ds_cond("A2", 0, other, accepted=False, core_outcome="repaired")]}]
+    res = ra.analyse_downstream(rows, seed=0)
+    assert res["E1_accepted"]["A2"]["rate"] == pytest.approx(0.0)
+    assert res["E3_divergence_from_clean"]["clean_rerun"]["mean"] == pytest.approx(0.0)
+    assert res["E3_divergence_from_clean"]["unrepaired"]["mean"] == pytest.approx(1.0)
+    assert res["E3_contrasts"]["A1-unrepaired"]["estimate"] == pytest.approx(-1.0)
+    e2 = res["E2_injected_issue_in_final_report_O5"]
+    assert e2["unrepaired"]["rate"] == pytest.approx(1.0) and e2["A1"]["rate"] == pytest.approx(0.0)
+    # a defect repaired at its own stage whose pipeline run is not accepted
+    assert res["coupling_defect_level_vs_E1"]["A2|core_repaired=True|accepted=False"] == 1

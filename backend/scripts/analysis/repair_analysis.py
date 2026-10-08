@@ -750,6 +750,158 @@ def analyse_tier1(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
     }
 
 
+# ── downstream propagation (section 0.1 A9) ──────────────────────────────────
+
+
+DOWNSTREAM_CONDITIONS = ("clean", "unrepaired", "A1", "A2")
+
+
+def _content_match_module():
+    spec = importlib.util.spec_from_file_location(
+        "content_match", Path(__file__).resolve().parent / "content_match.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def report_items(report: dict | None) -> list[str]:
+    """A final report's structured claims: its root causes and recommendation issues."""
+    report = report or {}
+    return ([str(rc.get("cause") or "") for rc in report.get("root_causes") or []]
+            + [str(r.get("issue") or "") for r in report.get("recommendations") or []])
+
+
+def content_divergence(reference: list[str], other: list[str], cm=None) -> float | None:
+    """Share of the reference report's claims with no content-word partner in ``other``.
+
+    Greedy one-to-one matching at the D24 identity threshold (content-word
+    Jaccard >= ANCHOR_JACCARD), the matcher calibrated for "the same item" after
+    the production difflib matcher was shown blind to paraphrase (D22, D24).
+    """
+    cm = cm or _content_match_module()
+    if not reference:
+        return None
+    remaining = [o for o in other if o]
+    hits = 0
+    for item in reference:
+        best, best_score = None, cm.ANCHOR_JACCARD
+        for cand in remaining:
+            score = cm.jaccard(item, cand)
+            if score >= best_score:
+                best, best_score = cand, score
+        if best is not None:
+            remaining.remove(best)
+            hits += 1
+    return 1.0 - hits / len(reference)
+
+
+def _paired(values_a: dict, values_b: dict, seed: int) -> dict:
+    ids = sorted(set(values_a) & set(values_b))
+    diff = np.array([values_a[d] - values_b[d] for d in ids])
+    lo, hi = cluster_bootstrap_ci(diff, np.random.default_rng(seed))
+    return {"n_defects": len(ids), "estimate": float(diff.mean()) if len(ids) else None,
+            "ci95": [lo, hi]}
+
+
+def analyse_downstream(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
+    """Section 0.1 A9: pipeline-level outcomes of clean, unrepaired and repaired outputs.
+
+    Three endpoints, fixed in the amendment before the pass ran:
+    E1 ``accepted`` -- every downstream stage passes the supervisor; E2 (O5
+    only) -- the injected issue survives into the final report; E3 --
+    divergence of the final report's claims from the clean run's, against the
+    clean-vs-clean divergence measured in the same session (the noise floor).
+    """
+    cm_mod = _content_match_module()
+    accepted: dict = {c: {} for c in DOWNSTREAM_CONDITIONS}
+    diverg: dict = {c: {} for c in ("clean_rerun", "unrepaired", "A1", "A2")}
+    e2: dict = {c: {} for c in DOWNSTREAM_CONDITIONS}
+    coupling = Counter()
+    excluded = Counter()
+    operator_of = {}
+    for r in rows:
+        conds = {}
+        for c in r.get("conditions", []):
+            if c.get("status") != "ok":
+                excluded[c.get("status")] += 1
+                continue
+            conds[(c["condition"], c["rep"])] = c
+        d = r["defect_id"]
+        operator_of[d] = r.get("operator")
+        clean0 = conds.get(("clean", 0))
+        ref = report_items(clean0.get("final_report")) if clean0 else []
+        for name in DOWNSTREAM_CONDITIONS:
+            c = conds.get((name, 0))
+            if c is None:
+                continue
+            accepted[name][d] = 1.0 if c["accepted"] else 0.0
+            if r.get("injected_issue"):
+                issues = [str(x.get("issue") or "") for x in
+                          ((c.get("final_report") or {}).get("recommendations") or [])]
+                e2[name][d] = 1.0 if cm_mod.best_jaccard(r["injected_issue"], issues) \
+                    >= cm_mod.ANCHOR_JACCARD else 0.0
+        if clean0 is not None and ref:
+            for key, cond in (("clean_rerun", ("clean", 1)), ("unrepaired", ("unrepaired", 0)),
+                              ("A1", ("A1", 0)), ("A2", ("A2", 0))):
+                c = conds.get(cond)
+                if c is not None:
+                    diverg[key][d] = content_divergence(ref, report_items(c.get("final_report")), cm_mod)
+        for name in ("A1", "A2"):
+            c = conds.get((name, 0))
+            if c is not None and c.get("core_outcome"):
+                coupling[(name, c["core_outcome"] == "repaired", bool(c["accepted"]))] += 1
+
+    def rate(values: dict) -> dict:
+        if not values:
+            return {"n_defects": 0}
+        arr = np.array(list(values.values()))
+        lo, hi = cluster_bootstrap_ci(arr, np.random.default_rng(seed))
+        return {"rate": float(arr.mean()), "ci95": [lo, hi], "n_defects": len(arr)}
+
+    def mean_div(values: dict) -> dict:
+        vals = {k: v for k, v in values.items() if v is not None}
+        if not vals:
+            return {"n_defects": 0}
+        arr = np.array(list(vals.values()))
+        lo, hi = cluster_bootstrap_ci(arr, np.random.default_rng(seed))
+        return {"mean": float(arr.mean()), "ci95": [lo, hi], "n_defects": len(arr)}
+
+    div_clean = {k: v for k, v in diverg["clean_rerun"].items() if v is not None}
+    return {
+        "provenance": {
+            "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "seed": seed, "n_boot": N_BOOT,
+            "defects": len(rows), "exclusions": dict(excluded),
+            "served_models": dict(Counter(m for r in rows for c in r.get("conditions", [])
+                                          for m in (c.get("served_models") or []))),
+            "total_tokens": int(sum(c.get("total_tokens") or 0 for r in rows
+                                    for c in r.get("conditions", []))),
+        },
+        "E1_accepted": {c: rate(v) for c, v in accepted.items()},
+        "E1_contrasts": {
+            f"{a}-{b}": _paired(accepted[a], accepted[b], seed)
+            for a, b in (("unrepaired", "clean"), ("A1", "unrepaired"), ("A2", "unrepaired"),
+                         ("A1", "A2"), ("A1", "clean"))},
+        "E2_injected_issue_in_final_report_O5": {c: rate(v) for c, v in e2.items()},
+        "E3_divergence_from_clean": {c: mean_div(v) for c, v in diverg.items()},
+        "E3_contrasts": {
+            f"{a}-clean_rerun": _paired({k: v for k, v in diverg[a].items() if v is not None},
+                                        div_clean, seed)
+            for a in ("unrepaired", "A1", "A2")} | {
+            "A1-unrepaired": _paired({k: v for k, v in diverg["A1"].items() if v is not None},
+                                     {k: v for k, v in diverg["unrepaired"].items() if v is not None},
+                                     seed),
+            "A1-A2": _paired({k: v for k, v in diverg["A1"].items() if v is not None},
+                             {k: v for k, v in diverg["A2"].items() if v is not None}, seed)},
+        "E1_by_operator": {
+            f"{op}|{c}": rate({d: v for d, v in accepted[c].items() if operator_of.get(d) == op})
+            for op in sorted({o for o in operator_of.values() if o}) for c in DOWNSTREAM_CONDITIONS},
+        "coupling_defect_level_vs_E1": {
+            f"{arm}|core_repaired={rep}|accepted={acc}": n
+            for (arm, rep, acc), n in sorted(coupling.items())},
+    }
+
+
 def _collateral(trials: list[dict]) -> dict:
     out = {}
     for arm in sorted({t["arm"] for t in trials}):
@@ -799,7 +951,8 @@ def print_summary(res: dict) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--cell", default="core",
-                    choices=("core", "c1", "d19", "placement", "severity", "warm", "tier1"))
+                    choices=("core", "c1", "d19", "placement", "severity", "warm", "tier1",
+                             "downstream"))
     ap.add_argument("--checkpoint", default=None,
                     help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P, T2S or T2W")
     ap.add_argument("--root", default="out_study",
@@ -812,7 +965,7 @@ def main() -> int:
     checkpoint = args.checkpoint or {
         "core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
         "placement": "out_study/T2P", "severity": "out_study/T2S", "warm": "out_study/T2W",
-        "tier1": "out_study/T1",
+        "tier1": "out_study/T1", "downstream": "out_study/T2D",
     }[args.cell] + "/checkpoint.jsonl"
     if args.cell == "core":
         res = analyse(load_rows(checkpoint), seed=args.seed)
@@ -829,6 +982,8 @@ def main() -> int:
             res = analyse_warm(load_rows(checkpoint), core, seed=args.seed, root=args.root)
         elif args.cell == "tier1":
             res = analyse_tier1(load_rows(checkpoint), seed=args.seed)
+        elif args.cell == "downstream":
+            res = analyse_downstream(load_rows(checkpoint), seed=args.seed)
         else:
             res = analyse_d19(load_rows(checkpoint), seed=args.seed)
         print(json.dumps({k: v for k, v in res.items() if k != "provenance"}, indent=2))

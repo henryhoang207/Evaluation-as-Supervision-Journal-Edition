@@ -8,7 +8,7 @@ result it touches is reported as exploratory. No trial ran before the tag.
 regeneration baseline, and the confirmatory set is now the single A1-vs-A2
 test** (§2, §2.1).
 
-**Eight amendments have been filed since the freeze (§0.1 A1–A8).** None adds a
+**Nine amendments have been filed since the freeze (§0.1 A1–A9).** None adds a
 confirmatory claim or moves the core. **The core ran 2026-10-05 → 07** (1,167
 trials, 1,149 usable).
 
@@ -76,6 +76,7 @@ section records every divergence from it.
 | **A6** | **2026-10-07** | **The O1 severity sweep is defined and wired** (`--cell severity`): level 2 = every resolving evidence id of the targeted pattern corrupted; A1 at P1, r = 3, all 24 O1 defects, both levels in-session — 144 trials. | Exploratory — as §2.1 already had it |
 | **A7** | **2026-10-07** | **The warm-resample cell (plan D2) is wired** (`--cell warm`): temperature 1.0 on the placement subset — A1/A2 at 0 and 1.0, A3 at 1.0, r = 3, 675 trials. Designed after the ceiling was seen; both readings fixed below. | Exploratory |
 | **A8** | **2026-10-08** | **The Tier-1 replay is wired** (`run_tier1_replay.py`): 13 real defects × {A1, A2, A3} at P0 × r = 3 = 117 trials, judged by the supervisor's own checks, intervals over cells. | Descriptive only — as plan §5 had it; serves §3 item 5 |
+| **A9** | **2026-10-08** | **Downstream propagation (plan D12) is wired** (`run_downstream.py`), endpoint (b) chosen by the author: 90 defects × {clean ×2, unrepaired, A1, A2}, downstream stages once each through the production nodes; E1 accepted, E2 planted issue in the report (O5), E3 divergence vs an in-session noise floor. Brings into scope what §1 and §3 item 6 left out. | Exploratory |
 
 **A1 — the C1 cell, in full.**
 
@@ -379,6 +380,67 @@ on Tier 1"). No runner existed.
 *Runner:* `scripts/run_tier1_replay.py` (fallback disabled, one session per
 defect, resume by whole defect, `status_error` excluded, same row fields as the
 Tier-2 runner). *Analysis:* `repair_analysis.py --cell tier1`.
+
+**A9 — downstream propagation (2026-10-08; endpoint chosen by the author).**
+
+*What existed before the freeze.* Plan D12 moved downstream propagation in scope
+and made the runner persist each retried output with enough state to re-run the
+later stages; `PUBLICATION_STRATEGY.md` names it the journal's thesis —
+*defect-level repair does not equal pipeline-level improvement* (MAST App. J).
+This document said the opposite in §1 and §3 item 6 ("run-level utility is out
+of scope", "global success S is out of scope"). **This amendment brings it in, as
+exploratory.** No endpoint was ever fixed; the author chose one on 2026-10-08
+from three put to them: (a) supervisor verdicts only, **(b) verdicts plus a
+no-repair baseline plus divergence from the clean pipeline**, (c) an LLM judge
+(out of scope per the plan). **(b).**
+
+*What existed when this was written.* Every other cell had run: the core (null
+at ceiling), D19, C1, placement, severity, warm and the Tier-1 replay.
+
+*Design.* Every core defect with a downstream stage — O1, O2, O3 (reasoning)
+and O5 (strategy): **90 defects**. O6/O7 are report-stage and have none. For each
+defect, in one session, the downstream stages are re-run from five starting
+points: the **clean** output twice (the second run is the in-session noise
+floor), the **unrepaired** injected output (the no-repair baseline), and the
+core's retried output for **A1** and **A2** at repetition 0 (the first executed,
+fixed before any downstream result). Each downstream stage runs **once** through
+the production node at temperature 0 and is measured and judged by the
+supervisor, never retried — observe mode, as Phase A ran. **447 conditions, 796
+calls**, into `out_study/T2D`; 3 arm outputs are missing because the core trial
+was a `status_error`, and are counted.
+
+*Endpoints.*
+
+- **E1 accepted** — every downstream stage passes the supervisor (no `retry`
+  or `halt`).
+- **E2 (O5 only)** — the planted recommendation issue survives into the final
+  report (content-word Jaccard ≥ 0.20 against any report recommendation, the
+  D24 identity threshold).
+- **E3 divergence** — the share of the clean run's final-report claims (root
+  causes and recommendation issues) with no content-word partner (Jaccard ≥
+  0.20, greedy one-to-one) in the condition's final report, read against the
+  clean-vs-clean divergence of the same defect.
+
+Contrasts, paired within defect with defect-bootstrap CIs: unrepaired − clean,
+A1 − unrepaired, A2 − unrepaired, A1 − A2, A1 − clean for E1; each condition −
+noise floor, A1 − unrepaired and A1 − A2 for E3. Also the coupling table: the
+core's defect-level outcome for that repetition against E1.
+
+*Readings, fixed before the pass runs.*
+
+1. **The defect propagates silently** if the unrepaired runs are accepted about
+   as often as the clean ones while their reports diverge beyond the noise
+   floor: the supervisor's checks are local and do not see an upstream defect
+   once it has been built upon.
+2. **Repair restores the pipeline** if A1 and A2 bring E3 back to the noise
+   floor where the unrepaired run diverges.
+3. **The defect is absorbed** if the unrepaired runs do not diverge beyond the
+   noise floor either: repair then buys groundedness at the defective stage and
+   nothing visible downstream — "runtime verification buys groundedness, not
+   utility".
+
+*Runner:* `scripts/run_downstream.py`. *Analysis:* `repair_analysis.py --cell
+downstream`.
 
 ---
 
@@ -947,6 +1009,7 @@ Recorded here so that no reviewer has to discover them:
 | **Warm-resample cell complete — 675 trials, all usable** | **2026-10-08** |
 | §0.1 A8 — Tier-1 replay wired, committed and pushed before it ran | 2026-10-08 |
 | **Tier-1 replay complete — 117 trials, all usable** | **2026-10-08** |
+| §0.1 A9 — downstream propagation wired (endpoint (b), author's choice), committed and pushed before it ran | 2026-10-08 |
 
 ---
 
