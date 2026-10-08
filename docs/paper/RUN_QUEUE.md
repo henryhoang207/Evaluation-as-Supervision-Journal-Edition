@@ -33,7 +33,7 @@ where every design decision is filed, **before** its run.
 | Q1 | **Placement pass** (§0.1 A5) — `--cell placement` → `T2P` | ✅ done 2026-10-07 22:47, verified | 540 trials. Verify, then `repair_analysis.py --cell placement` (reports with/without `attempts_made > 1`; P0 report-stage schema retries are concentrated) |
 | Q2 | **O1 severity sweep** (§0.1 A6) — `--cell severity` → `T2S` | ✅ done 2026-10-08 00:32, verified | 144 trials. Verify, then `--cell severity` |
 | Q3 | **Warm resampling** (plan D2, "REQUIRED"; §0.1 A7 filed) — `--cell warm` → `T2W` | ✅ done 2026-10-08 04:09, verified | Defaults below. Needs a temperature parameter threaded through `BaseAgent` with default 0 |
-| Q4 | **Downstream propagation** (plan D12; §0.1 A9 filed; endpoint (b) chosen by the author 2026-10-08) — `run_downstream.py` → `T2D` | 🔧 built; launches after push |
+| Q4 | **Downstream propagation** (plan D12; §0.1 A9; endpoint (b), author's choice) — `run_downstream.py` → `T2D` | ✅ done 2026-10-08 12:09, verified |
 | Q5 | **Tier-1 replay** (prereg §3 item 5; §0.1 A8 filed) — `run_tier1_replay.py` → `T1` | ✅ done 2026-10-08 06:36, verified | 13 real defects × {A1, A2, A3} at P0 (A0 undefined at P0, D9b) × r = 3 = 117 trials. Judged by the same checks (plan §5 Tier 1, item 2), descriptive only (MDE ≈ 31 pp) |
 | Q6 | **Second model — C7** (plan D5b) | ⛔ **waiting on the author's server** (RTX 5060): recommendation given 2026-10-08 — Qwen2.5-7B-Instruct Q4_K_M via Ollama, 32k context; needs the server set up and its LAN address |
 
@@ -64,3 +64,6 @@ where every design decision is filed, **before** its run.
 - 2026-10-08 06:45 — **Q5 verified**: 13/13 defects, 117/117 trials ok, one session each, offline re-judge 117/117, 4.1 M tokens. Accepted after the retry (production checks): A1 28.2 %, A2 76.9 %, A3 25.6 %; trace class under the content-word check: A1 87.5 %, A2 100 %, A3 79.2 %. Descriptive only.
 - 2026-10-08 06:45 — **Loop stopped at Q4 and Q6**: both need the author (downstream endpoint; second model). Total spent ≈ 44.9 M tokens.
 - 2026-10-08 — **Author chose (b) for Q4.** Q4 built: 90 defects, 447 conditions, 796 downstream calls; §0.1 A9 filed with three readings fixed. Loop restarted.
+- 2026-10-08 09:00 — **Q4 launched** after the budget guard (44.9 M + 4.9 M projected; the real cost was 8.2 M — 3 calls and ~22k tokens per reasoning condition, because the report stage needs a schema-correction second call every time).
+- 2026-10-08 12:20 — **Q4 verified**: 90/90 defects, 447/447 conditions ok, one session each, offline re-judge of every downstream stage 447/447. E3: unrepaired +8.2 pp over the noise floor, A1 +4.1 pp, A1 − unrepaired −4.2 pp. E2 (O5): planted issue in the report 70 % → 0 % with repair. Report check: 14/14 propagating runs accepted, 6/6 non-propagating rejected. Total spent ≈ 53.1 M tokens.
+- 2026-10-08 12:20 — **Loop stopped at Q6**: waiting for the author's RTX 5060 server (address, Ollama version, model digest).
