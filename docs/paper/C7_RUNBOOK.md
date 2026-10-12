@@ -1,14 +1,17 @@
 # C7 runbook — the second model (plan D5b / C7, run queue Q6)
 
-> **Execution update, 2026-10-12:** setup and preflight are complete and the full
-> local run is active. The actual GPU is an **RTX 5060 Ti 16 GB**. The original
+> **Execution update, 2026-10-12:** C7 is **complete and verified**: 930 trials,
+> 929 usable, all offline scores agree. The actual GPU is an **RTX 5060 Ti 16 GB**. The original
 > determinism gate failed (8/10 identical); [A11](C7_A11.md) supersedes the
 > conditional single-draw proposal below with three repetitions, **930 trials**
-> after four context exclusions. G4 passed 8/10. See [C7_STATUS.md](C7_STATUS.md).
+> after four context exclusions. G4 passed 8/10. A1 repair 72.9%, A2 66.2%;
+> exploratory gap +6.8 pp [+0.5, +13.3], majority McNemar p=0.0525.
+> Data commit `7188bb9`; see [C7_STATUS.md](C7_STATUS.md) for all results and limitations.
 > The remainder of this file preserves the original planning procedure.
 
-**Written 2026-10-08** for the next session. Nothing in this file has been run.
-Every Gemini cell is done (`RESULTS.md`); this is the last experiment.
+**Historical plan, written 2026-10-08.** The steps below describe the original
+proposal; A10/A11 and the completed execution above supersede it. Every
+planned experiment is now done (`RESULTS.md`).
 
 ## Why it matters
 

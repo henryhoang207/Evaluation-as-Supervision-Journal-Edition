@@ -22,8 +22,9 @@ Two tracks share one repository.
 2. **The research paper** the supervisor became — *"Evaluation as Supervision"*.
    Conference version **submitted and under review**; a journal extension
    (injected-defect repair study) is the active work. Its experiments are
-   **done except C7** (a second model): results in
-   [`docs/paper/RESULTS.md`](docs/paper/RESULTS.md), the C7 procedure in
+   **all complete, including C7** (a second model, verified 2026-10-12): results in
+   [`docs/paper/RESULTS.md`](docs/paper/RESULTS.md), full local-model results in
+   [`docs/paper/C7_STATUS.md`](docs/paper/C7_STATUS.md), the historical C7 procedure in
    [`docs/paper/C7_RUNBOOK.md`](docs/paper/C7_RUNBOOK.md), and the journal
    paper — **journal only, decided 2026-10-08** — is to be written from
    [`docs/paper/JOURNAL_PAPER_PLAN.md`](docs/paper/JOURNAL_PAPER_PLAN.md).

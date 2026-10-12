@@ -1,5 +1,11 @@
 # START HERE — next session
 
+> **Execution update, 2026-10-12:** all planned experiments, including C7, are
+> complete and verified. See [C7_STATUS.md](C7_STATUS.md) and [RESULTS.md](RESULTS.md)
+> for the exploratory local-model findings (data commit `7188bb9`, C7 branch).
+> Older C7 setup/waiting statements below are historical. Next is journal
+> drafting/integration; conference `main.tex` remains untouched.
+
 **Rewritten:** 2026-08-24. Supersedes the 2026-08-04 version, which described
 production of the conference paper. **That paper is finished.** The active work
 is now the journal extension.

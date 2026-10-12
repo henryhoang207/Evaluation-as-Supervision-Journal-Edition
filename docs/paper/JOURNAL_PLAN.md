@@ -1,5 +1,11 @@
 # Journal Extension Plan — Injected-Defect Repair Study
 
+> **Execution update, 2026-10-12:** all planned experiments, including C7, are
+> complete and verified. See [C7_STATUS.md](C7_STATUS.md) and [RESULTS.md](RESULTS.md)
+> for the exploratory local-model findings (data commit `7188bb9`, C7 branch).
+> Older C7 setup/waiting statements below are historical. Next is journal
+> drafting/integration; conference `main.tex` remains untouched.
+
 **Written:** 2026-08-24 · **Amended:** 2026-08-24 after the Tier-A reading and Tier B in full — 9/9 read (see §13, §14)
 (extraction: `..\Reading List\Tier_A\Tier_A_extraction.md`) — D1 reversed,
 arm set extended, statistics refined · **Status:** proposed, not yet agreed with supervisor
