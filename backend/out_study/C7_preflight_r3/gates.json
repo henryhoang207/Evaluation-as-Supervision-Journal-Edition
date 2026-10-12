@@ -1,5 +1,5 @@
 {
-  "ready": false,
+  "ready": true,
   "runtime": {
     "model": "qwen25-7b-c7",
     "base_model": "qwen2.5:7b-instruct-q4_K_M",
@@ -1517,5 +1517,17 @@
     "path": "out_study\\C7_preflight\\gates.json",
     "report_sha256": "88c3578136e7273dda3dbecf461b9126f9a436e8ab99e9ea2815bc19abd40e3c",
     "source_digest": "b71161147a162849d192c2a324347bc88b3a24cbfd34822e1d4cec0145d296bd"
+  },
+  "pilot": {
+    "passed": true,
+    "trials": 10,
+    "schema_pass_first_attempt": 8,
+    "schema_valid_eventually": 8,
+    "stages": [
+      "reasoning_agent",
+      "report_agent",
+      "strategy_agent"
+    ],
+    "mean_seconds": 41.884
   }
 }
