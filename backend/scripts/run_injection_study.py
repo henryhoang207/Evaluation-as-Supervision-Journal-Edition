@@ -147,7 +147,7 @@ CELLS = ("core", "c1", "d19", "placement", "severity", "warm", "c7")
 CELL_OUT = {"core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
             "placement": "out_study/T2P", "severity": "out_study/T2S",
             "warm": "out_study/T2W", "c7": "out_study/T2L"}
-C7_REPEAT_FRACTION = 1 / 6  # 22 of 142 defects, stratified by operator (A10)
+C7_REPS = 3  # A11: G2 returned 8/10 identical; determinism is measured, not assumed
 # D2 cites Tyen section 4(d), which needed temperature 1 to force a different
 # step; it is also the provider's default sampling temperature.
 WARM_TEMPERATURE = 1.0
@@ -280,12 +280,12 @@ def _warm_cells(index: int, reps: int) -> list[dict]:
 
 
 def _c7_cells(index: int) -> list[dict]:
-    """A10: one draw, two on the repeat subset; A3 on the frozen core stride."""
-    repeats = 2 if _in_subset(index, C7_REPEAT_FRACTION) else 1
+    """A11: three draws per arm; A3 on the unchanged frozen core stride."""
     cells = [{"arm": arm, "placement": "P1", "condition": "C0", "rep": r}
-             for arm in ("A1", "A2") for r in range(repeats)]
+             for arm in ("A1", "A2") for r in range(C7_REPS)]
     if _in_subset(index, ARM_FRACTION["A3"]):
-        cells.append({"arm": "A3", "placement": "P0", "condition": "C0", "rep": 0})
+        cells.extend({"arm": "A3", "placement": "P0", "condition": "C0", "rep": r}
+                     for r in range(C7_REPS))
     return cells
 
 
@@ -778,6 +778,8 @@ def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
         if not dry_run:
             if not c7_gates or not c7_gates.get("ready"):
                 raise ValueError("C7 requires passed gates before a live run")
+            if c7_gates.get("design") != "c7_r3_A11":
+                raise ValueError("C7 requires the A11 repeated-trial gate record")
             runtime = sys.modules.get("c7_runtime") or _load_by_path("c7_runtime", "c7_runtime.py")
             runtime.verify_runtime(c7_gates)
             gates_module = _load_by_path("c7_gates", "c7_gates.py")

@@ -27,8 +27,9 @@ def test_frozen_core_and_c7_allocation():
     assert runner.verify_order(plan) == []
     s = runner.plan_summary(plan)
     assert s["defects_runnable"] == 142
-    assert s["trials_by_arm"] == {"A1": 164, "A2": 164, "A3": 34}
-    assert sum(any(c["rep"] == 1 for c in d["arms"]) for d in plan) == 22
+    assert s["trials_by_arm"] == {"A1": 426, "A2": 426, "A3": 102}
+    assert s["trials"] == 954
+    assert sum(any(c["rep"] == 2 for c in d["arms"]) for d in plan) == 142
 
 
 def test_context_exclusion_removes_a_whole_defect_without_reshuffling_subsets():
@@ -92,11 +93,14 @@ def _trial(arm, rep, outcome, raw):
             "local_calls": [{"status": "ok", "raw_sha256": raw}]}
 
 
-def test_extra_repetitions_do_not_change_primary_or_hide_raw_instability():
+def test_primary_averages_repetitions_per_defect_and_reports_raw_instability():
     ts = [_trial("A1", 0, "repaired", "raw-a"), _trial("A1", 1, "unrepaired", "raw-b"),
-          _trial("A2", 0, "unrepaired", "raw-c"), _trial("A2", 1, "unrepaired", "raw-c")]
+          _trial("A1", 2, "repaired", "raw-a"),
+          _trial("A2", 0, "unrepaired", "raw-c"), _trial("A2", 1, "unrepaired", "raw-c"),
+          _trial("A2", 2, "unrepaired", "raw-c")]
     result = analysis.analyse_c7([{"defect_id": "d:O1", "trials": ts}], seed=0)
-    assert result["A1_minus_A2"]["estimate"] == 1
+    assert result["A1_minus_A2"]["estimate"] == pytest.approx(2 / 3)
+    assert result["first_draw_only"]["A1_minus_A2"]["estimate"] == 1
     assert result["repeat_stability"]["A1"]["share_identical"] == 0
     assert result["repeat_stability"]["A2"]["share_identical"] == 1
 
@@ -117,7 +121,7 @@ def test_schema_failure_sensitivity_does_not_count_network_failure_as_model_erro
     result = analysis.analyse_c7(rows, seed=0)
     assert result["A1_minus_A2"]["n_defects"] == 0
     sensitive = result["schema_failure_sensitivity"]
-    assert sensitive["first_draw_failures_counted_unrepaired"] == 1
+    assert sensitive["failures_counted_unrepaired"] == 1
     assert sensitive["A1_minus_A2"]["estimate"] == -1
     assert sensitive["rates"]["A3"]["n_defects"] == 0
 
@@ -144,7 +148,15 @@ def _verification_fixture(tmp_path, monkeypatch):
 def test_offline_verifier_reproduces_scores(tmp_path, monkeypatch):
     _verification_fixture(tmp_path, monkeypatch)
     result = verify_c7.verify("unused", str(tmp_path))
-    assert result["passed"] and result["offline_scores_agree"] == 2
+    assert result["passed"] and result["offline_scores_agree"] == 6
+
+
+def test_measured_nondeterminism_is_not_misreported_as_bit_identity():
+    measurement = {"pairs": 10, "passed": False, "identical": 8,
+                   "items": [{"token_counter_agrees": True} for _ in range(10)]}
+    assert gates.measured(measurement)
+    measurement["items"][0]["token_counter_agrees"] = False
+    assert not gates.measured(measurement)
 
 
 @pytest.mark.parametrize("tamper", ["score", "session", "model", "cell"])

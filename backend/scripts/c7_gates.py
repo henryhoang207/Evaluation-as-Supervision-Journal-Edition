@@ -114,6 +114,33 @@ def determinism_gate(plan: list[dict], context: dict, out: Path) -> dict:
             "items": [{k: v for k, v in r.items() if k != "calls"} for r in results]}
 
 
+def measured(report: dict) -> bool:
+    """A11: token calibration is a gate; bit-identity is a reported observation."""
+    return (report.get("pairs") == 10 and len(report.get("items", [])) == 10 and
+            all(r["token_counter_agrees"] for r in report["items"]))
+
+
+def import_determinism(previous: str, plan: list[dict], context: dict) -> dict:
+    """Keep the failed G2 data; reuse only when runtime and all prompt hashes agree."""
+    path = Path(previous)
+    old = json.loads(path.read_text(encoding="utf-8"))
+    if old["runtime"] != runtime.provenance() or not measured(old.get("determinism", {})):
+        raise ValueError("Prior G2 runtime/calibration does not match")
+    records = [json.loads(line) for line in (path.parent / "determinism.jsonl").read_text(
+        encoding="utf-8").splitlines() if line.strip()]
+    selected = choose_sample(plan, context, 10)
+    if [r["defect_id"] for r in records] != [d["defect_id"] for d in selected]:
+        raise ValueError("Prior G2 sample does not match")
+    for defect, record in zip(selected, records):
+        _agent, messages, *_ = assemble(defect, defect["arms"][0])
+        if len(record["calls"]) != 2 or any(c["prompt_sha256"] != runtime.sha(messages)
+                                          for c in record["calls"]):
+            raise ValueError("Prior G2 prompts changed")
+    return {"measurement": old["determinism"], "path": str(path),
+            "report_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "source_digest": old["source_digest"]}
+
+
 def pilot_gate(plan: list[dict], context: dict, out: Path) -> dict:
     # Five defects, all three stages; A1 and A2 for each, independent of G2 data.
     eligible = [d for d in plan if d["runnable"] and context["defects"][d["defect_id"]]["eligible"]]
@@ -150,6 +177,7 @@ def main() -> int:
     ap.add_argument("--root", default="out_study")
     ap.add_argument("--out", default="out_study/C7_preflight")
     ap.add_argument("--phase", choices=("context", "determinism", "pilot", "all"), default="all")
+    ap.add_argument("--previous-gates", default=None, help="A11: preserved G2 for identical runtime/prompts")
     args = ap.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -158,7 +186,8 @@ def main() -> int:
     plan = runner.build_plan(args.root, cell="c7")
     if not report:
         report = {"ready": False, "runtime": runtime.provenance(),
-                  "source_digest": source_digest(plan), "context": context_gate(plan)}
+                  "source_digest": source_digest(plan), "context": context_gate(plan),
+                  "design": "c7_r3_A11"}
         models = runtime.request("/v1/models")["data"]
         loaded = runtime.request("/api/ps")["models"]
         model = next((m for m in loaded if m["name"].split(":")[0] == runtime.MODEL), {})
@@ -175,6 +204,10 @@ def main() -> int:
             text=True).strip()
         report["dependencies"] = subprocess.check_output([sys.executable, "-m", "pip", "freeze"],
                                                           text=True).splitlines()
+        if args.previous_gates:
+            previous = import_determinism(args.previous_gates, plan, report["context"])
+            report["determinism"] = previous.pop("measurement")
+            report["prior_determinism"] = previous
     elif source_digest(plan) != report["source_digest"]:
         raise ValueError("C7 code/data changed after preflight; use a fresh preflight directory")
     runtime.verify_runtime(report)
@@ -184,11 +217,11 @@ def main() -> int:
         report["determinism"] = determinism_gate(plan, report["context"], out)
         report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     if args.phase in ("pilot", "all"):
-        if not report.get("determinism", {}).get("passed"):
-            raise ValueError("G2 did not pass; C7 cannot assume determinism")
+        if not measured(report.get("determinism", {})):
+            raise ValueError("G2 calibration/measurement is incomplete")
         if "pilot" not in report:
             report["pilot"] = pilot_gate(plan, report["context"], out)
-    report["ready"] = bool(report.get("determinism", {}).get("passed") and
+    report["ready"] = bool(measured(report.get("determinism", {})) and
                            report.get("pilot", {}).get("passed"))
     report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps({k: v for k, v in report.items() if k not in ("runtime", "context")}, indent=2))
