@@ -8,7 +8,7 @@ result it touches is reported as exploratory. No trial ran before the tag.
 regeneration baseline, and the confirmatory set is now the single A1-vs-A2
 test** (§2, §2.1).
 
-**Nine amendments have been filed since the freeze (§0.1 A1–A9).** None adds a
+**Ten amendments have been filed since the freeze (§0.1 A1–A10).** None adds a
 confirmatory claim or moves the core. **The core ran 2026-10-05 → 07** (1,167
 trials, 1,149 usable).
 
@@ -77,6 +77,7 @@ section records every divergence from it.
 | **A7** | **2026-10-07** | **The warm-resample cell (plan D2) is wired** (`--cell warm`): temperature 1.0 on the placement subset — A1/A2 at 0 and 1.0, A3 at 1.0, r = 3, 675 trials. Designed after the ceiling was seen; both readings fixed below. | Exploratory |
 | **A8** | **2026-10-08** | **The Tier-1 replay is wired** (`run_tier1_replay.py`): 13 real defects × {A1, A2, A3} at P0 × r = 3 = 117 trials, judged by the supervisor's own checks, intervals over cells. | Descriptive only — as plan §5 had it; serves §3 item 5 |
 | **A9** | **2026-10-08** | **Downstream propagation (plan D12) is wired** (`run_downstream.py`), endpoint (b) chosen by the author: 90 defects × {clean ×2, unrepaired, A1, A2}, downstream stages once each through the production nodes; E1 accepted, E2 planted issue in the report (O5), E3 divergence vs an in-session noise floor. Brings into scope what §1 and §3 item 6 left out. | Exploratory |
+| **A10** | **2026-10-12** | **C7 local replication is defined and wired**: Qwen2.5-7B-Instruct Q4_K_M, Ollama 0.40.3, RTX 5060 Ti 16 GB, 32k context, seed 20261012, temperature 0, output cap 4096. A1/A2 first draw over 142 defects, a second draw on a 1/6 operator stride (22), A3 on the frozen quarter stride (34): 362 trials before context exclusions. G1–G4 and the full protocol/readings are fixed in [`C7_PROTOCOL.md`](C7_PROTOCOL.md) before preflight; exact digest/provenance and passed gates are committed before final trials. | Exploratory; Gemini bases and all existing results remain fixed |
 
 **A1 — the C1 cell, in full.**
 

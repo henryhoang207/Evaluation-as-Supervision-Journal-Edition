@@ -679,6 +679,85 @@ def analyse_warm(rows: list[dict], core_rows: list[dict] | None = None,
 TIER1_ARMS = ("A1", "A2", "A3")
 
 
+def analyse_c7(rows: list[dict], core_rows: list[dict] | None = None,
+               seed: int = DEFAULT_SEED, root: str | None = None) -> dict:
+    """A10 exploratory replication; rep 0 is primary, repeats measure stability."""
+    usable, excluded = usable_trials(rows)
+    trials = [t for t in usable if t.get("rep", 0) == 0]
+    planned = {(d, a) for r in rows for t in r.get("trials", [])
+               if t.get("rep", 0) == 0 for d, a in [(t["defect_id"], t["arm"])]}
+    cm = cells(trials, planned=planned)
+    single = [t for t in trials if t.get("attempts_made", 1) == 1]
+    repeats = defaultdict(list)
+    for t in usable:
+        repeats[(t["defect_id"], t["arm"])].append(t)
+    stability = {}
+    for arm in ("A1", "A2"):
+        pairs = [sorted(ts, key=lambda t: t["rep"]) for (d, a), ts in repeats.items()
+                 if a == arm and len(ts) == 2]
+        # Compare every successful call's raw output, including any schema correction.
+        hashes = lambda t: [c["raw_sha256"] for c in t.get("local_calls", [])
+                            if c.get("status") == "ok"]
+        identical = sum(bool(hashes(a)) and hashes(a) == hashes(b) for a, b in pairs)
+        stability[arm] = {"pairs": len(pairs), "identical_raw_call_sequences": identical,
+                          "pairs_planned": sum(sum(t.get("arm") == arm for t in r.get("trials", [])) == 2
+                                               for r in rows),
+                          "same_outcome": sum(outcome_class(a) == outcome_class(b) for a, b in pairs),
+                          "share_identical": identical / len(pairs) if pairs else None}
+    out = {
+        "provenance": {"script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                       "seed": seed, "n_boot": N_BOOT, "exploratory": True,
+                       "trials_usable": len(usable), "first_draw_trials_usable": len(trials),
+                       "exclusions": dict(excluded),
+                       "served_models": dict(Counter(m for t in usable for m in t.get("served_models", []))),
+                       "total_tokens": sum(t.get("total_tokens") or 0 for t in usable)},
+        "A1_minus_A2": contrast(cm, "A1", "A2", seed),
+        "rates": {a: _rate_ci(cm, a, seed) for a in ("A1", "A2", "A3")},
+        "by_operator": rates_by(trials, lambda t: t["operator"]),
+        "by_stage": rates_by(trials, lambda t: t["stage"]),
+        "outcome_classes": {f"{a}|{o}": n for (a, o), n in sorted(
+            Counter((t["arm"], outcome_class(t)) for t in trials).items())},
+        "multi_attempt_first_draws": dict(Counter(t["arm"] for t in trials
+                                                  if t.get("attempts_made", 1) > 1)),
+        "without_multi_attempt_trials": {
+            "A1_minus_A2": contrast(cells(single, planned=planned), "A1", "A2", seed),
+            "rates": {a: _rate_ci(cells(single), a, seed) for a in ("A1", "A2", "A3")}},
+        "repeat_stability": stability,
+        "runtime_context_failures": sum("context_overflow" in (t.get("error_detail") or "")
+                                        for r in rows for t in r.get("trials", [])),
+        "mean_seconds_by_arm": {a: float(np.mean([t["wall_clock_s"] for t in usable
+                                                   if t["arm"] == a and "wall_clock_s" in t]))
+                                for a in ("A1", "A2", "A3")
+                                if any(t["arm"] == a and "wall_clock_s" in t for t in usable)},
+        "collateral": _collateral(trials),
+    }
+    if root is not None:
+        clean = _clean_outputs(rows, root)
+        canon = lambda o: json.dumps(o, sort_keys=True, ensure_ascii=False)
+        out["identical_to_clean"] = {}
+        for arm in ("A1", "A2", "A3"):
+            subset = [t for t in trials if t["arm"] == arm and t["defect_id"] in clean]
+            hits = sum(canon(t.get("retried_output")) == canon(clean[t["defect_id"]]) for t in subset)
+            out["identical_to_clean"][arm] = {"trials": len(subset), "identical": hits,
+                                             "share": hits / len(subset) if subset else None}
+    if core_rows is not None:
+        core = usable_trials(core_rows)[0]
+        local_ids = {t["defect_id"] for t in trials}
+        matched_core = [t for t in core if t["defect_id"] in local_ids]
+        core_cm = cells(matched_core)
+        out["paired_with_gemini"] = {}
+        for arm in ("A1", "A2", "A3"):
+            ids = sorted(d for d, a in cm if a == arm and cm[(d, a)] and core_cm.get((d, a)))
+            vals = np.array([np.mean(cm[(d, arm)]) - np.mean(core_cm[(d, arm)]) for d in ids])
+            ci = cluster_bootstrap_ci(vals, np.random.default_rng(seed)) if len(vals) else (None, None)
+            out["paired_with_gemini"][arm] = {
+                "n_defects": len(ids), "local_minus_gemini": float(vals.mean()) if len(vals) else None,
+                "ci95": list(ci),
+                "local_rate": float(np.mean([np.mean(cm[(d, arm)]) for d in ids])) if ids else None,
+                "gemini_rate": float(np.mean([np.mean(core_cm[(d, arm)]) for d in ids])) if ids else None}
+    return out
+
+
 def _cell_bootstrap(per_defect: dict, cell_of: dict, seed: int, n_boot: int = N_BOOT):
     """Percentile CI of a mean over defects, resampling business x stage cells.
 
@@ -1053,7 +1132,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--cell", default="core",
                     choices=("core", "c1", "d19", "placement", "severity", "warm", "tier1",
-                             "downstream", "o5sens"))
+                             "downstream", "o5sens", "c7"))
     ap.add_argument("--checkpoint", default=None,
                     help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P, T2S or T2W")
     ap.add_argument("--root", default="out_study",
@@ -1067,6 +1146,7 @@ def main() -> int:
         "core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
         "placement": "out_study/T2P", "severity": "out_study/T2S", "warm": "out_study/T2W",
         "tier1": "out_study/T1", "downstream": "out_study/T2D", "o5sens": "out_study/T2",
+        "c7": "out_study/T2L",
     }[args.cell] + "/checkpoint.jsonl"
     if args.cell == "core":
         res = analyse(load_rows(checkpoint), seed=args.seed)
@@ -1083,6 +1163,8 @@ def main() -> int:
             res = analyse_warm(load_rows(checkpoint), core, seed=args.seed, root=args.root)
         elif args.cell == "tier1":
             res = analyse_tier1(load_rows(checkpoint), seed=args.seed)
+        elif args.cell == "c7":
+            res = analyse_c7(load_rows(checkpoint), core, seed=args.seed, root=args.root)
         elif args.cell == "downstream":
             res = analyse_downstream(load_rows(checkpoint), seed=args.seed)
         elif args.cell == "o5sens":
