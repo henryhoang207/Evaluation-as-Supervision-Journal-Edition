@@ -107,6 +107,21 @@ def test_runtime_refuses_cloud_endpoint(monkeypatch):
         runtime.endpoint()
 
 
+def test_schema_failure_sensitivity_does_not_count_network_failure_as_model_error():
+    rows = [{"defect_id": "d:O1", "trials": [
+        {**_trial("A1", 0, "repaired", "raw-a"), "status": "status_error",
+         "error_type": "schema_validation_error"},
+        _trial("A2", 0, "repaired", "raw-b"),
+        {**_trial("A3", 0, "repaired", "raw-c"), "status": "status_error",
+         "error_type": "api_error"}]}]
+    result = analysis.analyse_c7(rows, seed=0)
+    assert result["A1_minus_A2"]["n_defects"] == 0
+    sensitive = result["schema_failure_sensitivity"]
+    assert sensitive["first_draw_failures_counted_unrepaired"] == 1
+    assert sensitive["A1_minus_A2"]["estimate"] == -1
+    assert sensitive["rates"]["A3"]["n_defects"] == 0
+
+
 def _verification_fixture(tmp_path, monkeypatch):
     defect = copy.deepcopy(next(d for d in runner.build_plan(str(BACKEND / "out_study"), cell="c7")
                                 if d["runnable"]))

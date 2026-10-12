@@ -61,6 +61,12 @@ wording or the analysis. This protocol is recorded before those calls.
   reported **exploratorily**, four outcome classes, per-operator/stage rates,
   rates with/without schema corrections, identity to the clean Gemini output,
   collateral, token/time counts, and context/provider exclusions.
+- O1 and severe-operator rates/contrasts are also shown separately, following
+  the frozen study's severity distinction. Schema-correction exhaustion is
+  identified separately from network/API failure. Alongside the primary's
+  existing `status_error` exclusions, a conservative sensitivity counts schema
+  exhaustion and blocked oversized corrections as **unrepaired**; genuine
+  infrastructure/API failures remain excluded. This is fixed before preflight.
 - Pair with Gemini on the identical eligible defects and arms: local rep 0
   minus the mean of Gemini's usable core repetitions, with a defect-bootstrap
   interval. This is a **model-and-runtime comparison**, with Gemini-generated
@@ -79,3 +85,7 @@ Final data: `backend/out_study/T2L/`. The design/code and then the passed gate
 record plus exact provenance are committed and pushed **before** final trials.
 Completion requires checkpoint counts, one session per defect, matching model
 identity, no detected truncation, and full offline re-scoring agreement.
+
+The run queue's 55M-token budget guard applies to **charged cloud usage**. C7
+uses local inference exclusively, with zero API fees; its tokens are reported
+separately and no Gemini calls are made by this pass.

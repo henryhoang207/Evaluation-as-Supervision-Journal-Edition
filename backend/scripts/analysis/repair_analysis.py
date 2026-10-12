@@ -688,6 +688,14 @@ def analyse_c7(rows: list[dict], core_rows: list[dict] | None = None,
                if t.get("rep", 0) == 0 for d, a in [(t["defect_id"], t["arm"])]}
     cm = cells(trials, planned=planned)
     single = [t for t in trials if t.get("attempts_made", 1) == 1]
+    # A smaller model may exhaust schema correction. Distinguish that from an
+    # infrastructure failure and report a conservative sensitivity, fixed in A10.
+    failures = [t for r in rows for t in r.get("trials", []) if t.get("status") != "ok"]
+    schema_failures = [t for t in failures if t.get("rep", 0) == 0 and
+                       (t.get("error_type") == "schema_validation_error" or
+                        "context_overflow" in (t.get("error_detail") or ""))]
+    conservative = trials + [{**t, "outcome": {"outcome": "unrepaired"}} for t in schema_failures]
+    conservative_cm = cells(conservative, planned=planned)
     repeats = defaultdict(list)
     for t in usable:
         repeats[(t["defect_id"], t["arm"])].append(t)
@@ -715,6 +723,18 @@ def analyse_c7(rows: list[dict], core_rows: list[dict] | None = None,
         "rates": {a: _rate_ci(cm, a, seed) for a in ("A1", "A2", "A3")},
         "by_operator": rates_by(trials, lambda t: t["operator"]),
         "by_stage": rates_by(trials, lambda t: t["stage"]),
+        "rates_by_severity": {
+            group: {a: _rate_ci(cells([t for t in trials if t["operator"] in operators]), a, seed)
+                    for a in ("A1", "A2", "A3")}
+            for group, operators in (("O1", O1_CELL), ("severe", SEVERE_CELL))},
+        "contrast_by_severity": {
+            group: contrast(cells([t for t in trials if t["operator"] in operators]), "A1", "A2", seed)
+            for group, operators in (("O1", O1_CELL), ("severe", SEVERE_CELL))},
+        "failure_types": dict(Counter(t.get("error_type") or "unknown" for t in failures)),
+        "schema_failure_sensitivity": {
+            "first_draw_failures_counted_unrepaired": len(schema_failures),
+            "A1_minus_A2": contrast(conservative_cm, "A1", "A2", seed),
+            "rates": {a: _rate_ci(conservative_cm, a, seed) for a in ("A1", "A2", "A3")}},
         "outcome_classes": {f"{a}|{o}": n for (a, o), n in sorted(
             Counter((t["arm"], outcome_class(t)) for t in trials).items())},
         "multi_attempt_first_draws": dict(Counter(t["arm"] for t in trials

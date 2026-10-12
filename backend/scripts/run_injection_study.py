@@ -637,6 +637,7 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
         output = retried_state.get(inject_defects.OUTPUT_KEY[stage]) or {}
         row.update(status="status_error", attempts_made=len(calls),
                    error_detail=output.get("error_detail"),
+                   error_type=output.get("error_type"),
                    wall_clock_s=round(time.time() - started, 2))
         return row
 
