@@ -1,5 +1,12 @@
 # C7 runbook — the second model (plan D5b / C7, run queue Q6)
 
+> **Execution update, 2026-10-12:** setup and preflight are complete and the full
+> local run is active. The actual GPU is an **RTX 5060 Ti 16 GB**. The original
+> determinism gate failed (8/10 identical); [A11](C7_A11.md) supersedes the
+> conditional single-draw proposal below with three repetitions, **930 trials**
+> after four context exclusions. G4 passed 8/10. See [C7_STATUS.md](C7_STATUS.md).
+> The remainder of this file preserves the original planning procedure.
+
 **Written 2026-10-08** for the next session. Nothing in this file has been run.
 Every Gemini cell is done (`RESULTS.md`); this is the last experiment.
 

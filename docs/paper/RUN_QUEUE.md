@@ -35,7 +35,7 @@ where every design decision is filed, **before** its run.
 | Q3 | **Warm resampling** (plan D2, "REQUIRED"; §0.1 A7 filed) — `--cell warm` → `T2W` | ✅ done 2026-10-08 04:09, verified | Defaults below. Needs a temperature parameter threaded through `BaseAgent` with default 0 |
 | Q4 | **Downstream propagation** (plan D12; §0.1 A9; endpoint (b), author's choice) — `run_downstream.py` → `T2D` | ✅ done 2026-10-08 12:09, verified |
 | Q5 | **Tier-1 replay** (prereg §3 item 5; §0.1 A8 filed) — `run_tier1_replay.py` → `T1` | ✅ done 2026-10-08 06:36, verified | 13 real defects × {A1, A2, A3} at P0 (A0 undefined at P0, D9b) × r = 3 = 117 trials. Judged by the same checks (plan §5 Tier 1, item 2), descriptive only (MDE ≈ 31 pp) |
-| Q6 | **Second model — C7** (plan D5b) | ⛔ **waiting on the author's server** (RTX 5060) | Full procedure in **`C7_RUNBOOK.md`**: server setup → gates G1–G4 → `--cell c7` → amendment A10 → run (≈ 360 trials, $0) |
+| Q6 | **Second model — C7** (plan D5b) | ⏳ **running 2026-10-12** on the RTX 5060 Ti 16 GB | [Current status](C7_STATUS.md). Original G2 failed (8/10 identical); A11 uses r=3. G4 passed 8/10 first-call valid. 138 eligible defects, 930 local trials, no API fees; data in `T2L` |
 
 ### Q3 defaults (to be filed as A7 — the author may change them before launch)
 
