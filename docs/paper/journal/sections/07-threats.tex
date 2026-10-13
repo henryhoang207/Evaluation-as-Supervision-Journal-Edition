@@ -1,0 +1,72 @@
+% =====================================================================
+\section{Threats to validity}
+\label{sec:threats}
+% Sources: PREREGISTRATION.md section 9; JOURNAL_PLAN.md D14-D16 and section
+% 15; RESULTS.md section 8.
+% =====================================================================
+
+\paragraph{Construct validity}
+The main threat is the ceiling. The injected defects were easy for this model
+to undo, so RQ1 measures the effect of feedback content on defects that the
+model repairs regardless. It says nothing about defects the model cannot see
+or fix. The severity sweep did not create headroom, and the one cell with
+headroom (\op{O1}) is small. The construct is repair \emph{by regeneration}, and
+the outcome is the replacement value. That is stricter than the supervisor's
+own check, which a different but resolving identifier would satisfy. \arm{A1}
+is both specific and correct, and no arm offers specific but wrong feedback.
+The claim is therefore about feedback content, not about specificity as such.
+Recommendation issues are generic enough that no string matcher separates a
+restored issue cleanly from a different one: under the scorer, a different
+restaurant's recommendation ``restores'' 41\% of the time. This is why the
+primary contrast is also reported without \op{O5}, where it is unchanged.
+Collateral damage is measured only for item classes with a calibrated churn
+floor, so report-stage trials are excluded from it. On real defects, the
+outcome is acceptance by the supervisor's own checks, which are imprecise. We
+report the content-word reading beside it, and we do not call either reading
+repair.
+
+\paragraph{Internal validity}
+Hosted-model drift is the threat this design spends most on. All arms of a
+defect run in one session, no contrast crosses sessions, and every exploratory
+cell re-runs its comparators in-session. The re-runs measure the drift; they do
+not assume it away. One interim look at outcome counts, for budget, is
+disclosed. Amendments A5--A9 were filed after earlier results were known. All
+are exploratory, their designs follow a grid fixed before any result, and each
+pass's readings were fixed before it ran. The warm cell was designed in
+response to the core's pattern and is reported as a test of that explanation.
+The analysis code postdates the core. It transcribes rules fixed at the freeze,
+was tested on synthetic rows first, and every live score was reproduced
+offline. Trials that needed a schema-correction second call carry a turn of the
+model's own output. They are analysed separately, and the primary estimate does
+not move without them. The trial losses come from the network and from the
+client machine sleeping, and cannot depend on the arm. Finally, the authors
+built both the supervisor and the operators. The validity gates guarantee that
+each operator trips the check it targets and no other, and blinded raters
+judged injected defects against real ones. Neither guarantees that the
+operators resemble what the model produces, and Section~\ref{sec:results-rq3}
+shows that they do not.
+
+\paragraph{External validity}
+All trials so far used one model, served by one provider at
+temperature~0 (temperature~1 in the warm cell), with a single retry.
+\CSEVEN{Replace with the second-model result: what replicates on [model], what
+does not, and what remains specific to one model.} The study covers one
+pipeline in one domain, with 28 workloads stratified by input size, and the
+pipeline is closed by design. The derivability property that makes its
+supervision deterministic does not hold for agents that retrieve, call tools or
+carry memory across runs~\citep{hoang2026eas}. The results transfer to such
+systems only in their parts that remain closed. The seven operators that ran
+cover five check classes. The real-defect bank is 13 defects in 7 cells, most
+of them one class.
+
+\paragraph{Conclusion validity}
+There is one confirmatory test. It was powered at 0.875 for a 12-point effect,
+and its null is reported as an interval, not as an absence of evidence. Near a
+ceiling, few defects can be discordant, which limits what any test of this
+contrast could show. That is why the estimate, not the test, is primary.
+Everything else is exploratory, with no correction for multiplicity. A single
+interval that excludes zero, such as the warm cell's difference of gaps or
+\arm{A2}'s advantage on real defects, should be read as a hypothesis, not a
+finding. The real-defect cell supports no test at all. Bootstrap intervals for
+rates at 100\% degenerate to a point, so exact intervals over defects are
+reported where a rate is at the boundary.

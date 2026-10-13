@@ -19,13 +19,17 @@ realistic input/output mix) of the $150 budget. Suite **411 pass**. The working
 tree was clean and in sync with `origin/main` at the end of 2026-10-08.
 
 **Decided 2026-10-08 by the author: journal only** — no conference split (the
-pre-registered split rule was not met). Venue per `JOURNAL_PLAN.md` D7: **EMSE
-regular track**.
+pre-registered split rule was not met). **Venue: JSS (Journal of Systems and
+Software, Elsevier)** — the author's choice of 2026-10-08, replacing the EMSE
+recommendation of `JOURNAL_PLAN.md` D7; open access is APC-free for a
+Swinburne-affiliated corresponding author under CAUL–Elsevier. **The first full
+draft exists in `docs/paper/journal/`** (2026-10-09), with C7 left as marked
+placeholders — see its `README.md`.
 
 | Track | Start with | First step |
 |---|---|---|
 | **C7 — the second model** | **[`C7_RUNBOOK.md`](C7_RUNBOOK.md)** | The author sets up Ollama on the RTX 5060 machine (Qwen2.5-7B-Instruct Q4_K_M, `num_ctx 32768`, LAN access) and reports its IP, Ollama version and model digest. Then gates G1–G4 → build `--cell c7` → amendment A10 → run (≈ 360 trials, $0) |
-| **The journal paper** | **[`JOURNAL_PAPER_PLAN.md`](JOURNAL_PAPER_PLAN.md)** | Settle authorship and the extension declaration; download the Springer Nature template; draft Study design and Results first, from `PREREGISTRATION.md` and `RESULTS.md`. **Do not edit `main.tex`** (conference #1, under review) |
+| **The journal paper** | **[`journal/README.md`](journal/README.md)**, then [`JOURNAL_PAPER_PLAN.md`](JOURNAL_PAPER_PLAN.md) | A full first draft for JSS is in `docs/paper/journal/` (`elsarticle`, builds with `latexmk -pdf`). Open: authorship, the extension declaration, data availability, the Tier-C citations, the AI-use declaration, and every `\CSEVEN` placeholder. **Do not edit `docs/paper/main.tex`** (conference #1, under review) |
 
 **Document map.** `RESULTS.md` (numbers, with sources) · `PREREGISTRATION.md`
 (frozen design, amendments §0.1 A1–A9) · `RUN_QUEUE.md` (run history and the

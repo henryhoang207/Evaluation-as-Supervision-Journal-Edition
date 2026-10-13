@@ -1,0 +1,34 @@
+% =====================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% =====================================================================
+
+We asked whether the measured facts a deterministic supervisor writes into a
+retry prompt are what repairs a defective stage in an LLM pipeline. The
+pre-registered answer is no, for injected defects. A rejection that said
+nothing repaired them as well as one that named the offending item and its
+measured value: the difference was +0.7 percentage points, with an interval
+that excludes anything larger than about 4. The reason is that the model,
+shown its defective output, mostly copies it back and corrects the one
+inconsistency it can see. The information the supervisor measures is in the
+model's context too. \CSEVEN{one sentence on whether this holds for the second
+model.}
+
+What the supervisor \emph{does} matters more than what it \emph{says}. Showing
+the model its rejected output left repair unchanged and cut collateral damage
+by an order of magnitude. The precision of a check decides whether a retry
+fixes anything: on the defects the supervisor really caught in production, most
+of them its own false positives, the production retry was accepted 28\% of the
+time. Stage-local checks certify consistency with upstream, so a defect that
+gets past its own stage is invisible to every later stage and is sometimes
+rewarded by them. And a statistic the supervisor can compute is better
+overwritten than retried. A retry also fixes it, but only an overwrite does so
+exactly and at no cost.
+
+For engineers, the lesson is to spend effort on where a check looks and how
+precisely it fires, not on how its complaint is worded. For researchers who
+evaluate LLM systems by fault injection, the lesson is one that mutation
+testing learned for detection: injected faults stand in for real ones only once
+a coupling study shows that they do. Until then, a repair rate measured on
+injected defects is a property of the operators. It is not yet evidence about
+the defects the system actually produces.

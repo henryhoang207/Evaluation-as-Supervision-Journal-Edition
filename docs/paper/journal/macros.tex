@@ -1,0 +1,52 @@
+% =====================================================================
+%  Macros for the journal draft.
+% =====================================================================
+
+% ---- Draft placeholders ---------------------------------------------
+% \CSEVEN{...}  material that waits on the second-model run (C7, plan D5b,
+%               prereg amendment A10). Renders as an orange bracketed note.
+% \TODO{...}    an open author decision or a pre-submission task. Renders as
+%               a magenta bracketed note.
+% Switch \showplaceholdersfalse to hide both (for a word count only -- never
+% for submission: every placeholder must be resolved, not hidden).
+\newif\ifshowplaceholders
+\showplaceholderstrue
+\definecolor{cseven}{RGB}{196,98,0}
+\definecolor{todo}{RGB}{176,0,112}
+\newcommand{\CSEVEN}[1]{\ifshowplaceholders{\color{cseven}\textsf{\small[C7:~#1]}}\fi}
+\newcommand{\TODO}[1]{\ifshowplaceholders{\color{todo}\textsf{\small[TODO:~#1]}}\fi}
+% A placeholder table cell or number: \CSEVENNUM{} prints a bold dash.
+\newcommand{\CSEVENNUM}{\ifshowplaceholders{\color{cseven}\textbf{--}}\fi}
+
+% ---- Notation ---------------------------------------------------------
+\newcommand{\arm}[1]{\textsf{#1}}          % arms A0--A3, placements P0--P3
+\newcommand{\op}[1]{\textsf{#1}}           % operators O1--O8
+\newcommand{\verdict}[1]{\texttt{#1}}      % supervisor verdicts
+\newcommand{\cls}[1]{\textit{#1}}          % outcome classes
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\pp}{\,pp}
+\newcommand{\ci}[2]{[$#1$,\,$#2$]}         % a 95% interval; math mode turns
+                                           % "-2.9" into a true minus sign
+\newcommand{\model}{\texttt{gemini-2.5-flash}}
+
+% ---- Layout -----------------------------------------------------------
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}   % tabularx, ragged
+\setlist{itemsep=2pt,topsep=4pt}
+
+% Verbatim prompt wording (arms, placements, C1): monospace cannot hyphenate,
+% so set it small and ragged-right to keep long lines inside the text block.
+\newenvironment{prompttext}%
+  {\begin{quote}\footnotesize\ttfamily\raggedright}%
+  {\end{quote}}
+
+% Float placement: the preprint layout's text block is narrow (390pt) and
+% tall tables otherwise drift to the end of the document.
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{5}

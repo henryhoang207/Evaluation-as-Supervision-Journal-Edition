@@ -1,0 +1,141 @@
+% =====================================================================
+\section{The system under study}
+\label{sec:system}
+% Condensed from the conference version (hoang2026eas), rewritten rather than
+% reused. Code: backend/app/core/supervision.py, graph.py; agents in
+% backend/app/agents/. Do not copy prose from ../main.tex.
+% =====================================================================
+
+The system is the review-analysis pipeline and runtime supervisor of the
+conference version of this work~\citep{hoang2026eas}. We describe here only what
+the study manipulates or measures. Neither the pipeline nor the supervisor was
+changed for the study.
+
+\subsection{A staged pipeline}
+\label{sec:system-pipeline}
+
+The pipeline analyses the reviews of one business in four stages. Each stage is
+an LLM agent whose output must validate against a typed contract.
+\emph{Analysis} reads the raw reviews and labels each one with an overall
+sentiment and a set of aspects drawn from a fixed seven-category taxonomy,
+each with its own polarity. \emph{Reasoning} groups these labels into
+\emph{patterns}, each consisting of an aspect, a description, a frequency and
+a non-empty list of review identifiers cited as evidence. It also proposes
+\emph{root causes} that link a pattern to an explanation. \emph{Strategy} turns
+patterns and root causes into prioritised recommendations, each consisting of
+an issue, an action and an expected impact. \emph{Report} composes the
+document a user reads. It restates root causes and recommendations, together
+with the business's name and the sample size, which the pipeline supplies as
+trusted values.
+
+The pipeline is \emph{closed}. Apart from analysis, which alone reads the raw
+reviews, every stage reads only outputs that earlier stages produced in the
+same run. No stage has a scratchpad, a retrieval call, a tool or a memory of
+earlier runs. Closure gives every claim a checkable provenance. A claim in a
+stage's output either derives from upstream outputs or was introduced by that
+stage, because information has no other way in. Groundedness is therefore
+decidable by consistency checking against upstream state, with no labels and no
+second model. We call this the \emph{derivability} property. It licenses
+detecting the absence of provenance, not falsity: an output can be faithfully
+derived from an upstream error.
+
+\subsection{The supervisor: measure, then decide}
+\label{sec:system-supervisor}
+
+Control passes through a single orchestrator node after every stage. The
+orchestrator calls two deterministic functions. \code{measure()} computes facts
+about the stage's output relative to upstream state and applies no thresholds.
+\code{decide()} maps those facts to one of four verdicts by fixed rules:
+\verdict{proceed}, \verdict{proceed\_with\_warning}, \verdict{retry} or
+\verdict{halt}. Table~\ref{tab:checks} lists the checks. The supervisor makes no
+model call. Its verdicts are reproducible, cost nothing at the margin, and can
+be recomputed offline from stored facts, which is what makes the replays and
+re-scorings in this study possible.
+
+\begin{table}[tbp]
+\centering
+\caption{The supervisor's checks at the three stages the study injects into.
+Each check resolves against upstream state only. An analysis-stage check
+(contradiction between a review's star rating and its predicted sentiment)
+exists but is not exercised here.}
+\label{tab:checks}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}l Y L{2.9cm} l@{}}
+\toprule
+Stage & Measured fact & Check class & Verdict \\
+\midrule
+Reasoning & a cited evidence identifier does not resolve to any analysed
+  review & unresolvable evidence id & \verdict{retry} \\
+ & a cited review does not mention the pattern's aspect & misaligned aspect &
+  \verdict{retry} \\
+ & the claimed frequency differs from the recomputed one by more than 0.05 &
+  frequency divergence & warning \\
+Strategy & a recommendation's issue has character-level similarity below
+  0.35 to every upstream pattern and root cause & untraceable recommendation &
+  \verdict{retry} \\
+Report & a root cause or recommendation is absent from the upstream outputs &
+  report containment & \verdict{retry} \\
+ & the business name or sample size differs from the trusted values &
+  trusted metadata & \verdict{retry} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+A retry re-runs the stage. The retry cap is applied to the verdict, not inside
+the checks. Once a stage has been retried twice, a further \verdict{retry}
+becomes \verdict{halt} at the analysis, reasoning and report stages, and
+\verdict{proceed\_with\_warning} at strategy, which is the one non-critical
+stage. Each stage therefore runs at most three times, and the run's length is
+bounded by the routing function rather than by the agents eventually
+succeeding.
+
+\subsection{Retry feedback}
+\label{sec:system-feedback}
+
+On a retry, the measured fact that triggered the verdict is written into the
+re-run stage's prompt. The production template, which is arm \arm{A1} of this
+study, reads in full:
+
+\begin{prompttext}
+A deterministic quality check rejected your previous answer to this task:\\[2pt]
+\{feedback\}\\[2pt]
+Produce a corrected answer that fixes exactly these issues. Return only valid
+JSON.
+\end{prompttext}
+
+\noindent Here \code{\{feedback\}} is the supervisor's own measurement. For an
+\op{O1} defect from the study it read: \emph{``your previous output cited
+unverifiable evidence. pattern `A recurring concern among customers is that the
+prices are t': evidence ids not found in the analysis output:
+[`6JsbAclWpameErN3DEiFA']''}. That message names the check, the offending item
+and the measured value. It does not say what the correct value is. The
+production retry appends this message to the stage's original prompt. It does
+not include the previous output, so production retries at placement \arm{P0}
+in the terms of Section~\ref{sec:design-arms}. Schema validation failures use
+the same channel with the validator's error message. The two layers share one
+mechanism and differ only in their payload.
+
+\subsection{Recompute-and-overwrite}
+\label{sec:system-overwrite}
+
+One fact is corrected rather than retried. A pattern's frequency is the share of
+analysed reviews that express its aspect negatively. The model is asked to
+state it, but the supervisor can compute it exactly from the analysis output.
+The supervisor therefore overwrites the claimed value on every accepted
+reasoning output. It warns when the divergence exceeded 0.05, so the
+discrepancy stays on record, and never retries. The conference version stated
+the principle behind this design (a quantity the checker can compute should not
+be asked of the model) but had no counterfactual for it. RQ5 supplies one.
+
+\subsection{Why the pipeline is also a fault-injection testbed}
+\label{sec:system-testbed}
+
+The property that makes verification free also makes the pipeline replayable.
+Because each stage's input consists entirely of earlier outputs, a stored run
+fixes every stage's input exactly. A stage can be re-executed in isolation from
+the stored state, a corrupted output can be substituted for a clean one, and
+the supervisor can re-measure the result without re-running anything upstream.
+The study uses this in three ways. It injects defects into stored clean
+outputs; it replays real defects, after first checking that each replay
+reproduces the recorded retry exactly; and it re-runs only the stages
+downstream of a repaired output.

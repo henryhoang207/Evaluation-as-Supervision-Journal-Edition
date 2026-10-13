@@ -1,0 +1,138 @@
+% =====================================================================
+\section{Introduction}
+\label{sec:intro}
+% =====================================================================
+
+Large language models (LLMs) are increasingly composed into multi-stage
+pipelines in which each stage is an agent with a typed output contract, and
+those pipelines are shipped as software components. Structured-output tooling
+has made the components reliably \emph{well-formed}, but well-formed is not
+grounded. An evidence identifier can be syntactically perfect and point at
+nothing. A recommendation can validate against its schema and have no
+connection to anything an earlier stage found. A report can restate content
+that no stage produced. Each of these passes every check the type system
+offers. Catching such defects while the pipeline runs, and doing something
+about them, is a verification problem in the ordinary software-engineering
+sense: a component's output must be checked against a specification that its
+types do not capture~\citep{leucker2009rv}.
+
+In the conference version of this work~\citep{hoang2026eas}, we built such a
+check into a four-stage pipeline that analyses restaurant reviews. Every stage
+reads only what earlier stages produced in the same run, so every claim a stage
+makes can be checked against upstream state alone. A deterministic supervisor
+measures each stage's output, decides by fixed rules whether to proceed, warn,
+retry or halt, and on a retry writes the measured failure into the prompt of
+the stage being re-run. It makes no model call of its own. That study measured
+how often an unsupervised pipeline emits ungrounded content. It could not
+measure whether the retry \emph{repairs} it: its enforcing arm produced a single
+retry. Repair is the property that determines whether such a supervisor is
+worth building, because a runtime check that detects defects but cannot get
+them fixed only halts the pipeline.
+
+Whether measured feedback repairs is genuinely contested, and the two relevant
+literatures disagree in a way an experiment can settle. One holds that feedback
+\emph{content} is the active ingredient. In code repair, better feedback
+produces better repairs. On 40 failing programs, human-written explanations
+raised the share of successful repairs from 33.3\% to 52.6\% over model-written
+ones~\citep{olausson2024selfrepair}. Models that cannot find their own reasoning
+errors can correct many of them once the location is
+supplied~\citep{tyen2024}. The other holds
+that the \emph{signal} that something is wrong does most of the work. A bare
+continuation cue closes most of the gap between how models correct others'
+errors and their own~\citep{tsui2026scbench}. In self-debugging, the least
+informative feedback condition recovers much of the gain of the most
+informative one when execution still decides whether a revision is
+needed~\citep{chen2024selfdebug}. A deterministic supervisor's feedback sits at
+the informative extreme. It names the offending item and the measured fact.
+If content binds, measured-fact feedback should repair more defects than a
+rejection that says nothing. If the signal is what matters, the two should
+repair alike.
+
+We test this in a pre-registered fault-injection study. Six operators corrupt
+clean stage outputs taken from 28 real pipeline runs, giving 142 defects, each
+designed to trip exactly one supervisor check. Each defective stage is re-run
+through its production agent under four arms: the production measured-fact
+feedback; the same message with the facts removed; the defect presented as a
+fresh correction task, which serves as a capability ceiling; and a bare
+regeneration. The single confirmatory test, fixed with the arm wording, the
+outcome coding and the analysis before any trial ran, compares the first two.
+Around the confirmatory core of 1{,}167 trials, seven exploratory cells vary
+where the defective output appears, the sampling temperature, the extent of
+the defect and whether the stage's obligations are restated. They also replay
+13 real defects that the production supervisor caught, follow every defect into
+the later stages, and measure what the supervisor's deterministic overwrite of
+one statistic buys over a retry.
+
+The findings are these:
+\begin{itemize}
+\item \textbf{Feedback content does not change repair.} Measured-fact feedback
+  repaired 94.7\% of defects and the contentless rejection 94.0\%. The difference
+  is +0.7 percentage points, with a 95\% interval of $-2.9$ to $+4.3$, and the
+  exact McNemar test gives $p=0.75$. The null survives every pre-specified
+  sensitivity analysis. \CSEVEN{whether it replicates on the second model}
+\item \textbf{Repair is copy-and-correct.} Shown its defective output, the model
+  returns the clean pre-injection output byte for byte in about two-thirds of
+  measured-feedback retries, and does so equally at temperature~1. A fresh draw
+  at temperature~1 that never sees the defect never does. The defects are easy to undo for a model that can see
+  them, so the experiment measures feedback content at a ceiling.
+\item \textbf{Real defects are not injected defects.} The production retry is
+  accepted for 28.2\% of the real, production-caught defects, against 98.5\% of
+  injected ones under the same criterion. Most real defects are false positives
+  of the supervisor's own lexical trace check, which a retry cannot fix.
+\item \textbf{Repair is not pipeline improvement.} Unrepaired defects propagate
+  silently: downstream checks accept them about as often as clean runs. One check
+  even rewards propagation, because it verifies fidelity to upstream rather than
+  correctness. Repair removes the planted content but leaves the final report
+  measurably different from the clean one.
+\item \textbf{The overwrite is a cost decision.} A retry repairs a divergent
+  statistic in 69 of 69 trials. Overwriting it is equally correct and costs no
+  call.
+\end{itemize}
+
+\noindent Section~\ref{sec:design-rq} states the research questions RQ1--RQ6.
+This paper makes five contributions:
+\begin{enumerate}
+\item A pre-registered, deterministic fault-injection protocol for staged LLM
+  pipelines. It comprises operators that each target one check, validity gates
+  that run before any model call, scoring by replacement value that counts
+  deletion as evasion, and arms matched within a single serving session. The
+  code, data and the frozen pre-registration are released (see Data
+  availability).
+\item To our knowledge, the first controlled measurement of repair under
+  deterministic measured-fact feedback against a contentless rejection, with
+  defect identity held fixed: a null at the ceiling, bounded to within about
+  4 percentage points.
+\item A mechanism for the ceiling (copy-and-correct of the shown artifact),
+  together with its boundary conditions in placement, temperature, severity and
+  constraint disclosure, and the practical consequence. Showing the artifact
+  leaves repair unchanged but cuts collateral damage from 38\% of retries to
+  1\%.
+\item Evidence that injected and real defects respond to the same retry very
+  differently, even when every real defect fires a check that an operator
+  targets. This makes concrete, for LLM pipelines, the question that
+  \citet{just2014mutants} left open for program repair: whether repair measured
+  on synthetic faults transfers to real ones.
+\item Pipeline-level evidence that stage-local verification inherits upstream
+  errors, plus calibration data for the supervisor's thresholds.
+\end{enumerate}
+
+\paragraph{Relation to the conference version}
+\label{sec:intro-extension}
+\TODO{Extension declaration -- author decision 2 in JOURNAL\_PAPER\_PLAN.md
+section 2. Conference paper \#1 is under review; decide whether to submit
+before or after its decision, then finalise this paragraph and the
+\code{hoang2026eas} entry. Draft follows.}
+This article extends \citet{hoang2026eas}, which introduced the supervisor, the
+derivability property and the measurements of defect incidence and instability.
+Section~\ref{sec:system} summarises that system in new text. Everything from
+Section~\ref{sec:design} onwards is new: the pre-registered repair study, every
+trial, the real-defect replay, the downstream-propagation analysis and the
+calibration. Section~\ref{sec:discussion-reconcile} lists the points at which
+the new results revise claims made in the conference version.
+
+The rest of the paper is organised as follows. Section~\ref{sec:related}
+positions the study. Section~\ref{sec:system} describes the system and
+Section~\ref{sec:design} the study design. Section~\ref{sec:results} reports
+the results by research question. Section~\ref{sec:discussion} discusses what
+they mean for building runtime supervisors, Section~\ref{sec:threats} the
+threats to validity, and Section~\ref{sec:conclusion} concludes.

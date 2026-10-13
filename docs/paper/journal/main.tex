@@ -1,0 +1,116 @@
+% =====================================================================
+%  Journal extension of "Evaluation as Supervision" -- target: Journal of
+%  Systems and Software (Elsevier), regular paper. Author's venue decision,
+%  2026-10-08 (docs/paper/JOURNAL_PAPER_PLAN.md section 1).
+%
+%  Build:   latexmk -pdf main.tex        (from docs/paper/journal/)
+%
+%  Every number in this paper comes from docs/paper/RESULTS.md or from the
+%  committed analysis outputs it names (backend/out_study/*/analysis.json,
+%  backend/out_study/secondary_extra.json). The design and every deviation
+%  from it come from docs/paper/PREREGISTRATION.md (frozen at the annotated
+%  tag prereg-freeze; amendments section 0.1 A1-A9).
+%
+%  Placeholders:  \CSEVEN{...}  second-model (C7) material, pending the run
+%                 \TODO{...}    open author decisions and pre-submission items
+%  grep for both before submission; README.md lists them.
+%
+%  Do NOT edit ../main.tex -- that is conference paper #1, under review.
+% =====================================================================
+\documentclass[preprint,12pt,authoryear]{elsarticle}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage[section]{placeins}   % keep floats inside their own section
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,backgrounds,shapes.misc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{lineno}
+\usepackage[hidelinks,breaklinks]{hyperref}
+
+\input{macros}
+
+\journal{Journal of Systems and Software}
+
+\begin{document}
+
+\begin{frontmatter}
+
+% Working title; alternative kept for the author's choice:
+%   "Evaluation as Supervision, Revisited: Repair, Propagation and the Limits
+%    of Local Verification in a Multi-Agent LLM Pipeline"
+\title{Does Measured Feedback Repair Defects in LLM Pipelines?\\
+A Pre-registered Fault-Injection Study of Deterministic Runtime Supervision}
+
+% ---------------------------------------------------------------------
+% TODO (D5, JOURNAL_PAPER_PLAN section 2 item 1): the journal author list is
+% an open author decision. The block below is the conference #1 list, kept as
+% the default until the author decides. JSS: single-anonymised review, so
+% names appear in the submission. The corresponding author's affiliation
+% alone decides CAUL open-access eligibility (APC waived for a Swinburne
+% University of Technology affiliation, institutional email required).
+% ---------------------------------------------------------------------
+\author[swin]{Huu Hoan Hoang\corref{cor1}}
+\ead{105732188@student.swin.edu.au}
+\author[swin]{Ho Quang Dung Pham}
+\author[swin]{Manh Duc Tran}
+\author[swin]{Nam Khanh Nguyen}
+\author[swin]{Manh Toan Nguyen}
+\cortext[cor1]{Corresponding author.}
+\affiliation[swin]{organization={Swinburne Vietnam, FPT University},
+                   city={Hanoi},
+                   country={Vietnam}}
+
+\begin{abstract}
+\input{sections/00-abstract}
+\end{abstract}
+
+\begin{keyword}
+large language models \sep
+runtime verification \sep
+fault injection \sep
+self-correction \sep
+multi-agent systems \sep
+pre-registration
+\end{keyword}
+
+\end{frontmatter}
+
+\TODO{Draft of 2026-10-08. Open before submission: author list and
+corresponding author (D5); the conference-version declaration and its timing
+(Section~\ref{sec:intro-extension}); data availability; the Tier-C citations
+marked in Section~\ref{sec:related}; the generative-AI declaration; and every
+\textsf{[C7]} placeholder, which waits on the second-model run.}
+
+\linenumbers
+
+\input{sections/01-introduction}
+\input{sections/02-related-work}
+\input{sections/03-system}
+\input{sections/04-design}
+\input{sections/05-results}
+\input{sections/06-discussion}
+\input{sections/07-threats}
+\input{sections/08-conclusion}
+
+\nolinenumbers
+\input{sections/declarations}
+
+\bibliographystyle{elsarticle-harv}
+\bibliography{references}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

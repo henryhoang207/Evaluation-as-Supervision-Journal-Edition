@@ -1,0 +1,92 @@
+% =====================================================================
+\section{Arm and placement wording}
+\label{app:wording}
+% Verbatim from backend/scripts/arms.py (AUTHORED_WORDING, frozen 2026-08-25;
+% C1 wording added by prereg amendment A1, 2026-09-20) and from
+% backend/app/agents/base_agent.py (_SUPERVISOR_FEEDBACK_PROMPT, the
+% production template). Print them with:  python scripts/arms.py
+% =====================================================================
+
+Every trial starts from the production prompt of the stage being re-run: its
+system and user turns, exactly as production builds them. Arms and placements
+only \emph{append} turns. Table~\ref{tab:messages} gives the turns each cell
+appends, in order, and the wording follows. \code{\{output\}} is the defective
+stage output as JSON. \code{\{feedback\}} is the supervisor's measured fact
+(Section~\ref{sec:system-feedback}).
+
+\begin{table}[htbp]
+\centering
+\caption{Turns appended to the production stage prompt, per arm and placement.
+``--'' marks the two structurally undefined cells.}
+\label{tab:messages}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}l Y Y Y@{}}
+\toprule
+& \arm{P0} & \arm{P1} & \arm{P2} (\arm{P3}) \\
+\midrule
+\arm{A0} & -- & user: A0 preamble + output & user: A0 preamble; assistant:
+  output (user: marker) \\
+\arm{A1} & user: A1 feedback & user: framing + output; user: A1 feedback &
+  assistant: output (user: marker); user: A1 feedback \\
+\arm{A2} & user: A2 rejection & user: framing + output; user: A2 rejection &
+  assistant: output (user: marker); user: A2 rejection \\
+\arm{A3} & nothing & -- & -- \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{\arm{A1}: the production feedback template}
+\begin{prompttext}
+A deterministic quality check rejected your previous answer to this task:\\[2pt]
+\{feedback\}\\[2pt]
+Produce a corrected answer that fixes exactly these issues. Return only valid
+JSON.
+\end{prompttext}
+
+\paragraph{\arm{A2}: the contentless rejection}
+\begin{prompttext}
+A deterministic quality check rejected your previous answer to this task.\\[2pt]
+Produce a corrected answer. Return only valid JSON.
+\end{prompttext}
+
+\paragraph{\arm{A0}: the correction-task preamble}
+\begin{prompttext}
+Below is a draft answer to this task. Review it and produce the best answer you
+can to the original task. Return only valid JSON.
+\end{prompttext}
+
+\paragraph{\arm{P1}: the framing of the artifact (arms \arm{A1}, \arm{A2})}
+\begin{prompttext}
+Your previous answer to this task was:\\[2pt]
+\{output\}
+\end{prompttext}
+
+\paragraph{\arm{P3}: the correction marker}
+\begin{prompttext}
+The answer above contains an error.
+\end{prompttext}
+
+\paragraph{C1: the stage obligations restated at retry time}
+Spliced into the stage prompt ahead of its closing output instruction; C0 is
+the unmodified production prompt.
+\begin{prompttext}
+Your answer must satisfy all of the following requirements:
+\end{prompttext}
+followed by the obligations of the stage being retried:
+\begin{description}[leftmargin=1.2em,style=nextline,font=\normalfont\itshape,
+                   before=\footnotesize\raggedright]
+\item[Reasoning] \texttt{- Every id in evidence\_review\_ids must be the
+  review\_id of a review present in the analysed reviews you were given.}\\
+  \texttt{- Every review cited as evidence for a pattern must itself mention
+  that pattern's aspect.}
+\item[Strategy] \texttt{- Every recommendation's issue must trace back to one of
+  the reasoning patterns or root causes you were given.}
+\item[Report] \texttt{- The report must only restate the upstream outputs you
+  were given. Do not introduce a root cause or a recommendation that is not
+  present upstream.}\\
+  \texttt{- business\_name and sample\_size must match the values supplied with
+  the task, not values inferred from the text.}
+\end{description}
+\noindent The frequency obligation is deliberately absent. That check resolves
+to a warning, never to a retry, so it never reaches an \arm{A1} feedback string,
+and stating it would give C1 information that \arm{A1} does not have.

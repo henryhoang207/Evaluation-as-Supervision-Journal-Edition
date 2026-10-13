@@ -1,0 +1,431 @@
+% =====================================================================
+%  JOURNAL bibliography (docs/paper/journal/references.bib).
+%
+%  Started 2026-10-08 as a copy of the conference ../references.bib.
+%
+%  CITATION CHECK, 2026-10-09 (full report: CITATION_CHECK.md). Every entry
+%  below that the draft cites was checked field by field against an
+%  independent source: Crossref (DOI records), the arXiv API, the venue's own
+%  proceedings page (PMLR, ACL Anthology, ICLR), or the paper's own PDF. Where
+%  a preprint has since been published, the entry now cites the version of
+%  record, as the JSS guide for authors asks. Authors' preprints that are still
+%  unpublished carry the word "preprint" and the arXiv DOI.
+%
+%  Removed 2026-10-09 because only the conference paper cites them (restore
+%  from ../references.bib if a later section needs one): semeval2014,
+%  simmering2023, wu2024absa, niimi2024, cot, react, malik2024, sokolova2009,
+%  zhang2015.
+%
+%  Re-run the check (and re-check the three preprints for a published
+%  version) immediately before submission.
+% =====================================================================
+
+% ---- Multi-agent LLM systems ----------------------------------------
+% COLM 2024 version. Title and author list from the camera-ready PDF
+% ("Published as a conference paper at COLM 2024"); its title ends in
+% "Conversations", the arXiv title in "Conversation".
+@inproceedings{autogen,
+  author    = {Wu, Qingyun and Bansal, Gagan and Zhang, Jieyu and Wu, Yiran and
+               Li, Beibin and Zhu, Erkang and Jiang, Li and Zhang, Xiaoyun and
+               Zhang, Shaokun and Liu, Jiale and Awadallah, Ahmed Hassan and
+               White, Ryen W. and Burger, Doug and Wang, Chi},
+  title     = {{AutoGen}: Enabling Next-Gen {LLM} Applications via Multi-Agent
+               Conversations},
+  booktitle = {First Conference on Language Modeling (COLM)},
+  year      = {2024},
+  eprint    = {2308.08155},
+}
+
+% ICLR 2024 (oral). Confirmed on the ICLR 2024 proceedings page.
+@inproceedings{metagpt,
+  author    = {Hong, Sirui and Zhuge, Mingchen and Chen, Jonathan and
+               Zheng, Xiawu and Cheng, Yuheng and Zhang, Ceyao and
+               Wang, Jinlin and Wang, Zili and Yau, Steven Ka Shing and
+               Lin, Zijuan and Zhou, Liyang and Ran, Chenyu and Xiao, Lingfeng
+               and Wu, Chenglin and Schmidhuber, J{\"u}rgen},
+  title     = {{MetaGPT}: Meta Programming for a Multi-Agent Collaborative
+               Framework},
+  booktitle = {The Twelfth International Conference on Learning Representations},
+  year      = {2024},
+  eprint    = {2308.00352},
+}
+
+% Crossref 10.52202/075280-2264 (NeurIPS 2023 proceedings).
+@inproceedings{camel,
+  author    = {Li, Guohao and Hammoud, Hasan Abed Al Kader and Itani, Hani and
+               Khizbullin, Dmitrii and Ghanem, Bernard},
+  title     = {{CAMEL}: Communicative Agents for ``Mind'' Exploration of Large
+               Language Model Society},
+  booktitle = {Advances in Neural Information Processing Systems 36},
+  pages     = {51991--52008},
+  year      = {2023},
+  doi       = {10.52202/075280-2264},
+}
+
+% Crossref 10.18653/v1/2024.acl-long.810.
+@inproceedings{chatdev,
+  author    = {Qian, Chen and Liu, Wei and Liu, Hongzhang and Chen, Nuo and
+               Dang, Yufan and Li, Jiahao and Yang, Cheng and Chen, Weize and
+               Su, Yusheng and Cong, Xin and Xu, Juyuan and Li, Dahai and
+               Liu, Zhiyuan and Sun, Maosong},
+  title     = {{ChatDev}: Communicative Agents for Software Development},
+  booktitle = {Proceedings of the 62nd Annual Meeting of the Association for
+               Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {15174--15186},
+  year      = {2024},
+  doi       = {10.18653/v1/2024.acl-long.810},
+}
+
+% Published at IJCAI 2024 (Crossref 10.24963/ijcai.2024/890); the earlier
+% entry cited the arXiv preprint.
+@inproceedings{guo2024survey,
+  author    = {Guo, Taicheng and Chen, Xiuying and Wang, Yaqi and Chang, Ruidi and
+               Pei, Shichao and Chawla, Nitesh V. and Wiest, Olaf and
+               Zhang, Xiangliang},
+  title     = {Large Language Model Based Multi-Agents: A Survey of Progress and
+               Challenges},
+  booktitle = {Proceedings of the Thirty-Third International Joint Conference on
+               Artificial Intelligence (IJCAI-24)},
+  pages     = {8048--8057},
+  year      = {2024},
+  doi       = {10.24963/ijcai.2024/890},
+}
+
+% ---- Self-correction and repair from feedback ---------------------------
+% Crossref 10.52202/075280-2019.
+@inproceedings{selfrefine,
+  author    = {Madaan, Aman and Tandon, Niket and Gupta, Prakhar and
+               Hallinan, Skyler and Gao, Luyu and Wiegreffe, Sarah and
+               Alon, Uri and Dziri, Nouha and Prabhumoye, Shrimai and
+               Yang, Yiming and Gupta, Shashank and Majumder, Bodhisattwa Prasad
+               and Hermann, Katherine and Welleck, Sean and
+               Yazdanbakhsh, Amir and Clark, Peter},
+  title     = {Self-Refine: Iterative Refinement with Self-Feedback},
+  booktitle = {Advances in Neural Information Processing Systems 36},
+  pages     = {46534--46594},
+  year      = {2023},
+  doi       = {10.52202/075280-2019},
+}
+
+% Author list follows the NeurIPS 2023 proceedings (Crossref
+% 10.52202/075280-0377): five authors. The arXiv v4 list adds Edward Berman.
+@inproceedings{reflexion,
+  author    = {Shinn, Noah and Cassano, Federico and Gopinath, Ashwin and
+               Narasimhan, Karthik and Yao, Shunyu},
+  title     = {Reflexion: Language Agents with Verbal Reinforcement Learning},
+  booktitle = {Advances in Neural Information Processing Systems 36},
+  pages     = {8634--8652},
+  year      = {2023},
+  doi       = {10.52202/075280-0377},
+}
+
+% ICLR 2024 (the arXiv record's comment field says so).
+@inproceedings{critic,
+  author    = {Gou, Zhibin and Shao, Zhihong and Gong, Yeyun and Shen, Yelong and
+               Yang, Yujiu and Duan, Nan and Chen, Weizhu},
+  title     = {{CRITIC}: Large Language Models Can Self-Correct with
+               Tool-Interactive Critiquing},
+  booktitle = {The Twelfth International Conference on Learning Representations},
+  year      = {2024},
+  eprint    = {2305.11738},
+}
+
+% TACL version (Crossref 10.1162/tacl_a_00660, ACL Anthology 2024.tacl-1.27).
+% Its title differs from the arXiv title ("...Diverse Self-Correction
+% Strategies"), which the earlier entry carried.
+@article{pan2024survey,
+  author  = {Pan, Liangming and Saxon, Michael and Xu, Wenda and
+             Nathani, Deepak and Wang, Xinyi and Wang, William Yang},
+  title   = {Automatically Correcting Large Language Models: Surveying the
+             Landscape of Diverse Automated Correction Strategies},
+  journal = {Transactions of the Association for Computational Linguistics},
+  volume  = {12},
+  pages   = {484--506},
+  year    = {2024},
+  doi     = {10.1162/tacl_a_00660},
+}
+
+@inproceedings{olausson2024selfrepair,
+  author    = {Olausson, Theo X. and Inala, Jeevana Priya and Wang, Chenglong and
+               Gao, Jianfeng and Solar-Lezama, Armando},
+  title     = {Is Self-Repair a Silver Bullet for Code Generation?},
+  booktitle = {The Twelfth International Conference on Learning Representations},
+  year      = {2024},
+  eprint    = {2306.09896},
+}
+
+@inproceedings{huang2024cannot,
+  author    = {Huang, Jie and Chen, Xinyun and Mishra, Swaroop and
+               Zheng, Huaixiu Steven and Yu, Adams Wei and Song, Xinying and
+               Zhou, Denny},
+  title     = {Large Language Models Cannot Self-Correct Reasoning Yet},
+  booktitle = {The Twelfth International Conference on Learning Representations},
+  year      = {2024},
+  eprint    = {2310.01798},
+}
+
+@inproceedings{chen2024selfdebug,
+  author    = {Chen, Xinyun and Lin, Maxwell and Sch{\"a}rli, Nathanael and
+               Zhou, Denny},
+  title     = {Teaching Large Language Models to Self-Debug},
+  booktitle = {The Twelfth International Conference on Learning Representations},
+  year      = {2024},
+  eprint    = {2304.05128},
+}
+
+% Crossref 10.18653/v1/2024.findings-acl.826.
+@inproceedings{tyen2024,
+  author    = {Tyen, Gladys and Mansoor, Hassan and C{\u{a}}rbune, Victor and
+               Chen, Peter and Mak, Tony},
+  title     = {{LLMs} Cannot Find Reasoning Errors, but Can Correct Them Given the
+               Error Location},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL
+               2024},
+  pages     = {13894--13908},
+  year      = {2024},
+  doi       = {10.18653/v1/2024.findings-acl.826},
+}
+
+@article{kamoi2024,
+  author  = {Kamoi, Ryo and Zhang, Yusen and Zhang, Nan and Han, Jiawei and
+             Zhang, Rui},
+  title   = {When Can {LLMs} Actually Correct Their Own Mistakes? {A} Critical
+             Survey of Self-Correction of {LLMs}},
+  journal = {Transactions of the Association for Computational Linguistics},
+  volume  = {12},
+  pages   = {1417--1440},
+  year    = {2024},
+  doi     = {10.1162/tacl_a_00713},
+}
+
+% COLM 2026: the PDF reads "Published as a conference paper at COLM 2026" and
+% the arXiv comment says "Accepted to COLM 2026". No proceedings ordinal given.
+@inproceedings{tsui2026scbench,
+  author    = {Tsui, Ken},
+  title     = {Self-Correction Bench: Uncovering and Addressing the
+               Self-Correction Blind Spot in Large Language Models},
+  booktitle = {Conference on Language Modeling (COLM)},
+  year      = {2026},
+  eprint    = {2507.02778},
+}
+
+% Title from the PDF's first page (arXiv v2, 31 July 2026). The local file name
+% ("... LLMs Correct Others but Not Themselves") is NOT the title. Unrefereed:
+% no published version found in Crossref or the arXiv record on 2026-10-09.
+@misc{chen2026rolerelabel,
+  author       = {Chen, Kuan-Yen and Su, Fang-Yi and Lin, Shih-Yen and Li, Bao and
+                  Chiang, Jung-Hsien},
+  title        = {The Self-Correction Illusion: Role Relabeling Gates Explicit
+                  Error Flagging in Large Language Models},
+  howpublished = {arXiv preprint (version 2)},
+  year         = {2026},
+  doi          = {10.48550/arXiv.2606.05976},
+}
+
+% Crossref 10.18653/v1/2023.acl-long.45.
+@inproceedings{zhang2023selfedit,
+  author    = {Zhang, Kechi and Li, Zhuo and Li, Jia and Li, Ge and Jin, Zhi},
+  title     = {Self-Edit: Fault-Aware Code Editor for Code Generation},
+  booktitle = {Proceedings of the 61st Annual Meeting of the Association for
+               Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {769--787},
+  year      = {2023},
+  doi       = {10.18653/v1/2023.acl-long.45},
+}
+
+% Single-author preprint, no venue found on 2026-10-09 (arXiv record and
+% Crossref). Cite for curve shape and the serving-determinism observation only,
+% never for point estimates.
+@misc{arimbur2026,
+  author       = {Arimbur, Johin Johny},
+  title        = {How Many Tries Does It Take? Iterative Self-Repair in {LLM} Code
+                  Generation Across Model Scales and Benchmarks},
+  howpublished = {arXiv preprint},
+  year         = {2026},
+  doi          = {10.48550/arXiv.2604.10508},
+}
+
+% ---- LLM-as-judge and its biases ------------------------------------
+% Crossref 10.18653/v1/2023.emnlp-main.153.
+@inproceedings{geval,
+  author    = {Liu, Yang and Iter, Dan and Xu, Yichong and Wang, Shuohang and
+               Xu, Ruochen and Zhu, Chenguang},
+  title     = {{G-Eval}: {NLG} Evaluation using {GPT-4} with Better Human
+               Alignment},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in
+               Natural Language Processing},
+  pages     = {2511--2522},
+  year      = {2023},
+  doi       = {10.18653/v1/2023.emnlp-main.153},
+}
+
+% Datasets and Benchmarks Track; Crossref 10.52202/075280-2020.
+@inproceedings{mtbench,
+  author    = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and
+               Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and
+               Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and
+               Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
+  title     = {Judging {LLM}-as-a-Judge with {MT-Bench} and Chatbot Arena},
+  booktitle = {Advances in Neural Information Processing Systems 36},
+  pages     = {46595--46623},
+  year      = {2023},
+  doi       = {10.52202/075280-2020},
+}
+
+% Published at ACL 2024 (Crossref 10.18653/v1/2024.acl-long.511) with eleven
+% authors; the earlier entry cited the ten-author arXiv v2 preprint.
+@inproceedings{positionbias,
+  author    = {Wang, Peiyi and Li, Lei and Chen, Liang and Cai, Zefan and
+               Zhu, Dawei and Lin, Binghuai and Cao, Yunbo and Kong, Lingpeng and
+               Liu, Qi and Liu, Tianyu and Sui, Zhifang},
+  title     = {Large Language Models are not Fair Evaluators},
+  booktitle = {Proceedings of the 62nd Annual Meeting of the Association for
+               Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {9440--9450},
+  year      = {2024},
+  doi       = {10.18653/v1/2024.acl-long.511},
+}
+
+% Published at NeurIPS 2024 (Crossref 10.52202/079017-2197); the earlier entry
+% cited the arXiv preprint.
+@inproceedings{selfpreference,
+  author    = {Panickssery, Arjun and Bowman, Samuel R. and Feng, Shi},
+  title     = {{LLM} Evaluators Recognize and Favor Their Own Generations},
+  booktitle = {Advances in Neural Information Processing Systems 37},
+  pages     = {68772--68802},
+  year      = {2024},
+  doi       = {10.52202/079017-2197},
+}
+
+% ---- Fault injection and failure analysis in multi-agent LLM systems ----
+% DOI from the ACM camera-ready apparatus printed in the PDF (ASE '26,
+% Munich); pages from Crossref.
+@inproceedings{tan2026agentchaos,
+  author    = {Tan, Gou and Sun, Zhensu and Shi, Jieke and Zhang, Ting and
+               He, Zilong and Wu, Qingfu and Liang, Shuai and Sun, Weifeng and
+               He, Junda and Chen, Pengfei and Zhang, Chuanfu and
+               Shar, Lwin Khin and Lo, David},
+  title     = {{AgentChaos}: Chaos Engineering for Agent Systems via Programmatic
+               Fault Injection},
+  booktitle = {Proceedings of the 41st IEEE/ACM International Conference on
+               Automated Software Engineering (ASE)},
+  pages     = {1780--1792},
+  year      = {2026},
+  doi       = {10.1145/3832783.3837437},
+}
+
+% Submission preprint (ACM template placeholders in v1). No published version
+% found in Crossref, the arXiv record or a web search on 2026-10-09.
+@misc{jia2026masfire,
+  author       = {Jia, Jin and Deng, Zhiling and Chen, Zhuangbin and Wang, Yingqi and
+                  Zheng, Zibin},
+  title        = {{MAS-FIRE}: Fault Injection and Reliability Evaluation for
+                  {LLM}-Based Multi-Agent Systems},
+  howpublished = {arXiv preprint},
+  year         = {2026},
+  doi          = {10.48550/arXiv.2602.19843},
+}
+
+% Peer-reviewed despite the arXiv stamp: the PDF prints "Proceedings of the
+% 42nd International Conference on Machine Learning ... PMLR 267, 2025".
+% Pages and author names from the PMLR page (proceedings.mlr.press/v267/huang25ay).
+@inproceedings{huang2025resilience,
+  author    = {Huang, Jen-Tse and Zhou, Jiaxu and Jin, Tailin and Zhou, Xuhui and
+               Chen, Zixi and Wang, Wenxuan and Yuan, Youliang and
+               Lyu, Michael R. and Sap, Maarten},
+  title     = {On the Resilience of {LLM}-Based Multi-Agent Collaboration with
+               Faulty Agents},
+  booktitle = {Proceedings of the 42nd International Conference on Machine
+               Learning (ICML)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {267},
+  pages     = {26202--26226},
+  publisher = {PMLR},
+  year      = {2025},
+}
+
+% Crossref 10.52202/085713-4082 (NeurIPS 2025 proceedings).
+@inproceedings{cemri2025mast,
+  author    = {Cemri, Mert and Pan, Melissa Z. and Yang, Shuyi and
+               Agrawal, Lakshya A. and Chopra, Bhavya and Tiwari, Rishabh and
+               Keutzer, Kurt and Parameswaran, Aditya and Klein, Dan and
+               Ramchandran, Kannan and Zaharia, Matei and Gonzalez, Joseph E. and
+               Stoica, Ion},
+  title     = {Why Do Multi-Agent {LLM} Systems Fail?},
+  booktitle = {Advances in Neural Information Processing Systems 38},
+  pages     = {135676--135729},
+  year      = {2025},
+  doi       = {10.52202/085713-4082},
+}
+
+% ---- Software-engineering lineage ----------------------------------------
+% DOI printed in the PDF; pages from Crossref.
+@inproceedings{just2014mutants,
+  author    = {Just, Ren{\'e} and Jalali, Darioush and Inozemtseva, Laura and
+               Ernst, Michael D. and Holmes, Reid and Fraser, Gordon},
+  title     = {Are Mutants a Valid Substitute for Real Faults in Software
+               Testing?},
+  booktitle = {Proceedings of the 22nd ACM SIGSOFT International Symposium on
+               Foundations of Software Engineering (FSE)},
+  pages     = {654--665},
+  year      = {2014},
+  doi       = {10.1145/2635868.2635929},
+}
+
+% Verified against Crossref 2026-10-09 (title, authors, volume, issue, pages).
+@article{leucker2009rv,
+  author  = {Leucker, Martin and Schallhart, Christian},
+  title   = {A Brief Account of Runtime Verification},
+  journal = {The Journal of Logic and Algebraic Programming},
+  volume  = {78},
+  number  = {5},
+  pages   = {293--303},
+  year    = {2009},
+  doi     = {10.1016/j.jlap.2008.08.004},
+}
+
+% Verified against Crossref 2026-10-09 (title, authors, volume, issue, pages).
+@article{basiri2016chaos,
+  author  = {Basiri, Ali and Behnam, Niosha and de Rooij, Ruud and
+             Hochstein, Lorin and Kosewski, Luke and Reynolds, Justin and
+             Rosenthal, Casey},
+  title   = {Chaos Engineering},
+  journal = {IEEE Software},
+  volume  = {33},
+  number  = {3},
+  pages   = {35--41},
+  year    = {2016},
+  doi     = {10.1109/MS.2016.60},
+}
+
+% ---- Dataset ----------------------------------------------------------
+% JOURNAL: the conference copy's note ("Released for academic use; no
+% canonical peer-reviewed dataset paper -- see Zhang et al. (2015) for the
+% derived benchmark") is an internal remark and is kept here as a comment.
+% JSS wants data references marked [dataset] and web references to carry an
+% access date. The page was reached on 2026-10-09; the old address
+% https://www.yelp.com/dataset now redirects to the one below.
+% TODO: add the date the dataset FILES were downloaded to the data statement.
+@misc{yelpdataset,
+  author       = {{Yelp Inc.}},
+  title        = {Yelp Open Dataset},
+  howpublished = {\url{https://business.yelp.com/data/resources/open-dataset/}},
+  note         = {[dataset]. Accessed 9 October 2026},
+  year         = {2024}
+}
+
+% ---- The conference version of this work ------------------------------
+% TODO: update when conference paper #1 is decided (venue, pages, DOI). Until
+% then it is cited as a manuscript under review; see the extension
+% declaration in sections/01-introduction.tex. Title and author names checked
+% against ../main.tex on 2026-10-09. NOTE: Elsevier's guide discourages
+% references to unpublished results; if the entry stays, its date should read
+% "unpublished results" (see CITATION_CHECK.md).
+@unpublished{hoang2026eas,
+  author = {Hoang, Huu Hoan and Pham, Ho Quang Dung and Tran, Manh Duc and
+            Nguyen, Nam Khanh and Nguyen, Manh Toan},
+  title  = {Evaluation as Supervision: Deterministic Runtime Verification of
+            Claims in a Multi-Agent {LLM} Pipeline},
+  note   = {Manuscript under review},
+  year   = {2026},
+}

@@ -15,7 +15,7 @@ review. The journal paper is a new document.
 | Decision | State |
 |---|---|
 | Vehicle | ✅ **Journal only** — author, 2026-10-08. No conference split: the pre-registered split rule was not met, and `PUBLICATION_STRATEGY.md`'s null branch says journal, not split |
-| Venue | **EMSE (Empirical Software Engineering, Springer), regular track** — `JOURNAL_PLAN.md` D7 and §12: SE4AI, methodology-heavy, honest nulls rewarded; regular track because the open special issues are AI4SE. Alternatives in §12.4: JSS/IST (faster), **TMLR** (welcomes negative results; no impact factor) |
+| Venue | ✅ **JSS (Journal of Systems and Software, Elsevier), regular paper** — **author, 2026-10-08**, replacing EMSE. JSS's scope lists "Software Engineering for AI systems" and explicitly welcomes negative results; single-anonymised review; Elsevier `elsarticle` template, author–year references. **Open access is free for a Swinburne-affiliated corresponding author** under the CAUL–Elsevier agreement (hybrid journal, APC waived, uncapped; articles accepted 2026-01-01 → 2029-12-31; corresponding author must submit from an institutional email — confirmed in CAUL's title finder 2026-10-08). Fallback order: IST (Elsevier, also APC-waived), then EMSE (Springer, APC-waived under the CAUL–Springer agreement) |
 | Second model | C7 is the last experiment (`C7_RUNBOOK.md`). The paper should **wait for it** — D15 (one model) is the main threat to a null result |
 
 ## 2. Author decisions still open (each blocks a specific part)
@@ -23,10 +23,14 @@ review. The journal paper is a new document.
 1. **Authorship (D5).** Conference #1 lists five authors (Hoang, Pham, Tran,
    Nguyen, and the supervisor Dr. Nguyen Manh Toan). Decide the journal author
    list before the title page.
-2. **Extension declaration and timing.** EMSE requires declaring the conference
-   version and ≈ 30 % new material (comfortably met — the whole repair study is
-   new). Decide whether to submit before or after conference #1's decision;
-   `PUBLICATION_STRATEGY.md` §6 covers the dual-submission constraints.
+2. **Extension declaration and timing.** Declare the conference version and
+   cite it (≈ 30 % new material is comfortably met — the whole repair study is
+   new). JSS's submission declaration requires that the article is "not under
+   consideration for publication elsewhere"; the journal paper is a different
+   article, but its system description overlaps conference #1, which is still
+   under review. Decide whether to submit before or after conference #1's
+   decision; `PUBLICATION_STRATEGY.md` §6 covers the dual-submission
+   constraints. The draft carries a placeholder declaration in §1.
 3. **Conference #1 implications.** Two findings bear on the supervisor that
    paper describes (see §6 below). Q2 (2026-09-14) set the precedent: the
    matcher defect is a **journal finding**, not a note to the chairs. Confirm
@@ -38,16 +42,21 @@ review. The journal paper is a new document.
 
 ## 3. Template and build
 
-- EMSE uses the **Springer Nature LaTeX template** (`sn-jnl.cls`, the
-  "sn-article" template, author-year references). **It is not installed** — MiKTeX
-  has `llncs` but not `sn-jnl`, and it is not on CTAN. Download it from the
-  journal's submission guidelines into `docs/paper/journal/`.
-- Until then, draft on the standard `article` class so the content is
-  template-independent; porting is a preamble and front-matter swap.
-- `natbib` is **not installed** in MiKTeX. Install it deliberately from MiKTeX
-  Console (on-the-fly installation can open a GUI prompt that hangs a
-  background build), or use plain `\cite`.
-- Build: `latexmk -pdf` (MiKTeX `pdflatex`, `bibtex`, `latexmk` are present).
+- JSS uses Elsevier's **`elsarticle`** class with author–year references
+  (`elsarticle-harv.bst`). **Both are installed in MiKTeX, and so is `natbib`**
+  (checked 2026-10-08 with `kpsewhich`; this section's earlier "natbib is not
+  installed" was true for the EMSE plan's environment and is no longer).
+- JSS requirements (guide for authors, read 2026-10-08): abstract ≤ 250 words;
+  1–7 keywords; **highlights**, 3–5 bullets of ≤ 85 characters, as a separate
+  file named with "highlights"; full papers encouraged under 36 pages
+  single-column; numbered sections; CRediT statement; data statement (research
+  data Option C: deposit and cite, or explain); declaration of competing
+  interests; funding statement; and a **"Declaration of generative AI and
+  AI-assisted technologies in the manuscript preparation process"** section
+  before the references whenever AI tools were used — this draft was written
+  with Claude Code, so the section is mandatory.
+- Build: `latexmk -pdf main.tex` in `docs/paper/journal/` (MiKTeX `pdflatex`,
+  `bibtex`, `latexmk` are present).
 - Put the paper in **`docs/paper/journal/`**: `main.tex`, one file per section,
   and its own `references.bib` started as a copy of the conference one.
 
@@ -134,6 +143,11 @@ metadata going wrong **three times** from second-hand sourcing: take metadata
 from the papers themselves, and run **`/ars-citation-check`** before submission.
 
 ## 10. Suggested order for the writing session
+
+✅ **2026-10-09: steps 2–4 are done — a full first draft for JSS is in
+`journal/`** (see `journal/README.md` for the placeholder inventory and the
+pre-submission checklist). Still open: step 1's author decisions, step 5, and
+step 6 (C7).
 
 1. Settle §2's author decisions 1 and 2; download the template (§3).
 2. Outline (`/ars-outline` can produce an outline with an evidence map).

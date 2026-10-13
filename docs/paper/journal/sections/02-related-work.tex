@@ -1,0 +1,156 @@
+% =====================================================================
+\section{Background and related work}
+\label{sec:related}
+% Facts about cited papers come from the reading-list extractions in
+% ../Reading List/Tier_A/Tier_A_extraction.md and Tier_B/*.md, which were
+% read against the PDFs. Every number quoted here carries the denominator or
+% caveat those extractions flag. Tier-C papers (JOURNAL_PLAN section 2) were
+% not read; they appear only as TODO markers, never as citations.
+% =====================================================================
+
+\subsection{Verifying LLM pipeline outputs at run time}
+\label{sec:related-rv}
+
+Runtime verification checks a running system's behaviour against a
+specification as it executes~\citep{leucker2009rv}. For pipelines of LLM agents,
+the specification that matters most, that each output is grounded in what the
+stage was given, is not expressible in an output schema. Multi-agent frameworks
+divide a task among role-specialised language-model agents
+\citep{metagpt,camel,chatdev,autogen}, and some, AutoGen among them, route turns
+through a manager that is itself a language model. Efficient coordination of
+many agents is named as an open problem in that literature~\citep{guo2024survey}.
+Three kinds of check are available at run time.
+
+\emph{A language model as judge}~\citep{geval,mtbench} can assess any output,
+but its verdicts depend on the order in which candidates are
+presented~\citep{positionbias} and favour its own
+generations~\citep{selfpreference}. Placed in the control path, it makes the
+component that detects ungrounded generation a generator itself.
+\emph{External tools} can verify a claim against a resource outside the system,
+and critique grounded in such tools corrects outputs better than
+introspection~\citep{critic}. This requires that a trusted resource exists and
+can be called for every check. \emph{Deterministic checks over the pipeline's
+own state}, the approach of our supervisor~\citep{hoang2026eas}, need neither a
+model nor an external resource. In exchange they detect only missing
+provenance, not falsity. The case for determinism is strengthened by how poorly
+faults are diagnosed after the fact. On injected faults in agent systems,
+neither rule-based nor LLM-based diagnosis identified the fault's type or step
+with more than 56\% accuracy~\citep{tan2026agentchaos}. A supervisor whose
+checks fire on a known class at a known location has that information by
+construction.
+\TODO{Tier-C runtime-enforcement work (AgentSpec, ICSE 2026; ``Reason Less,
+Verify More'', arXiv 2607.07405) belongs here. It enforces action-safety
+policies, whereas our supervisor checks content groundedness between stages.
+Read both, then cite.}
+
+\subsection{Self-correction and the role of feedback}
+\label{sec:related-selfcorrection}
+
+A large literature studies whether a model can improve an output when told,
+or when it tells itself, that the output is wrong. In Self-Refine the model
+critiques and revises its own output~\citep{selfrefine}, and Reflexion carries a
+verbal reflection on failure into later attempts~\citep{reflexion}. In their
+survey of these methods, \citet{pan2024survey} observe that when a model
+produces its own feedback, the quality of that feedback is constrained by the
+model's limitations, and that recent work therefore draws feedback from external
+tools such as trained models, code interpreters and search engines.
+Two critical studies narrow the claim. \citet{huang2024cannot} show that,
+without an oracle deciding when to stop, intrinsic self-correction does not
+improve reasoning and often degrades it. They also caution that feedback
+messages can carry task information the original prompt omitted, which makes a
+feedback effect partly a prompt-completeness effect. \citet{kamoi2024} classify
+correction driven by an external, non-LLM verifier as a fair setting distinct
+from intrinsic self-correction. They identify feedback generation as the
+bottleneck and recommend measuring feedback quality directly. Our supervisor is
+such an external verifier. Its feedback is generated deterministically and is
+correct by construction about what it measures.
+
+Whether feedback \emph{content} matters, as distinct from the signal that a
+revision is needed, is where the literature divides. \citet{olausson2024selfrepair}
+establish two norms for repair claims. A repair must be compared with
+independent resampling at an equal budget. And feedback quality is binding:
+substituting human-written for model-written explanations raised successful
+repairs from 33.3\% to 52.6\%, on a deliberately easy sample of 40 failing
+programs. \citet{tyen2024} separate finding an error from correcting it. Models
+locate the first error in a reasoning trace poorly, but given its location, a
+simple backtracking procedure corrected 18 to 44 percentage points of
+previously incorrect traces, and supplying a random location roughly halved
+the gain. In self-debugging, \citet{chen2024selfdebug} find that their least
+informative feedback condition retains much of the benefit of the most
+informative ones, because execution still decides whether to revise. Removing
+that trigger can push accuracy below the no-repair baseline. Two studies
+manipulate presentation rather than content. \citet{tsui2026scbench} injects the
+same error either into the user's turn or into the model's own, and finds that
+models correct the external error far more often (an average gap of 64.5\% over
+14 models). Appending a contentless continuation cue (``Wait'') closes 89.3\% of
+that gap. \citet{chen2026rolerelabel}, in an unrefereed preprint, hold an
+erroneous claim byte-identical while changing only the chat role that carries
+it. Explicit correction rises by 23 to 93 points, significantly in 10 of 12
+model--domain combinations. Two code-repair studies shape the single-retry
+design: a second editing round can degrade results~\citep{zhang2023selfedit}, and
+most of the gain from iterated repair arrives in the first round or
+two~\citep{arimbur2026}. \citet{arimbur2026} also documents run-to-run variation
+in greedy decoding on hosted inference APIs, a threat this study measures
+directly.
+
+None of these studies holds the defect fixed and varies only what the failing
+stage is told, under a deterministic external checker, with the placement of
+the defective output controlled. Arms \arm{A1} and \arm{A2} of our design are
+exactly that manipulation. Our placement factor reproduces the user-turn versus
+own-turn contrast of \citet{tsui2026scbench} and \citet{chen2026rolerelabel},
+and adds the placement that production retries actually use, in which the
+defective output is absent.
+
+\subsection{Fault injection and failure analysis in multi-agent LLM systems}
+\label{sec:related-fi}
+
+Injecting faults to observe how a system degrades has a long engineering
+lineage, including chaos engineering of production services~\citep{basiri2016chaos}.
+Its recent application to LLM agents has developed along two tracks.
+\emph{Failure analysis} catalogues what goes wrong. \citet{cemri2025mast}
+derive a taxonomy of 14 failure modes in three categories from expert annotation
+of multi-agent traces, with inadequate task verification as one of the three
+principal categories. They observe that verifiers often perform only
+superficial checks, and that the presence of a failure mode is only loosely
+coupled with whether the task succeeds. \emph{Fault injection} measures how
+damage propagates. \citet{huang2025resilience} corrupt agents' profiles or
+messages and find that linear structures degrade most and hierarchical ones
+least. Corrupting a profile also degrades performance more than corrupting
+messages, so the two injection methods are not interchangeable.
+MAS-FIRE~\citep{jia2026masfire}, a preprint, injects 15 types of fault through
+prompts, intercepted outputs and message routing. It separates whether a system
+detects a fault, whether it resolves it locally, and whether the task still
+succeeds. AgentChaos~\citep{tan2026agentchaos} injects 65 configurations of
+crash, omission and value faults at the boundary between agent and LLM API.
+It discards tasks in which the configured fault never fired, a trigger
+verification our design adopts. It finds that injection position matters most
+for pipeline architectures, and that silent failures, plausible outputs with no
+warning, account for 22\% to 66\% of failures depending on the system.
+\TODO{Tier-C failure-attribution work (AgenTracer, arXiv 2509.03312; Who\&When)
+uses counterfactual replay and injection to train fault \emph{attribution}.
+Read, then add one sentence distinguishing that purpose from ours.}
+
+This work measures tolerance, propagation and diagnosis. None of it measures
+whether a supervisor's feedback gets a defect \emph{repaired}. None of it checks
+whether the injected faults behave like the faults the system produces on its
+own.
+
+\subsection{Synthetic faults as proxies for real ones}
+\label{sec:related-proxy}
+
+Software engineering asked the second question of mutation analysis long
+before LLM pipelines existed. \citet{just2014mutants} test whether artificial
+mutants can stand in for real faults. Across 357 real faults in five Java
+programs, 73\% were coupled to mutants from commonly used operators, and a
+test suite's mutant detection correlated with its real-fault detection beyond
+what coverage explains. Their coupling concerns \emph{detection}. They note that
+it is unclear whether fault-localisation and program-repair techniques
+evaluated on mutants perform equally well on real faults. Our design faces the
+same question for repair: whether a repair rate measured on injected defects
+says anything about the defects a pipeline produces. We answer it empirically.
+The 13 defects the production supervisor caught are replayed through the same
+retry. Before the study, blinded raters compared real and injected defects, and
+both results are reported beside the injected-defect rates
+(Sections~\ref{sec:design-operators} and~\ref{sec:results-rq3}).
+\TODO{Consider one citation to Defects4J (Just et al., ISSTA 2014) for the
+real-versus-seeded benchmark tradition; not yet in the bibliography.}

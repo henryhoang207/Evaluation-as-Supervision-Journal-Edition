@@ -1,0 +1,552 @@
+% =====================================================================
+\section{Study design}
+\label{sec:design}
+% Source: docs/paper/PREREGISTRATION.md (sections 1-9; amendments 0.1 A1-A9).
+% =====================================================================
+
+The study is a pre-registered fault-injection experiment. We take clean stage
+outputs from real pipeline runs, corrupt each with one of six operators, and
+present the corrupted output to the production agent for that stage under
+controlled variations of what the supervisor says and where the defective
+output appears. The pre-registration fixes the estimand, the arms and their
+wording, the outcome coding, the exclusions, the single confirmatory test, the
+power target, and the reading of every exploratory cell. It was frozen as the
+annotated git tag \code{prereg-freeze} on 14~September~2026. The first trial
+ran on 5~October~2026. Every later change is a dated amendment, and
+Section~\ref{sec:design-deviations} lists them all.
+
+% ---------------------------------------------------------------------
+\subsection{Estimand and research questions}
+\label{sec:design-rq}
+
+The pre-registered estimand is a single question. \emph{For a defect injected
+into a clean stage output and presented to the production agent as an artifact
+under review, does the content of the supervisor's feedback change whether the
+regenerated output is correct?} Three things are excluded from it by design.
+The unit is the defect, not the run, so ``repaired'' does not mean that the run
+became good. The retried stage regenerates its whole output rather than editing
+the faulty item, so the construct is \emph{repair by regeneration}. And the
+injected defects are not a sample of production defects, so no repair rate in
+this paper is a production repair rate. The first exclusion is revisited by
+RQ4 and the third by RQ3; both are exploratory.
+
+\begin{description}[leftmargin=1.2em,style=nextline]
+\item[RQ1 (confirmatory).] Does the content of the supervisor's feedback (a
+  measured fact versus a contentless rejection) change whether a retried stage
+  repairs an injected defect?
+\item[RQ2.] Why does repair succeed or fail? We vary the placement of the
+  defective artifact, the sampling temperature, the extent of the defect, and
+  whether the stage's obligations are restated at retry time.
+\item[RQ3.] What does the production retry do on real, production-caught
+  defects, and how does that compare with injected ones?
+\item[RQ4.] Does stage-level repair become pipeline-level improvement?
+\item[RQ5.] What does deterministic recompute-and-overwrite buy over a retry?
+\item[RQ6.] Do the answers hold for a second model from a different family?
+  \CSEVEN{RQ6 is answered by the second-model cell (plan D5b; amendment A10 to
+  be filed before it runs).}
+\end{description}
+
+Only RQ1 carries a hypothesis test. Everything else is an estimate with an
+interval, labelled exploratory or descriptive where it appears.
+
+% ---------------------------------------------------------------------
+\subsection{Workloads and injection bases}
+\label{sec:design-workloads}
+
+The workloads are restaurants from the Yelp Open Dataset~\citep{yelpdataset}.
+The sampling pool is the 52{,}268 businesses in the \emph{Restaurants} category
+with at least five reviews. Review count per business is heavily skewed
+(p25\,=\,14, p50\,=\,34, p75\,=\,92, p90\,=\,214), so the sample is stratified
+at those four percentiles rather than drawn uniformly. Under a fixed seed, the
+sampler takes the seven businesses whose review counts lie nearest each target,
+giving 28 workloads. The first twenty, five per stratum, are the workloads of
+the conference study~\citep{hoang2026eas}. The other eight were drawn by the
+same sampler before the freeze, as a strict extension of the first twenty, to
+reach the power target of Section~\ref{sec:design-analysis}. No business was
+added or removed by hand. Each run loads a business's complete review set.
+
+Each workload was run once through the pipeline in \emph{observe mode}, in
+which the supervisor measures every stage and records its verdict but always
+proceeds. The model was \model{} at temperature~0. Every stage's input and
+output was saved. These run records are the injection bases. A stage output is
+eligible as a base only if the supervisor's own measurement of it was clean,
+so that the injected defect is the only defect at that stage.
+
+% ---------------------------------------------------------------------
+\subsection{Fault operators}
+\label{sec:design-operators}
+
+Table~\ref{tab:operators} lists the operators. Each corrupts one clean stage
+output so as to trip exactly one class of supervisor check. Every random
+choice is drawn from a stream seeded by business, operator and seed, so each
+injected output is reproducible byte for byte. The operator and the supervisor
+are independent programs. The operator records what it did and which check it
+expects to fire; the supervisor's \code{measure()} reports what actually fired.
+
+\begin{table}[tbp]
+\centering
+\caption{Fault operators. ``Core'' is the number of defects in the
+confirmatory core after both validity gates. \op{O4} and \op{O8} are not repair
+operators. \op{O4} produces a warning rather than a retry, because production
+overwrites the frequency (Section~\ref{sec:system-overwrite}); it runs only in
+the overwrite counterfactual. \op{O8} is a positive control whose repair is
+guaranteed, because the report prompt carries the correct values; it was not
+run.}
+\label{tab:operators}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}l l L{2.6cm} Y r@{}}
+\toprule
+Op. & Stage & Check targeted & What it does & Core \\
+\midrule
+\op{O1} & reasoning & unresolvable evidence id & deletes one character from one
+  real evidence id of one pattern & 24 \\
+\op{O2} & reasoning & unresolvable evidence id & appends a well-formed id that
+  no analysed review carries & 24 \\
+\op{O3} & reasoning & misaligned aspect & relabels a pattern with an aspect
+  that none of its evidence reviews mentions & 22 \\
+\op{O4} & reasoning & frequency divergence (warning) & moves a pattern's
+  frequency 0.15 away from the recomputed value & (23) \\
+\op{O5} & strategy & untraceable recommendation & replaces one
+  recommendation's issue with an issue from a fixed corpus that traces to
+  nothing upstream & 20 \\
+\op{O6} & report & report containment & inserts a root cause produced by no
+  upstream stage & 26 \\
+\op{O7} & report & report containment & inserts a recommendation produced by
+  no upstream stage & 26 \\
+\op{O8} & report & trusted metadata & perturbs the business name or the
+  sample size & -- \\
+\midrule
+\multicolumn{4}{@{}l}{Repair operators (\op{O1}--\op{O3}, \op{O5}--\op{O7})} & 142 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The six repair operators over 28 bases give 168 candidate defects. For 26 of
+them the operator had nothing to corrupt or the base was not clean, which
+leaves 142. Two validity gates then run on each injected output, before any
+model call. The first, \emph{injection verified}, requires that the targeted
+check fires and that no other retry-level check fires that did not fire on the
+base. The second, \emph{triggered}, requires that the supervisor's verdict on
+the injected output is \verdict{retry}. A defect that is not triggered receives
+no feedback of any kind, so the arms would be identical for it; such defects
+are removed and counted rather than scored as unrepaired, following
+\citet{tan2026agentchaos}. Both gates passed 142 of 142 defects, and the result
+was stable across four seeds. This should not be read as discrimination: the
+applicability rules already encode most of what the gates check. The gates are
+a standing guarantee, not a filter on this bank.
+
+\paragraph{How the injected defects compare with production defects}
+Before the study, two raters independently judged a blinded sheet of 31
+defects: 11 that the supervisor had caught in production and 20 injected
+ones. The sheet hid each defect's origin. Agreement was 29 of 31, with Cohen's
+$\kappa = 0.870$ (95\% CI \ci{0.674}{1.000}). The raters called none of the 11
+production-caught defects an error; they judged all of them technicalities
+or checker false positives. They called 16 of the 20 injected defects errors.
+The split followed mechanism, not origin. \op{O1}, which corrupts a
+\emph{real} identifier, was judged a technicality in all four of its items,
+like the production defects. Fabrication (\op{O2}), mislabelling (\op{O3}) and
+foreign content (\op{O5}--\op{O7}) were judged errors in all 16 of their items.
+This audit is why the paper never pools absolute repair rates across
+operators. \op{O1} is reported as the production-like cell and
+\op{O2}--\op{O7} as the severe cell. The contrast between arms is still pooled,
+for the reason given in Section~\ref{sec:design-analysis}.
+
+% ---------------------------------------------------------------------
+\subsection{Arms and placements}
+\label{sec:design-arms}
+
+A trial re-runs the defective stage once through the production agent. Two
+factors vary: what the model is told (the \emph{arm}) and where the defective
+output appears in its context (the \emph{placement}). Both are built on top of
+the production prompt for the stage, so arms differ only in the turns they add.
+
+\begin{description}[leftmargin=1.2em,style=nextline]
+\item[\arm{A1}, measured-fact feedback.] The production feedback template
+  (Section~\ref{sec:system-feedback}), filled with the measured fact that
+  triggered the verdict. This is what the production supervisor sends.
+\item[\arm{A2}, contentless rejection.] The same template with the measured
+  facts removed: an authoritative rejection that says nothing about what is
+  wrong.
+\item[\arm{A0}, capability ceiling.] The defective output is presented as a
+  draft to review, with no retry framing. It bounds what any feedback can
+  achieve.
+\item[\arm{A3}, regeneration baseline.] The original stage prompt and nothing
+  else.
+\end{description}
+
+\noindent The placement fixes how, and whether, the defective output enters
+the context:
+
+\begin{description}[leftmargin=1.2em,style=nextline]
+\item[\arm{P0}, artifact absent.] The model does not see the defective output.
+  This is the production path, because the production retry appends only the
+  feedback to the stage prompt.
+\item[\arm{P1}, artifact under review.] The defective output appears in a user
+  turn as the previous answer to the task.
+\item[\arm{P2}, artifact as the model's own turn.] The defective output appears
+  as a prior assistant turn.
+\item[\arm{P3}, own turn with a marker.] As \arm{P2}, followed by a user turn
+  stating that the answer above contains an error. This level is exploratory.
+\end{description}
+
+\noindent The design is not fully crossed, and two cells are undefined by
+construction. \arm{A0} needs an artifact to correct, so it does not exist at
+\arm{P0}. \arm{A3} stops being a bare regeneration once it is shown an
+artifact, so it exists only at \arm{P0}. \ref{app:wording} gives the exact
+wording of every arm and placement; it was frozen in code on
+25~August~2026, before the pre-registration and before any trial.
+
+\paragraph{Why the core runs at \arm{P1}}
+At \arm{P0} an injected defect never enters the model's context. A retry there
+would be dominated by the model reproducing its own clean output, and the
+difference between arms would measure only how feedback text perturbs
+generation. The confirmatory core therefore runs \arm{A1} and \arm{A2} at
+\arm{P1}, and \arm{P0} becomes a diagnostic level of the placement cell. The
+replay of real defects runs at \arm{P0}, because there the defect genuinely was
+the model's own and the production retry genuinely does not show it. One
+consequence follows for \arm{A3}. It exists only at \arm{P0}, so on injected
+defects it regenerates from a clean context and is \emph{not} a floor. It is a
+regeneration baseline: what a fresh draw that never saw the defect scores.
+This was established before the freeze, and A3 was re-roled on that basis
+(Section~\ref{sec:design-deviations}).
+
+% ---------------------------------------------------------------------
+\subsection{Outcomes and scoring}
+\label{sec:design-outcomes}
+
+Each trial's regenerated output is scored into one of four mutually exclusive
+classes, decided in a fixed order:
+\begin{enumerate}[label=(\roman*)]
+\item the injected check still fires: \cls{unrepaired};
+\item the targeted item is gone, for an operator whose clean output had it:
+  \cls{deleted};
+\item the item is back to its pre-injection value: \cls{repaired};
+\item otherwise: \cls{replaced}.
+\end{enumerate}
+The confirmatory analysis uses the strict dichotomy of \cls{repaired} versus
+everything else. Two scoring decisions matter for reading the results. First,
+success is the \emph{replacement value}, not the disappearance of the
+complaint. A fabricated identifier swapped for a different identifier that
+happens to resolve passes the check, but it scores \cls{replaced}, because the
+output is still wrong. Second, \cls{deleted} counts against repair. Dropping
+the item the supervisor complained about is evasion, and scoring it as success
+would let ``remove the pattern you were asked about'' register as a supervisor
+win. For the insertion operators \op{O6} and \op{O7}, removing the invented
+item \emph{is} the repair, so those trials score \cls{repaired} and
+\cls{deleted} cannot occur. Items are matched by identity, not position,
+because a regenerated output reorders its items. Each substitution operator
+anchors on a field it does not touch.
+
+\paragraph{Scoring \op{O5} on content words}
+The production traceability check compares a recommendation with upstream
+items by a character-level similarity ratio, with a threshold of 0.35. On
+pre-study observe-mode data, that check flagged 8 of 49 correct strategy
+outputs. Scoring \op{O5} with it would therefore have scored correct
+regenerations as \cls{unrepaired} at a similar rate in every arm. The scorer
+decides whether the \op{O5} check still fires by content-word Jaccard
+similarity of at least 0.10 against the same upstream candidates. The identity
+anchor (the recommendation's \code{action}) is matched at a Jaccard threshold
+of 0.20. Both thresholds were fixed on calibration data before any trial
+outcome existed. The production supervisor itself is unchanged: the \op{O5}
+bases, the injected issue, the trigger and the \arm{A1} feedback are identical
+under both matchers. The production verdict is logged beside the scorer's and
+reported as a sensitivity analysis, together with containment\,$>0$ and
+Jaccard\,$\ge 0.05$.
+
+\paragraph{Collateral damage}
+Collateral damage is a second dimension, never a class. It is the loss of
+\emph{non-injected} items relative to the pre-injection output, counted above
+the churn that an unperturbed temperature-0 pipeline already produces. That
+churn was measured in a repetition study before this one and differs by item
+class (0.07 for pattern aspects, 0.33 for pattern descriptions, 0.29 for root
+causes, 0.23 for recommendation issues). The injected item is excluded, so the
+outcome class and the collateral flag are never raised by the same event.
+Report-stage items have no calibrated floor, so those trials are excluded from
+the collateral denominator rather than counted as undamaged.
+
+% ---------------------------------------------------------------------
+\subsection{Analysis}
+\label{sec:design-analysis}
+
+\paragraph{Unit and estimate}
+The unit of analysis is the defect. Within each (defect, arm) cell the $r=3$
+repetitions are averaged into one rate. The primary estimate is the mean over
+defects of the per-defect difference \arm{A1}\,$-$\,\arm{A2}. Its 95\%
+interval comes from a bootstrap that resamples whole defects (10{,}000
+resamples, fixed seed), which keeps repetitions of one defect from counting as
+independent evidence. A defect enters the contrast only if it has at least one
+usable repetition in both arms. The estimate, not the test, is the primary
+reported quantity, so that a null result bounds the effect rather than merely
+failing to reject.
+
+\paragraph{The confirmatory test}
+There is exactly one: an exact McNemar test of \arm{A1} against \arm{A2} at
+$\alpha=0.05$, on a per-defect dichotomy. A defect counts as repaired in an arm
+if strictly more than half of its completed repetitions were repaired. Two
+alternatives were rejected before the freeze. \emph{Any-of-three} measures
+best-of-$k$ and rewards variance. \emph{Unanimity} penalises variance and would
+make the test weaker than the estimate it accompanies. A one-to-one split
+after a lost repetition resolves to not repaired, which cannot bias a matched
+contrast.
+
+\paragraph{Power and the sample size}
+Power was computed by simulation, because repetitions nest within defects and
+all arms of one defect share a serving session. At the delivered $N=142$ and
+$r=3$, power was 0.875 for a 12\pp{} effect, and the minimum detectable effect
+was 10.9\pp{}, with the shared-session (``occasion'') effect included. The
+sample was grown to reach this. At the 102 defects the first twenty workloads
+yield, the detectable effect was 12.6\pp{}, above the 12\pp{} threshold the
+study had set for itself. Rather than lower the threshold, eight more workloads
+were collected.
+
+\paragraph{Pooling the contrast, not the rates}
+The primary contrast is estimated over all six repair operators, although the
+audit separates \op{O1} from the rest. The audit bounds the external validity
+of an absolute repair rate. Whether feedback content changes the outcome is a
+different claim, and neither literature it adjudicates frames that claim as
+holding only within a severity band. To expose the pooling assumption, the
+contrast is also reported within \op{O1} ($N=24$) and within the severe cell,
+unconditionally and in the same table.
+
+\paragraph{Pre-specified secondary analyses}
+These analyses are named in advance, with their interpretation fixed, but they
+carry no correction for multiplicity and support no headline claim:
+\begin{itemize}
+\item the \op{O1}\,$\times$\,arm interaction;
+\item the \arm{A1}/\arm{A0} ratio;
+\item \arm{A3} by operator;
+\item per-class repair rates against a recorded directional prediction;
+\item stratification by defect origin (real versus injected) and by stage;
+\item the chain ``did the output change'' $\rightarrow$ ``did the defect
+  resolve'';
+\item the terminal supervisor verdict per trial;
+\item \op{O5} sensitivity, including the primary contrast without \op{O5};
+\item \arm{A2} against \arm{A3}, with Cochran's $Q$ across the three arms they
+  share, read as re-presenting the defect with a rejection versus regenerating
+  without it.
+\end{itemize}
+
+\paragraph{Exclusions}
+Every exclusion is counted. A defect that fails a validity gate is removed
+before any model call, so it leaves all arms at once and cannot break the
+matching. A trial whose call ends in a provider error (\code{status\_error}) has
+no interpretation under any arm and is excluded. Such a trial is never re-run
+until it succeeds, because that would resample on the outcome. A trial served
+by the fallback model would also be excluded. Fallback was disabled, so a
+provider failure surfaces as an error rather than as a silent change of model.
+A trial whose first call fails schema validation is re-issued with the
+model's own invalid output in an assistant turn, which embeds a
+\arm{P2}-like turn in a \arm{P0} or \arm{P1} trial. Such trials are logged and
+analysed separately, not excluded, and the primary estimate is reported both
+with and without them.
+
+\paragraph{The publication rule}
+One further rule was fixed before the sample was sized: the repair study would
+become a paper of its own if and only if the \arm{A1}\,$-$\,\arm{A2} estimate
+were at least 12\pp{} and its interval excluded zero. Neither condition was
+met (Section~\ref{sec:results-rq1}), so the study is reported here as an
+extension of the system paper.
+
+% ---------------------------------------------------------------------
+\subsection{Exploratory cells}
+\label{sec:design-cells}
+
+\begin{table}[tbp]
+\centering
+\caption{Every cell that ran, with its role. The confirmatory core is the only
+cell frozen with the pre-registration. Each other cell was specified in a
+dated amendment, committed before it ran
+(Section~\ref{sec:design-deviations}). ``Usable'' excludes provider errors.
+Cells marked $\dagger$ re-run their own in-session comparators instead of
+borrowing the core's (Section~\ref{sec:design-execution}).}
+\label{tab:cells}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}L{2.8cm} l Y r r r@{}}
+\toprule
+Cell & Amd. & Design & Defects & Trials & Usable \\
+\midrule
+Core (confirmatory) & -- & \arm{A1}, \arm{A2} at \arm{P1} (all defects);
+  \arm{A0} at \arm{P1} (half); \arm{A3} at \arm{P0} (a quarter); $r=3$ & 142 &
+  1{,}167 & 1{,}149 \\
+Overwrite counterfactual & A2 & \op{O4}; \arm{A1}@\arm{P1}, \arm{A3}@\arm{P0}
+  & 23 & 138 & 138 \\
+Constraint disclosure$^\dagger$ & A1, A3 & \{C0, C1\} $\times$ \{\arm{A1},
+  \arm{A2}\} at \arm{P1} & 37 & 444 & 444 \\
+Placement$^\dagger$ & A5 & \arm{A1} $\times$ \{\arm{P0}--\arm{P3}\} & 45 & 540
+  & 539 \\
+Severity$^\dagger$ & A6 & \op{O1} levels 1, 2; \arm{A1}@\arm{P1} & 24 & 144 &
+  144 \\
+Warm resampling$^\dagger$ & A7 & \arm{A1}, \arm{A2}@\arm{P1} at $T=0$ and $T=1$;
+  \arm{A3}@\arm{P0} at $T=1$ & 45 & 675 & 675 \\
+Real-defect replay & A8 & 13 production-caught defects; \arm{A1}--\arm{A3}
+  at \arm{P0}; descriptive & 13 & 117 & 117 \\
+Downstream propagation & A9 & later stages re-run from clean, unrepaired,
+  \arm{A1}, \arm{A2} outputs & 90 & 447$^\ast$ & 447 \\
+\CSEVEN{Second model} & \CSEVEN{A10} & \CSEVEN{core contrast on a second model}
+  & \CSEVENNUM & \CSEVENNUM & \CSEVENNUM \\
+\bottomrule
+\multicolumn{6}{@{}l}{$^\ast$ Conditions (defect $\times$ starting point), 796
+calls in total.}
+\end{tabularx}
+\end{table}
+
+Table~\ref{tab:cells} lists the cells. Each exploratory cell answers one part
+of RQ2--RQ5.
+
+\begin{description}[leftmargin=1.2em,style=nextline]
+\item[Constraint disclosure (C1).] Before the freeze, an audit of the prompts
+  found that the \arm{A1} feedback asserts five obligations that no stage prompt
+  states. This is the prompt-completeness confound that \citet{huang2024cannot}
+  and \citet{kamoi2024} warn of: A1 might win by teaching the task rather than
+  by naming the defect. Condition C1 splices the stage's own obligations into
+  the retry prompt; C0 is the production prompt. Both conditions inject into the
+  same base, so the cell measures \emph{stating the constraints at retry time},
+  not a constraint-complete pipeline. Detecting the interaction had power of
+  0.11--0.30 at sample sizes out of reach, so the cell was pre-specified as two
+  gaps with intervals, never a test.
+\item[Placement.] \arm{A1} at all four placements, on a third of the defects
+  selected by a stratified per-operator stride. The pre-recorded prediction was
+  \arm{P1}\,$\gg$\,\arm{P3}\,$\approx$\,\arm{P2}, with \arm{P0} reported apart.
+\item[Severity.] \op{O1} at two levels. Level~1 is the frozen operator. Level~2
+  corrupts \emph{every} resolving evidence identifier of the targeted pattern
+  by one character, so per-identifier damage is unchanged and only its extent
+  varies. This definition was chosen before either level ran, from two
+  candidates defined together.
+\item[Warm resampling.] Temperature~1.0, to test whether the ceiling is an
+  artefact of greedy decoding and to give the equal-budget comparison with
+  best-of-$k$ resampling that \citet{olausson2024selfrepair} require. This cell
+  was designed \emph{after} the core's ceiling and its byte-identity pattern
+  were known. Both possible readings were fixed before it ran.
+\item[Real-defect replay.] The 13 usable defects that the production
+  supervisor caught in the 28 observe-mode runs, in 7 business\,$\times$\,stage
+  cells. Eight are untraceable recommendations at the strategy stage. At the
+  reasoning stage, three are unresolvable evidence identifiers and two are
+  misaligned aspects. A defect runs only if replaying its stored run reproduces
+  the recorded retry exactly (verdict, fired checks and feedback string); all
+  13 do. There is no clean reference for a real defect, so the outcome is
+  whether the supervisor \emph{accepts} the retried output. Intervals resample
+  cells, not defects, and no test is run. At this scale a cluster-bootstrap
+  test over-rejects: by simulation, its type~I error with five clusters was
+  0.086 at a nominal 0.05.
+\item[Downstream propagation.] For the 90 core defects with a later stage
+  (\op{O1}--\op{O3}, \op{O5}), the later stages are re-run once each through
+  the production nodes, in observe mode, from five starting points: the clean
+  output twice (the second run is the in-session noise floor), the unrepaired
+  injected output, and the core's \arm{A1} and \arm{A2} retried outputs. Three
+  endpoints were fixed before the pass. E1: every later stage is accepted. E2
+  (\op{O5} only): the planted issue survives into the final report. E3: the
+  share of the clean run's final-report claims with no content-word partner in
+  the condition's report, read against the clean-versus-clean noise floor. This
+  endpoint set was chosen before the pass from three candidates defined
+  together; the third, an LLM judge, was out of scope.
+\item[Overwrite counterfactual.] Production resolves a divergent frequency by
+  overwriting it with the recomputed value, at zero calls; it never retries.
+  This cell routes the divergence to a retry instead, feeding \arm{A1} the
+  supervisor's own correction flags. That measures what the overwrite bought.
+  Both readings were fixed before the freeze: if the retry repairs at about
+  100\% without collateral damage, the overwrite was a cost decision, not a
+  correctness one.
+\end{description}
+
+% ---------------------------------------------------------------------
+\subsection{Execution}
+\label{sec:design-execution}
+
+All trials used \model{} through Google's OpenAI-compatible endpoint, at
+temperature~0 except in the warm cell. Fallback to a second model was disabled
+throughout. \CSEVEN{The second-model cell used [model, parameter count,
+quantisation, digest] served locally by [runtime, version] with a
+[32{,}768]-token context, greedy decoding, on [GPU]; its gates and exclusions
+are fixed in amendment A10.}
+
+\paragraph{One session per defect}
+A temperature of zero does not make a hosted model deterministic across
+sessions. Served weights and the serving stack change, and repeated greedy
+runs of the same prompt are known to differ~\citep{arimbur2026}. Every
+within-defect contrast is therefore matched in time. All arms and repetitions
+of one defect run contiguously in a single session. The runner records the
+session and refuses to proceed if the iteration order is ever rewritten
+arm-outer. For the same reason, no exploratory cell borrows the core's trials
+as its comparators. Each re-runs its own comparison condition in-session
+(Table~\ref{tab:cells}). Those re-runs double as test--retest measurements of
+serving drift, reported in Section~\ref{sec:results-rq2}.
+
+\paragraph{Verification}
+Each pass ended with a verification gate. The gate required a complete
+checkpoint, one session per defect, and an offline re-scoring of every trial
+from its stored output. The re-scoring agreed with the live score in every
+trial of every pass. The analysis code was written after the core finished. It
+transcribes rules the pre-registration had fixed, was tested on synthetic rows
+before it read real data, and writes its own hash into every output. Every
+number in Section~\ref{sec:results} is regenerated from the committed trial
+records by the committed analysis scripts, with no model calls.
+
+\paragraph{Losses}
+The core lost 18 of 1{,}167 trials to provider errors: network drops and one
+overnight sleep of the client machine. These cost three defects their
+\arm{A1}/\arm{A2} pair. Because all arms of a defect share one session, a loss
+cannot depend on the arm. Across all cells the study consumed about 53 million
+tokens.
+
+% ---------------------------------------------------------------------
+\subsection{Deviations from the pre-registration}
+\label{sec:design-deviations}
+
+\begin{table}[tbp]
+\centering
+\caption{Amendments filed after the freeze. None adds a confirmatory claim or
+changes the core. Each was committed before the pass it governs. The last
+column records what had already been observed when it was written.}
+\label{tab:amendments}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}l l Y L{2.9cm}@{}}
+\toprule
+\# & Date & Change & Results known at filing \\
+\midrule
+A1 & 2026-09-20 & C1 prompt written; condition factor wired & none \\
+A2 & 2026-10-07 & Overwrite counterfactual wired: trigger gate inverted for
+  \op{O4}; \arm{A1} fed production's correction flags & core \\
+A3 & 2026-10-07 & C1 run as its own pass with in-session C0 comparators & core \\
+A4 & 2026-10-07 & Confirmatory analysis code written; one interim budget look
+  disclosed & core \\
+A5 & 2026-10-07 & Placement pass: all four levels, \arm{P1} re-run in-session
+  & core, D19, C1 \\
+A6 & 2026-10-07 & \op{O1} severity: level~2 defined (extent), \arm{A1} only &
+  core, D19, C1 \\
+A7 & 2026-10-07 & Warm-resampling cell, both readings fixed & core, D19, C1,
+  placement \\
+A8 & 2026-10-08 & Real-defect replay wired; descriptive only & all of the above
+  \\
+A9 & 2026-10-08 & Downstream propagation brought into scope; endpoint set
+  chosen before the pass & all of the above \\
+\CSEVEN{A10} & \CSEVEN{date} & \CSEVEN{second-model cell: model identity,
+  gates, cells, readings} & \CSEVEN{all Gemini cells} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Table~\ref{tab:amendments} lists every change since the freeze. Three
+disclosures go beyond the table.
+
+\emph{An interim look.} On 5~October~2026, after 12 of the 142 core defects,
+outcome counts and per-trial token use were inspected to check the budget.
+Nothing about the design, the stopping point or the analysis changed, and the
+run continued to completion.
+
+\emph{Amendments written with results in hand.} Amendments A5--A9 were filed
+after the core's ceiling was known. Their sizes and arms follow a grid fixed in
+the study plan before any result existed. The one parameter that grid left
+open, \op{O1}'s second severity level, was chosen between two candidates
+defined before either ran. The warm cell (A7) is the exception. It was designed
+in response to the core's byte-identity pattern, and it is reported as a test
+of that explanation, not as an independent finding.
+
+\emph{A re-roled arm.} Before the freeze, \arm{A3} was planned as a near-zero
+floor, with two further confirmatory tests built on that assumption: Cochran's
+$Q$ across arms and \arm{A2} against \arm{A3}. A pre-freeze measurement showed
+that a fresh draw at \arm{P0} regenerates a clean output and was expected to
+score about 53\%, against the 5\% the power calculation had assumed. \arm{A3}
+was re-roled as a regeneration baseline. Both tests were moved to the secondary
+set, and a pre-committed negative result built on \arm{A3} was withdrawn. All
+of this happened before the freeze and before any trial, and the
+pre-registration records it.
