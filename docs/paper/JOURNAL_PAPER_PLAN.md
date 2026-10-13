@@ -1,5 +1,11 @@
 # Journal paper — writing plan
 
+> **Execution update, 2026-10-12:** all planned experiments, including C7, are
+> complete and verified. See [C7_STATUS.md](C7_STATUS.md) and [RESULTS.md](RESULTS.md)
+> for the exploratory local-model findings (data commit `7188bb9`, C7 branch).
+> Older C7 setup/waiting statements below are historical. Next is journal
+> drafting/integration; conference `main.tex` remains untouched.
+
 **Written 2026-10-08** for the next session. **No journal text exists yet.** The
 numbers come from **`RESULTS.md`** and nowhere else; the design and every
 deviation from it from **`PREREGISTRATION.md`** (frozen at tag `prereg-freeze`,

@@ -143,10 +143,11 @@ DEFAULT_PLACEMENT = "P1"  # D10: the Tier-2 core runs at P1, not the production 
 #   warm      -- 0.1 A7 (plan D2's warm-resample subset). On the placement
 #          subset: A1@P1 and A2@P1 at temperature 0 (in-session comparators)
 #          and at WARM_TEMPERATURE, plus A3@P0 at WARM_TEMPERATURE, r = 3.
-CELLS = ("core", "c1", "d19", "placement", "severity", "warm")
+CELLS = ("core", "c1", "d19", "placement", "severity", "warm", "c7")
 CELL_OUT = {"core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
             "placement": "out_study/T2P", "severity": "out_study/T2S",
-            "warm": "out_study/T2W"}
+            "warm": "out_study/T2W", "c7": "out_study/T2L"}
+C7_REPS = 3  # A11: G2 returned 8/10 identical; determinism is measured, not assumed
 # D2 cites Tyen section 4(d), which needed temperature 1 to force a different
 # step; it is also the provider's default sampling temperature.
 WARM_TEMPERATURE = 1.0
@@ -278,6 +279,16 @@ def _warm_cells(index: int, reps: int) -> list[dict]:
             for arm, placement, temps in WARM_CELLS for temp in temps for r in range(reps)]
 
 
+def _c7_cells(index: int) -> list[dict]:
+    """A11: three draws per arm; A3 on the unchanged frozen core stride."""
+    cells = [{"arm": arm, "placement": "P1", "condition": "C0", "rep": r}
+             for arm in ("A1", "A2") for r in range(C7_REPS)]
+    if _in_subset(index, ARM_FRACTION["A3"]):
+        cells.extend({"arm": "A3", "placement": "P0", "condition": "C0", "rep": r}
+                     for r in range(C7_REPS))
+    return cells
+
+
 def not_in_pass(entry: dict) -> bool:
     """Cleared every gate but this pass's subset does not carry it."""
     reason = entry.get("reason") or ""
@@ -304,7 +315,8 @@ def d19_decision(decision):
 
 def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLACEMENT,
                seed: int = 0, operators: tuple[str, ...] | None = None,
-               with_c1: bool = False, cell: str = "core") -> list[dict]:
+               with_c1: bool = False, cell: str = "core",
+               c7_gates: dict | None = None) -> list[dict]:
     """Every defect to run, in execution order, with its arms attached.
 
     One entry per (base, operator) — that is one *defect*. Its arms and their
@@ -413,6 +425,8 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
                 arms = _severity_cells(reps, placement)
             elif cell == "warm":
                 arms = _warm_cells(op_index[op], reps)
+            elif cell == "c7":
+                arms = _c7_cells(op_index[op])
             else:
                 arms = _cells_for(op_index[op], reps, placement, with_c1)
             op_index[op] += 1
@@ -424,6 +438,12 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
                 continue
             entry["runnable"] = True
             entry["arms"] = arms
+            if cell == "c7" and c7_gates is not None:
+                context = c7_gates["context"]["defects"].get(entry["defect_id"])
+                if context is None:
+                    raise ValueError(f"C7 context gate missing {entry['defect_id']}")
+                if not context["eligible"]:
+                    entry.update(runnable=False, arms=[], reason="c7_context_overflow")
             plan.append(entry)
     return plan
 
@@ -481,6 +501,7 @@ def plan_summary(plan: list[dict]) -> dict:
         "trigger_rate": _rate(len(triggered), len(verified)),
         # Cleared every gate but not carried by this pass (the c1 subset).
         "not_in_pass": len(triggered) - len(runnable),
+        "c7_context_excluded": sum(d.get("reason") == "c7_context_overflow" for d in plan),
         "defects_runnable": len(runnable),
         "trials": sum(len(d["arms"]) for d in runnable),
         "trials_by_arm": by_arm,
@@ -604,6 +625,8 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
         return row
 
     calls = BaseAgent.call_log[calls_before:]
+    if defect.get("cell") == "c7":
+        row["local_calls"] = retried_state.get("_c7_calls", [])
     post_facts = supervision.measure(stage, retried_state)
     post_decision = supervision.decide(stage, post_facts, {})
 
@@ -611,7 +634,11 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
     # there was no output for the retry to repair, so the trial has no
     # interpretation under any arm.
     if post_facts.get("status_error"):
-        row.update(status="status_error", attempts_made=len(calls))
+        output = retried_state.get(inject_defects.OUTPUT_KEY[stage]) or {}
+        row.update(status="status_error", attempts_made=len(calls),
+                   error_detail=output.get("error_detail"),
+                   error_type=output.get("error_type"),
+                   wall_clock_s=round(time.time() - started, 2))
         return row
 
     outcome = score_repair.score(descriptor, base_state, retried_state)
@@ -699,6 +726,9 @@ def _regenerate(cell: dict, base_state: dict, injected_state: dict,
     stage = descriptor.stage
     payload = nodes.stage_payload(stage, base_state)
     agent = _agent_for(stage)
+    if cell.get("runtime") == "c7":
+        runtime = sys.modules.get("c7_runtime") or _load_by_path("c7_runtime", "c7_runtime.py")
+        runtime.configure_agent(agent)
     # Warm pass only (0.1 A7). A fresh agent per trial, so this cannot leak
     # into another trial; every other cell leaves the production value, 0.
     agent.temperature = float(cell.get("temperature", 0.0))
@@ -724,6 +754,8 @@ def _regenerate(cell: dict, base_state: dict, injected_state: dict,
     result = agent.run_messages(messages, original_task, payload)
 
     retried_state = dict(base_state)
+    if cell.get("runtime") == "c7":
+        retried_state["_c7_calls"] = agent._c7_calls
     retried_state[inject_defects.OUTPUT_KEY[stage]] = result
     later_stages = supervision.AGENT_SEQUENCE[supervision.AGENT_SEQUENCE.index(stage) + 1:]
     for later in later_stages:
@@ -737,9 +769,25 @@ def _regenerate(cell: dict, base_state: dict, injected_state: dict,
 
 def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
         dry_run: bool, limit: int | None = None, sleep: float = 0.0,
-        with_c1: bool = False, cell: str = "core") -> int:
+        with_c1: bool = False, cell: str = "core", c7_gates: dict | None = None) -> int:
     plan = build_plan(root, reps=reps, placement=placement, seed=seed, with_c1=with_c1,
-                      cell=cell)
+                      cell=cell, c7_gates=c7_gates)
+    if cell == "c7":
+        if seed != 0:
+            raise ValueError("C7 uses the core's frozen injection seed 0")
+        if not dry_run:
+            if not c7_gates or not c7_gates.get("ready"):
+                raise ValueError("C7 requires passed gates before a live run")
+            if c7_gates.get("design") != "c7_r3_A11":
+                raise ValueError("C7 requires the A11 repeated-trial gate record")
+            runtime = sys.modules.get("c7_runtime") or _load_by_path("c7_runtime", "c7_runtime.py")
+            runtime.verify_runtime(c7_gates)
+            gates_module = _load_by_path("c7_gates", "c7_gates.py")
+            if gates_module.source_digest(build_plan(root, cell="c7")) != c7_gates["source_digest"]:
+                raise ValueError("C7 source data/prompts changed after the gates")
+        for defect in plan:
+            for trial_cell in defect["arms"]:
+                trial_cell["runtime"] = "c7"
     problems = verify_order(plan)
     if problems:
         print("ORDER VIOLATION (section 14.1) — refusing to run:")
@@ -767,6 +815,20 @@ def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
                   f"comparison (D5, section 14.1).")
 
     path = checkpoint_path(out_dir)
+    if cell == "c7" and not dry_run:
+        header = os.path.join(out_dir, "run_header.json")
+        os.makedirs(out_dir, exist_ok=True)
+        manifest = {"cell": cell, "seed": seed, "summary": plan_summary(plan),
+                    "gates": c7_gates,
+                    "plan": [{k: d[k] for k in ("defect_id", "runnable", "reason", "arms")}
+                             for d in plan]}
+        if os.path.exists(header):
+            with open(header, encoding="utf-8") as fh:
+                if json.load(fh) != manifest:
+                    raise ValueError("C7 resume header differs from the frozen runtime/plan")
+        else:
+            with open(header, "w", encoding="utf-8") as fh:
+                json.dump(manifest, fh, indent=2)
     done = load_done(path)
     # A defect a pass does not carry is not written to that pass's checkpoint.
     pending = [d for d in plan if d["defect_id"] not in done
@@ -865,14 +927,19 @@ def main() -> int:
                          "pass (prereg 0.1 A3), the D19 counterfactual (0.1 A2), the "
                          "placement cell (0.1 A5), the O1 severity sweep (0.1 A6) or "
                          "the warm-resample cell (0.1 A7).")
+    ap.add_argument("--c7-gates", default=None, help="Passed C7 gate report (A10).")
     args = ap.parse_args()
     if args.c1 and args.cell != "core":
         ap.error("--c1 extends the core plan; use --cell c1 for the C1 pass")
     out_dir = args.out or CELL_OUT[args.cell]
+    gates = None
+    if args.c7_gates:
+        with open(args.c7_gates, encoding="utf-8") as fh:
+            gates = json.load(fh)
 
     if args.plan_only:
         plan = build_plan(args.root, args.reps, args.placement, args.seed,
-                          with_c1=args.c1, cell=args.cell)
+                          with_c1=args.c1, cell=args.cell, c7_gates=gates)
         print(json.dumps(plan_summary(plan), indent=2))
         problems = verify_order(plan)
         print("order OK" if not problems else f"ORDER VIOLATIONS: {problems[:5]}")
@@ -885,7 +952,7 @@ def main() -> int:
             return 1
 
     return run(args.root, out_dir, args.reps, args.placement, args.seed,
-               args.dry_run, args.limit, args.sleep, args.c1, args.cell)
+               args.dry_run, args.limit, args.sleep, args.c1, args.cell, gates)
 
 
 if __name__ == "__main__":

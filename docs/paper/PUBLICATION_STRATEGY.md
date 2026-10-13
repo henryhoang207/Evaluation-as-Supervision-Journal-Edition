@@ -1,5 +1,11 @@
 # Publication Strategy — one testbed, how many papers?
 
+> **Execution update, 2026-10-12:** all planned experiments, including C7, are
+> complete and verified. See [C7_STATUS.md](C7_STATUS.md) and [RESULTS.md](RESULTS.md)
+> for the exploratory local-model findings (data commit `7188bb9`, C7 branch).
+> Older C7 setup/waiting statements below are historical. Next is journal
+> drafting/integration; conference `main.tex` remains untouched.
+
 **Written:** 2026-08-24 · **Status:** decided where marked, open where marked ·
 **Supersedes:** `JOURNAL_PLAN.md` §12 D7 as the *sole* venue decision — §12's
 analysis still holds for the journal vehicle, but it assumed a single output.

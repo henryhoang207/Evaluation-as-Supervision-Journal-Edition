@@ -1,15 +1,16 @@
 # Results — injected-defect repair study
 
-**Written 2026-10-08.** The record of what the journal-extension experiments
+**Written 2026-10-08; C7 added 2026-10-12.** The record of what the journal-extension experiments
 found, for writing the paper from. Every number here is printed by a committed
 script from committed data; the source is named beside each block. Design and
 every deviation from it: `PREREGISTRATION.md` (frozen at tag `prereg-freeze`,
-amendments §0.1 A1–A9). Operational history: `RUN_QUEUE.md`.
+amendments §0.1 A1–A11). Operational history: `RUN_QUEUE.md`.
 
-All trials: `gemini-2.5-flash` through Google's OpenAI-compatible endpoint, no
+All cells except C7: `gemini-2.5-flash` through Google's OpenAI-compatible endpoint, no
 fallback (`LLM_DISABLE_FALLBACK=1`), temperature 0 unless stated. Total spend
-≈ 53 M tokens. **Not yet run: the second model (C7, plan D5b)** — waiting on
-the author's RTX 5060 server.
+≈ 53 M charged tokens. **C7 is complete and verified**: Qwen2.5-7B-Instruct
+Q4_K_M via Ollama on an RTX 5060 Ti 16 GB; 930 local trials, 929 usable,
+7.36 M tokens in valid trials, zero API fees. All planned experiments are done.
 
 ---
 
@@ -25,11 +26,14 @@ the author's RTX 5060 server.
 | Warm resampling (T = 1.0) | A7 | `T2W` | 45 | 675 | 675 | `0f20f66` |
 | Tier-1 replay (real defects) | A8 | `T1` | 13 | 117 | 117 | `657bd00` |
 | Downstream propagation | A9 | `T2D` | 90 | 447 conditions | 447 | `0428190` |
+| C7 second model (exploratory) | A10, A11 | `T2L` | 138 | 930 | 929 | `7188bb9` |
 
 Every pass: one session per defect (all checked), offline re-score of every
 trial in full agreement with the live score, `status_error` excluded and
 counted. The core's 18 exclusions are network drops and one overnight laptop
 sleep; they cost 3 defects their A1/A2 pair.
+C7's single exclusion is a capped response followed by a blocked oversized
+schema correction; it is counted as unrepaired in the pre-specified sensitivity.
 
 ---
 
@@ -169,6 +173,41 @@ repaired stage outputs, the later stages re-run once each:
   10 of 81 repaired runs did not.
 - A1 = A2 at pipeline level too (E1 0.0 pp, E3 −0.6 pp).
 
+**C7 — local second-model replication** (`T2L/analysis.json`, A10/A11;
+full gates, exclusions and secondaries in [`C7_STATUS.md`](C7_STATUS.md)).
+138 paired defects, three repetitions per arm (one A2 cell has two usable
+draws): **A1 72.9%, A2 66.2%; A1 − A2 = +6.8 pp [+0.5, +13.3]**.
+Both rates are below 90%: **the Gemini ceiling does not replicate on this
+model/runtime**. The bootstrap interval suggests a feedback advantage, but
+the majority McNemar test is borderline (**p = 0.0525**, 16 vs 6 discordant)
+and rep 0 alone is **+5.8 pp [−0.7, +12.4]** on 137 pairs. Exploratory evidence,
+not a new confirmatory claim.
+
+- O1: A1 39.4%, A2 47.0%, gap −7.6 pp [−25.8, +10.6]. Severe operators:
+  A1 79.3%, A2 69.8%, gap **+9.5 pp [+3.2, +16.4]**, p = 0.0127.
+- Reasoning repair: A1 58.6%, A2 42.9%; strategy 75.0% vs 80.0%; report
+  90.4% for both. A3 regeneration repairs **38.2%** on 34 defects (0% reasoning,
+  20% strategy, 100% report). All 36 A3 report trials need a second schema
+  call; without multi-attempt trials A3 is 4.5% on the remaining 22 defects.
+- The sole final failure hit the 4096 output cap, then the 32k context guard
+  refused correction. Counting it as unrepaired leaves the primary unchanged;
+  its other two draws were already unrepaired. No valid A1/A2 trial uses
+  schema correction. Nothing was resampled.
+- Canonical JSON identity to the clean **Gemini** output: A1 42.0%, A2 39.5%,
+  A3 0%. Collateral: 10.5%, 15.2%, 100.0% of measurable trials respectively.
+- Original G2 **failed** (8/10 byte-identical pairs). A11 filed before final
+  trials uses r=3, preserving that failure. Final three-draw raw stability:
+  A1 131/138 identical sequences (94.9%), A2 116/137 (84.7%); outcome stability
+  136/138 and 134/137. Contiguous repetitions are not independent draws.
+- Paired with Gemini on the same eligible defects: local − Gemini A1
+  **−24.1 pp [−32.4, −16.1]**, A2 **−29.4 pp [−37.5, −21.5]**, A3
+  **−53.9 pp [−69.6, −38.2]**. Model family, size, quantisation and runtime
+  are bundled, and clean Gemini bases are held fixed: this is not a pure
+  model causal comparison or a complete Qwen pipeline evaluation.
+- 930/930 trials, 168/168 rows (26 inapplicable, four context-excluded);
+  929/929 offline scores and post-facts agree, 966 raw calls checked, one
+  session per defect, runtime/source unchanged, no detected prompt truncation.
+
 ---
 
 ## 6. Calibration and validity (no API cost)
@@ -205,12 +244,11 @@ repaired stage outputs, the later stages re-run once each:
 
 ## 8. What remains
 
-- **C7, a second model** (plan D5b): Qwen2.5-7B-Instruct Q4_K_M via Ollama on
-  the author's RTX 5060, 32k context — waiting on the server.
-- Author decisions: the publication vehicle (split rule not met; the strategy
-  document's null branch says journal or registered report, not a split), and
-  whether the Tier-1 and downstream findings about the production supervisor
-  need anything for conference paper #1 (Q2's precedent: journal finding).
-- Writing: methods (amendments A1–A9 as deviations), results above,
-  limitations — no specific-but-wrong feedback arm (D14), one model until C7
-  (D15), shallow checks by design (D16), injected defects at ceiling.
+- **No planned experiment remains.** The author chose journal only on
+  2026-10-08; the conference paper remains under review and untouched.
+- Journal writing: replace C7 placeholders with the verified results, record
+  amendments A1–A11, and cover limitations — no specific-but-wrong feedback
+  arm (D14), the bundled model/runtime comparison on fixed Gemini bases (D15),
+  shallow checks (D16), Gemini's ceiling and local repair headroom.
+- Author decisions for submission remain in `JOURNAL_PAPER_PLAN.md`; existing
+  draft and unrelated local edits have been preserved.

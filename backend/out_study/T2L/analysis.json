@@ -1,0 +1,529 @@
+{
+  "provenance": {
+    "script_sha256": "678d16ca781c0a337c8acb6f36546546d76f0f6528fd2b0ca2bbc58ae3ba9bad",
+    "seed": 20260803,
+    "n_boot": 10000,
+    "exploratory": true,
+    "trials_usable": 929,
+    "repetitions_planned": 3,
+    "exclusions": {
+      "provider_failure": 1
+    },
+    "served_models": {
+      "qwen25-7b-c7": 965
+    },
+    "total_tokens": 7361433
+  },
+  "A1_minus_A2": {
+    "arms": "A1-A2",
+    "n_defects": 138,
+    "dropped": 0,
+    "rate_A1": 0.7294685990338163,
+    "rate_A2": 0.6618357487922705,
+    "estimate": 0.0676328502415459,
+    "ci95": [
+      0.004830917874396136,
+      0.13285024154589373
+    ],
+    "majority_A1": 101,
+    "majority_A2": 91,
+    "discordant": {
+      "A1_only": 16,
+      "A2_only": 6
+    },
+    "mcnemar_p": 0.052478790283203125,
+    "reps_per_cell": {
+      "3/2": 1,
+      "3/3": 137
+    }
+  },
+  "rates": {
+    "A1": {
+      "arm": "A1",
+      "n_defects": 138,
+      "rate": 0.7294685990338163,
+      "ci95": [
+        0.6545893719806763,
+        0.8019323671497584
+      ]
+    },
+    "A2": {
+      "arm": "A2",
+      "n_defects": 138,
+      "rate": 0.6618357487922705,
+      "ci95": [
+        0.5821256038647343,
+        0.7391304347826086
+      ]
+    },
+    "A3": {
+      "arm": "A3",
+      "n_defects": 34,
+      "rate": 0.38235294117647056,
+      "ci95": [
+        0.20588235294117646,
+        0.5588235294117647
+      ]
+    }
+  },
+  "by_operator": {
+    "O1|A1": {
+      "rate": 0.393939393939394,
+      "n_defects": 22
+    },
+    "O1|A2": {
+      "rate": 0.46969696969696967,
+      "n_defects": 22
+    },
+    "O1|A3": {
+      "rate": 0.0,
+      "n_defects": 6
+    },
+    "O2|A1": {
+      "rate": 0.6363636363636364,
+      "n_defects": 22
+    },
+    "O2|A2": {
+      "rate": 0.25757575757575757,
+      "n_defects": 22
+    },
+    "O2|A3": {
+      "rate": 0.0,
+      "n_defects": 6
+    },
+    "O3|A1": {
+      "rate": 0.7272727272727273,
+      "n_defects": 22
+    },
+    "O3|A2": {
+      "rate": 0.5606060606060607,
+      "n_defects": 22
+    },
+    "O3|A3": {
+      "rate": 0.0,
+      "n_defects": 5
+    },
+    "O5|A1": {
+      "rate": 0.75,
+      "n_defects": 20
+    },
+    "O5|A2": {
+      "rate": 0.8,
+      "n_defects": 20
+    },
+    "O5|A3": {
+      "rate": 0.2,
+      "n_defects": 5
+    },
+    "O6|A1": {
+      "rate": 0.9230769230769231,
+      "n_defects": 26
+    },
+    "O6|A2": {
+      "rate": 0.9230769230769231,
+      "n_defects": 26
+    },
+    "O6|A3": {
+      "rate": 1.0,
+      "n_defects": 6
+    },
+    "O7|A1": {
+      "rate": 0.8846153846153846,
+      "n_defects": 26
+    },
+    "O7|A2": {
+      "rate": 0.8846153846153846,
+      "n_defects": 26
+    },
+    "O7|A3": {
+      "rate": 1.0,
+      "n_defects": 6
+    }
+  },
+  "by_stage": {
+    "reasoning_agent|A1": {
+      "rate": 0.5858585858585859,
+      "n_defects": 66
+    },
+    "reasoning_agent|A2": {
+      "rate": 0.4292929292929293,
+      "n_defects": 66
+    },
+    "reasoning_agent|A3": {
+      "rate": 0.0,
+      "n_defects": 17
+    },
+    "report_agent|A1": {
+      "rate": 0.9038461538461539,
+      "n_defects": 52
+    },
+    "report_agent|A2": {
+      "rate": 0.9038461538461539,
+      "n_defects": 52
+    },
+    "report_agent|A3": {
+      "rate": 1.0,
+      "n_defects": 12
+    },
+    "strategy_agent|A1": {
+      "rate": 0.75,
+      "n_defects": 20
+    },
+    "strategy_agent|A2": {
+      "rate": 0.8,
+      "n_defects": 20
+    },
+    "strategy_agent|A3": {
+      "rate": 0.2,
+      "n_defects": 5
+    }
+  },
+  "rates_by_severity": {
+    "O1": {
+      "A1": {
+        "arm": "A1",
+        "n_defects": 22,
+        "rate": 0.393939393939394,
+        "ci95": [
+          0.19696969696969696,
+          0.606060606060606
+        ]
+      },
+      "A2": {
+        "arm": "A2",
+        "n_defects": 22,
+        "rate": 0.46969696969696967,
+        "ci95": [
+          0.2727272727272727,
+          0.6818181818181818
+        ]
+      },
+      "A3": {
+        "arm": "A3",
+        "n_defects": 6,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "exact_ci95_defects": [
+          0.0,
+          0.4592581264399005
+        ]
+      }
+    },
+    "severe": {
+      "A1": {
+        "arm": "A1",
+        "n_defects": 116,
+        "rate": 0.7931034482758621,
+        "ci95": [
+          0.7155172413793104,
+          0.8620689655172413
+        ]
+      },
+      "A2": {
+        "arm": "A2",
+        "n_defects": 116,
+        "rate": 0.6982758620689654,
+        "ci95": [
+          0.6120689655172413,
+          0.7758620689655172
+        ]
+      },
+      "A3": {
+        "arm": "A3",
+        "n_defects": 28,
+        "rate": 0.4642857142857143,
+        "ci95": [
+          0.2857142857142857,
+          0.6428571428571429
+        ]
+      }
+    }
+  },
+  "contrast_by_severity": {
+    "O1": {
+      "arms": "A1-A2",
+      "n_defects": 22,
+      "dropped": 0,
+      "rate_A1": 0.393939393939394,
+      "rate_A2": 0.46969696969696967,
+      "estimate": -0.07575757575757575,
+      "ci95": [
+        -0.25795454545454516,
+        0.10606060606060606
+      ],
+      "majority_A1": 9,
+      "majority_A2": 10,
+      "discordant": {
+        "A1_only": 2,
+        "A2_only": 3
+      },
+      "mcnemar_p": 1.0,
+      "reps_per_cell": {
+        "3/3": 22
+      }
+    },
+    "severe": {
+      "arms": "A1-A2",
+      "n_defects": 116,
+      "dropped": 0,
+      "rate_A1": 0.7931034482758621,
+      "rate_A2": 0.6982758620689654,
+      "estimate": 0.09482758620689655,
+      "ci95": [
+        0.031609195402298854,
+        0.16379310344827586
+      ],
+      "majority_A1": 92,
+      "majority_A2": 81,
+      "discordant": {
+        "A1_only": 14,
+        "A2_only": 3
+      },
+      "mcnemar_p": 0.012725830078125,
+      "reps_per_cell": {
+        "3/2": 1,
+        "3/3": 115
+      }
+    }
+  },
+  "failure_types": {
+    "api_error": 1
+  },
+  "schema_failure_sensitivity": {
+    "failures_counted_unrepaired": 1,
+    "A1_minus_A2": {
+      "arms": "A1-A2",
+      "n_defects": 138,
+      "dropped": 0,
+      "rate_A1": 0.7294685990338163,
+      "rate_A2": 0.6618357487922705,
+      "estimate": 0.0676328502415459,
+      "ci95": [
+        0.004830917874396136,
+        0.13285024154589373
+      ],
+      "majority_A1": 101,
+      "majority_A2": 91,
+      "discordant": {
+        "A1_only": 16,
+        "A2_only": 6
+      },
+      "mcnemar_p": 0.052478790283203125,
+      "reps_per_cell": {
+        "3/3": 138
+      }
+    },
+    "rates": {
+      "A1": {
+        "arm": "A1",
+        "n_defects": 138,
+        "rate": 0.7294685990338163,
+        "ci95": [
+          0.6545893719806763,
+          0.8019323671497584
+        ]
+      },
+      "A2": {
+        "arm": "A2",
+        "n_defects": 138,
+        "rate": 0.6618357487922705,
+        "ci95": [
+          0.5821256038647343,
+          0.7391304347826086
+        ]
+      },
+      "A3": {
+        "arm": "A3",
+        "n_defects": 34,
+        "rate": 0.38235294117647056,
+        "ci95": [
+          0.20588235294117646,
+          0.5588235294117647
+        ]
+      }
+    }
+  },
+  "outcome_classes": {
+    "A1|deleted": 15,
+    "A1|repaired": 302,
+    "A1|replaced": 65,
+    "A1|unrepaired": 32,
+    "A2|deleted": 5,
+    "A2|repaired": 274,
+    "A2|replaced": 27,
+    "A2|unrepaired": 107,
+    "A3|deleted": 39,
+    "A3|repaired": 39,
+    "A3|replaced": 4,
+    "A3|unrepaired": 20
+  },
+  "multi_attempt_trials": {
+    "A3": 36
+  },
+  "without_multi_attempt_trials": {
+    "A1_minus_A2": {
+      "arms": "A1-A2",
+      "n_defects": 138,
+      "dropped": 0,
+      "rate_A1": 0.7294685990338163,
+      "rate_A2": 0.6618357487922705,
+      "estimate": 0.0676328502415459,
+      "ci95": [
+        0.004830917874396136,
+        0.13285024154589373
+      ],
+      "majority_A1": 101,
+      "majority_A2": 91,
+      "discordant": {
+        "A1_only": 16,
+        "A2_only": 6
+      },
+      "mcnemar_p": 0.052478790283203125,
+      "reps_per_cell": {
+        "3/2": 1,
+        "3/3": 137
+      }
+    },
+    "rates": {
+      "A1": {
+        "arm": "A1",
+        "n_defects": 138,
+        "rate": 0.7294685990338163,
+        "ci95": [
+          0.6545893719806763,
+          0.8019323671497584
+        ]
+      },
+      "A2": {
+        "arm": "A2",
+        "n_defects": 138,
+        "rate": 0.6618357487922705,
+        "ci95": [
+          0.5821256038647343,
+          0.7391304347826086
+        ]
+      },
+      "A3": {
+        "arm": "A3",
+        "n_defects": 22,
+        "rate": 0.045454545454545456,
+        "ci95": [
+          0.0,
+          0.13636363636363635
+        ]
+      }
+    }
+  },
+  "repeat_stability": {
+    "A1": {
+      "cells_complete": 138,
+      "identical_raw_call_sequences": 131,
+      "cells_planned": 138,
+      "same_outcome": 136,
+      "share_identical": 0.9492753623188406
+    },
+    "A2": {
+      "cells_complete": 137,
+      "identical_raw_call_sequences": 116,
+      "cells_planned": 138,
+      "same_outcome": 134,
+      "share_identical": 0.8467153284671532
+    }
+  },
+  "runtime_context_failures": 1,
+  "mean_seconds_by_arm": {
+    "A1": 17.759613526570046,
+    "A2": 17.600774818401938,
+    "A3": 17.15911764705882
+  },
+  "collateral": {
+    "A1": {
+      "rate": 0.10465116279069768,
+      "measurable": 258
+    },
+    "A2": {
+      "rate": 0.1517509727626459,
+      "measurable": 257
+    },
+    "A3": {
+      "rate": 1.0,
+      "measurable": 66
+    }
+  },
+  "first_draw_only": {
+    "A1_minus_A2": {
+      "arms": "A1-A2",
+      "n_defects": 137,
+      "dropped": 1,
+      "rate_A1": 0.7299270072992701,
+      "rate_A2": 0.6715328467153284,
+      "estimate": 0.058394160583941604,
+      "ci95": [
+        -0.0072992700729927005,
+        0.12408759124087591
+      ],
+      "majority_A1": 100,
+      "majority_A2": 92,
+      "discordant": {
+        "A1_only": 15,
+        "A2_only": 7
+      },
+      "mcnemar_p": 0.13380050659179688,
+      "reps_per_cell": {
+        "1/1": 137
+      }
+    }
+  },
+  "identical_to_clean": {
+    "A1": {
+      "trials": 414,
+      "identical": 174,
+      "share": 0.42028985507246375
+    },
+    "A2": {
+      "trials": 413,
+      "identical": 163,
+      "share": 0.3946731234866828
+    },
+    "A3": {
+      "trials": 102,
+      "identical": 0,
+      "share": 0.0
+    }
+  },
+  "paired_with_gemini": {
+    "A1": {
+      "n_defects": 137,
+      "local_minus_gemini": -0.24087591240875914,
+      "ci95": [
+        -0.32360097323600967,
+        -0.16058394160583941
+      ],
+      "local_rate": 0.7274939172749391,
+      "gemini_rate": 0.9683698296836984
+    },
+    "A2": {
+      "n_defects": 135,
+      "local_minus_gemini": -0.2938271604938272,
+      "ci95": [
+        -0.37530864197530867,
+        -0.21481481481481482
+      ],
+      "local_rate": 0.6617283950617284,
+      "gemini_rate": 0.9555555555555556
+    },
+    "A3": {
+      "n_defects": 34,
+      "local_minus_gemini": -0.5392156862745098,
+      "ci95": [
+        -0.6960784313725491,
+        -0.38235294117647056
+      ],
+      "local_rate": 0.38235294117647056,
+      "gemini_rate": 0.9215686274509803
+    }
+  }
+}

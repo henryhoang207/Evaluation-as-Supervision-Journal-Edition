@@ -35,7 +35,7 @@ where every design decision is filed, **before** its run.
 | Q3 | **Warm resampling** (plan D2, "REQUIRED"; §0.1 A7 filed) — `--cell warm` → `T2W` | ✅ done 2026-10-08 04:09, verified | Defaults below. Needs a temperature parameter threaded through `BaseAgent` with default 0 |
 | Q4 | **Downstream propagation** (plan D12; §0.1 A9; endpoint (b), author's choice) — `run_downstream.py` → `T2D` | ✅ done 2026-10-08 12:09, verified |
 | Q5 | **Tier-1 replay** (prereg §3 item 5; §0.1 A8 filed) — `run_tier1_replay.py` → `T1` | ✅ done 2026-10-08 06:36, verified | 13 real defects × {A1, A2, A3} at P0 (A0 undefined at P0, D9b) × r = 3 = 117 trials. Judged by the same checks (plan §5 Tier 1, item 2), descriptive only (MDE ≈ 31 pp) |
-| Q6 | **Second model — C7** (plan D5b) | ⛔ **waiting on the author's server** (RTX 5060) | Full procedure in **`C7_RUNBOOK.md`**: server setup → gates G1–G4 → `--cell c7` → amendment A10 → run (≈ 360 trials, $0) |
+| Q6 | **Second model — C7** (plan D5b) | ✅ **done 2026-10-12 17:31, verified** on the RTX 5060 Ti 16 GB | [Full results](C7_STATUS.md). A10/A11, r=3; 138 eligible defects, 930 local trials, 929 usable, no API fees. A1 72.9%, A2 66.2%; exploratory gap +6.8 pp [+0.5, +13.3], McNemar p=0.0525. Data `T2L`, commit `7188bb9` |
 
 ### Q3 defaults (to be filed as A7 — the author may change them before launch)
 
@@ -52,6 +52,8 @@ where every design decision is filed, **before** its run.
   tokens per arm (the Olausson equal-budget baseline).
 
 ## Log
+
+- 2026-10-12 17:32 — **Q6 verified; queue complete.** Qwen2.5-7B Q4_K_M / Ollama 0.40.3, all GPU, 32k context, 4096 output cap. Original G2 failed 8/10 identity; A11 r=3 was committed/pushed before final trials, G4 passed 8/10. 168/168 rows, 138 runnable defects, 930/930 trials, 929 usable, one session per defect; 929/929 offline scores/post-facts agree and all 966 returned raw calls verified. Four whole-defect context exclusions and 26 inapplicable rows. One A2 correction was blocked after its first response hit the output cap; counting it as unrepaired leaves results unchanged. A1 72.9%, A2 66.2%, gap +6.8 pp [+0.5, +13.3], exact majority McNemar p=0.0525; first-draw +5.8 pp [−0.7, +12.4]. Severe gap +9.5 pp [+3.2, +16.4]. Gemini ceiling does not replicate; feedback evidence is exploratory. Valid trials: 7.36 M unbilled local tokens, about 4 h 34 min collection, 426 offline tests passed. Data commit `7188bb9`; full report `C7_STATUS.md`. Charged Gemini budget unchanged. Next is journal writing; conference `main.tex` untouched.
 
 - 2026-10-07 — queue created; Q1 running, Q2 chained behind it.
 - 2026-10-07 23:45 — **Q1 verified**: 71/71 rows, 540/540 trials (1 `status_error`), 45/45 defects in one session, offline re-score 539/539, descriptors identical. A1 repair P0 94.1 %, P1 97.8 %, P2 97.8 %, P3 97.0 %; P1−P2 0.0 pp [−4.4, +4.4], P1−P3 +0.7 pp, P3−P2 −0.7 pp, P1−P0 +3.7 pp [−1.5, +9.6]. §5 prediction P1 ≫ P3 ≈ P2: **P3 ≈ P2 holds, P1 ≫ P2/P3 does not** (ceiling). All 16 report-stage defects needed a schema retry at P0 (50 of 52 multi-attempt trials); without them P0 = 90.8 % on 29 defects. Collateral P0 38 % vs P1 1 %. Drift of re-run P1 vs core: 97 % same class, 81 % byte-identical.

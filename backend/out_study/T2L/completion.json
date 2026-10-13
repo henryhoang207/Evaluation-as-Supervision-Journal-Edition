@@ -1,0 +1,15 @@
+{
+  "completed": "2026-10-12T10:31:56.054552+00:00",
+  "runtime_matches_gates": true,
+  "source_digest": "dcc998d715d788de2210bddafe3ea5c2b38e8b73ffcdf7224acffc26e57c9fee",
+  "verification": {
+    "passed": true,
+    "defect_rows": 168,
+    "trials_planned": 930,
+    "trials_usable": 929,
+    "trials_excluded": 1,
+    "offline_scores_agree": 929,
+    "raw_calls_checked": 966,
+    "problems": []
+  }
+}
