@@ -1,6 +1,6 @@
 {
   "provenance": {
-    "script_sha256": "bccc08b4396ec0041a418193fd17b8c31183faa85276faaf5f2c0852f037b9f7",
+    "script_sha256": "2d6adc169dfb9a32a8a286cf8d24e9ebc4c53256b46f9cd67dc6d7a0b319c406",
     "seed": 20260803,
     "n_boot": 10000,
     "defect_rows": 168,
@@ -465,6 +465,85 @@
       "A3": {
         "rate": 0.16666666666666666,
         "measurable": 66
+      }
+    }
+  },
+  "exploratory": {
+    "note": "post hoc, not pre-specified (RESULTS.md section 4); outputs compared as canonical JSON",
+    "identical_to_clean": {
+      "A0": {
+        "identical": 149,
+        "trials": 209,
+        "share": 0.7129186602870813
+      },
+      "A1": {
+        "identical": 288,
+        "trials": 421,
+        "share": 0.684085510688836
+      },
+      "A2": {
+        "identical": 223,
+        "trials": 417,
+        "share": 0.5347721822541966
+      },
+      "A3": {
+        "identical": 46,
+        "trials": 102,
+        "share": 0.45098039215686275
+      }
+    },
+    "distinct_outputs_per_cell": {
+      "A0": {
+        "cells": 69,
+        "by_distinct": {
+          "1": 53,
+          "2": 16,
+          "3": 0
+        },
+        "shares": {
+          "1": 0.7681159420289855,
+          "2": 0.2318840579710145,
+          "3": 0.0
+        }
+      },
+      "A1": {
+        "cells": 140,
+        "by_distinct": {
+          "1": 102,
+          "2": 38,
+          "3": 0
+        },
+        "shares": {
+          "1": 0.7285714285714285,
+          "2": 0.2714285714285714,
+          "3": 0.0
+        }
+      },
+      "A2": {
+        "cells": 139,
+        "by_distinct": {
+          "1": 83,
+          "2": 55,
+          "3": 1
+        },
+        "shares": {
+          "1": 0.5971223021582733,
+          "2": 0.39568345323741005,
+          "3": 0.007194244604316547
+        }
+      },
+      "A3": {
+        "cells": 34,
+        "by_distinct": {
+          "1": 2,
+          "2": 32,
+          "3": 0
+        },
+        "shares": {
+          "1": 0.058823529411764705,
+          "2": 0.9411764705882353,
+          "3": 0.0
+        }
       }
     }
   }

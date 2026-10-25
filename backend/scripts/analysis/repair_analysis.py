@@ -35,6 +35,12 @@ and the severe cell (1), A1/A0 (2), A3 by operator (3), per-operator rates (4),
 by stage (5), the changed-at-all chain (6), terminal verdicts (7), the O5
 sensitivity pair (8), and A2 vs A3 plus Cochran's Q (9).
 
+Two reads are post hoc and labelled exploratory (``RESULTS.md`` section 4):
+with ``--root`` (the study dumps), the share of retries identical to the clean
+pre-injection output, and the number of distinct outputs each (defect, arm)
+cell gave across its repetitions. Both compare outputs as canonical JSON
+(sorted keys), as the warm and c7 cells do.
+
 Run (from backend/, no API calls):
 
     python scripts/analysis/repair_analysis.py
@@ -287,7 +293,7 @@ def split_rule(primary: dict) -> dict:
 # ── the report ───────────────────────────────────────────────────────────────
 
 
-def analyse(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
+def analyse(rows: list[dict], seed: int = DEFAULT_SEED, root: str | None = None) -> dict:
     trials, excluded = usable_trials(rows)
     trials_sa, excluded_sa = usable_trials(rows, drop_multi_attempt=True)
     all_trials = [t for r in rows for t in r.get("trials", [])]
@@ -306,7 +312,7 @@ def analyse(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
     for t in trials:
         rep_change[(t["arm"], outcome_class(t))] += 1
 
-    return {
+    out = {
         "provenance": {
             "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             "seed": seed, "n_boot": N_BOOT,
@@ -351,6 +357,14 @@ def analyse(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
             "collateral_by_arm": _collateral(trials),
         },
     }
+    if root is not None:
+        out["exploratory"] = {
+            "note": "post hoc, not pre-specified (RESULTS.md section 4); outputs "
+                    "compared as canonical JSON",
+            "identical_to_clean": identity_to_clean(trials, _clean_outputs(rows, root)),
+            "distinct_outputs_per_cell": distinct_outputs(trials),
+        }
+    return out
 
 
 # ── the post-core passes (PREREGISTRATION.md section 0.1 A2, A3) ─────────────
@@ -611,6 +625,46 @@ def _clean_outputs(rows: list[dict], root: str) -> dict:
         base = inj.state_from_dump(dirs[r["defect_id"].rsplit(":", 1)[0]])
         out[r["defect_id"]] = base.get(inj.OUTPUT_KEY[trials[0]["stage"]])
     return out
+
+
+def canonical(output) -> str:
+    """An output as canonical JSON (sorted keys): the same identity the warm, c7
+    and drift reads compare."""
+    return json.dumps(output, sort_keys=True, ensure_ascii=False)
+
+
+def identity_to_clean(trials: list[dict], clean: dict) -> dict:
+    """Per arm, the share of retries identical to the clean pre-injection output.
+
+    The paper's "byte for byte" means this canonical-JSON identity. Trials whose
+    defect has no clean output in ``clean`` are not counted.
+    """
+    same, n = Counter(), Counter()
+    for t in trials:
+        if t["defect_id"] in clean:
+            n[t["arm"]] += 1
+            same[t["arm"]] += canonical(t.get("retried_output")) == canonical(clean[t["defect_id"]])
+    return {arm: {"identical": same[arm], "trials": n[arm], "share": same[arm] / n[arm]}
+            for arm in sorted(n)}
+
+
+def distinct_outputs(trials: list[dict], reps: int = 3) -> dict:
+    """Per arm, how many distinct outputs each (defect, arm) cell gave.
+
+    Only cells with all ``reps`` repetitions usable are counted, so a cell that
+    lost a repetition cannot read as more stable than it was.
+    """
+    outputs = defaultdict(list)
+    for t in trials:
+        outputs[(t["defect_id"], t["arm"])].append(canonical(t.get("retried_output")))
+    by_arm: dict = defaultdict(Counter)
+    for (_, arm), outs in outputs.items():
+        if len(outs) == reps:
+            by_arm[arm][len(set(outs))] += 1
+    return {arm: {"cells": sum(c.values()),
+                  "by_distinct": {str(k): c[k] for k in range(1, reps + 1)},
+                  "shares": {str(k): c[k] / sum(c.values()) for k in range(1, reps + 1)}}
+            for arm, c in sorted(by_arm.items())}
 
 
 def analyse_warm(rows: list[dict], core_rows: list[dict] | None = None,
@@ -1149,6 +1203,15 @@ def print_summary(res: dict) -> None:
         print(f"  Cochran Q (A1,A2,A3) = {q['Q']:.3f}, df {q['df']}, p = {q['p']:.4g}, n={q['n_defects']}")
     print("  rates O1 vs severe:", {k: _pct(v["rate"]) for k, v in sec["1_rates_O1_vs_severe"].items()})
     print("  outcome classes by arm:", sec["6_outcome_classes_by_arm"])
+    ex = res.get("exploratory")
+    if ex:
+        print("\nEXPLORATORY (post hoc, RESULTS.md section 4; canonical JSON)")
+        print("  identical to the clean output:", {
+            a: f"{v['identical']}/{v['trials']} = {_pct(v['share'])}"
+            for a, v in ex["identical_to_clean"].items()})
+        print("  distinct outputs per complete cell:", {
+            a: {k: _pct(s) for k, s in v["shares"].items()}
+            for a, v in ex["distinct_outputs_per_cell"].items()})
 
 
 def main() -> int:
@@ -1159,7 +1222,8 @@ def main() -> int:
     ap.add_argument("--checkpoint", default=None,
                     help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P, T2S or T2W")
     ap.add_argument("--root", default="out_study",
-                    help="--cell warm: the study dumps, for the byte-identity read")
+                    help="--cell core, warm, c7: the study dumps, for the identity "
+                         "reads; o5sens: for re-scoring")
     ap.add_argument("--core-checkpoint", default="out_study/T2/checkpoint.jsonl",
                     help="c1/placement/severity: the core, for the serving-drift comparison")
     ap.add_argument("--json", default=None, help="write the full result here")
@@ -1172,7 +1236,7 @@ def main() -> int:
         "c7": "out_study/T2L",
     }[args.cell] + "/checkpoint.jsonl"
     if args.cell == "core":
-        res = analyse(load_rows(checkpoint), seed=args.seed)
+        res = analyse(load_rows(checkpoint), seed=args.seed, root=args.root)
         print_summary(res)
     else:
         core = load_rows(args.core_checkpoint) if Path(args.core_checkpoint).exists() else None

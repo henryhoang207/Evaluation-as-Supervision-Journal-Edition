@@ -383,6 +383,47 @@ def test_warm_levels_name_arm_and_temperature():
 
 
 
+# -- the core's post hoc identity reads (RESULTS.md section 4) ------------------
+
+
+def _out_trial(defect, arm, output, rep=0):
+    return {**_trial(defect, arm, "repaired", rep), "retried_output": output}
+
+
+def test_identity_to_clean_compares_canonical_json_not_key_order():
+    clean = {"d1": {"a": 1, "b": [1, 2]}}
+    trials = [_out_trial("d1", "A1", {"b": [1, 2], "a": 1}, 0),   # keys reordered: identical
+              _out_trial("d1", "A1", {"a": 1, "b": [2, 1]}, 1),   # list order is content
+              _out_trial("d1", "A2", {"a": 2, "b": [1, 2]}, 0),
+              _out_trial("d2", "A1", {"a": 1}, 0)]                # no clean output: uncounted
+    res = ra.identity_to_clean(trials, clean)
+    assert res["A1"] == {"identical": 1, "trials": 2, "share": 0.5}
+    assert res["A2"] == {"identical": 0, "trials": 1, "share": 0.0}
+
+
+def test_distinct_outputs_count_only_cells_with_every_repetition():
+    trials = [_out_trial("d1", "A1", {"x": 1}, r) for r in range(3)]
+    trials += [_out_trial("d2", "A1", {"x": x}, r) for r, x in enumerate((0, 1, 0))]
+    trials += [_out_trial("d3", "A1", {"x": r}, r) for r in range(3)]
+    trials += [_out_trial("d4", "A1", {"x": 9}, 0)]           # one rep left: not a cell
+    res = ra.distinct_outputs(trials)["A1"]
+    assert res["cells"] == 3
+    assert res["by_distinct"] == {"1": 1, "2": 1, "3": 1}
+    assert res["shares"]["2"] == pytest.approx(1 / 3)
+
+
+def test_the_core_adds_the_identity_reads_only_with_the_dumps(monkeypatch):
+    rows = [_row("d1", [_out_trial("d1", "A1", {"x": 1}, r) for r in range(3)]
+                 + [_out_trial("d1", "A2", {"x": r}, r) for r in range(3)])]
+    assert "exploratory" not in ra.analyse(rows, seed=0)
+    monkeypatch.setattr(ra, "_clean_outputs", lambda rows, root: {"d1": {"x": 1}})
+    ex = ra.analyse(rows, seed=0, root="out_study")["exploratory"]
+    assert ex["identical_to_clean"]["A1"]["share"] == 1.0
+    assert ex["identical_to_clean"]["A2"]["identical"] == 1
+    assert ex["distinct_outputs_per_cell"]["A2"]["by_distinct"]["3"] == 1
+
+
+
 # -- Tier-1 replay (section 0.1 A8) --------------------------------------------
 
 
