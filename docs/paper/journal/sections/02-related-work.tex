@@ -4,8 +4,10 @@
 % Facts about cited papers come from the reading-list extractions in
 % ../Reading List/Tier_A/Tier_A_extraction.md and Tier_B/*.md, which were
 % read against the PDFs. Every number quoted here carries the denominator or
-% caveat those extractions flag. Tier-C papers (JOURNAL_PLAN section 2) were
-% not read; they appear only as TODO markers, never as citations.
+% caveat those extractions flag. The Tier-C papers (JOURNAL_PLAN section 2)
+% were read in full on 2026-10-20 before they were cited: AgentSpec and
+% Reddy et al. (Section 2.1), AgenTracer and Who&When (Section 2.3), and
+% Defects4J (Section 2.4).
 % =====================================================================
 
 \subsection{Verifying LLM pipeline outputs at run time}
@@ -38,10 +40,19 @@ neither rule-based nor LLM-based diagnosis identified the fault's type or step
 with more than 56\% accuracy~\citep{tan2026agentchaos}. A supervisor whose
 checks fire on a known class at a known location has that information by
 construction.
-\TODO{Tier-C runtime-enforcement work (AgentSpec, ICSE 2026; ``Reason Less,
-Verify More'', arXiv 2607.07405) belongs here. It enforces action-safety
-policies, whereas our supervisor checks content groundedness between stages.
-Read both, then cite.}
+
+Two recent systems enforce policies on an agent's actions at run time. In
+AgentSpec~\citep{wang2026agentspec}, a rule pairs a triggering event, such as
+an action about to execute, with predicates over it and an enforcement: asking
+the user to confirm, an LLM self-examination, a corrective action, or stopping
+the agent. \citet{reddy2026gates} place deterministic, read-only gates before
+the state-changing tool calls of an airline customer-service agent. With
+gpt-4o-mini as its model, the gates raised task success from 29.6\% to 42.0\%.
+Recovery after a rejection still depended on the model, and the authors leave
+open how much of it the content of the rejection message explains. Both systems
+check actions against a policy. Our supervisor checks what one stage hands to
+the next against upstream state, and our arms \arm{A1} and \arm{A2} separate an
+informative rejection from a generic one.
 
 \subsection{Self-correction and the role of feedback}
 \label{sec:related-selfcorrection}
@@ -81,11 +92,13 @@ informative ones, because execution still decides whether to revise. Removing
 that trigger can push accuracy below the no-repair baseline. Two studies
 manipulate presentation rather than content. \citet{tsui2026scbench} injects the
 same error either into the user's turn or into the model's own, and finds that
-models correct the external error far more often (an average gap of 64.5\% over
-14 models). Appending a contentless continuation cue (``Wait'') closes 89.3\% of
-that gap. \citet{chen2026rolerelabel}, in an unrefereed preprint, hold an
-erroneous claim byte-identical while changing only the chat role that carries
-it. Explicit correction rises by 23 to 93 points, significantly in 10 of 12
+models correct the external error far more often. Its self-correction blind
+spot, one minus the ratio of the internal to the external correction rate,
+averages 64.5\% across 14 models. Appending a contentless continuation cue
+(``Wait'') reduces that blind spot by 89.3\%. \citet{chen2026rolerelabel}, in
+an unrefereed preprint, hold an erroneous claim byte-identical while changing
+only the chat role that carries it. Explicit correction rises by 23 to 93
+points, significantly in 10 of 12
 model--domain combinations. Two code-repair studies shape the single-retry
 design: a second editing round can degrade results~\citep{zhang2023selfedit}, and
 most of the gain from iterated repair arrives in the first round or
@@ -126,9 +139,17 @@ It discards tasks in which the configured fault never fired, a trigger
 verification our design adopts. It finds that injection position matters most
 for pipeline architectures, and that silent failures, plausible outputs with no
 warning, account for 22\% to 66\% of failures depending on the system.
-\TODO{Tier-C failure-attribution work (AgenTracer, arXiv 2509.03312; Who\&When)
-uses counterfactual replay and injection to train fault \emph{attribution}.
-Read, then add one sentence distinguishing that purpose from ours.}
+A third line of work, failure attribution, asks which agent and which step
+caused a failed run. Who\&When~\citep{zhang2025whowhen} is a benchmark of
+hand-annotated failure logs from 127 multi-agent systems; the best of the three
+attribution methods evaluated on it found the decisive step in 14.2\% of cases.
+AgenTracer~\citep{zhang2026agentracer} labels runs automatically to train an
+attribution model. Failed runs are labelled by counterfactual replay, which
+corrects one action at a time and re-runs the rest; successful runs become
+failures through an injected fault, whose step is then known by construction.
+Attribution locates a fault after a run has failed. Our supervisor locates a
+defect while the pipeline runs, and our injections measure whether the retry
+then removes it.
 
 This work measures tolerance, propagation and diagnosis. None of it measures
 whether a supervisor's feedback gets a defect \emph{repaired}. None of it checks
@@ -139,7 +160,10 @@ own.
 \label{sec:related-proxy}
 
 Software engineering asked the second question of mutation analysis long
-before LLM pipelines existed. \citet{just2014mutants} test whether artificial
+before LLM pipelines existed. Testing studies commonly used hand-seeded faults
+and mutants in place of real bugs, which are hard to extract and reproduce.
+Defects4J~\citep{just2014defects4j} was built to make real faults available
+for controlled studies. \citet{just2014mutants} test whether artificial
 mutants can stand in for real faults. Across 357 real faults in five Java
 programs, 73\% were coupled to mutants from commonly used operators, and a
 test suite's mutant detection correlated with its real-fault detection beyond
@@ -152,5 +176,3 @@ The 13 defects the production supervisor caught are replayed through the same
 retry. Before the study, blinded raters compared real and injected defects, and
 both results are reported beside the injected-defect rates
 (Sections~\ref{sec:design-operators} and~\ref{sec:results-rq3}).
-\TODO{Consider one citation to Defects4J (Just et al., ISSTA 2014) for the
-real-versus-seeded benchmark tradition; not yet in the bibliography.}

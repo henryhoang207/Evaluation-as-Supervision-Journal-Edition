@@ -34,6 +34,8 @@
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}   % tabularx, ragged
 \setlist{itemsep=2pt,topsep=4pt}
+% Four-digit line numbers must fit inside the 18pt column gap.
+\setlength{\linenumbersep}{4pt}
 
 % Verbatim prompt wording (arms, placements, C1): monospace cannot hyphenate,
 % so set it small and ragged-right to keep long lines inside the text block.
@@ -41,12 +43,15 @@
   {\begin{quote}\footnotesize\ttfamily\raggedright}%
   {\end{quote}}
 
-% Float placement: the preprint layout's text block is narrow (390pt) and
-% tall tables otherwise drift to the end of the document.
+% Float placement for the two-column journal layout. Wide tables and the
+% forest plot span both columns; allow them near the top of a text page.
 \renewcommand{\topfraction}{0.9}
 \renewcommand{\bottomfraction}{0.8}
 \renewcommand{\textfraction}{0.07}
 \renewcommand{\floatpagefraction}{0.75}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\dblfloatpagefraction}{0.75}
 \setcounter{topnumber}{3}
 \setcounter{bottomnumber}{2}
 \setcounter{totalnumber}{5}
+\setcounter{dbltopnumber}{2}

@@ -1,5 +1,5 @@
 % JSS: at most 250 words, no references, abbreviations defined at first use.
-% Count with the README's word-count command; the C7 sentence is budgeted.
+% Count with check_draft.py (README); the second-model sentence was budgeted.
 Pipelines of large language model (LLM) agents are increasingly shipped as
 software components. A deterministic supervisor can verify each stage's output
 against upstream state at run time and, when a check fails, retry the stage
@@ -18,7 +18,7 @@ clean output byte for byte in about two-thirds of retries, at temperature 0
 and 1 alike. Real defects differed. The production retry was accepted for
 28\% of production-caught defects against 98.5\% of injected ones; most real
 defects were the supervisor's own false positives. Unrepaired defects propagated silently, and one downstream check
-rewarded propagation. \CSEVEN{one sentence: does the null replicate on the
-second model?} Showing the model its rejected output, rather than wording the
-feedback, is the effective design lever: it cut collateral damage from 38\% to
-1\%.
+rewarded propagation. On a second, small local model, measured facts repaired
+73\% and the rejection 66\%, an exploratory 6.8-point gap. Showing the model its rejected
+output, more than wording the feedback, is the effective design lever: it cut
+collateral damage from 38\% to 1\%.

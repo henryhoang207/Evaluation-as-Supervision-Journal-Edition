@@ -16,6 +16,13 @@
 %  simmering2023, wu2024absa, niimi2024, cot, react, malik2024, sokolova2009,
 %  zhang2015.
 %
+%  RE-CHECK, 2026-10-16 (CITATION_CHECK.md, run 2): all 18 Crossref DOIs, the
+%  3 arXiv DOIs (DataCite) and the 10 arXiv records re-fetched and still agree
+%  with the entries below. Formatting only this time: named artefacts in titles
+%  are brace-protected so the style does not lower-case them (arimbur2026,
+%  mtbench, selfrefine, zhang2023selfedit, tsui2026scbench, yelpdataset), and
+%  huang2025resilience prints its PMLR volume. No metadata changed.
+%
 %  Re-run the check (and re-check the three preprints for a published
 %  version) immediately before submission.
 % =====================================================================
@@ -100,7 +107,7 @@
                Yang, Yiming and Gupta, Shashank and Majumder, Bodhisattwa Prasad
                and Hermann, Katherine and Welleck, Sean and
                Yazdanbakhsh, Amir and Clark, Peter},
-  title     = {Self-Refine: Iterative Refinement with Self-Feedback},
+  title     = {{Self-Refine}: Iterative Refinement with Self-Feedback},
   booktitle = {Advances in Neural Information Processing Systems 36},
   pages     = {46534--46594},
   year      = {2023},
@@ -202,7 +209,7 @@
 % the arXiv comment says "Accepted to COLM 2026". No proceedings ordinal given.
 @inproceedings{tsui2026scbench,
   author    = {Tsui, Ken},
-  title     = {Self-Correction Bench: Uncovering and Addressing the
+  title     = {{Self-Correction Bench}: Uncovering and Addressing the
                Self-Correction Blind Spot in Large Language Models},
   booktitle = {Conference on Language Modeling (COLM)},
   year      = {2026},
@@ -225,7 +232,7 @@
 % Crossref 10.18653/v1/2023.acl-long.45.
 @inproceedings{zhang2023selfedit,
   author    = {Zhang, Kechi and Li, Zhuo and Li, Jia and Li, Ge and Jin, Zhi},
-  title     = {Self-Edit: Fault-Aware Code Editor for Code Generation},
+  title     = {{Self-Edit}: Fault-Aware Code Editor for Code Generation},
   booktitle = {Proceedings of the 61st Annual Meeting of the Association for
                Computational Linguistics (Volume 1: Long Papers)},
   pages     = {769--787},
@@ -238,7 +245,7 @@
 % never for point estimates.
 @misc{arimbur2026,
   author       = {Arimbur, Johin Johny},
-  title        = {How Many Tries Does It Take? Iterative Self-Repair in {LLM} Code
+  title        = {How Many Tries Does It Take? {I}terative Self-Repair in {LLM} Code
                   Generation Across Model Scales and Benchmarks},
   howpublished = {arXiv preprint},
   year         = {2026},
@@ -265,7 +272,7 @@
                Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and
                Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and
                Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
-  title     = {Judging {LLM}-as-a-Judge with {MT-Bench} and Chatbot Arena},
+  title     = {Judging {LLM}-as-a-Judge with {MT-Bench} and {Chatbot Arena}},
   booktitle = {Advances in Neural Information Processing Systems 36},
   pages     = {46595--46623},
   year      = {2023},
@@ -297,6 +304,34 @@
   doi       = {10.52202/079017-2197},
 }
 
+% ---- Runtime enforcement for LLM agents (added 2026-10-20) ---------------
+% Version of record. Crossref 10.1145/3744916.3764546, checked 2026-10-20
+% (title, authors, proceedings title, pages); read in full (arXiv v3) the
+% same day.
+@inproceedings{wang2026agentspec,
+  author    = {Wang, Haoyu and Poskitt, Christopher M. and Sun, Jun},
+  title     = {{AgentSpec}: Customizable Runtime Enforcement for Safe and Reliable
+               {LLM} Agents},
+  booktitle = {Proceedings of the 2026 IEEE/ACM 48th International Conference on
+               Software Engineering (ICSE)},
+  pages     = {2938--2950},
+  year      = {2026},
+  doi       = {10.1145/3744916.3764546},
+}
+
+% Preprint. Its first page says it was accepted at the KDD 2026 Workshop on
+% Evaluation and Trustworthiness of Agentic AI, which is non-archival, so the
+% arXiv version is the one to cite. Title, authors and versions from DataCite
+% and the arXiv API, 2026-10-20; v1 and v2 read in full the same day.
+@misc{reddy2026gates,
+  author       = {Reddy, Vikas and Challaram, Sumanth Reddy and Basu, Abhishek},
+  title        = {Reason Less, Verify More: Deterministic Gates Recover a Silent
+                  Policy-Violation Failure Mode in Tool-Using {LLM} Agents},
+  howpublished = {arXiv preprint (version 2)},
+  year         = {2026},
+  doi          = {10.48550/arXiv.2607.07405},
+}
+
 % ---- Fault injection and failure analysis in multi-agent LLM systems ----
 % DOI from the ACM camera-ready apparatus printed in the PDF (ASE '26,
 % Munich); pages from Crossref.
@@ -326,6 +361,34 @@
   doi          = {10.48550/arXiv.2602.19843},
 }
 
+% Added 2026-10-20. Title, authors and pages from the PMLR page
+% (proceedings.mlr.press/v267/zhang25cq); read in full (arXiv HTML) the same
+% day. The benchmark's annotations are by hand.
+@inproceedings{zhang2025whowhen,
+  author    = {Zhang, Shaokun and Yin, Ming and Zhang, Jieyu and Liu, Jiale and
+               Han, Zhiguang and Zhang, Jingyang and Li, Beibin and Wang, Chi and
+               Wang, Huazheng and Chen, Yiran and Wu, Qingyun},
+  title     = {Which Agent Causes Task Failures and When? {O}n Automated Failure
+               Attribution of {LLM} Multi-Agent Systems},
+  booktitle = {Proceedings of the 42nd International Conference on Machine
+               Learning (ICML), PMLR 267},
+  pages     = {76583--76599},
+  year      = {2025},
+}
+
+% Added 2026-10-20. ICLR 2026 poster: title and authors from the conference's
+% poster page (iclr.cc/virtual/2026/poster/10007726), which links OpenReview
+% forum l05DseqvuD; OpenReview's API asked for a challenge and was not
+% queried. Read in full (arXiv HTML) the same day.
+@inproceedings{zhang2026agentracer,
+  author    = {Zhang, Guibin and Wang, Junhao and Chen, Junjie and
+               Zhou, Wangchunshu and Wang, Kun and Yan, Shuicheng},
+  title     = {{AgenTracer}: Who Is Inducing Failure in the {LLM} Agentic Systems?},
+  booktitle = {The Fourteenth International Conference on Learning Representations},
+  year      = {2026},
+  eprint    = {2509.03312},
+}
+
 % Peer-reviewed despite the arXiv stamp: the PDF prints "Proceedings of the
 % 42nd International Conference on Machine Learning ... PMLR 267, 2025".
 % Pages and author names from the PMLR page (proceedings.mlr.press/v267/huang25ay).
@@ -336,11 +399,8 @@
   title     = {On the Resilience of {LLM}-Based Multi-Agent Collaboration with
                Faulty Agents},
   booktitle = {Proceedings of the 42nd International Conference on Machine
-               Learning (ICML)},
-  series    = {Proceedings of Machine Learning Research},
-  volume    = {267},
+               Learning (ICML), PMLR 267},
   pages     = {26202--26226},
-  publisher = {PMLR},
   year      = {2025},
 }
 
@@ -370,6 +430,20 @@
   pages     = {654--665},
   year      = {2014},
   doi       = {10.1145/2635868.2635929},
+}
+
+% Verified against Crossref 2026-10-23 (title, authors, pages, DOI); abstract
+% read at the ACM Digital Library and in the authors' PDF. Crossref also shows
+% just2014mutants citing this paper.
+@inproceedings{just2014defects4j,
+  author    = {Just, Ren{\'e} and Jalali, Darioush and Ernst, Michael D.},
+  title     = {{Defects4J}: A Database of Existing Faults to Enable Controlled
+               Testing Studies for {Java} Programs},
+  booktitle = {Proceedings of the 2014 International Symposium on Software
+               Testing and Analysis (ISSTA)},
+  pages     = {437--440},
+  year      = {2014},
+  doi       = {10.1145/2610384.2628055},
 }
 
 % Verified against Crossref 2026-10-09 (title, authors, volume, issue, pages).
@@ -403,29 +477,38 @@
 % canonical peer-reviewed dataset paper -- see Zhang et al. (2015) for the
 % derived benchmark") is an internal remark and is kept here as a comment.
 % JSS wants data references marked [dataset] and web references to carry an
-% access date. The page was reached on 2026-10-09; the old address
-% https://www.yelp.com/dataset now redirects to the one below.
-% TODO: add the date the dataset FILES were downloaded to the data statement.
+% access date. The page was reached on 2026-10-09 and again on 2026-10-23;
+% the old address https://www.yelp.com/dataset now redirects to the one below.
+% The dataset files were downloaded on 18 May 2026 (date from the author,
+% 2026-10-16); the data statement in sections/declarations.tex says so.
+% Year (closed 2026-10-23, was CITATION_CHECK.md run 2 item 4): the page still
+% gives 6,990,280 reviews and 150,346 businesses, the counts of the local index,
+% whose reviews end on 2022-01-19. That is the 2022 release; nothing supported
+% the earlier 2024.
 @misc{yelpdataset,
   author       = {{Yelp Inc.}},
-  title        = {Yelp Open Dataset},
+  title        = {{Yelp Open Dataset}},
   howpublished = {\url{https://business.yelp.com/data/resources/open-dataset/}},
-  note         = {[dataset]. Accessed 9 October 2026},
-  year         = {2024}
+  note         = {[dataset]. Accessed 23 October 2026},
+  year         = {2022}
 }
 
 % ---- The conference version of this work ------------------------------
-% TODO: update when conference paper #1 is decided (venue, pages, DOI). Until
-% then it is cited as a manuscript under review; see the extension
-% declaration in sections/01-introduction.tex. Title and author names checked
-% against ../main.tex on 2026-10-09. NOTE: Elsevier's guide discourages
-% references to unpublished results; if the entry stays, its date should read
-% "unpublished results" (see CITATION_CHECK.md).
-@unpublished{hoang2026eas,
-  author = {Hoang, Huu Hoan and Pham, Ho Quang Dung and Tran, Manh Duc and
-            Nguyen, Nam Khanh and Nguyen, Manh Toan},
-  title  = {Evaluation as Supervision: Deterministic Runtime Verification of
-            Claims in a Multi-Agent {LLM} Pipeline},
-  note   = {Manuscript under review},
-  year   = {2026},
+% Accepted at EAI FISAT 2026 (author, 2026-10-23); not yet published, so it is
+% cited "In press", which Elsevier's guide reserves for accepted work. The
+% conference name is the one on fisat.eai-conferences.org/2026 (read
+% 2026-10-23), which announces the proceedings for the EAI/Springer
+% Innovations in Communication and Computing series. Add series, publisher,
+% pages and DOI once the volume is out. Title and author names checked against
+% ../main.tex on 2026-10-09 and again 2026-10-23; recheck them against the
+% camera-ready version.
+@inproceedings{hoang2026eas,
+  author    = {Hoang, Huu Hoan and Pham, Ho Quang Dung and Tran, Manh Duc and
+               Nguyen, Nam Khanh and Nguyen, Manh Toan},
+  title     = {Evaluation as Supervision: Deterministic Runtime Verification of
+               Claims in a Multi-Agent {LLM} Pipeline},
+  booktitle = {Proceedings of the EAI FPT International Conference on
+               Intelligent Systems and Advanced Technologies (FISAT 2026)},
+  note      = {In press},
+  year      = {2026},
 }

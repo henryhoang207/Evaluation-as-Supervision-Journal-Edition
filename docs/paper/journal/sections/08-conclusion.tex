@@ -11,8 +11,9 @@ measured value: the difference was +0.7 percentage points, with an interval
 that excludes anything larger than about 4. The reason is that the model,
 shown its defective output, mostly copies it back and corrects the one
 inconsistency it can see. The information the supervisor measures is in the
-model's context too. \CSEVEN{one sentence on whether this holds for the second
-model.}
+model's context too. A second model that repaired far less often gained an
+exploratory 6.8 points from the measured facts, apparently because they told it
+where the defect was; the null describes a capable model, not every model.
 
 What the supervisor \emph{does} matters more than what it \emph{says}. Showing
 the model its rejected output left repair unchanged and cut collateral damage
@@ -26,7 +27,8 @@ overwritten than retried. A retry also fixes it, but only an overwrite does so
 exactly and at no cost.
 
 For engineers, the lesson is to spend effort on where a check looks and how
-precisely it fires, not on how its complaint is worded. For researchers who
+precisely it fires, not on how its complaint is worded beyond naming what
+failed. For researchers who
 evaluate LLM systems by fault injection, the lesson is one that mutation
 testing learned for detection: injected faults stand in for real ones only once
 a coupling study shows that they do. Until then, a repair rate measured on

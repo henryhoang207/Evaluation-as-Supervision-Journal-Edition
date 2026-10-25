@@ -5,12 +5,13 @@
 %    rows 6-7   backend/out_study/T2C1/analysis.json (gap_C0, gap_C1)
 %    rows 8-9   backend/out_study/T2W/analysis.json  (A1@T0-A2@T0, A1@T1-A2@T1)
 %    row 10     backend/out_study/T2D/analysis.json  (E1_contrasts.A1-A2)
-%    row 11     C7 -- pending (second model, amendment A10)
+%    row 11     backend/out_study/T2L/analysis.json  (A1_minus_A2; second
+%               model, amendments A10/A11 -- the only non-hosted row)
 %  Colours: dataviz reference palette -- slot 1 (#2A78D6) for the one
 %  confirmatory row, secondary ink (#52514E) for the rest (emphasis scheme);
 %  solid hairline grid; text stays in ink colours, never the mark colour.
-%  Width budget: labels ~4.3 cm + plot 5.6 cm + estimates ~2.9 cm < 13.7 cm
-%  (the preprint layout's 390pt text width).
+%  Width budget: labels ~4.3 cm + plot 5.6 cm + estimates ~2.9 cm < 18.4 cm
+%  (the two-column layout's full-width figure* text block).
 % =====================================================================
 \begin{tikzpicture}[x=0.17cm, y=-0.5cm, font=\footnotesize]
   \definecolor{fpaccent}{HTML}{2A78D6}
@@ -26,8 +27,8 @@
     \node[anchor=west, text=fpink, font=\scriptsize] at (14.6,#1) {#6};
   }
 
-  % last data row sits at y = 11.8; the C7 row (if shown) at 13.4
-  \ifshowplaceholders\def\ybottom{14.2}\else\def\ybottom{12.6}\fi
+  % last data row (second model) sits at y = 13.4
+  \def\ybottom{14.2}
 
   % primary interval band
   \fill[fpaccent!10] (-2.9,0.35) rectangle (4.3,\ybottom);
@@ -66,11 +67,9 @@
   % --- pipeline level
   \fprow{11.8}{Downstream acceptance (88)}{-5.7}{0.0}{5.7}%
         {\phantom{+}0.0 [$-$5.7, +5.7]}{fpink}
-  % --- second model (placeholder)
-  \ifshowplaceholders
-    \node[anchor=east, text=cseven] at (-14.6,13.4) {\textsf{[C7] Second model, pending}};
-    \node[anchor=west, text=cseven] at (14.6,13.4) {\textsf{--}};
-  \fi
+  % --- second model (Qwen2.5-7B-Instruct, local)
+  \fprow{13.4}{Second model (138)}{0.5}{6.8}{13.3}%
+        {+6.8 [+0.5, +13.3]}{fpink}
 
   % x axis
   \draw[fpzero, line width=0.4pt] (-14,\ybottom) -- (14,\ybottom);

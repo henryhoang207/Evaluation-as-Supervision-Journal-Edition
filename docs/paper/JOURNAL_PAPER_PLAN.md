@@ -24,7 +24,17 @@ review. The journal paper is a new document.
 | Venue | ✅ **JSS (Journal of Systems and Software, Elsevier), regular paper** — **author, 2026-10-08**, replacing EMSE. JSS's scope lists "Software Engineering for AI systems" and explicitly welcomes negative results; single-anonymised review; Elsevier `elsarticle` template, author–year references. **Open access is free for a Swinburne-affiliated corresponding author** under the CAUL–Elsevier agreement (hybrid journal, APC waived, uncapped; articles accepted 2026-01-01 → 2029-12-31; corresponding author must submit from an institutional email — confirmed in CAUL's title finder 2026-10-08). Fallback order: IST (Elsevier, also APC-waived), then EMSE (Springer, APC-waived under the CAUL–Springer agreement) |
 | Second model | C7 is the last experiment (`C7_RUNBOOK.md`). The paper should **wait for it** — D15 (one model) is the main threat to a null result |
 
-## 2. Author decisions still open (each blocks a specific part)
+## 2. Author decisions — ✅ all answered 2026-10-23
+
+> **Answered by the author on 2026-10-23** and written into the draft the same
+> day; `journal/RESOLVED_TODOS.md` records each change and its check. D5: the
+> journal authors are **Huu Hoan Hoang** (corresponding) and **Manh Toan
+> Nguyen** only. D2: conference #1 was **accepted at EAI FISAT 2026**, not yet
+> published, and is cited "In press". D3: items 2 and 4 of the draft's §6.6
+> stay journal findings, following the precedent. D4: the GitHub repository
+> is **made public at submission**. Also: no funding; the author ran C7
+> without generative-AI support. The original questions are kept below as
+> they were asked.
 
 1. **Authorship (D5).** Conference #1 lists five authors (Hoang, Pham, Tran,
    Nguyen, and the supervisor Dr. Nguyen Manh Toan). Decide the journal author
@@ -153,7 +163,8 @@ from the papers themselves, and run **`/ars-citation-check`** before submission.
 ✅ **2026-10-09: steps 2–4 are done — a full first draft for JSS is in
 `journal/`** (see `journal/README.md` for the placeholder inventory and the
 pre-submission checklist). Still open: step 1's author decisions, step 5, and
-step 6 (C7).
+step 6 (C7). ✅ **2026-10-13: step 6 is done** — C7 merged and written into
+the draft (RQ6 subsection with Table 10, a forest-plot row, threats update).
 
 1. Settle §2's author decisions 1 and 2; download the template (§3).
 2. Outline (`/ars-outline` can produce an outline with an evidence map).

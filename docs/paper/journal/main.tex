@@ -9,15 +9,17 @@
 %  committed analysis outputs it names (backend/out_study/*/analysis.json,
 %  backend/out_study/secondary_extra.json). The design and every deviation
 %  from it come from docs/paper/PREREGISTRATION.md (frozen at the annotated
-%  tag prereg-freeze; amendments section 0.1 A1-A9).
+%  tag prereg-freeze; amendments section 0.1 A1-A11).
 %
-%  Placeholders:  \CSEVEN{...}  second-model (C7) material, pending the run
-%                 \TODO{...}    open author decisions and pre-submission items
+%  Placeholders:  \TODO{...}    open author decisions and pre-submission items
+%                 \CSEVEN{...}  second-model (C7) material -- all filled
+%                               2026-10-13 from backend/out_study/T2L
 %  grep for both before submission; README.md lists them.
 %
-%  Do NOT edit ../main.tex -- that is conference paper #1, under review.
+%  Do NOT edit ../main.tex -- that is conference paper #1 (accepted at EAI
+%  FISAT 2026, not yet published).
 % =====================================================================
-\documentclass[preprint,12pt,authoryear]{elsarticle}
+\documentclass[final,5p,twocolumn,authoryear]{elsarticle}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -54,18 +56,16 @@
 A Pre-registered Fault-Injection Study of Deterministic Runtime Supervision}
 
 % ---------------------------------------------------------------------
-% TODO (D5, JOURNAL_PAPER_PLAN section 2 item 1): the journal author list is
-% an open author decision. The block below is the conference #1 list, kept as
-% the default until the author decides. JSS: single-anonymised review, so
-% names appear in the submission. The corresponding author's affiliation
-% alone decides CAUL open-access eligibility (APC waived for a Swinburne
-% University of Technology affiliation, institutional email required).
+% Author list (D5, JOURNAL_PAPER_PLAN section 2 item 1): decided by the
+% author on 2026-10-23 -- Hoang and Nguyen only. The other three authors of
+% the conference version are thanked in the Acknowledgements. JSS:
+% single-anonymised review, so names appear in the submission. The
+% corresponding author's affiliation alone decides CAUL open-access
+% eligibility (APC waived for a Swinburne University of Technology
+% affiliation, institutional email required).
 % ---------------------------------------------------------------------
 \author[swin]{Huu Hoan Hoang\corref{cor1}}
 \ead{105732188@student.swin.edu.au}
-\author[swin]{Ho Quang Dung Pham}
-\author[swin]{Manh Duc Tran}
-\author[swin]{Nam Khanh Nguyen}
 \author[swin]{Manh Toan Nguyen}
 \cortext[cor1]{Corresponding author.}
 \affiliation[swin]{organization={Swinburne Vietnam, FPT University},
@@ -87,11 +87,10 @@ pre-registration
 
 \end{frontmatter}
 
-\TODO{Draft of 2026-10-08. Open before submission: author list and
-corresponding author (D5); the conference-version declaration and its timing
-(Section~\ref{sec:intro-extension}); data availability; the Tier-C citations
-marked in Section~\ref{sec:related}; the generative-AI declaration; and every
-\textsf{[C7]} placeholder, which waits on the second-model run.}
+% Draft of 2026-10-08; second-model results added 2026-10-13. The open items
+% this note listed (author list, conference-version declaration, data
+% availability, Tier-C citations, generative-AI declaration) were closed on
+% 2026-10-23; RESOLVED_TODOS.md records how.
 
 \linenumbers
 
@@ -108,7 +107,10 @@ marked in Section~\ref{sec:related}; the generative-AI declaration; and every
 \input{sections/declarations}
 
 \bibliographystyle{elsarticle-harv}
+\begingroup
+\renewcommand{\bibfont}{\small}
 \bibliography{references}
+\endgroup
 
 \appendix
 \input{sections/appendix}

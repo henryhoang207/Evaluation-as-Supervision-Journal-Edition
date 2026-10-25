@@ -1,9 +1,10 @@
 # JSS highlights: 3-5 bullets, each at most 85 characters including spaces.
 # Submitted as a separate editable file whose name contains "highlights".
 # Lines starting with # are notes and are not submitted.
-# C7: revisit bullet 2 once the second model has run (one model or two).
+# Bullet 2 covers both models (revised 2026-10-13 after the second-model run):
+# the confirmatory null on the hosted model, and the exploratory local result.
 - Pre-registered fault injection into a deterministically supervised LLM pipeline
-- Measured-fact feedback and a contentless rejection repair alike (94.7% vs 94.0%)
+- Feedback content: null at the ceiling, +6.8 pp on a small local model (exploratory)
 - Repair is copy-and-correct of the shown output, not re-derivation
 - Production retry is accepted for 28% of real defects vs 98.5% of injected ones
 - Unrepaired defects propagate silently; local checks reward fidelity to upstream

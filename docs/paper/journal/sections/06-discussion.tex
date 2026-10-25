@@ -33,15 +33,28 @@ The result therefore sides with the accounts that locate the active ingredient
 in the signal and in what the model can see
 \citep{chen2024selfdebug,chen2026rolerelabel,tsui2026scbench}. It does not side
 with those that locate it in feedback content~\citep{olausson2024selfrepair},
-but only for defects this easy to undo. The study says nothing about defects the
+but only for defects this easy to undo. The core says nothing about defects the
 model cannot see or cannot fix. The one cell with headroom, the
 production-like \op{O1} at 84.7\%, gives the same answer: \arm{A1} and \arm{A2}
 were identical. Its interval of $\pm12.5$\pp{} is too wide to exclude a
-moderate effect. \CSEVEN{State here whether the second model, which repairs
-[less / about as] often, opens the gap; this is the observation that decides
-whether the null is a property of the method or of a capable model.}
+moderate effect.
 
-\subsection{Placement, not wording, is the design lever}
+The second model supplies the headroom that the core lacks, and there a gap
+opens: measured facts led by +6.8\pp{} \ci{+0.5}{+13.3}, mostly at the
+reasoning stage (Section~\ref{sec:results-rq6}). The gap is exploratory and
+fragile ($p=0.052$, and the first repetition alone includes zero), but its form
+fits the mechanism above. Without the measured fact, the second model left the
+defect in place after a quarter of its retries; with it, after fewer than one
+in ten. The fact supplied the location of the inconsistency, which the hosted
+model found unaided. Models that cannot find their reasoning errors can
+correct many of them once told where they are~\citep{tyen2024}, and the second
+model behaved that way. Location is not always enough: on \op{O1}, where the
+fix is to recover an exact identifier, naming it helped neither model. On this
+evidence the null is a property of a capable model at its ceiling, not of the
+method. We read the gap as a hypothesis: feedback content matters to the
+extent that the model cannot find the defect by itself.
+
+\subsection{Placement is the design lever the production retry lacks}
 \label{sec:discussion-placement}
 
 The production retry does not show the model its rejected output; it runs at
@@ -54,7 +67,10 @@ showing the artifact at equal budget. One retry at \arm{P1} repaired 97.0\%
 of defects, at about a quarter of the token cost of three fresh draws, which
 repaired 93.3\%. These results are exploratory and come from one model. But they
 point to a change that costs nothing to make and is invisible to every
-repair-rate metric: return the rejected output with the rejection.
+repair-rate metric: return the rejected output with the rejection. The second
+model did not test placement, and below the ceiling wording mattered too
+(Section~\ref{sec:discussion-content}). But the production feedback already
+carries the measured facts; showing the output is the change that remains.
 
 \subsection{A supervisor's precision bounds the value of its retries}
 \label{sec:discussion-precision}
@@ -96,10 +112,11 @@ reason is structural. A check that verifies each stage against its upstream
 certifies consistency, and consistency with a defective upstream is still
 consistency. Once a defect has been accepted where it arose, every later check
 treats it as ground truth. This is a property of derivability-based
-verification in general, not of our thresholds. The conference version noted
-that ``an accepted claim may inherit an upstream error''; the downstream pass
-measures it. Two consequences follow. First, such a supervisor needs its recall
-at the point of origin, because downstream checks cannot make up for a miss
+verification in general, not of our thresholds. The conference
+version~\citep{hoang2026eas} noted that ``an accepted claim may inherit an
+upstream error''; the downstream pass measures it. Two consequences follow.
+First, such a supervisor needs its recall at the point of origin, because
+downstream checks cannot make up for a miss
 upstream. Second, repair is not restoration. Repaired runs removed the planted
 content but still diverged from the clean report beyond the noise floor,
 because a repaired stage is a regenerated stage. Together with the loose
@@ -130,8 +147,11 @@ The new results qualify four claims of~\citet{hoang2026eas}.
   Both halves need qualifying. On a hosted API, temperature~0 reproduced a
   trial's outcome class across sessions in 96\% to over 99\% of pairs, but its
   output byte for byte in only 76--83\%. Within a single session, 27\% of \arm{A1}
-  cells still produced two distinct outputs across three repetitions. And with
-  the artifact in view, the content of the feedback did not change the outcome.
+  cells still produced two distinct outputs across three repetitions. A local
+  runtime serving one request at a time did better, but two of ten prompts sent
+  twice still returned different text. And with the artifact in view, the
+  content of the feedback did not change the outcome on the hosted model. On the
+  second model it changed it modestly (Section~\ref{sec:results-rq6}).
 \item \emph{Defect incidence (35\% of runs) and instability (20\%).} These
   rates count the supervisor's verdicts. Some of those verdicts are false
   positives of the trace check, which fires on 5.0\% of grounded
@@ -143,36 +163,43 @@ The new results qualify four claims of~\citet{hoang2026eas}.
   counterfactual. It is now measured: it was a cost decision, not a correctness
   decision (Section~\ref{sec:results-rq5}).
 \item \emph{Retry repair} was unmeasured, because the enforcing arm produced one
-  retry. Injected defects are repaired at the ceiling under any feedback. The
+  retry. The hosted model repairs injected defects at the ceiling under any
+  feedback; the second model repairs 66--73\% of them. The
   real defects the supervisor caught are accepted after the production retry
   28.2\% of the time, for the reasons in
   Section~\ref{sec:discussion-precision}.
 \end{enumerate}
-\TODO{Author decision 3 (JOURNAL\_PAPER\_PLAN.md section 2): confirm that
-items 2 and 4 are treated as journal findings, following the precedent set for
-the matcher defect on 2026-09-14, and not as a note to the conference chairs.}
+% Author decision 3 (JOURNAL_PAPER_PLAN.md section 2), closed 2026-10-23:
+% items 2 and 4 are journal findings, following the precedent set for the
+% matcher defect on 2026-09-14, not a note to the conference chairs. If the
+% FISAT camera-ready changes any of the four claims quoted above, revise this
+% list to match the published version.
 
 \subsection{Recommendations for building runtime supervisors}
 \label{sec:discussion-recommendations}
 
 Five practical lessons follow for engineers who put a deterministic checker in
-the control path of an LLM pipeline. All are scoped to one pipeline and one
-model. \CSEVEN{scope to two models if C7 agrees}
+the control path of an LLM pipeline. All are scoped to one pipeline. Lessons
+1, 3 and 4 rest on the hosted model alone. The second model qualifies lesson 2
+and extends lesson 5 to a local runtime.
 \begin{enumerate}
 \item \textbf{Return the rejected output with the rejection.} Repair stayed the
   same, collateral damage fell from 38\% to 1\%, and one retry repaired at
   least as often as three fresh draws, at under a quarter of their token cost.
 \item \textbf{Invest in check precision before feedback wording.} Wording made
-  no measurable difference. False positives made up most of what the production
-  retry was asked to fix.
+  no measurable difference on the hosted model. On the second model, naming
+  the defect helped by an exploratory 6.8 points, apparently by showing the
+  model where the defect was. Keep the measured facts, which cost nothing, but do not
+  expect them to make up for an imprecise check. False positives made up most
+  of what the production retry was asked to fix.
 \item \textbf{Verify where defects arise.} Stage-local consistency checks
   certify fidelity to upstream, so they cannot catch a defect after a later
   stage has built on it.
 \item \textbf{Compute what can be computed.} Overwriting a derivable statistic
   is exact, free and churn-free. A retry achieves the same correctness at a
   cost.
-\item \textbf{Treat temperature~0 on a hosted API as non-deterministic, and
-  check injected defects against real ones.} Match every comparison within a
-  serving session. Replay real defects before reading an injected-defect repair
-  rate as a production one.
+\item \textbf{Treat temperature~0 as non-deterministic, on a hosted API and on
+  a local runtime alike, and check injected defects against real ones.} Match
+  every comparison within a serving session. Replay real defects before reading
+  an injected-defect repair rate as a production one.
 \end{enumerate}

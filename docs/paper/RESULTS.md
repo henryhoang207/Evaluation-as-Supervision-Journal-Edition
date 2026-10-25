@@ -80,7 +80,11 @@ by trial), `T2P/analysis.json`, `T2C1/analysis.json`.*
 ## 4. Why everything sits at the ceiling
 
 - **68 % of A1, 53 % of A2 and 45 % of A3 retries reproduce the clean
-  pre-injection output byte for byte** (core).
+  pre-injection output byte for byte** (core; 288/421, 223/417, 46/102; A0
+  149/209). "Byte for byte" means identical as canonical JSON (sorted keys).
+  Since 2026-10-20 `repair_analysis.py --cell core` prints these figures and the
+  distinct-output shares below, and writes them to the `exploratory` block of
+  `T2/analysis.json`.
 - **At P1 this is copy-and-correct of the artifact the model is shown, not
   re-derivation.** At temperature 1.0 byte-identity at P1 does not move (A1
   69.6 % → 68.9 %, A2 48.9 % → 48.9 %), while A3's fresh draws at P0 fall from
@@ -91,7 +95,8 @@ by trial), `T2P/analysis.json`, `T2C1/analysis.json`.*
   (A1 94.8 %, A2 94.0 %, A3 92.2 %, A0 100 %).
 - Repetitions are near-identical: **73 % of A1 cells** (defect × arm) produce
   one distinct output across their three repetitions and 27 % two (A2 60 % /
-  40 %; A0 77 % / 23 %). r = 3 carries little more than r = 1 — the occasion
+  40 %, plus one cell of 139 with three; A0 77 % / 23 %; cells with all three
+  repetitions only). r = 3 carries little more than r = 1 — the occasion
   term of `power.py` was the right one to plan with. A3 at P0 is the exception:
   94 % of its cells give two distinct outputs.
 
@@ -245,10 +250,16 @@ not a new confirmatory claim.
 ## 8. What remains
 
 - **No planned experiment remains.** The author chose journal only on
-  2026-10-08; the conference paper remains under review and untouched.
-- Journal writing: replace C7 placeholders with the verified results, record
-  amendments A1–A11, and cover limitations — no specific-but-wrong feedback
-  arm (D14), the bundled model/runtime comparison on fixed Gemini bases (D15),
-  shallow checks (D16), Gemini's ceiling and local repair headroom.
-- Author decisions for submission remain in `JOURNAL_PAPER_PLAN.md`; existing
-  draft and unrelated local edits have been preserved.
+  2026-10-08. The conference paper has since been accepted at EAI FISAT 2026
+  (author, 2026-10-23; not yet published) and remains untouched.
+- ✅ **2026-10-13:** the journal draft's C7 placeholders are filled from the
+  verified results above, amendments A10 and A11 are recorded (Table 4 and
+  §4.9), and the limitations are covered: no specific-but-wrong feedback arm
+  (D14), the bundled model/runtime comparison on fixed Gemini bases (D15),
+  shallow checks (D16), Gemini's ceiling and local repair headroom. C7's A3
+  is reported as not interpretable, because a fresh Qwen draw is scored
+  against the Gemini clean output. See `journal/README.md`, "Second model".
+- ✅ **2026-10-23:** the author decisions of `JOURNAL_PAPER_PLAN.md` §2 are
+  answered and every `\TODO` in the draft is closed
+  (`journal/RESOLVED_TODOS.md`). Left: the draft's length (≈ 43 pages against
+  JSS's 36) and the pre-publication steps in `RESOLVED_TODOS.md` §12.

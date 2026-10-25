@@ -1,5 +1,24 @@
 # START HERE — next session
 
+> **Update, 2026-10-23:** **every `\TODO` in the journal draft is closed**
+> (`check_draft.py`: 0 TODO, 0 C7), from the author's answers. Authors: Hoang
+> and Nguyen only. Conference #1: accepted at EAI FISAT 2026, not yet
+> published, and cited "In press". The repository goes public at submission.
+> No funding. The author ran C7 without generative-AI support.
+> **`journal/RESOLVED_TODOS.md` is the record**, with what the author should
+> still confirm. Still open: those confirmations; Yelp's pre-publication
+> review clause and pushing `main` before the repository goes public
+> (`RESOLVED_TODOS.md` §6); length (≈ 43 single-column pages against JSS's
+> encouraged 36). **Committed locally on 2026-10-25, at the author's request;
+> not pushed.**
+>
+> **Update, 2026-10-13:** the C7 branch is **merged into `main`** (merge
+> `99e9e98`; the journal draft was committed first as `3906449`). Its analysis
+> re-runs identically, and the merged suite passes (426, 13 integration
+> deselected). **The journal draft's C7 placeholders are all filled** — see
+> `journal/README.md`, "Second model", for what changed and what to review.
+> What is left is the author's: the 13 `\TODO`s, and length (≈ 43 pages).
+>
 > **Execution update, 2026-10-12:** all planned experiments, including C7, are
 > complete and verified. See [C7_STATUS.md](C7_STATUS.md) and [RESULTS.md](RESULTS.md)
 > for the exploratory local-model findings (data commit `7188bb9`, C7 branch).
@@ -34,8 +53,8 @@ placeholders — see its `README.md`.
 
 | Track | Start with | First step |
 |---|---|---|
-| **C7 — the second model** | **[`C7_RUNBOOK.md`](C7_RUNBOOK.md)** | The author sets up Ollama on the RTX 5060 machine (Qwen2.5-7B-Instruct Q4_K_M, `num_ctx 32768`, LAN access) and reports its IP, Ollama version and model digest. Then gates G1–G4 → build `--cell c7` → amendment A10 → run (≈ 360 trials, $0) |
-| **The journal paper** | **[`journal/README.md`](journal/README.md)**, then [`JOURNAL_PAPER_PLAN.md`](JOURNAL_PAPER_PLAN.md) | A full first draft for JSS is in `docs/paper/journal/` (`elsarticle`, builds with `latexmk -pdf`). Open: authorship, the extension declaration, data availability, the Tier-C citations, the AI-use declaration, and every `\CSEVEN` placeholder. **Do not edit `docs/paper/main.tex`** (conference #1, under review) |
+| **C7 — the second model** | ✅ **Done** — [`C7_STATUS.md`](C7_STATUS.md) | Ran 2026-10-12 (930 trials, 929 usable, A10/A11), merged 2026-10-13, and written into the journal draft 2026-10-13. Nothing left to run |
+| **The journal paper** | **[`journal/README.md`](journal/README.md)**, then [`JOURNAL_PAPER_PLAN.md`](JOURNAL_PAPER_PLAN.md) | A full draft for JSS is in `docs/paper/journal/` (`elsarticle`, builds with `latexmk -pdf`), second model included. Open: authorship, the extension declaration, data availability, the Tier-C citations, the AI-use declaration (it must cover the agent that ran C7), and length. **Do not edit `docs/paper/main.tex`** (conference #1, under review) |
 
 **Document map.** `RESULTS.md` (numbers, with sources) · `PREREGISTRATION.md`
 (frozen design, amendments §0.1 A1–A9) · `RUN_QUEUE.md` (run history and the

@@ -2,42 +2,47 @@
 %  End matter required by JSS (Guide for Authors, read 2026-10-08):
 %  CRediT statement, competing interests, funding, data statement, and the
 %  generative-AI declaration "in a new section before the references list".
-%  Every block below is a DRAFT for the authors to confirm or rewrite.
+%  Completed 2026-10-23 from the author's answers (author list, funding, who
+%  ran C7); RESOLVED_TODOS.md records each decision and its source.
 % =====================================================================
 
 \section*{CRediT authorship contribution statement}
-\TODO{Author list is open (decision D5). Assign CRediT roles per author:
-Conceptualization, Methodology, Software, Validation, Formal analysis,
-Investigation, Data curation, Writing -- original draft, Writing -- review \&
-editing, Visualization, Supervision, Project administration.}
+\textbf{Huu Hoan Hoang:} Conceptualization, Methodology, Software, Validation,
+Formal analysis, Investigation, Data curation, Writing -- original draft,
+Writing -- review \& editing, Visualization, Project administration.
+\textbf{Manh Toan Nguyen:} Supervision, Writing -- review \& editing.
 
 \section*{Declaration of competing interest}
 The authors declare that they have no known competing financial interests or
 personal relationships that could have appeared to influence the work reported
-in this paper. \TODO{confirm for every author}
+in this paper.
 
 \section*{Funding}
 This research did not receive any specific grant from funding agencies in the
-public, commercial, or not-for-profit sectors. \TODO{confirm; state who paid
-for the model API usage if that counts as funding}
+public, commercial, or not-for-profit sectors.
 
 \section*{Data availability}
-\TODO{Author decision 4 (JOURNAL\_PAPER\_PLAN.md section 2). Draft follows;
-fill in the repository URL and an archived DOI (e.g.\ Zenodo). Check the Yelp
-Open Dataset terms before redistributing stage outputs derived from reviews.
-JSS applies research-data Option~C (deposit and cite, or explain), and its Open
-Science Initiative reviews availability after acceptance -- consider opting in.}
+% Author decision 4 (JOURNAL_PAPER_PLAN.md section 2), closed 2026-10-23: the
+% repository is made public when the paper is submitted. JSS research-data
+% Option C (deposit and cite). Checked 2026-10-23: the tracked trial records
+% hold pipeline outputs, labels and Yelp identifiers, and no review text.
 The pre-registration (frozen at the annotated tag \code{prereg-freeze}), the
 pipeline and supervisor, the injection and analysis code, every trial record and
-every analysis output are available at [repository URL, archived as DOI]. Each
-number in this paper is regenerated from the committed trial records by the
-committed analysis scripts, without model calls. The Yelp Open Dataset is
-available from its provider under its own terms~\citep{yelpdataset}.
+every analysis output are publicly available at
+\url{https://github.com/Hahhahahaadsa/Evaluation-as-Supervision-Journal-Edition}.
+Each number in this paper is regenerated from the committed trial records by the
+committed analysis scripts, without model calls. The trial records hold the
+pipeline's own outputs together with the Yelp business names and the business
+and review identifiers they refer to, but no review text. The Yelp Open Dataset
+itself is not redistributed: it
+is available from its provider under its own terms~\citep{yelpdataset}. The
+copy used in this study was downloaded on 18~May~2026.
 
 \section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
-\TODO{Required by Elsevier whenever AI tools were used. The authors must state
-the actual scope; this draft was produced with Claude Code, and earlier
-sessions used it for study code and analysis. Rewrite to match what happened.}
+% Closed 2026-10-23. The author ran the second-model (C7) cell without
+% generative-AI support, so the earlier draft note crediting an AI agent with
+% that run was wrong and is gone. The manuscript itself was drafted with
+% Claude Code, which Elsevier requires to be declared; the scope below is that.
 During the preparation of this work the authors used Claude (Anthropic), through
 the Claude Code tool, in order to draft and revise the manuscript text, tables
 and LaTeX source from the study's committed records, and to assist in writing
@@ -46,5 +51,8 @@ the authors reviewed and edited the content as needed and take full
 responsibility for the content of the published article.
 
 \section*{Acknowledgements}
-\TODO{Thank the two raters of the blinded defect audit if they are not authors,
-and anyone else who helped.}
+We thank Ho Quang Dung Pham, Manh Duc Tran and Nam Khanh Nguyen, who built the
+original pipeline with the first author as a COS30018 Intelligent Systems
+group project and co-authored the conference version of this work. We also
+thank the independent rater who, with the first author, judged the blinded
+defect-audit sheet of Section~\ref{sec:design-operators}.

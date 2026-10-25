@@ -52,7 +52,7 @@ model call. Its verdicts are reproducible, cost nothing at the margin, and can
 be recomputed offline from stored facts, which is what makes the replays and
 re-scorings in this study possible.
 
-\begin{table}[tbp]
+\begin{table*}[t]
 \centering
 \caption{The supervisor's checks at the three stages the study injects into.
 Each check resolves against upstream state only. An analysis-stage check
@@ -79,7 +79,7 @@ Report & a root cause or recommendation is absent from the upstream outputs &
   trusted metadata & \verdict{retry} \\
 \bottomrule
 \end{tabularx}
-\end{table}
+\end{table*}
 
 A retry re-runs the stage. The retry cap is applied to the verdict, not inside
 the checks. Once a stage has been retried twice, a further \verdict{retry}
@@ -123,9 +123,10 @@ analysed reviews that express its aspect negatively. The model is asked to
 state it, but the supervisor can compute it exactly from the analysis output.
 The supervisor therefore overwrites the claimed value on every accepted
 reasoning output. It warns when the divergence exceeded 0.05, so the
-discrepancy stays on record, and never retries. The conference version stated
-the principle behind this design (a quantity the checker can compute should not
-be asked of the model) but had no counterfactual for it. RQ5 supplies one.
+discrepancy stays on record, and never retries. The conference
+version~\citep{hoang2026eas} stated the principle behind this design (a
+quantity the checker can compute should not be asked of the model) but had no
+counterfactual for it. RQ5 supplies one.
 
 \subsection{Why the pipeline is also a fault-injection testbed}
 \label{sec:system-testbed}

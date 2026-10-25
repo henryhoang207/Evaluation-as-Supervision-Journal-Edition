@@ -20,7 +20,8 @@ Two tracks share one repository.
    FastAPI backend, Vite/React frontend — both working.
 
 2. **The research paper** the supervisor became — *"Evaluation as Supervision"*.
-   Conference version **submitted and under review**; a journal extension
+   Conference version **accepted at EAI FISAT 2026, not yet published**
+   (author, 2026-10-23); a journal extension
    (injected-defect repair study) is the active work. Its experiments are
    **all complete, including C7** (a second model, verified 2026-10-12): results in
    [`docs/paper/RESULTS.md`](docs/paper/RESULTS.md), full local-model results in

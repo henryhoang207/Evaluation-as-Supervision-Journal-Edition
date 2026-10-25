@@ -5,8 +5,8 @@ Run from docs/paper/journal/ with any Python 3:
     python check_draft.py
 
 Reports:
-  * abstract length against JSS's 250-word limit (C7 placeholder excluded,
-    so the remaining budget for the C7 sentence is visible);
+  * abstract length against JSS's 250-word limit (any \\CSEVEN placeholder is
+    excluded from the count; none remain since 2026-10-13);
   * highlights against JSS's limits (3-5 bullets, <= 85 characters each);
   * placeholders still open (\\CSEVEN for the second-model run, \\TODO for
     author decisions), per file;
@@ -73,7 +73,7 @@ def highlights() -> list[str]:
 
 def main() -> int:
     n = abstract_words()
-    print(f"Abstract: {n} words (limit {ABSTRACT_LIMIT}; {ABSTRACT_LIMIT - n} left for the C7 sentence)")
+    print(f"Abstract: {n} words (limit {ABSTRACT_LIMIT}; {ABSTRACT_LIMIT - n} to spare)")
 
     hl = highlights()
     lo, hi = HIGHLIGHT_RANGE

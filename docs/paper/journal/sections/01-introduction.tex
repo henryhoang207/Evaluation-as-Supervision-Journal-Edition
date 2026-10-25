@@ -56,20 +56,25 @@ feedback; the same message with the facts removed; the defect presented as a
 fresh correction task, which serves as a capability ceiling; and a bare
 regeneration. The single confirmatory test, fixed with the arm wording, the
 outcome coding and the analysis before any trial ran, compares the first two.
-Around the confirmatory core of 1{,}167 trials, seven exploratory cells vary
+Around the confirmatory core of 1{,}167 trials, eight exploratory cells vary
 where the defective output appears, the sampling temperature, the extent of
 the defect and whether the stage's obligations are restated. They also replay
 13 real defects that the production supervisor caught, follow every defect into
 the later stages, and measure what the supervisor's deterministic overwrite of
-one statistic buys over a retry.
+one statistic buys over a retry. The last repeats the core's arms on a second,
+open-weight model served locally.
 
 The findings are these:
 \begin{itemize}
-\item \textbf{Feedback content does not change repair.} Measured-fact feedback
-  repaired 94.7\% of defects and the contentless rejection 94.0\%. The difference
-  is +0.7 percentage points, with a 95\% interval of $-2.9$ to $+4.3$, and the
-  exact McNemar test gives $p=0.75$. The null survives every pre-specified
-  sensitivity analysis. \CSEVEN{whether it replicates on the second model}
+\item \textbf{Feedback content does not change repair at the ceiling.} With
+  measured-fact feedback the model repaired 94.7\% of defects, and with the
+  contentless rejection 94.0\%. The difference is +0.7 percentage points, with a 95\%
+  interval of $-2.9$ to $+4.3$, and the exact McNemar test gives $p=0.75$. The
+  null survives every pre-specified sensitivity analysis. A second model, which
+  repairs far less often, does not reproduce the ceiling. On it, measured facts
+  repaired 72.9\% and the rejection 66.2\%, an exploratory difference of +6.8
+  points (95\% interval +0.5 to +13.3) whose exact test is borderline
+  ($p=0.052$).
 \item \textbf{Repair is copy-and-correct.} Shown its defective output, the model
   returns the clean pre-injection output byte for byte in about two-thirds of
   measured-feedback retries, and does so equally at temperature~1. A fresh draw
@@ -101,7 +106,8 @@ This paper makes five contributions:
 \item To our knowledge, the first controlled measurement of repair under
   deterministic measured-fact feedback against a contentless rejection, with
   defect identity held fixed: a null at the ceiling, bounded to within about
-  4 percentage points.
+  4 percentage points. An exploratory replication on a second model, which
+  repairs below the ceiling, shows a modest gap and where it comes from.
 \item A mechanism for the ceiling (copy-and-correct of the shown artifact),
   together with its boundary conditions in placement, temperature, severity and
   constraint disclosure, and the practical consequence. Showing the artifact
@@ -118,12 +124,9 @@ This paper makes five contributions:
 
 \paragraph{Relation to the conference version}
 \label{sec:intro-extension}
-\TODO{Extension declaration -- author decision 2 in JOURNAL\_PAPER\_PLAN.md
-section 2. Conference paper \#1 is under review; decide whether to submit
-before or after its decision, then finalise this paragraph and the
-\code{hoang2026eas} entry. Draft follows.}
-This article extends \citet{hoang2026eas}, which introduced the supervisor, the
-derivability property and the measurements of defect incidence and instability.
+This article extends the conference paper accepted at EAI FISAT
+2026~\citep{hoang2026eas}, which introduced the supervisor, the derivability
+property and the measurements of defect incidence and instability.
 Section~\ref{sec:system} summarises that system in new text. Everything from
 Section~\ref{sec:design} onwards is new: the pre-registered repair study, every
 trial, the real-defect replay, the downstream-propagation analysis and the
