@@ -769,3 +769,134 @@ def test_thinking_analysis_file_contains_copy_dose_response_and_gap_differences(
     assert dr["n_defects"] == 45
     assert dr["mean_slope_rank"] > 0
     assert len(dr["ci95_rank"]) == 2
+
+
+
+# -- S2: completing the A0 ceiling (SUPERVISOR_FEEDBACK_2026-11-13 section 5) ---
+
+
+def _s2_trial(defect, arm, outcome, output, rep=0, effort=None, op="O2", session="s"):
+    t = {**_trial(defect, arm, outcome, rep, op=op), "retried_output": output,
+         "session_id": session, "total_tokens": 10}
+    if effort is not None:
+        t["reasoning_effort"] = effort
+    return t
+
+
+CLEAN = {"x": "clean"}
+OTHER = {"x": "rewrite"}
+
+
+def _core_rows():
+    """d1 carries core A0 (in-session); d2 and d3 do not, as the stride leaves them."""
+    rows = []
+    for d, has_a0 in (("b1:O2", True), ("b2:O2", False), ("b3:O2", False)):
+        ts = [_s2_trial(d, "A1", "repaired", CLEAN, r) for r in range(3)]
+        ts += [_s2_trial(d, "A2", "repaired", OTHER, r) for r in range(3)]
+        if has_a0:
+            ts = [_s2_trial(d, "A0", "repaired", CLEAN, r) for r in range(3)] + ts
+        rows.append(_row(d, ts))
+    return rows
+
+
+def _fill_rows(a0_output=CLEAN):
+    rows = []
+    for d in ("b2:O2", "b3:O2"):
+        ts = [_s2_trial(d, "A0", "repaired", a0_output, r, session="n") for r in range(3)]
+        ts.append(_s2_trial(d, "A1", "repaired", CLEAN, 0, session="n"))
+        rows.append(_row(d, ts))
+    return rows
+
+
+def _patch_dumps(monkeypatch):
+    clean = {d: CLEAN for d in ("b1:O2", "b2:O2", "b3:O2")}
+    monkeypatch.setattr(ra, "_clean_outputs", lambda rows, root: clean)
+    monkeypatch.setattr(ra, "_strata", lambda root: {"b1": "p25", "b2": "p50", "b3": "p90"})
+
+
+def test_a0fill_pools_a0_over_every_core_defect_and_keeps_the_anchor_apart(monkeypatch):
+    _patch_dumps(monkeypatch)
+    res = ra.analyse_a0fill(_fill_rows(), _core_rows(), seed=0, root="out_study")
+    assert res["repair"]["A1_over_A0_pooled"]["n_defects"] == 3
+    assert res["repair"]["A1_over_A0_core_in_session"]["n_defects"] == 1
+    assert res["repair"]["anchor_over_A0_in_session"]["n_defects"] == 2
+    # The r = 1 anchor never enters the 3-rep A1 of the pooled read.
+    assert res["repair"]["rates_pooled"]["A1"]["n_defects"] == 3
+    rest = res["restoration"]
+    assert rest["rates_pooled"]["A0"]["rate"] == 1.0
+    assert rest["rates_pooled"]["A2"]["rate"] == 0.0
+    assert rest["A0_minus_A2_pooled"]["estimate"] == 1.0
+    assert set(rest["A0_by_stratum"]) == {"p25|A0", "p50|A0", "p90|A0"}
+    assert res["drift_anchor_vs_core_A1"]["pairs"] == 2
+    assert res["drift_anchor_vs_core_A1"]["byte_identical_output"] == 2
+    assert res["provenance"]["sessions_per_defect_max"] == 1
+
+
+def test_a0fill_refuses_a_defect_the_core_already_ran_a0_on():
+    rows = [_row("b1:O2", [_s2_trial("b1:O2", "A0", "repaired", CLEAN)])]
+    with pytest.raises(ValueError, match="re-ran core A0"):
+        ra.analyse_a0fill(rows, _core_rows(), seed=0)
+
+
+@pytest.mark.parametrize("est, ci, reading", [
+    (0.0, [-0.1, 0.1], "a2_below_task"),
+    (0.05, [-0.02, 0.12], "a2_below_task"),
+    (-0.10, [-0.18, -0.02], "ceiling"),
+    (-0.05, [-0.12, 0.03], "indeterminate"),
+    (None, [None, None], "no_estimate"),
+])
+def test_the_restoration_reading_is_fixed_by_the_a1_minus_a0_contrast(est, ci, reading):
+    assert ra.restoration_reading({"estimate": est, "ci95": ci}) == reading
+
+
+def test_share_of_gap_is_withheld_unless_a0_minus_a2_excludes_zero():
+    flat = {("d", lv): [1, 1, 1] for lv in ("A0", "A1", "A2")}
+    res = ra.share_of_gap(flat, "A0", "A1", "A2", seed=0)
+    assert res["reported"] is False and "includes 0" in res["reason"]
+    cm = {}
+    for i in range(20):
+        cm[(f"d{i}", "A0")] = [1, 1, 1]
+        cm[(f"d{i}", "A1")] = [1, 1, 0] if i % 2 else [1, 1, 1]
+        cm[(f"d{i}", "A2")] = [0, 0, 0]
+    res = ra.share_of_gap(cm, "A0", "A1", "A2", seed=0)
+    assert res["reported"] is True
+    assert res["estimate"] == pytest.approx((1 - 0.5 / 3) / 1.0)
+    assert res["ci95"][0] <= res["estimate"] <= res["ci95"][1]
+
+
+def _sweep_rows():
+    rows = []
+    for d in ("b1:O2", "b2:O2"):
+        ts = []
+        for e in ("none", "low", "high"):
+            ts += [_s2_trial(d, "A1", "repaired", CLEAN, r, e) for r in range(3)]
+            ts += [_s2_trial(d, "A2", "repaired", OTHER, r, e) for r in range(3)]
+        rows.append(_row(d, ts))
+    return rows
+
+
+def _thinking_a0_rows():
+    rows = []
+    for d in ("b1:O2", "b2:O2"):
+        ts = []
+        for e in ("none", "high"):
+            ts += [_s2_trial(d, "A0", "repaired", CLEAN if e == "none" else OTHER, r, e)
+                   for r in range(3)]
+        ts += [_s2_trial(d, "A1", "repaired", CLEAN, 0, e) for e in ("none", "high")]
+        rows.append(_row(d, ts))
+    return rows
+
+
+def test_thinking_a0_joins_t2t_by_defect_and_effort(monkeypatch):
+    _patch_dumps(monkeypatch)
+    res = ra.analyse_thinking_a0(_thinking_a0_rows(), _sweep_rows(), seed=0, root="out_study")
+    none, high = res["restoration"]["none"], res["restoration"]["high"]
+    assert none["rates"]["A0"]["rate"] == 1.0 and high["rates"]["A0"]["rate"] == 0.0
+    assert none["A0_minus_A2"]["estimate"] == 1.0
+    assert none["reading"] == "a2_below_task"          # A1 = A0 = 1.0
+    assert high["reading"] == "a2_below_task"          # A1 1.0 > A0 0.0
+    assert none["rates"][ra.ANCHOR]["n_defects"] == 2
+    # The low level of the sweep is never joined.
+    assert all("@low" not in k for k in none["rates"])
+    assert res["repair"]["none"]["A0"]["rate"] == 1.0
+    assert res["drift_anchor_vs_T2T_A1"]["high"]["pairs"] == 2

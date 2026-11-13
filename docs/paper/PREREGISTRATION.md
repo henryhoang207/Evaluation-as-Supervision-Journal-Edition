@@ -80,6 +80,8 @@ section records every divergence from it.
 | **A10** | **2026-10-12** | **C7 local replication is defined and wired**: Qwen2.5-7B-Instruct Q4_K_M, Ollama 0.40.3, RTX 5060 Ti 16 GB, 32k context, seed 20261012, temperature 0, output cap 4096. A1/A2 first draw over 142 defects, a second draw on a 1/6 operator stride (22), A3 on the frozen quarter stride (34): 362 trials before context exclusions. G1–G4 and the full protocol/readings are fixed in [`C7_PROTOCOL.md`](C7_PROTOCOL.md) before preflight; exact digest/provenance and passed gates are committed before final trials. | Exploratory; Gemini bases and all existing results remain fixed |
 | **A11** | **2026-10-12** | **C7's original G2 failed (8/10 byte-identical; token calibration 10/10).** Before G4 or final data, use three repetitions per arm and defect-level means: 954 trials before context exclusions, 930 after. Preserve the failed G2 data; bit identity becomes a measured outcome, with calibration, context and schema reliability still gating collection. Full specification: [`C7_A11.md`](C7_A11.md). | Exploratory; no final A10 trial ran; runtime variability is disclosed |
 | **A12** | **2026-11-01** | **Thinking-budget sweep on Gemini 2.5 Flash** (`--cell thinking` → `out_study/T2T`): 45 defects, 1,224 trials across `reasoning_effort` ∈ {`none`, `low`, `medium`, `high`}, dose-response trend test, exact copy contrast, repair decomposition. | Exploratory; core remains frozen |
+| **A13** | **2026-11-13** | **S2 — the A0 ceiling is completed on `gemini-2.5-flash` before its withdrawal (1 Dec 2026).** `--cell a0fill` → `out_study/T2A0`: A0@P1 r = 3 on the 71 core defects the frozen A0 stride skipped, plus an in-session A1@P1 r = 1 anchor — 284 trials. `--cell thinking_a0` → `out_study/T2TA0`: on the 45 T2T defects, A0@P1 r = 3 and the A1@P1 r = 1 anchor at `reasoning_effort` `none` and `high` — 360 trials. Readings, including the case A1 ≥ A0 in restoration, fixed below. | Exploratory; cross-session joins to T2 and T2T are labelled as such; core and T2T untouched |
+| **A14** | **2026-11-13** | **S3 — the real-defect bank is enlarged by harvest (Option H).** Phase A (observe) on 56 fresh businesses in two stratified batches of 28 into `out_study/H/A`; stop after Batch 1 if the pooled bank (T1 + T1H) reaches ≥ 18 business × stage cells; replay into `out_study/T1H` with the A8 design. T1, T1H and pooled reported side by side; one two-sided cell-cluster bootstrap test on A2 − A1 acceptance iff the pooled bank has ≥ 15 cells. | Descriptive, plus at most one test fixed here; T1 (A8) untouched |
 
 **A1 — the C1 cell, in full.**
 
@@ -507,6 +509,184 @@ thinking-budget sweep on the primary model `gemini-2.5-flash`.
 
 *Runner:* `backend/scripts/run_injection_study.py --cell thinking`.
 *Analysis:* `backend/scripts/analysis/repair_analysis.py --cell thinking`.
+
+**A13 — completing the A0 ceiling (S2a `a0fill`, S2b `thinking_a0`) (2026-11-13).**
+
+*Why now.* The provider announced on 3 November 2026 that `gemini-2.5-flash` is
+withdrawn on 1 December 2026. These are the last trials that can be run on the
+study's model. The supervisor's request (2026-11-13, item 2): A0 on all 142
+defects, and A0 at `none` and `high` in the sweep, because the +23.7 pp
+restoration gap has no ceiling to compare against.
+
+*What existed when this was written.* Every cell through A12 had run and been
+analysed. The numbers this amendment is written against:
+
+- Core (T2): A0 ran on 71 of 142 defects (213 trials, 209 usable; `ARM_FRACTION`
+  stride 0.5 per operator). A1/A0 repair ratio **0.96 [0.92, 1.00]** on those 71.
+  Exact restoration (canonical-JSON identity to the clean output, all trials):
+  **A0 71.3 % (149/209), A1 68.4 % (288/421), A2 53.5 % (223/417)**. The A0
+  stride covered 1 of the 5 O1 defects at p90.
+- Sweep (T2T): exact restoration A1 **80.7 %** vs A2 **57.0 %** at `none`
+  (+23.7 pp [+12.6, +36.3], McNemar p = 0.00098); A1 60.7 % vs A2 50.4 % at
+  `high` (+10.4 pp [−3.0, +23.0], p = 0.30). Binary repair 100 % at `none`.
+- A 1-call live smoke on 2026-11-13 returned `served_model = gemini-2.5-flash`,
+  no fallback.
+
+*Design — S2a, `--cell a0fill` → `out_study/T2A0`.*
+
+- **Defects:** every core defect for which the core's A0 stride
+  (`_in_subset(op_index, 0.5)`, per-operator index, the core's `build_plan`
+  order, D20 gates and injection seed 0) is false: **71 defects**, the exact
+  complement of the core's 71 A0 defects (pinned by
+  `test_a0fill_is_the_exact_complement_of_the_core_a0_stride`).
+- **Cells, one session per defect, in this order:** A0@P1 × r = 3, then A1@P1 ×
+  r = 1 (the in-session anchor, author decision I3). C0, temperature 0,
+  `reasoning_effort` omitted (provider default, as the core). **284 trials**
+  (213 A0 + 71 A1).
+
+*Design — S2b, `--cell thinking_a0` → `out_study/T2TA0`.*
+
+- **Defects:** the same 45 defects as T2T (placement one-third per-operator
+  stride); verified identical to T2T's runnable set in the plan test.
+- **Cells, one session per defect, arm-major:** A0@P1 r = 3 at `none` then
+  `high`, then the A1@P1 r = 1 anchor at `none` then `high`. **360 trials**
+  (270 A0 + 90 A1; 180 per effort). `low` and `medium` are not run.
+
+*Runtime, both cells.* Model pinned in code: `agent._model` and
+`agent._fallback_model` = `gemini-2.5-flash` inside `_regenerate`, and
+`OPENAI_MODEL` / `OPENAI_FALLBACK_MODEL` = `gemini-2.5-flash` with
+`LLM_DISABLE_FALLBACK=1` set by the runner before any agent exists. Order of
+operations: `--plan-only` → `--dry-run` → this amendment committed → live run
+(S2a, then S2b). Exclusions as §4 (`status_error`, fallback fired); resume by
+whole defect.
+
+*Verification gate.* Complete checkpoint (97 rows / 284 trials; 71 rows / 360
+trials); one `session_id` per defect; every trial's `served_models` equal to
+`["gemini-2.5-flash"]`; offline re-score agrees with the live score on every
+trial.
+
+*Readouts, fixed before any A0 trial runs.* Analysis:
+`repair_analysis.py --cell a0fill` (joins T2 + T2A0 on `defect_id`) and
+`--cell thinking_a0` (joins T2T + T2TA0 on `defect_id` and effort). The r = 1
+anchor is analysed under its own arm name and is never pooled into the 3-rep A1.
+
+S2a:
+1. A1/A0 repair ratio over all 142 defects (A0 pooled from T2 and T2A0; A1 from
+   T2), beside the existing in-session 71-defect ratio; and the in-session
+   anchor/A0 ratio and anchor − A0 contrast on the 71 new defects.
+2. A0 repair and A0 exact restoration by operator and by review-count stratum
+   (all five O1 p90 defects now carry A0).
+3. A0, A1 and A2 exact restoration over 142 defects with defect-bootstrap CIs;
+   contrasts A1 − A0, A0 − A2, A1 − A2.
+4. Drift: anchor A1 against the core's A1 rep 0 on the same 71 defects
+   (outcome class and byte identity), and their restoration rates side by side.
+
+S2b, at each of `none` and `high`:
+1. A0 exact restoration (defect-level mean, defect cluster-bootstrap 95 % CI).
+2. A0 − A1 and A0 − A2 in exact restoration (A1, A2 from T2T, cross-session),
+   with bootstrap CIs; anchor − A0 within session beside the cross-session
+   A1 − A0.
+3. **Share of the gap closed**, (A1 − A2)/(A0 − A2), reported **only if** the
+   95 % CI of A0 − A2 excludes 0; otherwise withheld and the reason printed.
+4. A0 repair at both levels (expected near 100 %; reported, not tested).
+5. Drift: anchor A1 against T2T A1 rep 0 at the same effort.
+
+*Readings, fixed now (applied to A1 − A0 in exact restoration, per effort in
+S2b and pooled in S2a).*
+
+- **Ceiling.** A1 − A0 < 0 and its 95 % CI lies below 0: A0 sets a restoration
+  ceiling, and the A1 − A2 gap is read as A1 approaching it; the share of the
+  gap closed (if reported) says how far.
+- **A2 below the task level.** A1 − A0 ≥ 0 by the point estimate: A0 is a repair
+  ceiling by design but not a restoration ceiling. Measured facts restore at
+  least as often as a direct correction request, and the +23.7 pp is read as A2
+  falling below the correction-task level, not as A1 approaching a ceiling.
+  (The core already leans this way: A0 71.3 % vs A1 68.4 %.)
+- **Indeterminate.** A1 − A0 < 0 with a CI that includes 0: neither reading is
+  claimed; the estimate is reported.
+
+*Session caveat.* Every A0 trial runs in a later session than the T2/T2T arms it
+is compared to. That is the one exception to within-session matching in the
+study and is stated wherever a cross-session contrast is printed. The anchor
+measures the drift directly; the within-session anchor − A0 contrast is reported
+beside every cross-session one. No test in this amendment is confirmatory, and
+the core's RQ1 test is unchanged.
+
+*Cost (logged, uncapped per I7).* From measured means (T2: A0 11.75 k, A1
+14.27 k tokens/trial; T2T: A1 7.8 k at `none`, 10.1 k at `high`, used for A0 at
+the same effort): S2a ≈ 3.5 M, S2b ≈ 3.2 M, **≈ 6.7 M tokens**.
+
+*Code.* `run_injection_study.py --cell a0fill | thinking_a0`;
+`repair_analysis.py --cell a0fill | thinking_a0`; tests in
+`tests/test_run_injection_study.py` and `tests/test_repair_analysis.py`. Script
+hashes are recorded in the amendment commit message.
+
+**A14 — the real-defect bank, Option H (harvest) (2026-11-13).**
+
+*Decision.* The supervisor asked (2026-11-13, item 3) for an explicit choice
+between harvesting more real defects and limiting the claims to what 13 allow.
+The author chose **harvest (H)** on 2026-11-13 (I2), with the rules below (I6).
+
+*What existed when this was written.* T1 (A8): 13 usable real defects in 7
+business × stage cells across 6 businesses (8 `untraceable_recommendation`, 3
+`missing_evidence_id`, 2 `misaligned_aspect`), from 53 observe-mode runs (6
+defects from the 28 Phase-A runs, 7 from the 25 repetition runs in `R`).
+Acceptance after the retry: A1 28.2 %, A2 76.9 %, A3 25.6 % (descriptive). D13's
+blinded raters judged 9 of 11 audited bank defects checker false positives.
+
+*Businesses.* `sample_businesses.py --per-stratum 21 --seed 20260803` (84
+businesses, 21 per stratum, every one at its stratum's target count: 14 / 34 /
+92 / 214 reviews) minus the 28 of `out_study/sample.json`, which are verified to
+be the first 7 of each stratum (prefix-stable). The 56 fresh businesses are
+split in draw order into **Batch 1** (the next 7 per stratum, 28) and **Batch 2**
+(the following 7 per stratum, 28): `out_study/H/sample_batch1.json`,
+`sample_batch2.json` (full draw: `sample_superset_ps21.json`). No business is
+added or removed by hand. (Batch 2's p25 includes "Ghost Party Haunted Tours",
+which Yelp lists under Restaurants; it stays, by the no-hand-picking rule.)
+
+*Harvest.* `MAX_REVIEW_SAMPLE=500 python scripts/run_study.py --phase A --sample
+out_study/H/sample_batch1.json --out out_study/H --model gemini-2.5-flash`
+(the `--model` flag pins primary and fallback and sets
+`LLM_DISABLE_FALLBACK=1`); p90 businesses load all 214 reviews. Then
+`analysis/defect_bank.py --root out_study/H`, and the A8 replay gate (a defect
+runs only if replaying its dump reproduces the recorded retry exactly).
+
+*Stopping rule (checks cell count only, before any T1H trial).* After Batch 1,
+count distinct business × stage cells in the pooled usable bank (T1's 7 + H's).
+**≥ 18 → stop harvesting.** Otherwise run Batch 2 the same way and stop there
+regardless of yield (hard cap: 56 new businesses). Outcomes are never looked at
+before the stop decision.
+
+*Replay.* `run_tier1_replay.py --root out_study/H --out out_study/T1H --model
+gemini-2.5-flash`: the A8 design unchanged — A1, A2, A3 at P0, r = 3, judged by
+the supervisor's own checks, one session per defect.
+
+*Reporting, fixed now.* The primary RQ3 table shows **T1** (13 defects / 7
+cells), **T1H**, and **Pooled (T1 + T1H)** side by side, plus a **single-pass
+sensitivity (A + H)** that drops the defects found only in `R`'s repeated runs.
+For each: acceptance by arm, target-resolved by arm, clean-check pass rate, the
+A2 − A1 and A1 − A3 acceptance differences with **cell-cluster** bootstrap 95 %
+CIs (resampling business × stage cells, never defects).
+
+*The one test.* **Iff the pooled bank has ≥ 15 distinct cells**, one two-sided
+cell-cluster bootstrap test of A2 − A1 acceptance on the pooled bank, α = 0.05:
+rejects iff the percentile 95 % CI excludes 0; the two-sided bootstrap p
+(2 × the smaller tail share at 0) is reported. Below 15 cells no p-value is
+reported, citing the small-cluster Type I inflation (§4.7 of the paper). No
+other test is run on Tier 1.
+
+*Cost (logged, uncapped per I7).* Phase A ≈ 41 k tokens per business (1.16 M
+per batch); replay ≈ 318 k tokens per defect (T1: 4.13 M for 13). At the
+Phase-A yield (~0.21 cells per business): ≈ 1.2–2.3 M harvest + ≈ 3.8 M replay,
+**≈ 5–6 M tokens**.
+
+*Known limit, recorded before the harvest.* A larger bank still contains what
+`gemini-2.5-flash` gets wrong and what the checks flag, so it raises N without
+fixing class coverage or checker precision.
+
+*Code still to write before the first T1H trial* (committed and hashed then):
+the pooled / A + H / cell-count stopping report and the ≥ 15-cell test in
+`repair_analysis.py --cell tier1` (currently single-checkpoint).
 
 ---
 

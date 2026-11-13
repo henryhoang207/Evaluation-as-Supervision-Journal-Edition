@@ -1113,3 +1113,133 @@ def test_thinking_trial_row_records_reasoning_effort_and_tokens():
     assert row["reasoning_effort"] == "low"
     assert row["cell"] == "thinking"
 
+
+
+# -- S2: the A0 ceiling completion (SUPERVISOR_FEEDBACK_2026-11-13 §5) --------
+
+
+def _runnable(cell):
+    return [d for d in runner.build_plan(str(STUDY_ROOT), cell=cell) if d["runnable"]]
+
+
+@needs_study
+def test_a0fill_is_the_exact_complement_of_the_core_a0_stride():
+    core = _runnable("core")
+    core_a0 = {d["defect_id"] for d in core if any(c["arm"] == "A0" for c in d["arms"])}
+    fill = _runnable("a0fill")
+    fill_ids = {d["defect_id"] for d in fill}
+    assert len(core_a0) == 71 and len(fill_ids) == 71
+    assert core_a0.isdisjoint(fill_ids)
+    assert core_a0 | fill_ids == {d["defect_id"] for d in core}
+
+
+@needs_study
+def test_a0fill_plan_is_284_trials_a0_at_r3_then_an_r1_a1_anchor():
+    plan = runner.build_plan(str(STUDY_ROOT), cell="a0fill")
+    s = runner.plan_summary(plan)
+    assert s["defects_runnable"] == 71
+    assert s["trials"] == 284
+    assert s["trials_by_arm"] == {"A0": 213, "A1": 71}
+    assert s["trials_by_placement"] == {"P1": 284}
+    assert s["trials_by_reasoning_effort"] == {"default": 284}
+    assert runner.verify_order(plan) == []
+    for d in plan:
+        if d["runnable"]:
+            assert [(c["arm"], c["rep"]) for c in d["arms"]] == [
+                ("A0", 0), ("A0", 1), ("A0", 2), ("A1", 0)]
+
+
+@needs_study
+def test_thinking_a0_runs_the_t2t_defects_at_none_and_high():
+    thinking_ids = {d["defect_id"] for d in _runnable("thinking")}
+    plan = runner.build_plan(str(STUDY_ROOT), cell="thinking_a0")
+    assert {d["defect_id"] for d in plan if d["runnable"]} == thinking_ids
+    s = runner.plan_summary(plan)
+    assert s["defects_runnable"] == 45
+    assert s["trials"] == 360
+    assert s["trials_by_arm"] == {"A0": 270, "A1": 90}
+    assert s["trials_by_reasoning_effort"] == {"none": 180, "high": 180}
+    assert runner.verify_order(plan) == []
+    first = next(d for d in plan if d["runnable"])
+    assert [(c["arm"], c["reasoning_effort"], c["rep"]) for c in first["arms"]] == [
+        ("A0", "none", 0), ("A0", "none", 1), ("A0", "none", 2),
+        ("A0", "high", 0), ("A0", "high", 1), ("A0", "high", 2),
+        ("A1", "none", 0), ("A1", "high", 0)]
+
+
+@needs_study
+def test_the_s2_cells_leave_core_and_t2t_plans_untouched():
+    assert runner.plan_summary(runner.build_plan(str(STUDY_ROOT)))["trials"] == 1167
+    assert runner.plan_summary(
+        runner.build_plan(str(STUDY_ROOT), cell="thinking"))["trials"] == 1224
+
+
+def test_verify_order_catches_a_thinking_a0_arm_missing_an_effort():
+    bad = [{"defect_id": "d", "runnable": True, "cell": "thinking_a0", "arms": [
+        {"arm": "A0", "placement": "P1", "rep": 0, "reasoning_effort": "none"},
+        {"arm": "A0", "placement": "P1", "rep": 0, "reasoning_effort": "high"},
+        {"arm": "A1", "placement": "P1", "rep": 0, "reasoning_effort": "none"},
+    ]}]
+    assert any("reasoning efforts" in p for p in runner.verify_order(bad))
+
+
+def test_verify_order_catches_an_a0fill_defect_without_its_anchor():
+    bad = [{"defect_id": "d", "runnable": True, "cell": "a0fill", "arms": [
+        {"arm": "A0", "placement": "P1", "rep": r} for r in range(3)]}]
+    assert any("missing a primary arm" in p for p in runner.verify_order(bad))
+
+
+@needs_study
+@pytest.mark.parametrize("cell,effort", [("a0fill", None), ("thinking_a0", "none"),
+                                         ("thinking_a0", "high")])
+def test_the_s2_seam_pins_the_model_and_the_reasoning_effort(monkeypatch, cell, effort):
+    from app.agents.reasoning_agent import ReasoningAgent
+
+    assert runner.S2_MODEL == "gemini-2.5-flash"
+    agents = []
+
+    def make(stage):
+        agent = _capturing_agent(ReasoningAgent, {})
+        agent._model = agent._fallback_model = "some-env-default"
+        agents.append(agent)
+        return agent
+
+    monkeypatch.setattr(runner, "_agent_for", make)
+    _, base, injected, descriptor, decision = _reasoning_defect()
+    trial = {"arm": "A0", "placement": "P1", "rep": 0}
+    if effort is not None:
+        trial["reasoning_effort"] = effort
+    runner._regenerate(trial, base, injected, descriptor, decision, defect_cell=cell)
+    assert agents[0]._model == agents[0]._fallback_model == "gemini-2.5-flash"
+    assert agents[0].reasoning_effort == effort
+
+
+def test_pin_model_env_sets_the_variables_llm_config_reads(monkeypatch):
+    from app.core import llm_config
+
+    for name in ("OPENAI_MODEL", "OPENAI_FALLBACK_MODEL", "LLM_DISABLE_FALLBACK"):
+        monkeypatch.delenv(name, raising=False)
+    runner.pin_model_env("gemini-2.5-flash")
+    assert llm_config.primary_model() == "gemini-2.5-flash"
+    assert llm_config.fallback_model() == "gemini-2.5-flash"
+    from app.agents import base_agent
+    assert base_agent.fallback_disabled()
+
+
+@needs_study
+def test_an_s2_dry_run_pins_the_env_and_writes_only_runnable_defects(tmp_path, monkeypatch):
+    for name in ("OPENAI_MODEL", "OPENAI_FALLBACK_MODEL", "LLM_DISABLE_FALLBACK"):
+        monkeypatch.delenv(name, raising=False)
+    out = tmp_path / "T2TA0"
+    assert runner.run(str(STUDY_ROOT), str(out), 3, "P1", 0, dry_run=True,
+                      limit=12, cell="thinking_a0") == 0
+    import os as _os
+    assert _os.environ["OPENAI_MODEL"] == "gemini-2.5-flash"
+    rows = [json.loads(line) for line in (out / "checkpoint.jsonl").read_text(
+        encoding="utf-8").splitlines()]
+    runnable = [r for r in rows if r.get("trials")]
+    assert runnable and all(r["n_trials"] == 8 for r in runnable)
+    for r in runnable:
+        assert {t["cell"] for t in r["trials"]} == {"thinking_a0"}
+        assert {t["reasoning_effort"] for t in r["trials"]} == {"none", "high"}
+        assert len({t["session_id"] for t in r["trials"]}) == 1

@@ -89,3 +89,18 @@ def test_a_dry_run_writes_one_session_per_defect(tmp_path):
     for r in rows:
         assert len({t["session_id"] for t in r["trials"]}) == 1
         assert len(r["trials"]) == 9
+
+
+@needs_study
+def test_the_model_flag_pins_env_and_agent_and_defaults_to_off(tmp_path, monkeypatch):
+    for name in ("OPENAI_MODEL", "OPENAI_FALLBACK_MODEL", "LLM_DISABLE_FALLBACK"):
+        monkeypatch.delenv(name, raising=False)
+    monkeypatch.setattr(t1, "PINNED_MODEL", None)
+    assert t1.run(str(STUDY_ROOT), str(tmp_path / "a"), 3, dry_run=True, limit=1) == 0
+    assert t1.PINNED_MODEL is None and "OPENAI_MODEL" not in __import__("os").environ
+    assert t1.run(str(STUDY_ROOT), str(tmp_path / "b"), 3, dry_run=True, limit=1,
+                  model="gemini-2.5-flash") == 0
+    import os
+    assert t1.PINNED_MODEL == "gemini-2.5-flash"
+    assert os.environ["OPENAI_MODEL"] == os.environ["OPENAI_FALLBACK_MODEL"] == "gemini-2.5-flash"
+    assert os.environ["LLM_DISABLE_FALLBACK"] == "1"

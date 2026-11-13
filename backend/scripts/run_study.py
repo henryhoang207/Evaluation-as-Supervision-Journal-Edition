@@ -244,7 +244,17 @@ def main() -> int:
                     help="Resolve and load reviews but make no LLM calls.")
     ap.add_argument("--allow-cap", action="store_true",
                     help="Proceed even when the review cap truncates a stratum.")
+    ap.add_argument("--model", default=None,
+                    help="Pin primary and fallback to this model with failover off "
+                         "(Option H, S5). Set after load_dotenv(), before any agent exists.")
     args = ap.parse_args()
+    if args.model:
+        # llm_config reads OPENAI_MODEL / OPENAI_FALLBACK_MODEL when each agent
+        # is constructed; every agent is built inside run_pipeline, after this.
+        os.environ["OPENAI_MODEL"] = args.model
+        os.environ["OPENAI_FALLBACK_MODEL"] = args.model
+        os.environ["LLM_DISABLE_FALLBACK"] = "1"
+        print(f"pinned model {args.model} (LLM_DISABLE_FALLBACK=1)")
 
     if not os.path.exists(args.sample):
         print(f"Sample not found: {args.sample}\nRun scripts/sample_businesses.py first.")

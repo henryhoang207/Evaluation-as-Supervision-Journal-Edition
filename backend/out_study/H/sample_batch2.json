@@ -1,0 +1,244 @@
+{
+  "meta": {
+    "db_path": "C:\\Users\\hoanh\\OneDrive\\Tài liệu\\CS material\\COS30018\\Project\\COS30018_Group-4.1_Multi-Agent-System-for-Restaurant-Review-Analysis\\backend\\data\\processed\\yelp.db",
+    "seed": 20260803,
+    "category_filter": "Restaurants",
+    "per_stratum": 21,
+    "percentiles": [
+      25,
+      50,
+      75,
+      90
+    ],
+    "pool_size": 52268,
+    "min_reviews_floor": 5,
+    "max_reviews_loaded_per_business": 500,
+    "min_viable_n": 5,
+    "low_confidence_n": 30,
+    "pool_percentiles": {
+      "p10": 7,
+      "p25": 14,
+      "p50": 34,
+      "p75": 92,
+      "p90": 214
+    },
+    "option_h_batch": 2,
+    "derived_from": "sample_businesses.py --per-stratum 21 --seed 20260803 minus the 28 businesses of out_study/sample.json; fresh businesses in draw order, 7 per stratum per batch",
+    "excluded_business_ids": [
+      "-uzQNt-3jsRK5okUuJiQLA",
+      "26FBIjrkQ9SH-JPvvr0PXA",
+      "2qVZiMB22YPC2HCM62Gnbw",
+      "4h88UgiaoNt3P0r97VJrow",
+      "8fHYd3HdWotxsG5Ze-oMXw",
+      "8jbGUpLnTwt6eO36l5VYEQ",
+      "9fajAXTAT1A_pcGakz64hA",
+      "B0SPP0RsKkJxf6zK6mG9kw",
+      "Fd-CY5oUjewSTawi-O5Bqw",
+      "FnEWE7CdxTolKWEgVKAlsg",
+      "KCVLunGXXLTVnP2sP2bhuQ",
+      "KbvW90THoQ7uvgn9mlAYhA",
+      "PbqJmjSijS7aXr0qkjbuxA",
+      "QeAouJuRkWWJl_IPgF1xWA",
+      "V2ORmEuA7WA1XwYmMpSxvg",
+      "YJ-sr_YVhnsZaBl-j9tjCg",
+      "ZGznjpkqi6a_It4lAgCnYw",
+      "_cXaVePsZOiKlXwsQ8vcxA",
+      "_pHMElutAeebkqmYYNeI6w",
+      "d1nD7knOKA5PzZK_HYG4JQ",
+      "dutm97q2F4a6RV6YQ0uLHw",
+      "fpoy10eejKRpe9DhkUB9wg",
+      "gk3hzKydevLKZ2FVmJdt-A",
+      "gvAOc8vwczgVscNj-NN6hw",
+      "i9R_CJQ5oN1tVglXpL-GCA",
+      "o3hDZ2nv80tApZMNQw2aZA",
+      "v5kwdvmg-J8g-ll0nkc3Sw",
+      "xjZHp1slZNUBJvQLuHSTTA"
+    ]
+  },
+  "strata": [
+    {
+      "stratum": "p25",
+      "target_percentile": 25,
+      "target_review_count": 14,
+      "n_businesses": 7,
+      "review_count_min": 14,
+      "review_count_median": 14,
+      "review_count_max": 14,
+      "businesses": [
+        {
+          "business_id": "nJ7FielSIWIrtn9_PCmTUQ",
+          "name": "Pats Pizza - Kennett Square",
+          "review_count": 14
+        },
+        {
+          "business_id": "r4Hbl2IbBMMKPVGhyzWImg",
+          "name": "Woodstown Hotel & Tavern",
+          "review_count": 14
+        },
+        {
+          "business_id": "THdOD9iDjQIGwHp_kHwakw",
+          "name": "Food For Your Soul",
+          "review_count": 14
+        },
+        {
+          "business_id": "BTycfBdtAnNpuDcuuRQWBg",
+          "name": "Papa Murphy's",
+          "review_count": 14
+        },
+        {
+          "business_id": "l_7SRA5U5-bz2ReV5d2WeQ",
+          "name": "Penn Station",
+          "review_count": 14
+        },
+        {
+          "business_id": "hazg2m7sdLhP2sUD4OPLmw",
+          "name": "The Fantastic Crab Shack",
+          "review_count": 14
+        },
+        {
+          "business_id": "UMyRtM8TBLHrfDoA6us3zQ",
+          "name": "Ghost Party Haunted Tours",
+          "review_count": 14
+        }
+      ]
+    },
+    {
+      "stratum": "p50",
+      "target_percentile": 50,
+      "target_review_count": 34,
+      "n_businesses": 7,
+      "review_count_min": 34,
+      "review_count_median": 34,
+      "review_count_max": 34,
+      "businesses": [
+        {
+          "business_id": "b0TBL7gSg2mduoFDgFQHoA",
+          "name": "El Taco Tequila Taqueria",
+          "review_count": 34
+        },
+        {
+          "business_id": "ba6afAmNQEG-bpzZKYzK1w",
+          "name": "Wingstop",
+          "review_count": 34
+        },
+        {
+          "business_id": "HMIGjlxn4uYdKQf1Yx461g",
+          "name": "Horseshoe Barbecue",
+          "review_count": 34
+        },
+        {
+          "business_id": "QyWxTsVvvqSEpU1KNblRbQ",
+          "name": "Say Cheese",
+          "review_count": 34
+        },
+        {
+          "business_id": "lTlmf9NzK4UvVPJtjNH9Iw",
+          "name": "China 1",
+          "review_count": 34
+        },
+        {
+          "business_id": "kUfUsNfgf0PFRH9d2bLSOA",
+          "name": "McDonald's",
+          "review_count": 34
+        },
+        {
+          "business_id": "G7O1jXIuroITPgOGhA-TBQ",
+          "name": "Five Guys Burgers and Fries",
+          "review_count": 34
+        }
+      ]
+    },
+    {
+      "stratum": "p75",
+      "target_percentile": 75,
+      "target_review_count": 92,
+      "n_businesses": 7,
+      "review_count_min": 92,
+      "review_count_median": 92,
+      "review_count_max": 92,
+      "businesses": [
+        {
+          "business_id": "wz9ENGBbPZdyqMD0kWBz3A",
+          "name": "Barking Dog Cafe",
+          "review_count": 92
+        },
+        {
+          "business_id": "M46S2RMvCunEvkPBdvnneA",
+          "name": "The Three Amigos",
+          "review_count": 92
+        },
+        {
+          "business_id": "CpBuc0aSueBpTXce3fJoRQ",
+          "name": "Fiore Fine Foods",
+          "review_count": 92
+        },
+        {
+          "business_id": "AYp1Sn7J8WeOSniFNk1pHg",
+          "name": "JusThai",
+          "review_count": 92
+        },
+        {
+          "business_id": "-biTJUlMpAKAzROzhbuOEw",
+          "name": "Ragazzi Northern Italian Restaurant",
+          "review_count": 92
+        },
+        {
+          "business_id": "TUpEcktoaIHfegZywmDbuw",
+          "name": "Nonna's By So Italian",
+          "review_count": 92
+        },
+        {
+          "business_id": "mfuO-dtZqVfLG19MRJLvzQ",
+          "name": "Fat Mo's Burgers",
+          "review_count": 92
+        }
+      ]
+    },
+    {
+      "stratum": "p90",
+      "target_percentile": 90,
+      "target_review_count": 214,
+      "n_businesses": 7,
+      "review_count_min": 214,
+      "review_count_median": 214,
+      "review_count_max": 214,
+      "businesses": [
+        {
+          "business_id": "V7PzZzhM8HAFX6sNmadNuA",
+          "name": "Taco Bus",
+          "review_count": 214
+        },
+        {
+          "business_id": "RRGLss4hhvZZuR0N6GQlSw",
+          "name": "Nook",
+          "review_count": 214
+        },
+        {
+          "business_id": "eXKblEHP3YJYU1Awz08hVw",
+          "name": "Tacos Don Memo",
+          "review_count": 214
+        },
+        {
+          "business_id": "lh3ApskP-4XVdsQ-82792g",
+          "name": "Last Drop",
+          "review_count": 214
+        },
+        {
+          "business_id": "H1KOumSivlpykbSynnvK3Q",
+          "name": "Ukiyo",
+          "review_count": 214
+        },
+        {
+          "business_id": "7VpTJyMcAnEA-Y6vj0XV4w",
+          "name": "La Pita",
+          "review_count": 214
+        },
+        {
+          "business_id": "FAqFtRj94IHvqe9XAPpRew",
+          "name": "Aqua",
+          "review_count": 214
+        }
+      ]
+    }
+  ]
+}

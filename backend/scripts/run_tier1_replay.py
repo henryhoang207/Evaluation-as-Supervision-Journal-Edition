@@ -193,6 +193,8 @@ def run_trial(entry: dict, cell: dict, state: dict, decision, session_id: str,
     try:
         payload = nodes.stage_payload(stage, state)
         agent = runner._agent_for(stage)
+        if PINNED_MODEL:
+            agent._model = agent._fallback_model = PINNED_MODEL
         base_messages, task = agent.build_prompt(payload)
         messages = arms_mod.build_messages(
             base_messages, cell["arm"], cell["placement"],
@@ -222,7 +224,18 @@ def run_trial(entry: dict, cell: dict, state: dict, decision, session_id: str,
     return row
 
 
-def run(root: str, out_dir: str, reps: int, dry_run: bool, limit: int | None = None) -> int:
+# --model (Option H, S5): pin primary and fallback in code so a .env default
+# cannot serve the replay. None keeps the production configuration (T1 ran so).
+PINNED_MODEL: str | None = None
+
+
+def run(root: str, out_dir: str, reps: int, dry_run: bool, limit: int | None = None,
+        model: str | None = None) -> int:
+    global PINNED_MODEL
+    PINNED_MODEL = model
+    if model:
+        runner.pin_model_env(model)
+        print(f"pinned model {model}")
     plan = build_plan(root, reps)
     if not dry_run:
         from app.agents import base_agent  # noqa: PLC0415
@@ -269,6 +282,8 @@ def main() -> int:
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--plan-only", action="store_true")
+    ap.add_argument("--model", default=None,
+                    help="Pin primary and fallback to this model, failover off (Option H, S5).")
     args = ap.parse_args()
 
     if args.plan_only:
@@ -283,7 +298,7 @@ def main() -> int:
         if not llm_config.is_configured():
             print("No LLM configured. Use --dry-run, or set OPENAI_API_KEY.")
             return 1
-    return run(args.root, args.out, args.reps, args.dry_run, args.limit)
+    return run(args.root, args.out, args.reps, args.dry_run, args.limit, args.model)
 
 
 if __name__ == "__main__":

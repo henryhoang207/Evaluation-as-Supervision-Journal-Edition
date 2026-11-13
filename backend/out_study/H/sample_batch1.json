@@ -1,0 +1,244 @@
+{
+  "meta": {
+    "db_path": "C:\\Users\\hoanh\\OneDrive\\Tài liệu\\CS material\\COS30018\\Project\\COS30018_Group-4.1_Multi-Agent-System-for-Restaurant-Review-Analysis\\backend\\data\\processed\\yelp.db",
+    "seed": 20260803,
+    "category_filter": "Restaurants",
+    "per_stratum": 21,
+    "percentiles": [
+      25,
+      50,
+      75,
+      90
+    ],
+    "pool_size": 52268,
+    "min_reviews_floor": 5,
+    "max_reviews_loaded_per_business": 500,
+    "min_viable_n": 5,
+    "low_confidence_n": 30,
+    "pool_percentiles": {
+      "p10": 7,
+      "p25": 14,
+      "p50": 34,
+      "p75": 92,
+      "p90": 214
+    },
+    "option_h_batch": 1,
+    "derived_from": "sample_businesses.py --per-stratum 21 --seed 20260803 minus the 28 businesses of out_study/sample.json; fresh businesses in draw order, 7 per stratum per batch",
+    "excluded_business_ids": [
+      "-uzQNt-3jsRK5okUuJiQLA",
+      "26FBIjrkQ9SH-JPvvr0PXA",
+      "2qVZiMB22YPC2HCM62Gnbw",
+      "4h88UgiaoNt3P0r97VJrow",
+      "8fHYd3HdWotxsG5Ze-oMXw",
+      "8jbGUpLnTwt6eO36l5VYEQ",
+      "9fajAXTAT1A_pcGakz64hA",
+      "B0SPP0RsKkJxf6zK6mG9kw",
+      "Fd-CY5oUjewSTawi-O5Bqw",
+      "FnEWE7CdxTolKWEgVKAlsg",
+      "KCVLunGXXLTVnP2sP2bhuQ",
+      "KbvW90THoQ7uvgn9mlAYhA",
+      "PbqJmjSijS7aXr0qkjbuxA",
+      "QeAouJuRkWWJl_IPgF1xWA",
+      "V2ORmEuA7WA1XwYmMpSxvg",
+      "YJ-sr_YVhnsZaBl-j9tjCg",
+      "ZGznjpkqi6a_It4lAgCnYw",
+      "_cXaVePsZOiKlXwsQ8vcxA",
+      "_pHMElutAeebkqmYYNeI6w",
+      "d1nD7knOKA5PzZK_HYG4JQ",
+      "dutm97q2F4a6RV6YQ0uLHw",
+      "fpoy10eejKRpe9DhkUB9wg",
+      "gk3hzKydevLKZ2FVmJdt-A",
+      "gvAOc8vwczgVscNj-NN6hw",
+      "i9R_CJQ5oN1tVglXpL-GCA",
+      "o3hDZ2nv80tApZMNQw2aZA",
+      "v5kwdvmg-J8g-ll0nkc3Sw",
+      "xjZHp1slZNUBJvQLuHSTTA"
+    ]
+  },
+  "strata": [
+    {
+      "stratum": "p25",
+      "target_percentile": 25,
+      "target_review_count": 14,
+      "n_businesses": 7,
+      "review_count_min": 14,
+      "review_count_median": 14,
+      "review_count_max": 14,
+      "businesses": [
+        {
+          "business_id": "_1tAjnIYulKpxgPWoCL3OQ",
+          "name": "Asian Cuisine",
+          "review_count": 14
+        },
+        {
+          "business_id": "TqSSwvn8IJhwxjiEdTEcvQ",
+          "name": "Kokomos Bar & Grille",
+          "review_count": 14
+        },
+        {
+          "business_id": "9QVTE7N-nET_tu7ky-Pibw",
+          "name": "Duck In Market",
+          "review_count": 14
+        },
+        {
+          "business_id": "tPlDgvlBfsIjgP-1tFYVpA",
+          "name": "Domino's Pizza",
+          "review_count": 14
+        },
+        {
+          "business_id": "wzR95QhtA8xn7cLEfsQWmw",
+          "name": "Mamma Gina Pizza",
+          "review_count": 14
+        },
+        {
+          "business_id": "VLVUUn_m6QPyblPiwAT5tw",
+          "name": "Pikkles Plus",
+          "review_count": 14
+        },
+        {
+          "business_id": "qPsVjqobBUynpDLn7owMHw",
+          "name": "Gaya Korean Restaurant",
+          "review_count": 14
+        }
+      ]
+    },
+    {
+      "stratum": "p50",
+      "target_percentile": 50,
+      "target_review_count": 34,
+      "n_businesses": 7,
+      "review_count_min": 34,
+      "review_count_median": 34,
+      "review_count_max": 34,
+      "businesses": [
+        {
+          "business_id": "rEPVotPYfGdh61hb3TAmiw",
+          "name": "Zaxby's Chicken Fingers & Buffalo Wings",
+          "review_count": 34
+        },
+        {
+          "business_id": "JFHIc0buwpn4-QHbW5sMHg",
+          "name": "Wingstop",
+          "review_count": 34
+        },
+        {
+          "business_id": "dnOZr9LepBOSgQi2Jrls9A",
+          "name": "Lumber Jacks Pancake & Steakhouse",
+          "review_count": 34
+        },
+        {
+          "business_id": "eZfhvDdol03GkF6PaFWO-A",
+          "name": "Blessed Grounds",
+          "review_count": 34
+        },
+        {
+          "business_id": "HsTAssMCw5N_f3fxsdVOnw",
+          "name": "Moxie's Grill & Bar",
+          "review_count": 34
+        },
+        {
+          "business_id": "5IAssDyBqi9EQ_5sz5PZzg",
+          "name": "Ralph & Rickey's Pizza",
+          "review_count": 34
+        },
+        {
+          "business_id": "JVekj-AqcU46mg7rzN_nOg",
+          "name": "Oceanos Restaurant",
+          "review_count": 34
+        }
+      ]
+    },
+    {
+      "stratum": "p75",
+      "target_percentile": 75,
+      "target_review_count": 92,
+      "n_businesses": 7,
+      "review_count_min": 92,
+      "review_count_median": 92,
+      "review_count_max": 92,
+      "businesses": [
+        {
+          "business_id": "C6QHnVF4STwlRbxiq3lgjQ",
+          "name": "QDOBA Mexican Eats",
+          "review_count": 92
+        },
+        {
+          "business_id": "rkRmHXSocpfLcMm331-PxQ",
+          "name": "B.GOOD",
+          "review_count": 92
+        },
+        {
+          "business_id": "4fJ6cBlYAdlwsWiz-NW-0Q",
+          "name": "Pho Hoan Pasteur",
+          "review_count": 92
+        },
+        {
+          "business_id": "Gx8lLXUrtwJP2Kh95WZNBg",
+          "name": "The Stone Tavern",
+          "review_count": 92
+        },
+        {
+          "business_id": "tfnxPh4AFBU1QmbDO9eRRA",
+          "name": "Logan's Roadhouse",
+          "review_count": 92
+        },
+        {
+          "business_id": "qXm174C45c8H2HmxvKTUrg",
+          "name": "Saltus Gyros",
+          "review_count": 92
+        },
+        {
+          "business_id": "vufXnNdvRl_Y0wAj_wLzOg",
+          "name": "Chestnut 7",
+          "review_count": 92
+        }
+      ]
+    },
+    {
+      "stratum": "p90",
+      "target_percentile": 90,
+      "target_review_count": 214,
+      "n_businesses": 7,
+      "review_count_min": 214,
+      "review_count_median": 214,
+      "review_count_max": 214,
+      "businesses": [
+        {
+          "business_id": "IzyQVIJG8JAnOiRQPb0-wg",
+          "name": "Rione",
+          "review_count": 214
+        },
+        {
+          "business_id": "_EqGhRXzlUaTpu5eToC8MA",
+          "name": "Bricks Restaurant & Wine Bar",
+          "review_count": 214
+        },
+        {
+          "business_id": "qEcgemvSCGUFRKPS3lt3pw",
+          "name": "Mediterranean Cuisine",
+          "review_count": 214
+        },
+        {
+          "business_id": "aY_K2q158ZTlUdUgOnLTyg",
+          "name": "Puddlers Kitchen & Tap- Conshohocken Brewing",
+          "review_count": 214
+        },
+        {
+          "business_id": "UZNmqlGoP21yt4hBfqCD0g",
+          "name": "Dead Bob's",
+          "review_count": 214
+        },
+        {
+          "business_id": "v-wVkCLas3yapQ--sBSQ4Q",
+          "name": "Dolce Vita Pizzeria",
+          "review_count": 214
+        },
+        {
+          "business_id": "kRvZUnDK3Rn7a7WvGUZ6QQ",
+          "name": "The Original Clam Tavern",
+          "review_count": 214
+        }
+      ]
+    }
+  ]
+}

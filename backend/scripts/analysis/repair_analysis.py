@@ -577,6 +577,7 @@ def analyse_severity(rows: list[dict], core_rows: list[dict] | None = None,
 THINKING_EFFORTS = ("none", "low", "medium", "high")
 THINKING_BUDGETS = {"none": 0, "low": 1024, "medium": 8192, "high": 24576}
 THINKING_LEVELS = tuple(f"{a}@{e}" for a in ("A1", "A2", "A3") for e in THINKING_EFFORTS)
+THINKING_A0_EFFORTS = ("none", "high")  # S2b: the ends of the sweep
 
 
 def thinking_level(t: dict) -> str:
@@ -1182,6 +1183,241 @@ def analyse_thinking(rows: list[dict], core_rows: list[dict] | None = None,
     return out
 
 
+# -- S2: completing the A0 ceiling (SUPERVISOR_FEEDBACK_2026-11-13 section 5) --
+#
+# Both cells run in a later session than the trials they are joined to, so every
+# read is labelled by where its arms came from. The r = 1 in-session A1 anchor is
+# kept apart from the earlier A1 under its own arm name ("A1anchor") so that it
+# can never be pooled into the 3-rep A1 by accident.
+
+ANCHOR = "A1anchor"
+
+
+def _relabel_anchor(trials: list[dict]) -> list[dict]:
+    return [{**t, "arm": ANCHOR} if t["arm"] == "A1" else t for t in trials]
+
+
+def _strata(root: str) -> dict:
+    """{business dir name: review-count stratum}, from each dump's _summary.json."""
+    spec = importlib.util.spec_from_file_location(
+        "inject_defects", Path(__file__).resolve().parents[1] / "inject_defects.py")
+    inj = importlib.util.module_from_spec(spec)
+    sys.modules["inject_defects"] = inj
+    spec.loader.exec_module(inj)
+    out = {}
+    for d in inj.base_dirs(root):
+        summary = Path(d) / "_summary.json"
+        if summary.exists():
+            out[Path(d).name] = json.loads(summary.read_text(encoding="utf-8")).get("stratum")
+    return out
+
+
+def _copy_trials(trials: list[dict], clean: dict) -> list[dict]:
+    """Trials re-scored on exact restoration: 'repaired' iff identical to clean."""
+    return [{**t, "outcome": {"outcome": "repaired" if trial_is_copy(t, clean) else "unrepaired"}}
+            for t in trials if t.get("defect_id") in clean]
+
+
+def share_of_gap(cm: dict, a0: str, a1: str, a2: str, seed: int) -> dict:
+    """(A1 - A2) / (A0 - A2) on defects carrying all three, defect bootstrap.
+
+    Reported only when the CI of A0 - A2 excludes 0 (amendment rule); otherwise
+    the denominator can sit near zero and the ratio is unstable, so it is
+    withheld with the reason rather than printed.
+    """
+    ids = sorted(d for d in {d for d, _ in cm}
+                 if all(cm.get((d, lv)) for lv in (a0, a1, a2)))
+    if not ids:
+        return {"reported": False, "reason": "no defect carries all three arms", "n_defects": 0}
+    m = {lv: np.array([np.mean(cm[(d, lv)]) for d in ids]) for lv in (a0, a1, a2)}
+    den = m[a0] - m[a2]
+    rng = np.random.default_rng(seed)
+    lo, hi = cluster_bootstrap_ci(den, rng)
+    base = {"n_defects": len(ids), "A0_minus_A2": float(den.mean()),
+            "A0_minus_A2_ci95": [lo, hi]}
+    if not (lo is not None and (lo > 0 or hi < 0)):
+        return {**base, "reported": False, "reason": "CI of A0 - A2 includes 0"}
+    num = m[a1] - m[a2]
+    idx = rng.integers(0, len(ids), size=(N_BOOT, len(ids)))
+    nb, db = num[idx].mean(axis=1), den[idx].mean(axis=1)
+    ok = db != 0
+    blo, bhi = np.percentile(nb[ok] / db[ok], [2.5, 97.5])
+    return {**base, "reported": True, "estimate": float(num.mean() / den.mean()),
+            "ci95": [float(blo), float(bhi)]}
+
+
+def restoration_reading(a1_minus_a0: dict) -> str:
+    """The reading fixed in the S2 amendment before any A0 trial ran.
+
+    ceiling       -- A0 restores more than A1 and the CI of A1 - A0 lies below 0:
+                     A1 approaches a restoration ceiling that A0 sets.
+    a2_below_task -- A1 restores at least as often as A0 (point estimate >= 0):
+                     the A1 - A2 restoration gap is A2 falling below the
+                     correction-task level, not A1 approaching a ceiling.
+    indeterminate -- A0 above A1 by the point estimate, CI includes 0.
+    """
+    est = a1_minus_a0.get("estimate")
+    ci = a1_minus_a0.get("ci95") or (None, None)
+    if est is None:
+        return "no_estimate"
+    if est >= 0:
+        return "a2_below_task"
+    if ci[1] is not None and ci[1] < 0:
+        return "ceiling"
+    return "indeterminate"
+
+
+def _provenance(cell: str, rows: list[dict], usable: list[dict], excluded: Counter,
+                seed: int) -> dict:
+    all_trials = [t for r in rows for t in r.get("trials", [])]
+    return {
+        "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        "seed": seed, "n_boot": N_BOOT, "prospective": True, "cell": cell,
+        "defect_rows": len(rows),
+        "defect_rows_by_status": dict(Counter(r.get("status") for r in rows)),
+        "sessions_per_defect_max": max(
+            (len({t.get("session_id") for t in r.get("trials", [])}) for r in rows
+             if r.get("trials")), default=0),
+        "trials_total": len(all_trials),
+        "trials_usable": len(usable),
+        "exclusions": dict(excluded),
+        "served_models": dict(Counter(
+            m for t in all_trials for m in (t.get("served_models") or []))),
+        "total_tokens": int(sum(t.get("total_tokens") or 0 for t in all_trials)),
+    }
+
+
+def analyse_a0fill(rows: list[dict], core_rows: list[dict], seed: int = DEFAULT_SEED,
+                   root: str | None = None) -> dict:
+    """S2a: A0 on the 71 core defects without it, joined to T2 on defect_id.
+
+    Pooled A0 = the core's in-session A0 (71 defects) plus this cell's later-
+    session A0 (71 defects); A1 and A2 always come from the core. The in-session
+    reads use only this cell (A0 against the r = 1 A1 anchor).
+    """
+    new, excluded = usable_trials(rows)
+    core, _ = usable_trials(core_rows)
+    new_a0 = [t for t in new if t["arm"] == "A0"]
+    anchor = _relabel_anchor([t for t in new if t["arm"] == "A1"])
+    fill_ids = {t["defect_id"] for t in new}
+    core_a0_ids = {t["defect_id"] for t in core if t["arm"] == "A0"}
+    overlap = sorted(fill_ids & core_a0_ids)
+    if overlap:
+        raise ValueError(f"a0fill re-ran core A0 defects: {overlap[:5]}")
+
+    pooled = [t for t in core if t["arm"] in ("A0", "A1", "A2")] + new_a0
+    cm_pool = cells(pooled)
+    cm_new = cells(new_a0 + anchor)
+    cm_core = cells(core)
+    core_in_fill = [t for t in core if t["defect_id"] in fill_ids]
+
+    out = {
+        "provenance": _provenance("a0fill", rows, new, excluded, seed),
+        "sources": {"A0": "T2 (in-session, 71 defects) + T2A0 (later session, 71 defects)",
+                    "A1, A2": "T2", ANCHOR: "T2A0, r = 1"},
+        "repair": {
+            "A1_over_A0_pooled": ratio(cm_pool, "A1", "A0", seed),
+            "A1_minus_A0_pooled": contrast(cm_pool, "A1", "A0", seed),
+            "A1_over_A0_core_in_session": ratio(cm_core, "A1", "A0", seed),
+            "anchor_over_A0_in_session": ratio(cm_new, ANCHOR, "A0", seed),
+            "anchor_minus_A0_in_session": contrast(cm_new, ANCHOR, "A0", seed),
+            "rates_pooled": {a: _rate_ci(cm_pool, a, seed) for a in ("A0", "A1", "A2")},
+            "A0_by_operator": {k: v for k, v in rates_by(
+                pooled, lambda t: t["operator"]).items() if k.endswith("|A0")},
+        },
+        "drift_anchor_vs_core_A1": _drift(
+            [{**t, "arm": "A1"} for t in anchor],
+            [t for t in core_in_fill if t["arm"] == "A1"]),
+    }
+    if root is not None:
+        clean = _clean_outputs(core_rows, root)
+        strata = _strata(root)
+
+        def stratum(t):
+            return strata.get(t["defect_id"].rsplit(":", 1)[0])
+
+        pooled_copy = _copy_trials(pooled, clean)
+        cp_pool = cells(pooled_copy)
+        cp_new = cells(_copy_trials(new_a0 + anchor, clean))
+        cp_core_fill = cells(_copy_trials(core_in_fill, clean))
+        a1_a0 = contrast(cp_pool, "A1", "A0", seed)
+        out["repair"]["A0_by_stratum"] = {
+            k: v for k, v in rates_by(pooled, stratum).items() if k.endswith("|A0")}
+        out["restoration"] = {
+            "rates_pooled": {a: _rate_ci(cp_pool, a, seed) for a in ("A0", "A1", "A2")},
+            "A1_minus_A0_pooled": a1_a0,
+            "A0_minus_A2_pooled": contrast(cp_pool, "A0", "A2", seed),
+            "A1_minus_A2_pooled": contrast(cp_pool, "A1", "A2", seed),
+            "reading": restoration_reading(a1_a0),
+            "share_of_gap_closed": share_of_gap(cp_pool, "A0", "A1", "A2", seed),
+            "anchor_minus_A0_in_session": contrast(cp_new, ANCHOR, "A0", seed),
+            "anchor_rate_vs_core_A1_same_defects": {
+                ANCHOR: _rate_ci(cp_new, ANCHOR, seed),
+                "core_A1": _rate_ci(cp_core_fill, "A1", seed)},
+            "A0_by_operator": {k: v for k, v in rates_by(
+                pooled_copy, lambda t: t["operator"]).items() if k.endswith("|A0")},
+            "A0_by_stratum": {k: v for k, v in rates_by(
+                pooled_copy, stratum).items() if k.endswith("|A0")},
+        }
+        out["repair_decomposition_A0_pooled"] = compute_repair_decomposition(
+            [t for t in pooled if t["arm"] == "A0"], clean)["overall"]
+    return out
+
+
+def analyse_thinking_a0(rows: list[dict], thinking_rows: list[dict],
+                        seed: int = DEFAULT_SEED, root: str | None = None) -> dict:
+    """S2b: A0 at none and high, joined to T2T (A1, A2) on defect_id and effort.
+
+    Within-session: A0 against the r = 1 A1 anchor (this cell). Cross-session:
+    A0 against T2T's A1 and A2 at the same effort.
+    """
+    new, excluded = usable_trials(rows)
+    sweep, _ = usable_trials(thinking_rows)
+    efforts = THINKING_A0_EFFORTS
+    new_a0 = [t for t in new if t["arm"] == "A0"]
+    anchor = _relabel_anchor([t for t in new if t["arm"] == "A1"])
+    ids = {t["defect_id"] for t in new}
+    sweep = [t for t in sweep if t["defect_id"] in ids and t["arm"] in ("A1", "A2")
+             and t.get("reasoning_effort") in efforts]
+    joined = new_a0 + anchor + sweep
+    cm = factor_cells(joined, thinking_level, arm=None)
+
+    out = {
+        "provenance": _provenance("thinking_a0", rows, new, excluded, seed),
+        "sources": {"A0, " + ANCHOR: "T2TA0", "A1, A2": "T2T"},
+        "repair": {e: {
+            "A0": _rate_ci(cm, f"A0@{e}", seed),
+            "A1_minus_A0_cross_session": contrast(cm, f"A1@{e}", f"A0@{e}", seed),
+            "anchor_minus_A0_in_session": contrast(cm, f"{ANCHOR}@{e}", f"A0@{e}", seed),
+        } for e in efforts},
+        "drift_anchor_vs_T2T_A1": {e: _drift(
+            [{**t, "arm": "A1"} for t in anchor if t.get("reasoning_effort") == e],
+            [t for t in sweep if t["arm"] == "A1" and t.get("reasoning_effort") == e])
+            for e in efforts},
+    }
+    if root is not None:
+        clean = _clean_outputs(thinking_rows, root)
+        cp = factor_cells(_copy_trials(joined, clean), thinking_level, arm=None)
+        restoration = {}
+        for e in efforts:
+            a1_a0 = contrast(cp, f"A1@{e}", f"A0@{e}", seed)
+            restoration[e] = {
+                "rates": {a: _rate_ci(cp, f"{a}@{e}", seed)
+                          for a in ("A0", "A1", "A2", ANCHOR)},
+                "A0_minus_A1": contrast(cp, f"A0@{e}", f"A1@{e}", seed),
+                "A0_minus_A2": contrast(cp, f"A0@{e}", f"A2@{e}", seed),
+                "A1_minus_A2": contrast(cp, f"A1@{e}", f"A2@{e}", seed),
+                "A1_minus_A0_cross_session": a1_a0,
+                "anchor_minus_A0_in_session": contrast(
+                    cp, f"{ANCHOR}@{e}", f"A0@{e}", seed),
+                "reading": restoration_reading(a1_a0),
+                "share_of_gap_closed": share_of_gap(
+                    cp, f"A0@{e}", f"A1@{e}", f"A2@{e}", seed),
+            }
+        out["restoration"] = restoration
+    return out
+
+
 def _cell_bootstrap(per_defect: dict, cell_of: dict, seed: int, n_boot: int = N_BOOT):
     """Percentile CI of a mean over defects, resampling business x stage cells.
 
@@ -1707,7 +1943,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--cell", default="core",
                     choices=("core", "c1", "d19", "placement", "severity", "warm", "tier1",
-                             "downstream", "o5sens", "c7", "thinking"))
+                             "downstream", "o5sens", "c7", "thinking", "a0fill",
+                             "thinking_a0"))
     ap.add_argument("--checkpoint", default=None,
                     help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P, T2S or T2W")
     ap.add_argument("--root", default="out_study",
@@ -1715,6 +1952,8 @@ def main() -> int:
                          "reads; o5sens: for re-scoring")
     ap.add_argument("--core-checkpoint", default="out_study/T2/checkpoint.jsonl",
                     help="c1/placement/severity: the core, for the serving-drift comparison")
+    ap.add_argument("--thinking-checkpoint", default="out_study/T2T/checkpoint.jsonl",
+                    help="thinking_a0: the sweep's A1/A2, joined on defect_id and effort")
     ap.add_argument("--json", default=None, help="write the full result here")
     ap.add_argument("--seed", type=int, default=DEFAULT_SEED)
     args = ap.parse_args()
@@ -1723,6 +1962,7 @@ def main() -> int:
         "placement": "out_study/T2P", "severity": "out_study/T2S", "warm": "out_study/T2W",
         "tier1": "out_study/T1", "downstream": "out_study/T2D", "o5sens": "out_study/T2",
         "c7": "out_study/T2L", "thinking": "out_study/T2T",
+        "a0fill": "out_study/T2A0", "thinking_a0": "out_study/T2TA0",
     }[args.cell] + "/checkpoint.jsonl"
     if args.cell == "core":
         res = analyse(load_rows(checkpoint), seed=args.seed, root=args.root)
@@ -1743,6 +1983,12 @@ def main() -> int:
             res = analyse_c7(load_rows(checkpoint), core, seed=args.seed, root=args.root)
         elif args.cell == "thinking":
             res = analyse_thinking(load_rows(checkpoint), core, seed=args.seed, root=args.root)
+        elif args.cell == "a0fill":
+            res = analyse_a0fill(load_rows(checkpoint), core, seed=args.seed, root=args.root)
+        elif args.cell == "thinking_a0":
+            res = analyse_thinking_a0(load_rows(checkpoint),
+                                      load_rows(args.thinking_checkpoint),
+                                      seed=args.seed, root=args.root)
         elif args.cell == "downstream":
             res = analyse_downstream(load_rows(checkpoint), seed=args.seed)
         elif args.cell == "o5sens":

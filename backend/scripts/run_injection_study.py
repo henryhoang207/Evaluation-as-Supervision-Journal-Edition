@@ -143,10 +143,17 @@ DEFAULT_PLACEMENT = "P1"  # D10: the Tier-2 core runs at P1, not the production 
 #   warm      -- 0.1 A7 (plan D2's warm-resample subset). On the placement
 #          subset: A1@P1 and A2@P1 at temperature 0 (in-session comparators)
 #          and at WARM_TEMPERATURE, plus A3@P0 at WARM_TEMPERATURE, r = 3.
-CELLS = ("core", "c1", "d19", "placement", "severity", "warm", "c7", "thinking")
+#   a0fill      -- S2a (SUPERVISOR_FEEDBACK_2026-11-13 §5.1). A0@P1 (r = 3) on the
+#          71 core defects the frozen A0 stride skipped, plus an in-session
+#          A1@P1 anchor (r = 1). Same gates, seed and per-operator order as core.
+#   thinking_a0 -- S2b (§5.2). On the 45 T2T defects: A0@P1 (r = 3) and the
+#          A1@P1 anchor (r = 1) at reasoning_effort none and high.
+CELLS = ("core", "c1", "d19", "placement", "severity", "warm", "c7", "thinking",
+         "a0fill", "thinking_a0")
 CELL_OUT = {"core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
             "placement": "out_study/T2P", "severity": "out_study/T2S",
-            "warm": "out_study/T2W", "c7": "out_study/T2L", "thinking": "out_study/T2T"}
+            "warm": "out_study/T2W", "c7": "out_study/T2L", "thinking": "out_study/T2T",
+            "a0fill": "out_study/T2A0", "thinking_a0": "out_study/T2TA0"}
 C7_REPS = 3  # A11: G2 returned 8/10 identical; determinism is measured, not assumed
 # D2 cites Tyen section 4(d), which needed temperature 1 to force a different
 # step; it is also the provider's default sampling temperature.
@@ -163,9 +170,19 @@ SEVERITY_OPERATORS = ("O1",)
 THINKING_MODEL = "gemini-2.5-flash"
 THINKING_EFFORTS = ("none", "low", "medium", "high")
 THINKING_BUDGETS = {"none": 0, "low": 1024, "medium": 8192, "high": 24576}
+# S2 (2026-11-13): complete the A0 ceiling while gemini-2.5-flash is still
+# served. Both cells pin the model in code (agent and OPENAI_MODEL env), run A0
+# at full repetitions and carry an r = 1 in-session A1 anchor (author decision
+# I3) that measures cross-session drift against T2 / T2T directly.
+S2_MODEL = "gemini-2.5-flash"
+S2_ANCHOR_REPS = 1
+THINKING_A0_EFFORTS = ("none", "high")
+# Cells whose model is pinned in code so a .env default cannot serve them.
+PINNED_MODEL = {"thinking": THINKING_MODEL, "a0fill": S2_MODEL, "thinking_a0": S2_MODEL}
 # Arms the order check requires each pass's defects to hold.
 REQUIRED_ARMS = {"d19": ("A1", "A3"), "placement": ("A1",), "severity": ("A1",),
-                 "warm": ("A1", "A2", "A3"), "thinking": ("A1", "A2")}
+                 "warm": ("A1", "A2", "A3"), "thinking": ("A1", "A2"),
+                 "a0fill": ("A0", "A1"), "thinking_a0": ("A0", "A1")}
 
 
 # ── checkpointing ─────────────────────────────────────────────────────────────
@@ -314,6 +331,39 @@ def _thinking_cells(index: int, reps: int = DEFAULT_REPS) -> list[dict]:
     ]
 
 
+def _a0fill_cells(index: int, reps: int, placement: str) -> list[dict]:
+    """S2a: the core defects the frozen A0 stride skipped, else none.
+
+    The exact complement of ``_cells_for``'s A0 selection on the same
+    per-operator index, so core A0 and a0fill A0 together cover every core
+    defect once. A0 at full repetitions, then the r = 1 in-session A1 anchor.
+    """
+    if _in_subset(index, ARM_FRACTION["A0"]):
+        return []
+    cells = [{"arm": "A0", "placement": placement, "condition": "C0", "rep": r}
+             for r in range(reps)]
+    cells.extend({"arm": "A1", "placement": placement, "condition": "C0", "rep": r}
+                 for r in range(S2_ANCHOR_REPS))
+    return cells
+
+
+def _thinking_a0_cells(index: int, reps: int = DEFAULT_REPS) -> list[dict]:
+    """S2b: A0 and the A1 anchor at the ends of the sweep, on the T2T subset.
+
+    Arm-major with efforts inside, exactly as ``_thinking_cells`` orders them,
+    so each arm's block stays contiguous within the defect's one session.
+    """
+    if not _in_subset(index, PLACEMENT_FRACTION):
+        return []
+    return [
+        {"arm": arm, "placement": DEFAULT_PLACEMENT, "condition": "C0", "rep": r,
+         "reasoning_effort": effort}
+        for arm, arm_reps in (("A0", reps), ("A1", S2_ANCHOR_REPS))
+        for effort in THINKING_A0_EFFORTS
+        for r in range(arm_reps)
+    ]
+
+
 def not_in_pass(entry: dict) -> bool:
     """Cleared every gate but this pass's subset does not carry it."""
     reason = entry.get("reason") or ""
@@ -454,6 +504,10 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
                 arms = _c7_cells(op_index[op])
             elif cell == "thinking":
                 arms = _thinking_cells(op_index[op], reps)
+            elif cell == "a0fill":
+                arms = _a0fill_cells(op_index[op], reps, placement)
+            elif cell == "thinking_a0":
+                arms = _thinking_a0_cells(op_index[op], reps)
             else:
                 arms = _cells_for(op_index[op], reps, placement, with_c1)
             op_index[op] += 1
@@ -598,6 +652,12 @@ def verify_order(plan: list[dict]) -> list[str]:
             for arm in {c["arm"] for c in d["arms"]}:
                 efforts = {c.get("reasoning_effort") for c in d["arms"] if c["arm"] == arm}
                 if efforts != set(THINKING_EFFORTS):
+                    problems.append(
+                        f"{d['defect_id']}: arm {arm} reasoning efforts {sorted(str(e) for e in efforts)}")
+        if d.get("cell") == "thinking_a0":
+            for arm in {c["arm"] for c in d["arms"]}:
+                efforts = {c.get("reasoning_effort") for c in d["arms"] if c["arm"] == arm}
+                if efforts != set(THINKING_A0_EFFORTS):
                     problems.append(
                         f"{d['defect_id']}: arm {arm} reasoning efforts {sorted(str(e) for e in efforts)}")
         # A half-populated C1 cell yields no C0-vs-C1 contrast for this defect,
@@ -771,9 +831,10 @@ def _regenerate(cell: dict, base_state: dict, injected_state: dict,
     if cell.get("runtime") == "c7":
         runtime = sys.modules.get("c7_runtime") or _load_by_path("c7_runtime", "c7_runtime.py")
         runtime.configure_agent(agent)
-    if defect_cell == "thinking" or cell.get("cell") == "thinking":
-        agent._model = THINKING_MODEL
-        agent._fallback_model = THINKING_MODEL
+    pinned = PINNED_MODEL.get(defect_cell) or PINNED_MODEL.get(cell.get("cell"))
+    if pinned:
+        agent._model = pinned
+        agent._fallback_model = pinned
     agent.reasoning_effort = cell.get("reasoning_effort")
     # Warm pass only (0.1 A7). A fresh agent per trial, so this cannot leak
     # into another trial; every other cell leaves the production value, 0.
@@ -813,6 +874,15 @@ def _regenerate(cell: dict, base_state: dict, injected_state: dict,
 # ── driver ────────────────────────────────────────────────────────────────────
 
 
+def pin_model_env(model: str) -> None:
+    """Pin primary and fallback to one model and forbid failover, process-wide."""
+    from app.agents import base_agent  # noqa: PLC0415
+
+    os.environ["OPENAI_MODEL"] = model
+    os.environ["OPENAI_FALLBACK_MODEL"] = model
+    os.environ[base_agent.FALLBACK_DISABLED_ENV] = "1"
+
+
 def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
         dry_run: bool, limit: int | None = None, sleep: float = 0.0,
         with_c1: bool = False, cell: str = "core", c7_gates: dict | None = None) -> int:
@@ -847,6 +917,13 @@ def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
         from app.agents import base_agent  # noqa: PLC0415
         os.environ[base_agent.FALLBACK_DISABLED_ENV] = "1"
         print(f"Cell thinking: pinned model {THINKING_MODEL}")
+
+    if cell in ("a0fill", "thinking_a0"):
+        # llm_config reads OPENAI_MODEL / OPENAI_FALLBACK_MODEL (not
+        # LLM_PRIMARY_MODEL); load_dotenv() never overrides a set variable, so
+        # this wins over .env. _regenerate also pins the agent itself.
+        pin_model_env(PINNED_MODEL[cell])
+        print(f"Cell {cell}: pinned model {PINNED_MODEL[cell]}")
 
     if not dry_run:
         # B2 / section 14.1: a silent failover to the fallback model inside one
