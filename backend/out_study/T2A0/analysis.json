@@ -1,0 +1,435 @@
+{
+  "provenance": {
+    "script_sha256": "ab8405362496bbc4954e3d936a56ce6deffe91892d1e3fc4ab8c8bd28e1481bb",
+    "seed": 20260803,
+    "n_boot": 10000,
+    "prospective": true,
+    "cell": "a0fill",
+    "defect_rows": 97,
+    "defect_rows_by_status": {
+      "ok": 71,
+      "skipped": 26
+    },
+    "sessions_per_defect_max": 1,
+    "trials_total": 284,
+    "trials_usable": 284,
+    "exclusions": {},
+    "served_models": {
+      "gemini-2.5-flash": 288
+    },
+    "total_tokens": 4957763
+  },
+  "sources": {
+    "A0": "T2 (in-session, 71 defects) + T2A0 (later session, 71 defects)",
+    "A1, A2": "T2",
+    "A1anchor": "T2A0, r = 1"
+  },
+  "repair": {
+    "A1_over_A0_pooled": {
+      "arms": "A1/A0",
+      "n_defects": 141,
+      "dropped": 0,
+      "estimate": 0.9593301435406701,
+      "ci95": [
+        0.9280575539568345,
+        0.9880095923261389
+      ]
+    },
+    "A1_minus_A0_pooled": {
+      "arms": "A1-A0",
+      "n_defects": 141,
+      "dropped": 0,
+      "rate_A1": 0.9479905437352247,
+      "rate_A0": 0.9881796690307327,
+      "estimate": -0.04018912529550827,
+      "ci95": [
+        -0.07092198581560284,
+        -0.01182033096926714
+      ],
+      "majority_A1": 133,
+      "majority_A0": 139,
+      "discordant": {
+        "A1_only": 1,
+        "A0_only": 7
+      },
+      "mcnemar_p": 0.0703125,
+      "reps_per_cell": {
+        "1/3": 1,
+        "3/1": 2,
+        "3/3": 138
+      }
+    },
+    "A1_over_A0_core_in_session": {
+      "arms": "A1/A0",
+      "n_defects": 71,
+      "dropped": 0,
+      "estimate": 0.9624413145539905,
+      "ci95": [
+        0.9154929577464789,
+        1.0
+      ]
+    },
+    "anchor_over_A0_in_session": {
+      "arms": "A1anchor/A0",
+      "n_defects": 71,
+      "dropped": 0,
+      "estimate": 0.9807692307692308,
+      "ci95": [
+        0.9375000000000001,
+        1.0191387559808611
+      ]
+    },
+    "anchor_minus_A0_in_session": {
+      "arms": "A1anchor-A0",
+      "n_defects": 71,
+      "dropped": 0,
+      "rate_A1anchor": 0.9577464788732394,
+      "rate_A0": 0.976525821596244,
+      "estimate": -0.018779342723004695,
+      "ci95": [
+        -0.06103286384976525,
+        0.018779342723004695
+      ],
+      "majority_A1anchor": 68,
+      "majority_A0": 69,
+      "discordant": {
+        "A1anchor_only": 1,
+        "A0_only": 2
+      },
+      "mcnemar_p": 1.0,
+      "reps_per_cell": {
+        "1/3": 71
+      }
+    },
+    "rates_pooled": {
+      "A0": {
+        "arm": "A0",
+        "n_defects": 142,
+        "rate": 0.9882629107981221,
+        "ci95": [
+          0.971830985915493,
+          1.0
+        ]
+      },
+      "A1": {
+        "arm": "A1",
+        "n_defects": 141,
+        "rate": 0.9479905437352247,
+        "ci95": [
+          0.9125295508274233,
+          0.9787234042553191
+        ]
+      },
+      "A2": {
+        "arm": "A2",
+        "n_defects": 139,
+        "rate": 0.9400479616306954,
+        "ci95": [
+          0.9016187050359711,
+          0.9736211031175058
+        ]
+      }
+    },
+    "A0_by_operator": {
+      "O1|A0": {
+        "rate": 0.986111111111111,
+        "n_defects": 24
+      },
+      "O2|A0": {
+        "rate": 0.9722222222222223,
+        "n_defects": 24
+      },
+      "O3|A0": {
+        "rate": 1.0,
+        "n_defects": 22
+      },
+      "O5|A0": {
+        "rate": 1.0,
+        "n_defects": 20
+      },
+      "O6|A0": {
+        "rate": 1.0,
+        "n_defects": 26
+      },
+      "O7|A0": {
+        "rate": 0.9743589743589745,
+        "n_defects": 26
+      }
+    },
+    "A0_by_stratum": {
+      "p25|A0": {
+        "rate": 1.0,
+        "n_defects": 36
+      },
+      "p50|A0": {
+        "rate": 0.9814814814814815,
+        "n_defects": 36
+      },
+      "p75|A0": {
+        "rate": 1.0,
+        "n_defects": 41
+      },
+      "p90|A0": {
+        "rate": 0.9655172413793104,
+        "n_defects": 29
+      }
+    }
+  },
+  "drift_anchor_vs_core_A1": {
+    "pairs": 70,
+    "same_outcome_class": 67,
+    "byte_identical_output": 43,
+    "flips_core_to_rerun": {
+      "replaced->repaired": 2,
+      "replaced->unrepaired": 1
+    }
+  },
+  "restoration": {
+    "rates_pooled": {
+      "A0": {
+        "arm": "A0",
+        "n_defects": 142,
+        "rate": 0.6408450704225352,
+        "ci95": [
+          0.5657276995305165,
+          0.7136150234741784
+        ]
+      },
+      "A1": {
+        "arm": "A1",
+        "n_defects": 141,
+        "rate": 0.6855791962174941,
+        "ci95": [
+          0.6122931442080378,
+          0.7565011820330969
+        ]
+      },
+      "A2": {
+        "arm": "A2",
+        "n_defects": 139,
+        "rate": 0.5347721822541966,
+        "ci95": [
+          0.46043165467625896,
+          0.6091127098321342
+        ]
+      }
+    },
+    "A1_minus_A0_pooled": {
+      "arms": "A1-A0",
+      "n_defects": 141,
+      "dropped": 0,
+      "rate_A1": 0.6855791962174941,
+      "rate_A0": 0.6453900709219859,
+      "estimate": 0.04018912529550827,
+      "ci95": [
+        -0.026004728132387703,
+        0.10638297872340426
+      ],
+      "majority_A1": 97,
+      "majority_A0": 91,
+      "discordant": {
+        "A1_only": 18,
+        "A0_only": 12
+      },
+      "mcnemar_p": 0.36159460805356514,
+      "reps_per_cell": {
+        "1/3": 1,
+        "3/1": 2,
+        "3/3": 138
+      }
+    },
+    "A0_minus_A2_pooled": {
+      "arms": "A0-A2",
+      "n_defects": 139,
+      "dropped": 0,
+      "rate_A0": 0.6522781774580335,
+      "rate_A2": 0.5347721822541966,
+      "estimate": 0.11750599520383695,
+      "ci95": [
+        0.050359712230215826,
+        0.18465227817745805
+      ],
+      "majority_A0": 91,
+      "majority_A2": 76,
+      "discordant": {
+        "A0_only": 24,
+        "A2_only": 9
+      },
+      "mcnemar_p": 0.013530986849218607,
+      "reps_per_cell": {
+        "1/3": 2,
+        "3/3": 137
+      }
+    },
+    "A1_minus_A2_pooled": {
+      "arms": "A1-A2",
+      "n_defects": 139,
+      "dropped": 0,
+      "rate_A1": 0.6810551558752997,
+      "rate_A2": 0.5347721822541966,
+      "estimate": 0.14628297362110312,
+      "ci95": [
+        0.0815347721822542,
+        0.21342925659472423
+      ],
+      "majority_A1": 95,
+      "majority_A2": 76,
+      "discordant": {
+        "A1_only": 26,
+        "A2_only": 7
+      },
+      "mcnemar_p": 0.0013187271542847157,
+      "reps_per_cell": {
+        "3/3": 139
+      }
+    },
+    "reading": "a2_below_task",
+    "share_of_gap_closed": {
+      "n_defects": 139,
+      "A0_minus_A2": 0.11750599520383695,
+      "A0_minus_A2_ci95": [
+        0.050359712230215826,
+        0.18465227817745805
+      ],
+      "reported": true,
+      "estimate": 1.2448979591836733,
+      "ci95": [
+        0.7399782608695654,
+        2.5
+      ]
+    },
+    "anchor_minus_A0_in_session": {
+      "arms": "A1anchor-A0",
+      "n_defects": 71,
+      "dropped": 0,
+      "rate_A1anchor": 0.6197183098591549,
+      "rate_A0": 0.5727699530516431,
+      "estimate": 0.04694835680751174,
+      "ci95": [
+        -0.042253521126760556,
+        0.13615023474178406
+      ],
+      "majority_A1anchor": 44,
+      "majority_A0": 40,
+      "discordant": {
+        "A1anchor_only": 9,
+        "A0_only": 5
+      },
+      "mcnemar_p": 0.4239501953125,
+      "reps_per_cell": {
+        "1/3": 71
+      }
+    },
+    "anchor_rate_vs_core_A1_same_defects": {
+      "A1anchor": {
+        "arm": "A1anchor",
+        "n_defects": 71,
+        "rate": 0.6197183098591549,
+        "ci95": [
+          0.5070422535211268,
+          0.7323943661971831
+        ]
+      },
+      "core_A1": {
+        "arm": "A1",
+        "n_defects": 70,
+        "rate": 0.6095238095238095,
+        "ci95": [
+          0.5047619047619047,
+          0.7142857142857143
+        ]
+      }
+    },
+    "A0_by_operator": {
+      "O1|A0": {
+        "rate": 0.7083333333333334,
+        "n_defects": 24
+      },
+      "O2|A0": {
+        "rate": 0.5277777777777778,
+        "n_defects": 24
+      },
+      "O3|A0": {
+        "rate": 0.6212121212121212,
+        "n_defects": 22
+      },
+      "O5|A0": {
+        "rate": 0.25,
+        "n_defects": 20
+      },
+      "O6|A0": {
+        "rate": 0.8461538461538461,
+        "n_defects": 26
+      },
+      "O7|A0": {
+        "rate": 0.7948717948717948,
+        "n_defects": 26
+      }
+    },
+    "A0_by_stratum": {
+      "p25|A0": {
+        "rate": 0.7037037037037037,
+        "n_defects": 36
+      },
+      "p50|A0": {
+        "rate": 0.7685185185185184,
+        "n_defects": 36
+      },
+      "p75|A0": {
+        "rate": 0.6016260162601625,
+        "n_defects": 41
+      },
+      "p90|A0": {
+        "rate": 0.45977011494252873,
+        "n_defects": 29
+      }
+    }
+  },
+  "repair_decomposition_A0_pooled": {
+    "A0": {
+      "trials": 422,
+      "3_way": {
+        "repaired_copy": {
+          "count": 271,
+          "share": 0.6421800947867299
+        },
+        "repaired_rewrite": {
+          "count": 146,
+          "share": 0.3459715639810427
+        },
+        "not_repaired": {
+          "count": 5,
+          "share": 0.011848341232227487
+        }
+      },
+      "4_way": {
+        "repaired_copy": {
+          "count": 271,
+          "share": 0.6421800947867299
+        },
+        "repaired_rewrite": {
+          "count": 146,
+          "share": 0.3459715639810427
+        },
+        "replaced_or_deleted": {
+          "count": 3,
+          "share": 0.0071090047393364926
+        },
+        "unrepaired": {
+          "count": 2,
+          "share": 0.004739336492890996
+        }
+      },
+      "total_repaired": {
+        "count": 417,
+        "share": 0.9881516587677726
+      },
+      "within_rewrite": {
+        "note": "descriptive only; non-identical subset subject to composition artefact",
+        "repaired": 146,
+        "trials": 151,
+        "rate": 0.9668874172185431
+      }
+    }
+  }
+}
