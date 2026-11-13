@@ -382,6 +382,30 @@ def test_warm_levels_name_arm_and_temperature():
     assert ra.warm_level({"arm": "A2"}) == "A2@T0"   # rows written before the field existed
 
 
+def test_warm_repair_decomposition_by_level(monkeypatch):
+    monkeypatch.setattr(ra, "_clean_outputs", lambda rows, root: {"d1": {"o": "repaired"}})
+    rows = [_warm_row("d1", {
+        ("A1", 0.0): ["repaired"] * 3,
+        ("A2", 0.0): ["repaired"] * 3,
+        ("A1", 1.0): ["repaired"] * 3,
+        ("A2", 1.0): ["unrepaired"] * 3,
+        ("A3", 1.0): ["unrepaired", "repaired", "repaired"],
+    }, op="O2")]
+    res = ra.analyse_warm(rows, seed=0, root="out_study")
+    decomp = res["repair_decomposition"]
+    assert "by_level" in decomp
+    assert "by_level_and_operator" in decomp
+    for lv in ra.WARM_LEVELS:
+        assert lv in decomp["by_level"]
+        assert "3_way" in decomp["by_level"][lv]
+        assert "4_way" in decomp["by_level"][lv]
+        assert lv in decomp["by_level_and_operator"]["O2"]
+    assert decomp["by_level"]["A1@T0"]["trials"] == 3
+    assert decomp["by_level"]["A1@T0"]["3_way"]["repaired_copy"]["count"] == 3
+    assert decomp["by_level"]["A2@T1"]["3_way"]["not_repaired"]["count"] == 3
+
+
+
 
 # -- the core's post hoc identity reads (RESULTS.md section 4) ------------------
 
@@ -534,3 +558,214 @@ def test_recomputing_the_primary_o5_criterion_reproduces_every_stored_outcome():
         loose = res["by_criterion"][crit]["o5_class_counts"]
         assert sum(v for k, v in loose.items() if k.endswith("|unrepaired")) <= \
             sum(v for k, v in prim.items() if k.endswith("|unrepaired"))
+
+
+# -- Phase 1: ratio subsets, copy contrast, decomposition, and flashlite -------
+
+
+def test_ratio_defects_subset_filtering():
+    cm = {
+        ("d1", "A1"): [1.0], ("d1", "A0"): [1.0],
+        ("d2", "A1"): [0.0], ("d2", "A0"): [1.0],
+        ("d3", "A1"): [1.0], ("d3", "A0"): [1.0],
+    }
+    # All 3 defects
+    res_all = ra.ratio(cm, "A1", "A0", seed=0)
+    assert res_all["n_defects"] == 3
+    assert res_all["estimate"] == pytest.approx((2 / 3) / 1.0)
+
+    # Filter to {"d1", "d3"}
+    res_sub = ra.ratio(cm, "A1", "A0", seed=0, defects={"d1", "d3"})
+    assert res_sub["n_defects"] == 2
+    assert res_sub["estimate"] == pytest.approx(1.0)
+
+
+def test_copy_contrast_unconditional_mcnemar():
+    clean = {"d1": {"k": "val1"}, "d2": {"k": "val2"}}
+    trials = [
+        # d1: A1 is copy, A2 is rewrite
+        {"defect_id": "d1", "arm": "A1", "rep": 0, "status": "ok", "outcome": {"outcome": "repaired"},
+         "retried_output": {"k": "val1"}, "operator": "O1"},
+        {"defect_id": "d1", "arm": "A2", "rep": 0, "status": "ok", "outcome": {"outcome": "repaired"},
+         "retried_output": {"k": "diff"}, "operator": "O1"},
+        # d2: both are copies
+        {"defect_id": "d2", "arm": "A1", "rep": 0, "status": "ok", "outcome": {"outcome": "repaired"},
+         "retried_output": {"k": "val2"}, "operator": "O1"},
+        {"defect_id": "d2", "arm": "A2", "rep": 0, "status": "ok", "outcome": {"outcome": "repaired"},
+         "retried_output": {"k": "val2"}, "operator": "O1"},
+    ]
+    cm_copy = ra.copy_cells(trials, clean)
+    res = ra.contrast(cm_copy, "A1", "A2", seed=0)
+    assert res["n_defects"] == 2
+    assert res["rate_A1"] == 1.0
+    assert res["rate_A2"] == 0.5
+    assert res["estimate"] == pytest.approx(0.5)
+    assert res["discordant"] == {"A1_only": 1, "A2_only": 0}
+
+
+def test_repair_decomposition_3way_and_4way():
+    clean = {"d1": {"out": "clean1"}}
+    trials = [
+        # trial 1: repaired copy
+        {"defect_id": "d1", "arm": "A1", "rep": 0, "operator": "O1", "outcome": {"outcome": "repaired"},
+         "retried_output": {"out": "clean1"}},
+        # trial 2: repaired rewrite
+        {"defect_id": "d1", "arm": "A1", "rep": 1, "operator": "O1", "outcome": {"outcome": "repaired"},
+         "retried_output": {"out": "different"}},
+        # trial 3: replaced (located non-restoring)
+        {"defect_id": "d1", "arm": "A1", "rep": 2, "operator": "O1", "outcome": {"outcome": "replaced"},
+         "retried_output": {"out": "mod"}},
+        # trial 4: unrepaired (unlocated)
+        {"defect_id": "d1", "arm": "A2", "rep": 0, "operator": "O1", "outcome": {"outcome": "unrepaired"},
+         "retried_output": {"out": "unrep"}},
+    ]
+    decomp = ra.compute_repair_decomposition(trials, clean)
+    a1_3w = decomp["overall"]["A1"]["3_way"]
+    assert a1_3w["repaired_copy"]["count"] == 1
+    assert a1_3w["repaired_rewrite"]["count"] == 1
+    assert a1_3w["not_repaired"]["count"] == 1
+
+    a1_4w = decomp["overall"]["A1"]["4_way"]
+    assert a1_4w["repaired_copy"]["count"] == 1
+    assert a1_4w["repaired_rewrite"]["count"] == 1
+    assert a1_4w["replaced_or_deleted"]["count"] == 1
+    assert a1_4w["unrepaired"]["count"] == 0
+
+    a2_4w = decomp["overall"]["A2"]["4_way"]
+    assert a2_4w["unrepaired"]["count"] == 1
+
+
+def test_downstream_calibrated_e1_and_upstream_groups():
+    clean_rep = _report(["slow kitchen service"], ["hire more line cooks"])
+    rows = [{
+        "defect_id": "d1", "operator": "O1",
+        "trials": [{"defect_id": "d1", "arm": "A1", "rep": 0, "condition": "C0",
+                    "retried_output": {"aspects": ["slow"]}, "status": "ok"}],
+        "conditions": [
+            _ds_cond("clean", 0, clean_rep), _ds_cond("clean", 1, clean_rep),
+            _ds_cond("unrepaired", 0, clean_rep),
+            _ds_cond("A1", 0, clean_rep, accepted=True, core_outcome="repaired"),
+        ],
+    }]
+    # Provide synthetic core_rows
+    core_rows = [{
+        "defect_id": "d1", "operator": "O1",
+        "trials": [{"defect_id": "d1", "arm": "A1", "rep": 0, "condition": "C0",
+                    "retried_output": {"aspects": ["slow"]}, "outcome": {"outcome": "repaired"}}],
+    }]
+    res = ra.analyse_downstream(rows, seed=0)
+    assert "E1_calibrated_accepted" in res
+    assert "upstream_group_breakdown" in res
+    assert "pooled" in res["upstream_group_breakdown"]
+    assert "by_stage" in res["upstream_group_breakdown"]
+
+
+def test_thinking_constants_and_level_helper():
+    assert ra.THINKING_EFFORTS == ("none", "low", "medium", "high")
+    assert ra.THINKING_BUDGETS == {"none": 0, "low": 1024, "medium": 8192, "high": 24576}
+    assert ra.THINKING_LEVELS == tuple(f"{a}@{e}" for a in ("A1", "A2", "A3") for e in ra.THINKING_EFFORTS)
+    assert ra.thinking_level({"arm": "A1", "reasoning_effort": "low"}) == "A1@low"
+    assert ra.thinking_level({"arm": "A2"}) == "A2@default"
+
+
+def test_analyse_thinking_structure_and_dose_response(monkeypatch):
+    efforts = ("none", "low", "medium", "high")
+    trials_d1 = []
+    trials_d2 = []
+    clean_d1 = {"result": "clean_d1"}
+    clean_d2 = {"result": "clean_d2"}
+
+    for effort in efforts:
+        t_a1 = {
+            "defect_id": "d1", "arm": "A1", "rep": 0, "status": "ok", "operator": "O1",
+            "stage": "reasoning_agent", "condition": "C0", "reasoning_effort": effort,
+            "outcome": {"outcome": "repaired"}, "retried_output": clean_d1,
+            "total_tokens": 1000, "prompt_tokens": 500, "completion_tokens": 200,
+            "thinking_tokens": 300, "wall_clock_s": 2.5, "attempts_made": 1,
+        }
+        t_a2 = {
+            "defect_id": "d1", "arm": "A2", "rep": 0, "status": "ok", "operator": "O1",
+            "stage": "reasoning_agent", "condition": "C0", "reasoning_effort": effort,
+            "outcome": {"outcome": "unrepaired"}, "retried_output": {"result": "bad"},
+            "total_tokens": 800, "prompt_tokens": 500, "completion_tokens": 200,
+            "thinking_tokens": 100, "wall_clock_s": 1.5, "attempts_made": 1,
+        }
+        trials_d1.extend([t_a1, t_a2])
+
+        a2_out = "repaired" if effort in ("high", "medium") else "unrepaired"
+        t2_a1 = {
+            "defect_id": "d2", "arm": "A1", "rep": 0, "status": "ok", "operator": "O1",
+            "stage": "reasoning_agent", "condition": "C0", "reasoning_effort": effort,
+            "outcome": {"outcome": "repaired"}, "retried_output": clean_d2,
+            "total_tokens": 1200, "prompt_tokens": 600, "completion_tokens": 200,
+            "thinking_tokens": 400, "wall_clock_s": 3.0, "attempts_made": 1,
+        }
+        t2_a2 = {
+            "defect_id": "d2", "arm": "A2", "rep": 0, "status": "ok", "operator": "O1",
+            "stage": "reasoning_agent", "condition": "C0", "reasoning_effort": effort,
+            "outcome": {"outcome": a2_out}, "retried_output": clean_d2 if a2_out == "repaired" else {"result": "bad"},
+            "total_tokens": 900, "prompt_tokens": 600, "completion_tokens": 200,
+            "thinking_tokens": 100, "wall_clock_s": 2.0, "attempts_made": 1,
+        }
+        trials_d2.extend([t2_a1, t2_a2])
+
+    rows = [
+        {"defect_id": "d1", "operator": "O1", "trials": trials_d1},
+        {"defect_id": "d2", "operator": "O1", "trials": trials_d2},
+    ]
+
+    core_rows = [
+        {"defect_id": "d1", "operator": "O1", "trials": [
+            {"defect_id": "d1", "arm": "A1", "rep": 0, "condition": "C0", "status": "ok",
+             "outcome": {"outcome": "repaired"}, "retried_output": clean_d1},
+            {"defect_id": "d1", "arm": "A2", "rep": 0, "condition": "C0", "status": "ok",
+             "outcome": {"outcome": "unrepaired"}, "retried_output": {"result": "bad"}},
+        ]}
+    ]
+
+    monkeypatch.setattr(ra, "_clean_outputs", lambda rows, root: {"d1": clean_d1, "d2": clean_d2})
+    res = ra.analyse_thinking(rows, core_rows=core_rows, seed=0, root="dummy_root")
+    assert res["provenance"]["prospective"] is True
+    assert res["provenance"]["cell"] == "thinking"
+    assert "A1@none" in res["rates"]
+    assert "A1@high-A2@high" in res["within_effort_contrasts"]
+    assert "gap_none_minus_gap_high" in res["gap_differences"]
+
+    dr = res["dose_response_A1_minus_A2"]
+    assert dr["n_defects"] == 2
+    assert dr["mean_slope_rank"] is not None
+    assert dr["ci95_rank"][0] is not None
+    assert dr["mean_slope_neg_log2_budget"] is not None
+
+    assert "copy_gap_differences" in res
+    assert "gap_none_minus_gap_high" in res["copy_gap_differences"]
+    assert "dose_response_copy_A1_minus_A2" in res
+    dr_copy = res["dose_response_copy_A1_minus_A2"]
+    assert dr_copy["n_defects"] == 2
+    assert dr_copy["mean_slope_rank"] is not None
+    assert dr_copy["ci95_rank"][0] is not None
+    assert dr_copy["mean_slope_neg_log2_budget"] is not None
+
+    assert res["mean_tokens_per_trial"]["A1@high"] == 1100.0
+    assert res["mean_thinking_tokens_per_trial"]["A1@high"] == 350.0
+    assert res["mean_thinking_tokens_by_effort"]["high"] == 225.0
+
+    assert "drift_vs_core" in res
+    assert res["drift_vs_core"]["pairs"] == 2
+    assert res["drift_vs_core"]["same_outcome_class"] == 2
+
+
+_T2T_ANALYSIS = Path(__file__).resolve().parent.parent / "out_study" / "T2T" / "analysis.json"
+
+
+@pytest.mark.skipif(not _T2T_ANALYSIS.exists(), reason="T2T analysis.json not present")
+def test_thinking_analysis_file_contains_copy_dose_response_and_gap_differences():
+    with open(_T2T_ANALYSIS, encoding="utf-8") as f:
+        data = json.load(f)
+    assert "copy_gap_differences" in data
+    assert "gap_none_minus_gap_high" in data["copy_gap_differences"]
+    assert "dose_response_copy_A1_minus_A2" in data
+    dr = data["dose_response_copy_A1_minus_A2"]
+    assert dr["n_defects"] == 45
+    assert dr["mean_slope_rank"] > 0
+    assert len(dr["ci95_rank"]) == 2

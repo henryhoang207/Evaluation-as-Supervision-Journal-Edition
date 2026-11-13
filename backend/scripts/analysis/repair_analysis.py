@@ -230,9 +230,9 @@ def contrast(cellmap: dict, arm_a: str, arm_b: str, seed: int, defects=None) -> 
     }
 
 
-def ratio(cellmap: dict, num: str, den: str, seed: int) -> dict:
+def ratio(cellmap: dict, num: str, den: str, seed: int, defects=None) -> dict:
     """Ratio of mean defect-level rates (section 3 item 2), CI over defects."""
-    kept, dropped = paired(cellmap, num, den)
+    kept, dropped = paired(cellmap, num, den, defects)
     if not kept:
         return {"arms": f"{num}/{den}", "n_defects": 0, "dropped": dropped}
     rn = np.array([np.mean(a) for _, a, _ in kept])
@@ -358,10 +358,14 @@ def analyse(rows: list[dict], seed: int = DEFAULT_SEED, root: str | None = None)
         },
     }
     if root is not None:
+        clean = _clean_outputs(rows, root)
+        cm_copy = copy_cells(trials, clean, planned=planned)
         out["exploratory"] = {
             "note": "post hoc, not pre-specified (RESULTS.md section 4); outputs "
                     "compared as canonical JSON",
-            "identical_to_clean": identity_to_clean(trials, _clean_outputs(rows, root)),
+            "identical_to_clean": identity_to_clean(trials, clean),
+            "copy_contrast_A1_minus_A2": contrast(cm_copy, "A1", "A2", seed),
+            "repair_decomposition": compute_repair_decomposition(trials, clean),
             "distinct_outputs_per_cell": distinct_outputs(trials),
         }
     return out
@@ -570,6 +574,15 @@ def analyse_severity(rows: list[dict], core_rows: list[dict] | None = None,
         core_rows, 1, lambda t: t["arm"] == "A1" and t.get("operator") == "O1")
 
 
+THINKING_EFFORTS = ("none", "low", "medium", "high")
+THINKING_BUDGETS = {"none": 0, "low": 1024, "medium": 8192, "high": 24576}
+THINKING_LEVELS = tuple(f"{a}@{e}" for a in ("A1", "A2", "A3") for e in THINKING_EFFORTS)
+
+
+def thinking_level(t: dict) -> str:
+    return f"{t['arm']}@{t.get('reasoning_effort') or 'default'}"
+
+
 WARM_LEVELS = ("A1@T0", "A2@T0", "A1@T1", "A2@T1", "A3@T1")
 
 
@@ -617,12 +630,16 @@ def _clean_outputs(rows: list[dict], root: str) -> dict:
     sys.modules["inject_defects"] = inj
     spec.loader.exec_module(inj)
     dirs = {Path(d).name: d for d in inj.base_dirs(root)}
+    cache = {}
     out = {}
     for r in rows:
         trials = r.get("trials") or []
         if not trials:
             continue
-        base = inj.state_from_dump(dirs[r["defect_id"].rsplit(":", 1)[0]])
+        biz_id = r["defect_id"].rsplit(":", 1)[0]
+        if biz_id not in cache:
+            cache[biz_id] = inj.state_from_dump(dirs[biz_id])
+        base = cache[biz_id]
         out[r["defect_id"]] = base.get(inj.OUTPUT_KEY[trials[0]["stage"]])
     return out
 
@@ -631,6 +648,104 @@ def canonical(output) -> str:
     """An output as canonical JSON (sorted keys): the same identity the warm, c7
     and drift reads compare."""
     return json.dumps(output, sort_keys=True, ensure_ascii=False)
+
+
+def trial_is_copy(trial: dict, clean: dict) -> bool:
+    """True if trial's retried output is canonical-JSON identical to clean output."""
+    did = trial.get("defect_id")
+    if not did or did not in clean:
+        return False
+    return canonical(trial.get("retried_output")) == canonical(clean[did])
+
+
+def copy_cells(trials: list[dict], clean: dict, planned: tuple[tuple[str, str], ...] = (),
+               condition: str = "C0") -> dict:
+    out: dict = defaultdict(list)
+    for key in planned:
+        out[key]
+    for t in trials:
+        if t.get("condition", "C0") != condition:
+            continue
+        if t.get("defect_id") in clean:
+            out[(t["defect_id"], t["arm"])].append(1 if trial_is_copy(t, clean) else 0)
+    return dict(out)
+
+
+def _decompose_trial_list(trials: list[dict], clean: dict) -> dict:
+    """Decompose a single list of trials into 3-way and 4-way categories."""
+    trials_with_clean = [t for t in trials if t.get("defect_id") in clean]
+    n = len(trials_with_clean)
+    if n == 0:
+        return {"trials": 0}
+
+    n_copy = 0
+    n_rewrite = 0
+    n_replaced_deleted = 0
+    n_unrepaired = 0
+
+    for t in trials_with_clean:
+        cls = outcome_class(t)
+        is_copy = trial_is_copy(t, clean)
+        if cls == "repaired":
+            if is_copy:
+                n_copy += 1
+            else:
+                n_rewrite += 1
+        elif cls in ("replaced", "deleted"):
+            n_replaced_deleted += 1
+        else:
+            n_unrepaired += 1
+
+    n_repaired = n_copy + n_rewrite
+    n_not_repaired = n_replaced_deleted + n_unrepaired
+    n_non_copy = n - n_copy
+
+    within_rewrite_rate = n_rewrite / n_non_copy if n_non_copy > 0 else None
+
+    return {
+        "trials": n,
+        "3_way": {
+            "repaired_copy": {"count": n_copy, "share": n_copy / n},
+            "repaired_rewrite": {"count": n_rewrite, "share": n_rewrite / n},
+            "not_repaired": {"count": n_not_repaired, "share": n_not_repaired / n},
+        },
+        "4_way": {
+            "repaired_copy": {"count": n_copy, "share": n_copy / n},
+            "repaired_rewrite": {"count": n_rewrite, "share": n_rewrite / n},
+            "replaced_or_deleted": {"count": n_replaced_deleted, "share": n_replaced_deleted / n},
+            "unrepaired": {"count": n_unrepaired, "share": n_unrepaired / n},
+        },
+        "total_repaired": {"count": n_repaired, "share": n_repaired / n},
+        "within_rewrite": {
+            "note": "descriptive only; non-identical subset subject to composition artefact",
+            "repaired": n_rewrite,
+            "trials": n_non_copy,
+            "rate": within_rewrite_rate,
+        },
+    }
+
+
+def compute_repair_decomposition(trials: list[dict], clean: dict) -> dict:
+    """3-way and 4-way repair decomposition overall and by operator."""
+    arms = sorted({t["arm"] for t in trials if t.get("defect_id") in clean})
+    operators = sorted({t["operator"] for t in trials if t.get("operator")})
+
+    overall = {}
+    for arm in arms:
+        ts = [t for t in trials if t["arm"] == arm]
+        overall[arm] = _decompose_trial_list(ts, clean)
+
+    by_operator = {}
+    for op in operators:
+        by_operator[op] = {}
+        for arm in arms:
+            ts = [t for t in trials if t.get("operator") == op and t["arm"] == arm]
+            by_operator[op][arm] = _decompose_trial_list(ts, clean)
+
+    return {
+        "overall": overall,
+        "by_operator": by_operator,
+    }
 
 
 def identity_to_clean(trials: list[dict], clean: dict) -> dict:
@@ -723,6 +838,18 @@ def analyse_warm(rows: list[dict], core_rows: list[dict] | None = None,
         out["byte_identical_to_clean"] = {
             lv: {"identical": same[lv], "trials": n[lv],
                  "share": same[lv] / n[lv] if n[lv] else None} for lv in WARM_LEVELS}
+        copy_trials = [{**t, "outcome": {"outcome": "repaired" if trial_is_copy(t, clean) else "unrepaired"}}
+                       for t in trials if t.get("defect_id") in clean]
+        cm_copy_warm = factor_cells(copy_trials, warm_level, arm=None)
+        out["copy_contrast"] = {
+            "A1@T0-A2@T0": contrast(cm_copy_warm, "A1@T0", "A2@T0", seed),
+            "A1@T1-A2@T1": contrast(cm_copy_warm, "A1@T1", "A2@T1", seed),
+        }
+        decomp = compute_repair_decomposition(trials, clean)
+        by_level_decomp = compute_repair_decomposition([{**t, "arm": warm_level(t)} for t in trials], clean)
+        decomp["by_level"] = by_level_decomp["overall"]
+        decomp["by_level_and_operator"] = by_level_decomp["by_operator"]
+        out["repair_decomposition"] = decomp
     if core_rows is not None:
         rerun = [t for t in trials if float(t.get("temperature", 0.0)) == 0.0]
         core = [t for t in usable_trials(core_rows)[0] if t["arm"] in ("A1", "A2")]
@@ -817,6 +944,9 @@ def analyse_c7(rows: list[dict], core_rows: list[dict] | None = None,
             hits = sum(canon(t.get("retried_output")) == canon(clean[t["defect_id"]]) for t in subset)
             out["identical_to_clean"][arm] = {"trials": len(subset), "identical": hits,
                                              "share": hits / len(subset) if subset else None}
+        cm_copy = copy_cells(trials, clean, planned=planned)
+        out["copy_contrast_A1_minus_A2"] = contrast(cm_copy, "A1", "A2", seed)
+        out["repair_decomposition"] = compute_repair_decomposition(trials, clean)
     if core_rows is not None:
         core = usable_trials(core_rows)[0]
         local_ids = {t["defect_id"] for t in trials}
@@ -832,6 +962,223 @@ def analyse_c7(rows: list[dict], core_rows: list[dict] | None = None,
                 "ci95": list(ci),
                 "local_rate": float(np.mean([np.mean(cm[(d, arm)]) for d in ids])) if ids else None,
                 "gemini_rate": float(np.mean([np.mean(core_cm[(d, arm)]) for d in ids])) if ids else None}
+    return out
+
+
+def analyse_thinking(rows: list[dict], core_rows: list[dict] | None = None,
+                     seed: int = DEFAULT_SEED, root: str | None = None) -> dict:
+    """Amendment A12: within-weights thinking-budget sweep (T2T).
+
+    Sweep across reasoning_effort in ('none', 'low', 'medium', 'high') on gemini-2.5-flash.
+    Evaluates rates per level, within-effort A1-A2 contrasts, cross-effort contrasts,
+    gap differences against high, dose-response OLS trend test, tokens & latency,
+    without-multi-attempt sensitivity, exact copy contrast, and repair decomposition.
+    """
+    usable, excluded = usable_trials(rows)
+    trials = usable
+    cm = factor_cells(trials, thinking_level, arm=None)
+    single = [t for t in trials if t.get("attempts_made", 1) == 1]
+    cm_sa = factor_cells(single, thinking_level, arm=None)
+
+    present_levels = [lv for lv in THINKING_LEVELS if any(thinking_level(t) == lv for t in trials)]
+
+    # Rates per level
+    rates = {lv: _rate_ci(cm, lv, seed) for lv in present_levels}
+
+    # Within-effort A1 - A2 contrasts
+    within_contrasts = {
+        f"A1@{e}-A2@{e}": contrast(cm, f"A1@{e}", f"A2@{e}", seed)
+        for e in THINKING_EFFORTS
+        if f"A1@{e}" in present_levels and f"A2@{e}" in present_levels
+    }
+
+    # Cross-effort contrasts for each arm (A1, A2, A3) comparing "none", "low", "medium" against "high"
+    cross_contrasts = {}
+    for arm in ("A1", "A2", "A3"):
+        for e in ("none", "low", "medium"):
+            lvl_e = f"{arm}@{e}"
+            lvl_h = f"{arm}@high"
+            if lvl_e in present_levels and lvl_h in present_levels:
+                cross_contrasts[f"{lvl_e}-{lvl_h}"] = contrast(cm, lvl_e, lvl_h, seed)
+
+    # Gap differences comparing A1@e - A2@e against A1@high - A2@high
+    gap_differences = {}
+    for e in ("none", "low", "medium"):
+        if (f"A1@{e}" in present_levels and f"A2@{e}" in present_levels
+                and "A1@high" in present_levels and "A2@high" in present_levels):
+            gap_differences[f"gap_{e}_minus_gap_high"] = _gap_difference(
+                cm, f"A1@{e}", f"A2@{e}", "A1@high", "A2@high", seed
+            )
+
+    # Dose-response trend test dose_response_A1_minus_A2
+    # For each defect d in the 45-defect subset, let g_{d, e} = y_bar_{d, A1@e} - y_bar_{d, A2@e}
+    # for e in (high, medium, low, none) mapped to rank x in (0, 1, 2, 3) and to -log2(1 + budget_e).
+    def _dose_response_thinking(cell_map: dict) -> dict:
+        defects = sorted({
+            d for d, _ in cell_map
+            if all((d, f"A1@{e}") in cell_map and (d, f"A2@{e}") in cell_map and cell_map[(d, f"A1@{e}")] and cell_map[(d, f"A2@{e}")]
+                   for e in ("high", "medium", "low", "none"))
+        })
+
+        rank_x = np.array([0.0, 1.0, 2.0, 3.0])
+        rank_x_centered = rank_x - rank_x.mean()
+        rank_ss = np.sum(rank_x_centered ** 2)
+
+        log_x = np.array([-np.log2(1.0 + THINKING_BUDGETS[e]) for e in ("high", "medium", "low", "none")])
+        log_x_centered = log_x - log_x.mean()
+        log_ss = np.sum(log_x_centered ** 2)
+
+        rank_slopes_list = []
+        log_slopes_list = []
+        for d in defects:
+            g_de = np.array([
+                float(np.mean(cell_map[(d, f"A1@{e}")]) - np.mean(cell_map[(d, f"A2@{e}")]))
+                for e in ("high", "medium", "low", "none")
+            ])
+            beta_rank = float(np.sum(rank_x_centered * g_de) / rank_ss) if rank_ss > 0 else 0.0
+            beta_log = float(np.sum(log_x_centered * g_de) / log_ss) if log_ss > 0 else 0.0
+            rank_slopes_list.append(beta_rank)
+            log_slopes_list.append(beta_log)
+
+        rank_slopes_arr = np.array(rank_slopes_list)
+        log_slopes_arr = np.array(log_slopes_list)
+        rng = np.random.default_rng(seed)
+        ci_rank = cluster_bootstrap_ci(rank_slopes_arr, rng) if len(rank_slopes_arr) else (None, None)
+        ci_log = cluster_bootstrap_ci(log_slopes_arr, rng) if len(log_slopes_arr) else (None, None)
+
+        return {
+            "n_defects": len(defects),
+            "mean_slope_rank": float(rank_slopes_arr.mean()) if len(rank_slopes_arr) else None,
+            "ci95_rank": list(ci_rank),
+            "mean_slope_neg_log2_budget": float(log_slopes_arr.mean()) if len(log_slopes_arr) else None,
+            "ci95_neg_log2_budget": list(ci_log),
+            "by_rank": {
+                "n_defects": len(defects),
+                "mean_slope": float(rank_slopes_arr.mean()) if len(rank_slopes_arr) else None,
+                "ci95": list(ci_rank),
+            },
+            "by_neg_log2_budget": {
+                "n_defects": len(defects),
+                "mean_slope": float(log_slopes_arr.mean()) if len(log_slopes_arr) else None,
+                "ci95": list(ci_log),
+            },
+        }
+
+    dose_response = _dose_response_thinking(cm)
+
+    # Token & latency metrics by level
+    mean_tokens = {}
+    mean_thinking_tokens = {}
+    mean_completion_tokens = {}
+    mean_seconds = {}
+    for lv in present_levels:
+        matching = [t for t in trials if thinking_level(t) == lv]
+        toks = [t["total_tokens"] for t in matching if t.get("total_tokens") is not None]
+        th_toks = [t["thinking_tokens"] for t in matching if t.get("thinking_tokens") is not None]
+        comp_toks = [t["completion_tokens"] for t in matching if t.get("completion_tokens") is not None]
+        secs = [t["wall_clock_s"] for t in matching if t.get("wall_clock_s") is not None]
+        mean_tokens[lv] = float(np.mean(toks)) if toks else None
+        mean_thinking_tokens[lv] = float(np.mean(th_toks)) if th_toks else None
+        mean_completion_tokens[lv] = float(np.mean(comp_toks)) if comp_toks else None
+        mean_seconds[lv] = float(np.mean(secs)) if secs else None
+
+    # Token metrics by effort
+    mean_thinking_by_effort = {}
+    for e in THINKING_EFFORTS:
+        th_toks_e = [t["thinking_tokens"] for t in trials
+                     if (t.get("reasoning_effort") or "default") == e and t.get("thinking_tokens") is not None]
+        mean_thinking_by_effort[e] = float(np.mean(th_toks_e)) if th_toks_e else None
+
+    # without_multi_attempt_trials
+    rates_sa = {lv: _rate_ci(cm_sa, lv, seed) for lv in present_levels if any(thinking_level(t) == lv for t in single)}
+    contrasts_sa = {
+        f"A1@{e}-A2@{e}": contrast(cm_sa, f"A1@{e}", f"A2@{e}", seed)
+        for e in THINKING_EFFORTS
+        if any(thinking_level(t) == f"A1@{e}" for t in single) and any(thinking_level(t) == f"A2@{e}" for t in single)
+    }
+
+    multi_count = Counter(thinking_level(t) for t in trials if (t.get("attempts_made") or 0) > 1)
+
+    out = {
+        "provenance": {
+            "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "seed": seed, "n_boot": N_BOOT, "prospective": True,
+            "cell": "thinking",
+            "trials_usable": len(usable),
+            "exclusions": dict(excluded),
+            "served_models": dict(Counter(m for t in usable for m in t.get("served_models", []))),
+            "total_tokens": sum(t.get("total_tokens") or 0 for t in usable),
+        },
+        "rates": rates,
+        "within_effort_contrasts": within_contrasts,
+        "cross_effort_contrasts": cross_contrasts,
+        "contrasts": {**within_contrasts, **cross_contrasts},
+        "gap_differences": gap_differences,
+        "dose_response_A1_minus_A2": dose_response,
+        "mean_tokens_per_trial": mean_tokens,
+        "mean_thinking_tokens_per_trial": mean_thinking_tokens,
+        "mean_completion_tokens_per_trial": mean_completion_tokens,
+        "mean_seconds_per_trial": mean_seconds,
+        "mean_thinking_tokens_by_effort": mean_thinking_by_effort,
+        "multi_attempt_trials_by_level": {lv: multi_count.get(lv, 0) for lv in present_levels},
+        "without_multi_attempt_trials": {
+            "rates": rates_sa,
+            "within_effort_contrasts": contrasts_sa,
+            "contrasts": contrasts_sa,
+        },
+        "outcome_classes": {f"{lv}|{o}": n for (lv, o), n in sorted(
+            Counter((thinking_level(t), outcome_class(t)) for t in trials).items())},
+        "collateral": _collateral(trials),
+    }
+
+    if root is not None:
+        clean = _clean_outputs(rows, root)
+        canon = lambda o: json.dumps(o, sort_keys=True, ensure_ascii=False)
+        same, n_tot = Counter(), Counter()
+        for t in trials:
+            if t["defect_id"] in clean:
+                lv = thinking_level(t)
+                n_tot[lv] += 1
+                same[lv] += canon(t.get("retried_output")) == canon(clean[t["defect_id"]])
+        out["byte_identical_to_clean"] = {
+            lv: {"identical": same[lv], "trials": n_tot[lv],
+                 "share": same[lv] / n_tot[lv] if n_tot[lv] else None}
+            for lv in present_levels
+        }
+        copy_trials = [{**t, "outcome": {"outcome": "repaired" if trial_is_copy(t, clean) else "unrepaired"}}
+                       for t in trials if t.get("defect_id") in clean]
+        cm_copy_thinking = factor_cells(copy_trials, thinking_level, arm=None)
+        out["copy_contrast"] = {
+            f"A1@{e}-A2@{e}": contrast(cm_copy_thinking, f"A1@{e}", f"A2@{e}", seed)
+            for e in THINKING_EFFORTS
+            if f"A1@{e}" in present_levels and f"A2@{e}" in present_levels
+        }
+        copy_gap_differences = {}
+        for e in ("none", "low", "medium"):
+            if (f"A1@{e}" in present_levels and f"A2@{e}" in present_levels
+                    and "A1@high" in present_levels and "A2@high" in present_levels):
+                copy_gap_differences[f"gap_{e}_minus_gap_high"] = _gap_difference(
+                    cm_copy_thinking, f"A1@{e}", f"A2@{e}", "A1@high", "A2@high", seed
+                )
+        out["copy_gap_differences"] = copy_gap_differences
+        out["dose_response_copy_A1_minus_A2"] = _dose_response_thinking(cm_copy_thinking)
+        decomp = compute_repair_decomposition(trials, clean)
+        by_level_decomp = compute_repair_decomposition(
+            [{**t, "arm": thinking_level(t)} for t in trials], clean
+        )
+        decomp["by_level"] = by_level_decomp["overall"]
+        decomp["by_level_and_operator"] = by_level_decomp["by_operator"]
+        out["repair_decomposition"] = decomp
+
+    if core_rows is not None:
+        rerun_none = [t for t in trials if (t.get("reasoning_effort") or "default") in ("none", "default") and t["arm"] in ("A1", "A2")]
+        rerun_high = [t for t in trials if t.get("reasoning_effort") == "high" and t["arm"] in ("A1", "A2")]
+        core = [t for t in usable_trials(core_rows)[0] if t["arm"] in ("A1", "A2")]
+        # §0.1 A12 item 5: Serving drift compares in-pass unthought / baseline runs vs frozen core.
+        out["drift_vs_core"] = _drift(rerun_none if rerun_none else rerun_high, core)
+        out["drift_vs_core_none"] = _drift(rerun_none, core)
+        out["drift_vs_core_high"] = _drift(rerun_high, core)
+
     return out
 
 
@@ -1060,7 +1407,9 @@ def _paired(values_a: dict, values_b: dict, seed: int) -> dict:
             "ci95": [lo, hi]}
 
 
-def analyse_downstream(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
+def analyse_downstream(rows: list[dict], seed: int = DEFAULT_SEED,
+                       root: str = "out_study",
+                       core_path: str = "out_study/T2/checkpoint.jsonl") -> dict:
     """Section 0.1 A9: pipeline-level outcomes of clean, unrepaired and repaired outputs.
 
     Three endpoints, fixed in the amendment before the pass ran:
@@ -1071,11 +1420,58 @@ def analyse_downstream(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
     """
     cm_mod = _content_match_module()
     accepted: dict = {c: {} for c in DOWNSTREAM_CONDITIONS}
+    accepted_cal: dict = {c: {} for c in DOWNSTREAM_CONDITIONS}
     diverg: dict = {c: {} for c in ("clean_rerun", "unrepaired", "A1", "A2")}
     e2: dict = {c: {} for c in DOWNSTREAM_CONDITIONS}
     coupling = Counter()
     excluded = Counter()
     operator_of = {}
+    stage_of = {}
+
+    spec = importlib.util.spec_from_file_location(
+        "inject_defects", Path(__file__).resolve().parents[1] / "inject_defects.py")
+    inj = importlib.util.module_from_spec(spec)
+    sys.modules["inject_defects"] = inj
+    spec.loader.exec_module(inj)
+    dirs = {Path(d).name: d for d in inj.base_dirs(root)} if Path(root).exists() else {}
+    core_rows = {r["defect_id"]: r for r in load_rows(core_path)} if Path(core_path).exists() else {}
+
+    def is_calibrated(c, r):
+        if c.get("status") != "ok":
+            return False
+        report_stage = c.get("stages", {}).get("report_agent", {})
+        if report_stage.get("verdict") in ("retry", "halt"):
+            return False
+        strat_stage = c.get("stages", {}).get("strategy_agent")
+        if strat_stage is not None:
+            if strat_stage.get("status_error"):
+                return False
+            if "untraceable_recommendation" in strat_stage.get("fired", []):
+                bid = r["defect_id"].rsplit(":", 1)[0]
+                if bid in dirs:
+                    base = inj.state_from_dump(dirs[bid])
+                    injected, _ = inj.inject(r["operator"], base, seed=r.get("seed", 0))
+                    core_row = core_rows.get(r["defect_id"], {})
+                    arm_outputs = {t["arm"]: t.get("retried_output") for t in core_row.get("trials", [])
+                                   if t.get("rep") == 0 and t.get("condition", "C0") == "C0"}
+                    cond_name = c["condition"]
+                    if cond_name == "clean":
+                        ro = base.get("reasoning_output")
+                    elif cond_name == "unrepaired":
+                        ro = injected.get("reasoning_output")
+                    else:
+                        ro = arm_outputs.get(cond_name)
+                    candidates = ([rc.get("cause", "") for rc in (ro or {}).get("root_causes") or []] +
+                                  [rc.get("pattern", "") for rc in (ro or {}).get("root_causes") or []] +
+                                  [p.get("description", "") for p in (ro or {}).get("patterns") or []])
+                    issues = [str(x.get("issue") or "") for x in ((c.get("strategy_output") or {}).get("recommendations") or [])]
+                    if cm_mod.untraceable(issues, candidates, threshold=0.10):
+                        return False
+            if any(f != "untraceable_recommendation" for f in strat_stage.get("fired", [])):
+                if strat_stage.get("verdict") in ("retry", "halt"):
+                    return False
+        return True
+
     for r in rows:
         conds = {}
         for c in r.get("conditions", []):
@@ -1085,6 +1481,7 @@ def analyse_downstream(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
             conds[(c["condition"], c["rep"])] = c
         d = r["defect_id"]
         operator_of[d] = r.get("operator")
+        stage_of[d] = r.get("stage")
         clean0 = conds.get(("clean", 0))
         ref = report_items(clean0.get("final_report")) if clean0 else []
         for name in DOWNSTREAM_CONDITIONS:
@@ -1092,6 +1489,7 @@ def analyse_downstream(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
             if c is None:
                 continue
             accepted[name][d] = 1.0 if c["accepted"] else 0.0
+            accepted_cal[name][d] = 1.0 if is_calibrated(c, r) else 0.0
             if r.get("injected_issue"):
                 issues = [str(x.get("issue") or "") for x in
                           ((c.get("final_report") or {}).get("recommendations") or [])]
@@ -1124,6 +1522,85 @@ def analyse_downstream(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
         return {"mean": float(arr.mean()), "ci95": [lo, hi], "n_defects": len(arr)}
 
     div_clean = {k: v for k, v in diverg["clean_rerun"].items() if v is not None}
+
+    # Upstream group linkage to T2 rep=0
+    by_arm_group = defaultdict(lambda: {"defects": [], "e3": [], "clean_rerun": [], "unrepaired": [], "e1_prod": [], "e1_cal": []})
+    by_stage_arm_group = defaultdict(lambda: defaultdict(lambda: {"defects": [], "e3": [], "clean_rerun": [], "unrepaired": [], "e1_prod": [], "e1_cal": []}))
+
+    if core_rows and dirs:
+        for r in rows:
+            d = r["defect_id"]
+            stage = r.get("stage")
+            bid = d.rsplit(":", 1)[0]
+            if bid not in dirs:
+                continue
+            base = inj.state_from_dump(dirs[bid])
+            clean_stage = base.get(inj.OUTPUT_KEY[stage])
+            core_row = core_rows.get(d, {})
+
+            conds = {(c["condition"], c["rep"]): c for c in r.get("conditions", []) if c.get("status") == "ok"}
+            clean0 = conds.get(("clean", 0))
+            clean1 = conds.get(("clean", 1))
+            unrep = conds.get(("unrepaired", 0))
+            ref = report_items(clean0.get("final_report")) if clean0 else []
+            if not ref:
+                continue
+            div_clean1 = content_divergence(ref, report_items(clean1.get("final_report")), cm_mod) if clean1 else None
+            div_unrep = content_divergence(ref, report_items(unrep.get("final_report")), cm_mod) if unrep else None
+
+            for arm in ("A1", "A2"):
+                c = conds.get((arm, 0))
+                if not c:
+                    continue
+                t = [t for t in core_row.get("trials", []) if t.get("arm") == arm and t.get("rep") == 0 and t.get("condition", "C0") == "C0"]
+                if not t:
+                    continue
+                t0 = t[0]
+                outcome = t0.get("outcome", {}).get("outcome")
+                retried = t0.get("retried_output")
+                is_copy = canonical(retried) == canonical(clean_stage)
+                grp = "repaired_copy" if outcome == "repaired" and is_copy else ("repaired_rewrite" if outcome == "repaired" else "fail")
+
+                div_arm = content_divergence(ref, report_items(c.get("final_report")), cm_mod)
+                for target_dict in (by_arm_group[(arm, grp)], by_stage_arm_group[stage][(arm, grp)]):
+                    target_dict["defects"].append(d)
+                    target_dict["e3"].append(div_arm)
+                    target_dict["clean_rerun"].append(div_clean1)
+                    target_dict["unrepaired"].append(div_unrep)
+                    target_dict["e1_prod"].append(1.0 if c["accepted"] else 0.0)
+                    target_dict["e1_cal"].append(1.0 if is_calibrated(c, r) else 0.0)
+
+    def summarize_group_dict(gdict):
+        res = {}
+        for (arm, grp), v in sorted(gdict.items()):
+            n = len(v["defects"])
+            e3_vals = np.array([x for x in v["e3"] if x is not None])
+            cr_vals = np.array([x for x in v["clean_rerun"] if x is not None])
+            un_vals = np.array([x for x in v["unrepaired"] if x is not None])
+            e1_p_vals = np.array(v["e1_prod"])
+            e1_c_vals = np.array(v["e1_cal"])
+
+            e3_m = float(e3_vals.mean()) if len(e3_vals) else None
+            cr_m = float(cr_vals.mean()) if len(cr_vals) else None
+            un_m = float(un_vals.mean()) if len(un_vals) else None
+            excess = float(e3_m - cr_m) if e3_m is not None and cr_m is not None else None
+
+            res[f"{arm}|{grp}"] = {
+                "arm": arm,
+                "group": grp,
+                "n": n,
+                "E3_divergence": {"mean": e3_m, "ci95": list(cluster_bootstrap_ci(e3_vals, np.random.default_rng(seed))) if len(e3_vals) else [None, None]},
+                "clean_rerun_noise_floor": {"mean": cr_m, "ci95": list(cluster_bootstrap_ci(cr_vals, np.random.default_rng(seed))) if len(cr_vals) else [None, None]},
+                "excess_over_noise_pp": excess,
+                "unrepaired_baseline": {"mean": un_m, "ci95": list(cluster_bootstrap_ci(un_vals, np.random.default_rng(seed))) if len(un_vals) else [None, None]},
+                "E1_accepted_prod": {"rate": float(e1_p_vals.mean()) if len(e1_p_vals) else None, "ci95": list(cluster_bootstrap_ci(e1_p_vals, np.random.default_rng(seed))) if len(e1_p_vals) else [None, None]},
+                "E1_accepted_calibrated": {"rate": float(e1_c_vals.mean()) if len(e1_c_vals) else None, "ci95": list(cluster_bootstrap_ci(e1_c_vals, np.random.default_rng(seed))) if len(e1_c_vals) else [None, None]},
+            }
+        return res
+
+    pooled_upstream = summarize_group_dict(by_arm_group)
+    stage_upstream = {st: summarize_group_dict(by_stage_arm_group[st]) for st in sorted(by_stage_arm_group)}
+
     return {
         "provenance": {
             "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
@@ -1137,6 +1614,11 @@ def analyse_downstream(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
         "E1_accepted": {c: rate(v) for c, v in accepted.items()},
         "E1_contrasts": {
             f"{a}-{b}": _paired(accepted[a], accepted[b], seed)
+            for a, b in (("unrepaired", "clean"), ("A1", "unrepaired"), ("A2", "unrepaired"),
+                         ("A1", "A2"), ("A1", "clean"))},
+        "E1_calibrated_accepted": {c: rate(v) for c, v in accepted_cal.items()},
+        "E1_calibrated_contrasts": {
+            f"{a}-{b}": _paired(accepted_cal[a], accepted_cal[b], seed)
             for a, b in (("unrepaired", "clean"), ("A1", "unrepaired"), ("A2", "unrepaired"),
                          ("A1", "A2"), ("A1", "clean"))},
         "E2_injected_issue_in_final_report_O5": {c: rate(v) for c, v in e2.items()},
@@ -1153,6 +1635,13 @@ def analyse_downstream(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
         "E1_by_operator": {
             f"{op}|{c}": rate({d: v for d, v in accepted[c].items() if operator_of.get(d) == op})
             for op in sorted({o for o in operator_of.values() if o}) for c in DOWNSTREAM_CONDITIONS},
+        "E1_calibrated_by_operator": {
+            f"{op}|{c}": rate({d: v for d, v in accepted_cal[c].items() if operator_of.get(d) == op})
+            for op in sorted({o for o in operator_of.values() if o}) for c in DOWNSTREAM_CONDITIONS},
+        "upstream_group_breakdown": {
+            "pooled": pooled_upstream,
+            "by_stage": stage_upstream,
+        },
         "coupling_defect_level_vs_E1": {
             f"{arm}|core_repaired={rep}|accepted={acc}": n
             for (arm, rep, acc), n in sorted(coupling.items())},
@@ -1218,11 +1707,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--cell", default="core",
                     choices=("core", "c1", "d19", "placement", "severity", "warm", "tier1",
-                             "downstream", "o5sens", "c7"))
+                             "downstream", "o5sens", "c7", "thinking"))
     ap.add_argument("--checkpoint", default=None,
                     help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P, T2S or T2W")
     ap.add_argument("--root", default="out_study",
-                    help="--cell core, warm, c7: the study dumps, for the identity "
+                    help="--cell core, warm, c7, thinking: the study dumps, for the identity "
                          "reads; o5sens: for re-scoring")
     ap.add_argument("--core-checkpoint", default="out_study/T2/checkpoint.jsonl",
                     help="c1/placement/severity: the core, for the serving-drift comparison")
@@ -1233,7 +1722,7 @@ def main() -> int:
         "core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
         "placement": "out_study/T2P", "severity": "out_study/T2S", "warm": "out_study/T2W",
         "tier1": "out_study/T1", "downstream": "out_study/T2D", "o5sens": "out_study/T2",
-        "c7": "out_study/T2L",
+        "c7": "out_study/T2L", "thinking": "out_study/T2T",
     }[args.cell] + "/checkpoint.jsonl"
     if args.cell == "core":
         res = analyse(load_rows(checkpoint), seed=args.seed, root=args.root)
@@ -1252,6 +1741,8 @@ def main() -> int:
             res = analyse_tier1(load_rows(checkpoint), seed=args.seed)
         elif args.cell == "c7":
             res = analyse_c7(load_rows(checkpoint), core, seed=args.seed, root=args.root)
+        elif args.cell == "thinking":
+            res = analyse_thinking(load_rows(checkpoint), core, seed=args.seed, root=args.root)
         elif args.cell == "downstream":
             res = analyse_downstream(load_rows(checkpoint), seed=args.seed)
         elif args.cell == "o5sens":

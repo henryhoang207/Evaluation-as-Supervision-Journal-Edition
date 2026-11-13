@@ -44,7 +44,7 @@ derived from an upstream error.
 
 Control passes through a single orchestrator node after every stage. The
 orchestrator calls two deterministic functions. \code{measure()} computes facts
-about the stage's output relative to upstream state and applies no thresholds.
+about the stage's output relative to upstream state.
 \code{decide()} maps those facts to one of four verdicts by fixed rules:
 \verdict{proceed}, \verdict{proceed\_with\_warning}, \verdict{retry} or
 \verdict{halt}. Table~\ref{tab:checks} lists the checks. The supervisor makes no
@@ -131,12 +131,6 @@ counterfactual for it. RQ5 supplies one.
 \subsection{Why the pipeline is also a fault-injection testbed}
 \label{sec:system-testbed}
 
-The property that makes verification free also makes the pipeline replayable.
-Because each stage's input consists entirely of earlier outputs, a stored run
-fixes every stage's input exactly. A stage can be re-executed in isolation from
-the stored state, a corrupted output can be substituted for a clean one, and
-the supervisor can re-measure the result without re-running anything upstream.
-The study uses this in three ways. It injects defects into stored clean
-outputs; it replays real defects, after first checking that each replay
-reproduces the recorded retry exactly; and it re-runs only the stages
-downstream of a repaired output.
+Stored upstream outputs fix a stage's input, allowing isolated replay,
+injection into clean outputs and downstream re-execution. The study also checks
+replay fidelity for real defects before retrying them.

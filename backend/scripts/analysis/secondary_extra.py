@@ -225,6 +225,174 @@ def coupling(root) -> dict:
             "note": "by construction at the check-class level: every class that fires has an operator"}
 
 
+# -- 6. stratum gradient -------------------------------------------------------
+
+
+STRATA = ("p25", "p50", "p75", "p90")
+STRATUM_COUNTS = {"p25": 14, "p50": 34, "p75": 92, "p90": 214}
+GRADIENT_OPERATORS = ("O1", "O2", "O3", "O5", "O6", "O7")
+
+
+def _stratum_metadata(root: str) -> tuple[dict[str, str], dict[str, int]]:
+    dirs = {Path(d).name: d for d in inj.base_dirs(root)}
+    stratum_of = {}
+    review_cnt_of = {}
+    for name, d in dirs.items():
+        summary_path = Path(d) / "_summary.json"
+        if summary_path.exists():
+            meta = json.loads(summary_path.read_text(encoding="utf-8"))
+            stratum_of[name] = meta.get("stratum")
+            obs = meta.get("observations") or []
+            cnt = obs[0].get("facts", {}).get("n_loaded") if obs else None
+            review_cnt_of[name] = cnt or STRATUM_COUNTS.get(meta.get("stratum"), 0)
+    return stratum_of, review_cnt_of
+
+
+def compute_slope(x, y) -> float:
+    x = np.array(x, dtype=float)
+    y = np.array(y, dtype=float)
+    if len(x) < 2 or np.var(x) == 0:
+        return 0.0
+    return float(np.cov(x, y, bias=True)[0, 1] / np.var(x))
+
+
+def bootstrap_slope(x, y, seed: int = SEED, n_boot: int = ra.N_BOOT) -> tuple[float | None, list[float | None]]:
+    x = np.array(x, dtype=float)
+    y = np.array(y, dtype=float)
+    if len(x) < 2 or np.var(x) == 0:
+        return None, [None, None]
+    rng = np.random.default_rng(seed)
+    n = len(x)
+    idx = rng.integers(0, n, size=(n_boot, n))
+    bx = x[idx]
+    by = y[idx]
+    bx_mean = bx.mean(axis=1, keepdims=True)
+    by_mean = by.mean(axis=1, keepdims=True)
+    cov = np.mean((bx - bx_mean) * (by - by_mean), axis=1)
+    var = np.mean((bx - bx_mean) ** 2, axis=1)
+    valid = var > 0
+    if not np.any(valid):
+        return compute_slope(x, y), [None, None]
+    boot = cov[valid] / var[valid]
+    lo, hi = np.percentile(boot, [2.5, 97.5])
+    return compute_slope(x, y), [float(lo), float(hi)]
+
+
+def _evaluate_stratum_cells(trials: list[dict], clean: dict | None,
+                            stratum_of: dict[str, str], review_cnt_of: dict[str, int],
+                            operators: tuple[str, ...] = GRADIENT_OPERATORS,
+                            arms: tuple[str, ...] = ("A1", "A2"),
+                            seed: int = SEED) -> dict:
+    canon = lambda o: json.dumps(o, sort_keys=True, ensure_ascii=False)
+    out = {}
+    for op in operators:
+        out[op] = {}
+        for arm in arms:
+            ts = [t for t in trials if t.get("operator") == op and t.get("arm") == arm]
+            reps = defaultdict(list)
+            copies = defaultdict(list)
+            for t in ts:
+                d = t["defect_id"]
+                reps[d].append(1.0 if t.get("outcome", {}).get("outcome") == "repaired" else 0.0)
+                if clean is not None and d in clean:
+                    is_cp = 1.0 if canon(t.get("retried_output")) == canon(clean[d]) else 0.0
+                    copies[d].append(is_cp)
+
+            by_strat_rep = defaultdict(list)
+            by_strat_cp = defaultdict(list)
+            x_vals = []
+            y_rep = []
+            y_cp = []
+            for d, vals in reps.items():
+                b = d.rsplit(":", 1)[0]
+                st = stratum_of.get(b)
+                cnt = review_cnt_of.get(b)
+                m_rep = float(np.mean(vals))
+                if st:
+                    by_strat_rep[st].append(m_rep)
+                if cnt and cnt > 0:
+                    x_vals.append(np.log(cnt))
+                    y_rep.append(m_rep)
+                    if clean is not None and d in copies:
+                        m_cp = float(np.mean(copies[d]))
+                        y_cp.append(m_cp)
+                        if st:
+                            by_strat_cp[st].append(m_cp)
+
+            rep_by_strat = {}
+            for st in STRATA:
+                vs = by_strat_rep.get(st, [])
+                rep_by_strat[st] = {
+                    "rate": float(np.mean(vs)) if vs else None,
+                    "n_defects": len(vs),
+                }
+
+            rep_slope, rep_ci = bootstrap_slope(x_vals, y_rep, seed=seed)
+            arm_res = {
+                "repair_by_stratum": rep_by_strat,
+                "repair_slope_log_reviews": {"estimate": rep_slope, "ci95": rep_ci},
+            }
+
+            if clean is not None:
+                cp_by_strat = {}
+                for st in STRATA:
+                    vs = by_strat_cp.get(st, [])
+                    st_ts = [t for t in ts if stratum_of.get(t["defect_id"].rsplit(":", 1)[0]) == st]
+                    hits = sum(1 for t in st_ts if t["defect_id"] in clean and canon(t.get("retried_output")) == canon(clean[t["defect_id"]]))
+                    cp_by_strat[st] = {
+                        "defect_rate": float(np.mean(vs)) if vs else None,
+                        "trial_rate": hits / len(st_ts) if st_ts else None,
+                        "n_defects": len(vs),
+                        "n_trials": len(st_ts),
+                        "identical_trials": hits,
+                    }
+                cp_slope, cp_ci = bootstrap_slope(x_vals, y_cp, seed=seed)
+                arm_res["copy_by_stratum"] = cp_by_strat
+                arm_res["copy_slope_log_reviews"] = {"estimate": cp_slope, "ci95": cp_ci}
+
+            out[op][arm] = arm_res
+    return out
+
+
+def stratum_gradient(root: str = "out_study", seed: int = SEED) -> dict:
+    stratum_of, review_cnt_of = _stratum_metadata(root)
+    core_path = Path(root) / "T2" / "checkpoint.jsonl"
+    sev_path = Path(root) / "T2S" / "checkpoint.jsonl"
+    c7_path = Path(root) / "T2L" / "checkpoint.jsonl"
+
+    res = {
+        "strata": list(STRATA),
+        "stratum_counts": STRATUM_COUNTS,
+        "business_strata": stratum_of,
+    }
+
+    if core_path.exists():
+        core_rows = ra.load_rows(str(core_path))
+        usable_core, _ = ra.usable_trials(core_rows)
+        clean_core = ra._clean_outputs(core_rows, root)
+        res["T2_gemini_core"] = _evaluate_stratum_cells(
+            usable_core, clean_core, stratum_of, review_cnt_of, seed=seed)
+
+    if sev_path.exists():
+        sev_rows = ra.load_rows(str(sev_path))
+        usable_sev, _ = ra.usable_trials(sev_rows)
+        sev_res = {}
+        for sev_level in (1, 2):
+            ts = [t for t in usable_sev if t.get("severity") == sev_level]
+            sev_res[f"L{sev_level}"] = _evaluate_stratum_cells(
+                ts, None, stratum_of, review_cnt_of, operators=("O1",), arms=("A1",), seed=seed)["O1"]["A1"]
+        res["T2S_severity_O1"] = sev_res
+
+    if c7_path.exists():
+        c7_rows = ra.load_rows(str(c7_path))
+        usable_c7, _ = ra.usable_trials(c7_rows)
+        clean_c7 = ra._clean_outputs(c7_rows, root)
+        res["T2L_qwen_c7"] = _evaluate_stratum_cells(
+            usable_c7, clean_c7, stratum_of, review_cnt_of, seed=seed)
+
+    return res
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--root", default="out_study")
@@ -240,6 +408,7 @@ def main() -> int:
         "c6_frequency": c6_frequency(args.root),
         "c6_trace": c6_trace(args.root),
         "coupling": coupling(args.root),
+        "stratum_gradient": stratum_gradient(args.root, seed=SEED),
     }
     print(json.dumps(res, indent=1)[:6000])
     if args.json:

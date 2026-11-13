@@ -82,10 +82,12 @@ holds within the production-like \op{O1} cell, where the interval is wide
 because $N=24$, and within the severe cell. Measured-fact feedback recovers
 96\% of the capability ceiling (\arm{A1}/\arm{A0} = 0.96 \ci{0.92}{1.00}).
 \arm{A0} repaired every one of its 209 trials.
-Figure~\ref{fig:forest} sets the primary contrast beside every other
-\arm{A1}\,$-$\,\arm{A2} contrast the study measured. Every interval measured
-on the hosted model includes zero. Only the second model's excludes it
-(Section~\ref{sec:results-rq6}).
+Figure~\ref{fig:forest} sets the primary contrast beside selected
+\arm{A1}\,$-$\,\arm{A2} contrast the study measured, including the
+exploratory exact-restoration contrast and the second-model replication.
+On overall repair, every interval measured on the hosted model includes zero.
+Only the second model's excludes it (Section~\ref{sec:results-rq6}), alongside
+the exploratory exact-restoration outcome (Section~\ref{sec:results-rq2}).
 
 Repair rarely went wrong in any other way. Of 421 usable \arm{A1} trials, 399
 were \cls{repaired}, 16 \cls{replaced}, 3 \cls{deleted} and 3
@@ -98,84 +100,79 @@ Collateral damage was 1.5\% of measurable \arm{A1} trials and 0.4\% for
 \begin{figure*}[t]
 \centering
 \input{figures/forest}
-\caption{Every \arm{A1}\,$-$\,\arm{A2} contrast the study measured, with 95\%
+\caption{Selected \arm{A1}\,$-$\,\arm{A2} contrasts, with 95\%
 bootstrap intervals over defects. The shaded band is the primary interval. Rows
-below the first are exploratory or secondary. The last row is the second model
-(Section~\ref{sec:results-rq6}); every other row is the hosted model.}
+below the first are exploratory or secondary. The penultimate row is the second
+model (Section~\ref{sec:results-rq6}); the bottom row is the exploratory
+exact-restoration contrast (Section~\ref{sec:results-rq2}).}
 \label{fig:forest}
 \end{figure*}
 
 % ---------------------------------------------------------------------
-\subsection{Pre-recorded predictions}
+\subsection{Pre-recorded predictions and input size}
 \label{sec:results-predictions}
-
-Table~\ref{tab:predictions} sets the results against the directional
-predictions recorded before any trial. The capability ceiling and the
-undetectable C1 interaction came out as predicted. The repair rates did not.
-The predictions for \arm{A1} (about 45\%) and \arm{A2} (about 33\%) came from
-code-repair benchmarks with execution feedback
-\citep{arimbur2026,chen2024selfdebug}. Both arms instead sit near 94\%. The
-predicted class ordering is reversed: referential defects (\op{O1}, \op{O2}),
-expected to be the easiest, were the hardest, and only \op{O1} has real
-headroom.
-
-\begin{table*}[t]
-\centering
-\caption{Directional predictions recorded in the pre-registration, against
-results. Class rates are \arm{A1}, per defect. \arm{A3} pooled is per trial.}
-\label{tab:predictions}
-\footnotesize
-\begin{tabularx}{\linewidth}{@{}L{2.2cm} Y Y L{2.0cm}@{}}
-\toprule
-Quantity & Recorded before results & Result & Holds? \\
-\midrule
-\arm{A0} ceiling & high & 100\% (209 of 209 trials) & yes \\
-\arm{A1} & $\approx 45\%$ & 94.7\% & no (ceiling) \\
-\arm{A2} & $\approx 33\%$ & 94.0\% & no (ceiling) \\
-\arm{A3} & not a floor; $\approx100\%$ on \op{O6}/\op{O7}; $\approx53\%$ pooled
-  & \op{O6}/\op{O7} 100\%; pooled 92.2\% & not a floor: yes; 53\%: no \\
-Class ordering & referential $>$ structural $>$ semantic & structural 98.6\%
-  $>$ semantic 93.0\% $>$ referential 89.6\% & no (reversed) \\
-Placement & \arm{P1}\,$\gg$\,\arm{P3}\,$\approx$\,\arm{P2}; \arm{P0} apart &
-  \arm{P1} 97.8, \arm{P2} 97.8, \arm{P3} 97.0; \arm{P0} 94.1 & half \\
-C1 interaction & undetectable & 0.0\pp{} \ci{-6.3}{+6.3} & yes \\
-\bottomrule
-\end{tabularx}
-\end{table*}
+Repair exceeded the pre-recorded predictions for both feedback arms, and the
+predicted class ordering reversed: referential defects were hardest. An
+exploratory review-count analysis found lower repair or exact restoration at
+the largest input stratum for some reasoning operators. The small strata and
+nonmonotonic patterns do not establish an input-size mechanism; detailed
+predictions, operator-specific rates and slopes are in Appendix~\ref{app:diagnostics}.
 
 % ---------------------------------------------------------------------
-\subsection{RQ2: Repair is copy-and-correct}
+\subsection{RQ2: Exact restoration and artifact presentation}
 \label{sec:results-rq2}
 
-The repair rates are high because the model largely copies the clean output
-back. In the core, \textbf{68\% of \arm{A1} retries, 53\% of \arm{A2} retries
-and 45\% of \arm{A3} retries reproduce the clean, pre-injection output byte for
-byte} (288 of 421, 223 of 417 and 46 of 102). Here and in the rest of the
-paper, ``byte for byte'' means identical as canonical JSON: the two parsed
-outputs, serialised with sorted keys, are the same string, so key order and
-layout do not count. Every retry in every arm changed the
-injected output, and about 94\% of those changes repaired it (\arm{A1} 94.8\%,
-\arm{A2} 94.0\%, \arm{A3} 92.2\%, \arm{A0} 100\%, per trial). The model is not
-stuck on the defect. When it moves, it mostly moves back to where the defect
-was injected.
+Many repaired outputs restore the clean output. We define \emph{exact restoration} once for the entire paper as
+canonical-JSON identity to the clean pre-injection stage output (parsed JSON
+serialised with sorted keys and invariant whitespace). Under this definition,
+100\% of trials that achieve exact restoration are verified as \cls{repaired}
+(706 of 706 across all \cell{T2} arms, 337 of 337 in \cell{T2L}, and 319 of
+319 in \cell{T2W}).
 
-\paragraph{Copying, not re-deriving}
-At temperature~0, byte-identity alone cannot separate two mechanisms. The model
+\paragraph{Unconditional exact restoration contrast}
+Taking exact restoration as an unconditional outcome over all trials yields a
+causally clean arm contrast within matched defects. On the core (\cell{T2},
+$N=139$ paired defects), measured facts substantially increase exact
+restoration: \arm{A1} restores 68.1\% of defects and \arm{A2} 53.5\%, an
+advantage of \textbf{+14.6\pp{} \ci{+8.2}{+21.3}} (exact McNemar $p=0.00132$,
+26 \arm{A1}-only vs 7 \arm{A2}-only discordant defects). At the trial level,
+288 of 421 \arm{A1} retries (68.4\%) reproduce the clean output as canonical JSON,
+compared to 223 of 417 (53.5\%) for \arm{A2}, 149 of 209 (71.3\%) for \arm{A0},
+and 46 of 102 (45.1\%) for \arm{A3}.
+
+The exploratory restoration contrast was positive in both warm-cell temperatures; effort-level results vary and are reported in Section~\ref{sec:results-thinking}.
+In the warm-resampling cell (\cell{T2W}, $N=45$), \arm{A1} leads \arm{A2} by
+\textbf{+20.7\pp{} \ci{+8.1}{+34.1}} at $T=0$ (69.6\% vs 48.9\%, $p=0.021$)
+and by \textbf{+20.0\pp{} \ci{+8.9}{+32.6}} at $T=1$ (68.9\% vs 48.9\%,
+$p=0.0039$). On the second
+model (\cell{T2L}, Qwen2.5-7B, $N=138$), pooled exact restoration is lower and the
+overall gap is narrow: \arm{A1} 42.0\% vs \arm{A2} 39.4\% (+2.7\pp{} \ci{-4.6}{+9.9},
+$p=0.572$, 16 vs 12 discordant).
+
+\paragraph{Trial-level decomposition}
+The decomposition in Appendix~\ref{app:diagnostics} separates exact copies,
+repaired rewrites, replacements or deletions, and outputs where the check
+still fires. On the local model, the latter occurred in 32/414 \arm{A1} and
+107/413 \arm{A2} trials. These outcome categories do not reveal whether the
+model located the defect. Within-rewrite comparisons condition on a
+post-treatment outcome and are descriptive.
+
+\paragraph{Evidence consistent with copy-and-correct}
+At temperature~0, canonical-JSON identity alone cannot separate two mechanisms. The model
 might copy the artifact it is shown and fix the one injected change, or it
 might re-derive its original answer from the same prompt. The warm-resampling
-cell separates them (Table~\ref{tab:mechanism}). At \arm{P1}, where the
-artifact is shown, byte-identity to the clean output does not move with
+cell provides evidence bearing on them (Table~\ref{tab:mechanism}). At \arm{P1}, where the
+artifact is shown, canonical-JSON identity to the clean output does not move with
 temperature: \arm{A1} 69.6\% at $T=0$ and 68.9\% at $T=1$; \arm{A2} 48.9\% at
-both. \arm{A3}, which sees no artifact, falls from 45\% byte-identical in the
+both. \arm{A3}, which sees no artifact, falls from 45\% identical as canonical JSON in the
 core to \textbf{0\%} at $T=1$. A fresh draw at $T=1$ never reproduces the clean
 output. An \arm{A1} retry shown the defective output reproduces it about two
-times in three, at either temperature. The ceiling is therefore copy-and-correct of
-the shown artifact, not re-derivation. Repair stays at the ceiling at $T=1$
+times in three, at either temperature. This pattern is consistent with copying and correcting the shown artifact, although it does not identify the model's internal process. Repair stays at the ceiling at $T=1$
 (\arm{A1} 99.3\%, \arm{A2} 97.0\%), so the null is not an artefact of greedy
-decoding. Neither reading fixed in advance for this cell applies: byte-identity
+decoding. Neither reading fixed in advance for this cell applies: canonical-JSON identity
 did not fall, and neither did repair.
 
-The cell also gives the equal-budget comparison that
+The cell also gives a budget-accounted comparison that
 \citet{olausson2024selfrepair} require. \arm{A1}'s single retry at $T=0$ repairs
 97.0\% at about 9.7k tokens per trial. \arm{A3}'s best-of-$k$ at $T=1$, taking
 repetitions in execution order, reaches 82.2\%, 88.9\% and 93.3\% for $k=1,2,3$,
@@ -199,7 +196,7 @@ outputs.
 \centering
 \caption{What moves repair (RQ2). Every row is \arm{A1} at \arm{P1} and
 $T=0$ unless stated. Each cell re-runs its comparators in-session. Rates are
-per-defect means with 95\% intervals over defects. Byte-identity is per
+per-defect means with 95\% intervals over defects. Canonical-JSON identity is per
 trial.}
 \label{tab:mechanism}
 \footnotesize
@@ -238,7 +235,7 @@ Cell and level & $N$ & Repaired [95\% CI] & Contrast [95\% CI] \\
 \end{table*}
 
 \paragraph{Placement}
-With the artifact in view, its framing does not matter. \arm{P1}, \arm{P2} and
+With the artifact in view, the observed framing contrasts were small. \arm{P1}, \arm{P2} and
 \arm{P3} repair at 97.0--97.8\%, and the paired contrasts among them are within
 a defect or two of zero. The pre-recorded prediction
 \arm{P1}\,$\gg$\,\arm{P2} does not hold. A self-attribution effect of the kind
@@ -257,11 +254,9 @@ trials were at \arm{P0}. Without its multi-call trials, \arm{P0} repairs 90.8\%
 \paragraph{Severity and constraint disclosure}
 Breaking all of a pattern's evidence did not lower repair. Level~2 of \op{O1}
 repaired 88.9\%, against 86.1\% at level~1 ($-2.8$\pp{} \ci{-11.1}{+5.6}).
-Restating the stage's obligations at retry time changed nothing measurable. The
+Restating the stage's obligations at retry time yielded no detectable difference in this small cell. The
 \arm{A1}\,$-$\,\arm{A2} gap was $-1.8$\pp{} under both C0 and C1, and the
-difference of gaps was 0.0\pp{} \ci{-6.3}{+6.3}, as pre-recorded. The obligations
-that measured-fact feedback carries, and the stage prompts omit, are not what
-\arm{A1} trades on.
+difference of gaps was 0.0\pp{} \ci{-6.3}{+6.3}, as pre-recorded. This imprecise comparison does not rule out an effect of disclosure.
 
 \paragraph{Serving drift}
 Every exploratory cell re-ran its comparators in-session, so each re-run is a
@@ -312,14 +307,12 @@ observe-mode runs. Replaying them through the production retry (\arm{A1} at
 it accepted \arm{A1} retries for \textbf{98.5\%} of injected defects and
 \arm{A3} regenerations for 98.0\% (25.6\% on real defects). By stage, injected
 reasoning defects were accepted at 100\% against 26.7\% for real ones; at the
-strategy stage the figures were 88.9\% and 29.2\%. Every injected-defect check
-class has a real counterpart: all 13 real defects fire a class that one of the
-operators targets. Coupling at the level of the check class therefore did not
+strategy stage the figures were 88.9\% and 29.2\%. All 13 real defects fire a check class targeted by an operator; the injected report-containment class has no real-bank counterpart. Coupling at the level of the check class therefore did not
 make the injected defects representative of repair.
 
 The reason is visible in what the real defects are. The pre-study audit
-(Section~\ref{sec:design-operators}) found none of the production-caught
-defects to be errors to a human rater. Nine of the eleven it covered were
+(Section~\ref{sec:design-operators}) found none of the 11 audited production-caught
+defects to be errors. Nine were
 checker false positives with a diagnosed cause: six paraphrases that the
 character-level trace matcher failed to recognise, and three single-character
 identifier corruptions where the real evidence was present. The calibration of
@@ -351,7 +344,7 @@ are re-run once each, in observe mode, from each starting point. E1: every later
 stage accepted. E2: the planted \op{O5} issue appears in the final report
 (20 \op{O5} defects). E3: share of the clean run's final-report claims missing
 from the condition's report. ``Noise floor'' is a second clean run. Means, and
-paired contrasts with 95\% intervals over defects.}
+paired contrasts with 95\% intervals over defects. Usable \arm{A1}/\arm{A2} starting points comprise 70/69 reasoning and 19/19 strategy defects (89/88 total). E2 uses 20 unrepaired and 19 per retry arm.}
 \label{tab:downstream}
 \footnotesize
 \begin{tabularx}{\linewidth}{@{}Y r r r r r@{}}
@@ -386,13 +379,60 @@ noise floor \ci{+5.6}{+11.0}. For \op{O5}, 70\% of unrepaired runs carried the
 planted, untraceable recommendation into the final report. Once a later stage
 has built on a defect, the later stages' own checks do not see it.
 
-\paragraph{Repair restores the pipeline only partly}
-Repair removed the planted issue from every report (E2 0\% for both arms). It
-cut divergence by 4.2\pp{} \ci{-7.5}{-1.0} relative to the unrepaired run. But
-the repaired runs still diverged 4.1\pp{} \ci{+1.4}{+6.8} beyond the noise
-floor. A repaired stage is a regenerated stage, and regeneration churns content
-that the next stages then build on. At the pipeline level, too, \arm{A1} equals
-\arm{A2}: 0.0\pp{} on E1 and $-0.6$\pp{} \ci{-3.5}{+2.3} on E3.
+\paragraph{Downstream outcomes after retry}
+The planted issue appeared in 14/20 unrepaired reports and 0/19 reports in
+each retry arm. Across all \arm{A1}-started conditions, including failed
+repairs, divergence was 4.2\,pp \ci{-7.5}{-1.0} below unrepaired conditions
+but 4.1\,pp \ci{+1.4}{+6.8} above the noise floor. The overall arm contrast
+was 0.0\,pp on E1 and $-0.6$\,pp \ci{-3.5}{+2.3} on E3; neither establishes
+a difference between arms.
+
+\paragraph{Downstream divergence by restoration outcome}
+Table~\ref{tab:downstream-split} describes post-treatment subgroups. For
+reasoning defects, reports following \arm{A1} exact copies diverged 4.16\%
+against their matched 2.60\% noise floor; repaired rewrites diverged 16.65\%
+against their matched 3.90\% floor. The corresponding excesses for \arm{A2}
+were +1.30 and +8.61\,pp. Strategy rewrites had much smaller excesses
+(+0.64 and 0.00\,pp). These are observational associations, not evidence that
+copying caused preservation: the groups differ after treatment and matching
+noise floors does not remove selection bias. The overall arm contrast on E3
+was $-0.6$\,pp \ci{-3.5}{+2.3}.
+
+\begin{table*}[t]
+\centering
+\caption{Downstream report divergence (E3) partitioned by observed upstream retry outcome (RQ4).
+Each upstream condition is classified as \cls{repaired\_copy}, \cls{repaired\_rewrite},
+or \cls{fail} against its pre-injection clean stage output. Divergence is the share of
+clean final-report claims missing; ``Noise floor'' is an in-session second clean run for
+the identical defects.}
+\label{tab:downstream-split}
+\footnotesize
+\begingroup
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l c r rrr c rrr@{}}
+\toprule
+& & & \multicolumn{3}{c}{\textbf{Arm \arm{A1} (Measured Facts)}} & & \multicolumn{3}{c}{\textbf{Arm \arm{A2} (Rejection)}} \\
+\cmidrule(lr){4-6} \cmidrule(lr){8-10}
+Subgroup & Upstream Group & $n$ & E3 (\%) & Noise (\%) & Excess & $n$ & E3 (\%) & Noise (\%) & Excess \\
+\midrule
+\multirow{3}{*}{\textbf{All defects ($N=90$)}} 
+  & \cls{repaired\_copy}    & 50 & 3.82 & 2.40 & \textbf{+1.43\pp} & 37 & 2.60 & 1.44 & \textbf{+1.16\pp} \\
+  & \cls{repaired\_rewrite} & 31 & 9.94 & 2.27 & \textbf{+7.67\pp} & 42 & 10.20 & 4.05 & \textbf{+6.15\pp} \\
+  & \cls{fail}             &  8 & 11.90 & 5.06 & \textbf{+6.85\pp} &  9 & 14.07 & 0.79 & \textbf{+13.28\pp} \\
+\midrule
+\multirow{3}{*}{\shortstack[l]{\textbf{Reasoning stage}\\\textbf{(\op{O1}--\op{O3}, $N=70$)}}} 
+  & \cls{repaired\_copy}    & 46 (65.7\%) & 4.16 & 2.60 & \textbf{+1.55\pp} & 33 (47.8\%) & 2.91 & 1.62 & \textbf{+1.30\pp} \\
+  & \cls{repaired\_rewrite} & 18 (25.7\%) & 16.65 & 3.90 & \textbf{+12.75\pp} & 30 (43.5\%) & 14.28 & 5.67 & \textbf{+8.61\pp} \\
+  & \cls{fail}             &  6 (8.6\%)  & 13.10 & 6.75 & \textbf{+6.35\pp} &  6 (8.7\%)  & 15.95 & 1.19 & \textbf{+14.76\pp} \\
+\midrule
+\multirow{3}{*}{\shortstack[l]{\textbf{Strategy stage}\\\textbf{(\op{O5}, $N=20$)}}} 
+  & \cls{repaired\_copy}    &  4 & 0.00 & 0.00 & \textbf{0.00\pp} &  4 & 0.00 & 0.00 & \textbf{0.00\pp} \\
+  & \cls{repaired\_rewrite} & 13 & 0.64 & 0.00 & \textbf{+0.64\pp} & 12 & 0.00 & 0.00 & \textbf{0.00\pp} \\
+  & \cls{fail}             &  2 & 8.33 & 0.00 & \textbf{+8.33\pp} &  3 & 10.32 & 0.00 & \textbf{+10.32\pp} \\
+\bottomrule
+\end{tabular*}
+\endgroup
+\end{table*}
 
 \paragraph{The report check rewards propagation}
 The 20 unrepaired \op{O5} runs split cleanly. All 14 whose report carried the
@@ -407,9 +447,18 @@ All 8 \arm{A1} runs whose defect the core had \emph{not} repaired passed every
 downstream check. Of the 81 runs whose defect was repaired, 10 did not. This is
 the loose coupling between failure-mode presence and task outcome that
 \citet{cemri2025mast} report for multi-agent traces. Clean pipelines themselves
-failed the supervisor in 16\% of runs. All 29 rejections of clean runs came
-from the traceability check at the re-run strategy stage, which is the trace
-matcher's false-positive rate meeting fresh generations.
+failed the supervisor in 15.6\% of runs (76 of 90 accepted). Across both clean repetitions, 29 of 180 conditions were rejected at the strategy traceability check.
+
+\paragraph{Calibrated verifier acceptance}
+Offline re-scoring of all 447 downstream conditions under the calibrated
+content-word traceability check (\code{Jaccard}~$\ge 0.10$ replacing character-level
+\code{difflib}~$\ge 0.35$ on strategy outputs) shows how acceptance changes under the alternative matcher; acceptance is not a correctness measure. Clean pipeline acceptance (E1) jumps from
+\textbf{84.4\%} (76 of 90) to \textbf{96.7\%} (87 of 90): three strategy traceability flags remained under the content-word matcher; their semantic validity was not independently established.
+Accepted runs under \arm{A1} rise from \textbf{88.8\%} (79 of 89) to
+\textbf{97.8\%} (87 of 89), and under \arm{A2} from \textbf{88.6\%} (78 of 88)
+to \textbf{98.9\%} (87 of 88). Unrepaired pipeline acceptance rises from
+\textbf{80.0\%} to \textbf{93.3\%} (84 of 90; the 6 rejected runs are precisely
+the 6 \op{O5} runs where the final report dropped the planted ungrounded recommendation).
 
 % ---------------------------------------------------------------------
 \subsection{RQ5: Overwrite is a cost decision, not a correctness decision}
@@ -564,3 +613,60 @@ $-29.4$\pp{} \ci{-37.5}{-21.5} under the rejection. Family, size, quantisation a
 runtime all differ, and the bases are the hosted model's. The comparison
 places the ceiling in the hosted model without saying which difference
 produces it.
+
+% ---------------------------------------------------------------------
+\subsection{Thinking-budget sweep (\cell{T2T})}
+\label{sec:results-thinking}
+% Source: backend/out_study/T2T/analysis.json (repair_analysis.py --cell thinking);
+% verification: T2T/checkpoint.jsonl. Exploratory throughout (A12).
+
+An exploratory sweep asks how configured thinking budget relates to repair and restoration.
+Under Amendment~A12 (\cell{T2T}), we executed a prospective within-weights sweep
+varying \texttt{reasoning\_effort} across four levels (\texttt{none}, \texttt{low},
+\texttt{medium}, \texttt{high}) on \model{}, covering 45 defects ($N=45$, matching
+the stratified 1/3 stride of \cell{T2P} and \cell{T2W}) with three repetitions
+(1{,}224 trials, 100\% usable, 100\% offline score agreement, consuming 11.16M tokens).
+Arms \arm{A1} and \arm{A2} ran at \arm{P1} on all 45 defects (540 trials per arm),
+while the regeneration baseline \arm{A3} ran at \arm{P0} on 12 defects (144 trials).
+Table~\ref{tab:thinking} compiles the empirical results.
+
+\begin{table*}[t]
+\centering
+\caption{Within-weights thinking-budget sweep (\cell{T2T}).
+Sweeping \texttt{reasoning\_effort} across four levels on \model{} ($N=45$ defects, $r=3$, 1{,}224 trials).
+Rates and exact restoration $P(\text{exact copy})$ are defect-level means with 95\% cluster-bootstrap CIs.
+The within-weights regeneration baseline \arm{A3}@\arm{P0} runs on $N=12$ defects (36 trials/level).
+Multi-attempt counts denote trials requiring schema retry ($>1$ call).}
+\label{tab:thinking}
+\footnotesize
+\begingroup
+\setlength{\tabcolsep}{2pt}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l r r c c r c c r c r r@{}}
+\toprule
+& Budget & Thinking tokens / & \multicolumn{3}{c}{\textbf{Binary Repair Rate (\%)}} & \multicolumn{3}{c}{\textbf{Exact Restoration $P(\text{copy})$ (\%)}} & \arm{A3}@\arm{P0} & \multicolumn{2}{c}{\textbf{Multi-Attempt}} \\
+\cmidrule(lr){4-6} \cmidrule(lr){7-9} \cmidrule(lr){11-12}
+Effort & Cap & Trial & \arm{A1} & \arm{A2} & Diff [95\% CI] & \arm{A1} & \arm{A2} & Diff [95\% CI] & Repair [95\% CI] & \arm{A1} & \arm{A2} \\
+\midrule
+\texttt{high} & 24{,}576 & 2{,}682 & 97.8 & 100.0 & $-2.2$ \ci{-6.7}{0.0} & 60.7 & 50.4 & +10.4 \ci{-3.0}{+23.0} & 75.0 \ci{50.0}{100.0} & 0 & 0 \\
+\texttt{medium} & 8{,}192 & 2{,}557 & 94.8 & 94.8 & \phantom{+}0.0 \ci{-7.4}{+7.4} & 60.0 & 51.1 & +8.9 \ci{-2.2}{+20.0} & 88.9 \ci{72.2}{100.0} & 0 & 5 \\
+\texttt{low} & 1{,}024 & 914 & 99.3 & 98.5 & +0.7 \ci{0.0}{+2.2} & 59.3 & 35.6 & \textbf{+23.7 \ci{+11.9}{+36.3}}$^{**}$ & 80.6 \ci{58.3}{100.0} & 0 & 4 \\
+\texttt{none} & 0 & 0 & 100.0 & 100.0 & \phantom{+}0.0 \ci{0.0}{0.0} & 80.7 & 57.0 & \textbf{+23.7 \ci{+12.6}{+36.3}}$^{***}$ & \textbf{91.7 \ci{75.0}{100.0}} & 7 & 21 \\
+\bottomrule
+\end{tabular*}
+\endgroup
+
+\smallskip
+\parbox{\linewidth}{\footnotesize $p$-values from exact McNemar tests on discordant defect majorities: all binary repair contrasts have $p=1.000$; for exact restoration, $p=0.302$ (\texttt{high}), $p=0.754$ (\texttt{medium}), $^{**}p=0.007$ (\texttt{low}), and $^{***}p=0.001$ (\texttt{none}).}
+\end{table*}
+
+At \texttt{none}, all 135 trials in each feedback arm were scored repaired.
+This demonstrates the observed performance with a zero thinking-token budget,
+not a single forward pass: seven \arm{A1} and 21 \arm{A2} trials required
+schema-correction calls, compared with none at \texttt{high}. Mean \arm{A1}
+latency was 7.17 seconds at \texttt{none} versus 17.44 seconds at \texttt{high}.
+The exact-restoration contrast varied nonmonotonically across levels, reaching
++23.7\,pp \ci{+12.6}{+36.3} at \texttt{none}; the exploratory effort-step
+slope was +5.48\,pp \ci{+0.44}{+10.59}, whereas the log-budget slope interval
+included zero. \arm{A3} repair also varied nonmonotonically (75.0\%, 88.9\%,
+80.6\%, 91.7\% from high to none). These results do not identify internal
+reasoning mechanisms.

@@ -13,46 +13,24 @@
 \subsection{Verifying LLM pipeline outputs at run time}
 \label{sec:related-rv}
 
-Runtime verification checks a running system's behaviour against a
-specification as it executes~\citep{leucker2009rv}. For pipelines of LLM agents,
-the specification that matters most, that each output is grounded in what the
-stage was given, is not expressible in an output schema. Multi-agent frameworks
-divide a task among role-specialised language-model agents
-\citep{metagpt,camel,chatdev,autogen}, and some, AutoGen among them, route turns
-through a manager that is itself a language model. Efficient coordination of
-many agents is named as an open problem in that literature~\citep{guo2024survey}.
-Three kinds of check are available at run time.
+Runtime verification checks behaviour against a specification during
+execution~\citep{leucker2009rv}. Multi-agent frameworks divide tasks among
+specialised agents \citep{metagpt,camel,chatdev,autogen}; coordination remains
+an open problem~\citep{guo2024survey}. Output schemas do not establish that a
+stage's claims are grounded in its inputs. LLM judges \citep{geval,mtbench}
+can assess outputs but exhibit position and self-preference biases
+\citep{positionbias,selfpreference}. External-tool feedback can improve
+correction but needs a trusted resource~\citep{critic}. Our deterministic
+checks use pipeline state and detect missing provenance, not falsity
+\citep{hoang2026eas}. They also identify the check class and location by
+construction, a difficult post-hoc diagnosis problem
+\citep{tan2026agentchaos}.
 
-\emph{A language model as judge}~\citep{geval,mtbench} can assess any output,
-but its verdicts depend on the order in which candidates are
-presented~\citep{positionbias} and favour its own
-generations~\citep{selfpreference}. Placed in the control path, it makes the
-component that detects ungrounded generation a generator itself.
-\emph{External tools} can verify a claim against a resource outside the system,
-and critique grounded in such tools corrects outputs better than
-introspection~\citep{critic}. This requires that a trusted resource exists and
-can be called for every check. \emph{Deterministic checks over the pipeline's
-own state}, the approach of our supervisor~\citep{hoang2026eas}, need neither a
-model nor an external resource. In exchange they detect only missing
-provenance, not falsity. The case for determinism is strengthened by how poorly
-faults are diagnosed after the fact. On injected faults in agent systems,
-neither rule-based nor LLM-based diagnosis identified the fault's type or step
-with more than 56\% accuracy~\citep{tan2026agentchaos}. A supervisor whose
-checks fire on a known class at a known location has that information by
-construction.
-
-Two recent systems enforce policies on an agent's actions at run time. In
-AgentSpec~\citep{wang2026agentspec}, a rule pairs a triggering event, such as
-an action about to execute, with predicates over it and an enforcement: asking
-the user to confirm, an LLM self-examination, a corrective action, or stopping
-the agent. \citet{reddy2026gates} place deterministic, read-only gates before
-the state-changing tool calls of an airline customer-service agent. With
-gpt-4o-mini as its model, the gates raised task success from 29.6\% to 42.0\%.
-Recovery after a rejection still depended on the model, and the authors leave
-open how much of it the content of the rejection message explains. Both systems
-check actions against a policy. Our supervisor checks what one stage hands to
-the next against upstream state, and our arms \arm{A1} and \arm{A2} separate an
-informative rejection from a generic one.
+AgentSpec enforces event-triggered policies~\citep{wang2026agentspec};
+\citet{reddy2026gates} use deterministic gates before an airline agent's tool
+calls, raising task success from 29.6\% to 42.0\% with gpt-4o-mini. Those
+systems check actions against policies. Our supervisor checks stage outputs
+against upstream state, and compares informative and generic rejections.
 
 \subsection{Self-correction and the role of feedback}
 \label{sec:related-selfcorrection}

@@ -112,6 +112,12 @@ These decisions are already agreed for the current plan:
 - Stage only files related to the requested task.
 - Do not rewrite history or reset the repo unless explicitly asked.
 
+## Research Study & Workspace Guardrails
+
+- **NFD vs. NFC path trap (`Tài liệu`):** Two visually identical directories exist on disk (NFD git repo vs. NFC stray shadow with no `.git`). When calling file tools (`write_file`, `edit_file`, `read_file`), always copy the exact NFD workspace root from `<user_information>` (or use the 8.3 short path) and verify with `git status --short` after writing so edits never land in the NFC shadow folder.
+- **Post-freeze study cells (`PREREGISTRATION.md`):** Never alter `cell="core"` (`1,167` trials, pinned by `tests/test_run_injection_study.py`). Register any new model pass (e.g., `flashlite`) as its own cell in `backend/scripts/run_injection_study.py`, file a dated `§0.1` amendment before running trials, and explicitly pin/verify the target model ID in code so `.env` defaults (`gemini-2.5-flash`) cannot silently serve the run.
+- **Verify offline data joins before marking "unknown":** When writing analysis plans over `backend/out_study/`, inspect the runner scripts (`run_injection_study.py`, `run_downstream.py`) and existing `checkpoint.jsonl` schemas rather than guessing or deferring join keys and subgroup counts.
+
 ## Imported Claude Cowork project instructions
 
 Follow my project plan COS30018 - Option D - Restaurants.pdf

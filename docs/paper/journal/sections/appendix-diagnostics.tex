@@ -1,0 +1,175 @@
+\section{Predictions and exploratory diagnostics}
+\label{app:diagnostics}
+\subsection{Pre-recorded predictions}
+
+Table~\ref{tab:predictions} sets the results against the directional
+predictions recorded before any trial. The capability ceiling and the
+undetectable C1 interaction came out as predicted. The repair rates did not.
+The predictions for \arm{A1} (about 45\%) and \arm{A2} (about 33\%) came from
+code-repair benchmarks with execution feedback
+\citep{arimbur2026,chen2024selfdebug}. Both arms instead sit near 94\%. The
+predicted class ordering is reversed: referential defects (\op{O1}, \op{O2}),
+expected to be the easiest, were the hardest, and only \op{O1} has real
+headroom.
+
+\paragraph{Search space across review-count strata}
+Differences in prompt search space may contribute to the unexpected class ordering; these post-hoc strata are small and do not establish a mechanism. Workloads in the study are
+stratified by review count into quartiles plus the 90th percentile:
+$p_{25}=14, p_{50}=34, p_{75}=92, p_{90}=214$ reviews. Only prompts at the
+reasoning stage (\op{O1}--\op{O3}) contain the analysed review records and scale in
+length with review count $N$. Downstream stages (\op{O5}--\op{O7}) receive only
+compact summaries of 3--6 items and serve as flat controls.
+
+Operator-specific patterns are informative because their search demands differ:
+\begin{itemize}
+\item \op{O1} (deleting 1 character from a 22-character review identifier):
+  repair requires retrieving the exact original identifier from the $N$ reviews
+  in the prompt under both \arm{A1} and \arm{A2}. On the hosted model
+  (\cell{T2}), repair remains saturated (83.3\%--100.0\%) across $p_{25}$--$p_{75}$,
+  but drops steeply at $p_{90}$ (214 reviews) to \textbf{46.7\%} for \arm{A1}
+  and \textbf{26.7\%} for \arm{A2} (log-slope $-0.100$ \ci{-0.269}{+0.088} on
+  \arm{A1}, $-0.215$ \ci{-0.341}{-0.062} on \arm{A2}). This 46.7\% cliff
+  replicates identically in the \cell{T2S} severity pass across both severity
+  levels (level~1: 46.7\%; level~2: 46.7\%).
+\item \op{O2} (appending a fabricated review identifier): repair requires
+  deleting the fake identifier. Under \arm{A1}, the feedback explicitly names the
+  fabricated identifier, so the named item is available in feedback. Under
+  \arm{A2}, the feedback provides only a generic rejection, which does not identify the offending item. On the local model
+  (Qwen2.5-7B, \cell{T2L}), the observed rates differ: \arm{A1} shows no clear stratum trend
+  across review-count strata (66.7\% $\rightarrow$ 83.3\% $\rightarrow$ 42.9\%
+  $\rightarrow$ 66.7\%, slope $-0.074$ \ci{-0.314}{+0.141}), whereas \arm{A2}
+  collapses monotonically (44.4\% $\rightarrow$ 33.3\% $\rightarrow$ 14.3\%
+  $\rightarrow$ \textbf{0.0\%} at $p_{90}$, slope $-0.165$ \ci{-0.331}{+0.000}).
+  These patterns are exploratory and based on few defects per stratum.
+\item \op{O3} (assigning an incorrect aspect label): verifying which evidence
+  review mentions which aspect also scales with $N$, declining on Qwen2.5-7B
+  from 100.0\% ($p_{25}$) to \textbf{0.0\%} ($p_{90}$, slope $-0.234$
+  \ci{-0.349}{-0.051}).
+\item Controls (\op{O5}, \op{O6}, \op{O7}): upstream prompts contain no raw
+  reviews, and repair rates are relatively high at the largest stratum
+  (75\%--100\% at $p_{90}$) on both models.
+\end{itemize}
+
+\noindent Furthermore, on the hosted model (\cell{T2}), even where overall
+repair rates remain near 100\%, exact restoration to the clean output
+is lower at the largest stratum for all three reasoning operators:
+\op{O1} falls from 66.7\% ($p_{25}$) to \textbf{0.0\%} ($p_{90}$, slope $-0.221$
+\ci{-0.390}{-0.023}); \op{O2} falls from 94.4\% to \textbf{33.3\%} (slope
+$-0.247$ \ci{-0.376}{-0.115}); and \op{O3} falls from 100.0\% to \textbf{0.0\%}
+(slope $-0.343$ \ci{-0.441}{-0.211}). By contrast, the report-stage control
+\op{O6} shows a less pronounced decline (100.0\% $\rightarrow$ 100.0\% $\rightarrow$ 90.5\%
+$\rightarrow$ 83.3\%, slope $-0.066$).
+Table~\ref{tab:strata} compiles these stratum gradients.
+
+\begin{table*}[t]
+\centering
+\caption{Directional predictions recorded in the pre-registration, against
+results. Class rates are \arm{A1}, per defect. \arm{A3} pooled is per trial.}
+\label{tab:predictions}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}L{2.2cm} Y Y L{2.0cm}@{}}
+\toprule
+Quantity & Recorded before results & Result & Holds? \\
+\midrule
+\arm{A0} ceiling & high & 100\% (209 of 209 trials) & yes \\
+\arm{A1} & $\approx 45\%$ & 94.7\% & no (ceiling) \\
+\arm{A2} & $\approx 33\%$ & 94.0\% & no (ceiling) \\
+\arm{A3} & not a floor; $\approx100\%$ on \op{O6}/\op{O7}; $\approx53\%$ pooled
+  & \op{O6}/\op{O7} 100\%; pooled 92.2\% & not a floor: yes; 53\%: no \\
+Class ordering & referential $>$ structural $>$ semantic & structural 98.6\%
+  $>$ semantic 93.0\% $>$ referential 89.6\% & no (reversed) \\
+Placement & \arm{P1}\,$\gg$\,\arm{P3}\,$\approx$\,\arm{P2}; \arm{P0} apart &
+  \arm{P1} 97.8, \arm{P2} 97.8, \arm{P3} 97.0; \arm{P0} 94.1 & half \\
+C1 interaction & undetectable & 0.0\pp{} \ci{-6.3}{+6.3} & yes \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\caption{Repair rate by review-count stratum across operators (exploratory).
+Workloads are stratified by review count into quartiles plus the 90th percentile:
+$p_{25}=14, p_{50}=34, p_{75}=92, p_{90}=214$ reviews. Rates are defect-level
+means with defect count in parentheses. \op{O1}--\op{O3} are reasoning operators
+whose prompt size scales with review count; \op{O5}--\op{O7} are downstream
+control stages with compact prompts. On Qwen2.5-7B, G3 context guards excluded
+two $p_{90}$ businesses on \op{O1} and \op{O2} (reducing defect count at $p_{90}$ to 3).}
+\label{tab:strata}
+\footnotesize
+\begingroup
+\setlength{\tabcolsep}{2pt}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l c rrrr c rrrr c@{}}
+\toprule
+& & \multicolumn{5}{c}{\textbf{Hosted Model (Gemini 2.5 Flash, \cell{T2})}} & \multicolumn{5}{c}{\textbf{Local Model (Qwen2.5-7B, \cell{T2L})}} \\
+\cmidrule(lr){3-7} \cmidrule(lr){8-12}
+Op & Arm & $p_{25}$ (14) & $p_{50}$ (34) & $p_{75}$ (92) & $p_{90}$ (214) & Slope $\log(N)$ & $p_{25}$ (14) & $p_{50}$ (34) & $p_{75}$ (92) & $p_{90}$ (214) & Slope $\log(N)$ \\
+\midrule
+\op{O1} & \arm{A1} & 83.3 (6) & 100.0 (6) & 100.0 (7) & \textbf{46.7} (5) & $-0.10$ \ci{-0.27}{+0.09} & 44.4 (6) & 16.7 (6) & 42.9 (7) & 66.7 (3) & $+0.08$ \ci{-0.16}{+0.29} \\
+\op{O1} & \arm{A2} & 100.0 (6) & 100.0 (6) & 100.0 (7) & \textbf{26.7} (5) & $-0.21$ \ci{-0.34}{-0.06} & 66.7 (6) & 33.3 (6) & 42.9 (7) & 44.4 (3) & $-0.08$ \ci{-0.29}{+0.15} \\
+\op{O1} ($L{=}1$) & \arm{A1} & 88.9 (6) & 100.0 (6) & 100.0 (7) & \textbf{46.7} (5) & $-0.13$ \ci{-0.27}{+0.04} & --- & --- & --- & --- & --- \\
+\op{O1} ($L{=}2$) & \arm{A1} & 100.0 (6) & 100.0 (6) & 100.0 (7) & \textbf{46.7} (5) & $-0.16$ \ci{-0.27}{-0.03} & --- & --- & --- & --- & --- \\
+\addlinespace[2pt]
+\op{O2} & \arm{A1} & 100.0 (6) & 100.0 (6) & 100.0 (7) & 73.3 (5) & $-0.08$ \ci{-0.20}{0.00} & 66.7 (6) & 83.3 (6) & 42.9 (7) & 66.7 (3) & $-0.07$ \ci{-0.31}{+0.14} \\
+\op{O2} & \arm{A2} & 100.0 (6) & 88.9 (6) & 100.0 (7) & 66.7 (5) & $-0.08$ \ci{-0.21}{+0.02} & \textbf{44.4} (6) & \textbf{33.3} (6) & \textbf{14.3} (7) & \textbf{0.0} (3) & $-0.17$ \ci{-0.33}{0.00} \\
+\addlinespace[2pt]
+\op{O3} & \arm{A1} & 100.0 (6) & 100.0 (6) & 100.0 (7) & 100.0 (3) & $0.00$ \ci{0.00}{0.00} & 100.0 (6) & 66.7 (6) & 85.7 (7) & \textbf{0.0} (3) & $-0.23$ \ci{-0.35}{-0.05} \\
+\op{O3} & \arm{A2} & 100.0 (6) & 100.0 (6) & 100.0 (6) & 100.0 (3) & $0.00$ \ci{0.00}{0.00} & 72.2 (6) & 50.0 (6) & 71.4 (7) & \textbf{0.0} (3) & $-0.15$ \ci{-0.31}{+0.07} \\
+\addlinespace[2pt]
+\op{O5} (ctrl) & \arm{A1} & 77.8 (6) & 100.0 (4) & 100.0 (6) & 100.0 (3) & $+0.09$ \ci{0.00}{+0.20} & 50.0 (6) & 75.0 (4) & 100.0 (6) & 75.0 (4) & $+0.13$ \ci{-0.08}{+0.34} \\
+\op{O6} (ctrl) & \arm{A1} & 100.0 (6) & 100.0 (7) & 100.0 (7) & 100.0 (6) & $0.00$ \ci{0.00}{0.00} & 100.0 (6) & 85.7 (7) & 100.0 (7) & 83.3 (6) & $-0.03$ \ci{-0.15}{+0.06} \\
+\op{O7} (ctrl) & \arm{A1} & 100.0 (6) & 100.0 (7) & 90.5 (7) & 94.4 (6) & $-0.03$ \ci{-0.08}{0.00} & 83.3 (6) & 85.7 (7) & 100.0 (7) & 83.3 (6) & $+0.02$ \ci{-0.12}{+0.17} \\
+\midrule
+\multicolumn{12}{@{}l}{\emph{Trial-level exact restoration $P(\text{exact copy})$ (\%)}} \\[2pt]
+\op{O1} & \arm{A1} & 66.7 (6) & 88.9 (6) & 66.7 (7) & \textbf{0.0} (5) & $-0.22$ \ci{-0.39}{-0.02} & 33.3 (6) & 16.7 (6) & 0.0 (7) & 33.3 (3) & $-0.06$ \ci{-0.27}{+0.14} \\
+\op{O2} & \arm{A1} & 94.4 (6) & 94.4 (6) & 52.4 (7) & \textbf{33.3} (5) & $-0.25$ \ci{-0.38}{-0.12} & 50.0 (6) & 16.7 (6) & 42.9 (7) & 0.0 (3) & $-0.10$ \ci{-0.28}{+0.12} \\
+\op{O3} & \arm{A1} & 100.0 (6) & 83.3 (6) & 47.6 (7) & \textbf{0.0} (3) & $-0.34$ \ci{-0.44}{-0.21} & 50.0 (6) & 16.7 (6) & 42.9 (7) & 0.0 (3) & $-0.10$ \ci{-0.29}{+0.12} \\
+\op{O6} (ctrl) & \arm{A1} & 100.0 (6) & 100.0 (7) & 90.5 (7) & 83.3 (6) & $-0.07$ \ci{-0.18}{0.00} & 50.0 (6) & 57.1 (7) & 85.7 (7) & 66.7 (6) & $+0.09$ \ci{-0.11}{+0.29} \\
+\bottomrule
+\end{tabular*}
+\endgroup
+\end{table*}
+
+
+\subsection{Trial-level decomposition}
+\paragraph{Descriptive within-rewrite repair rates}
+Restricting repair rates to trials that did \emph{not} reproduce the clean
+output yields 83.5\% (111 of 133) for \arm{A1} versus 87.1\% (169 of 194) for
+\arm{A2} on the hosted model, and 53.3\% (128 of 240) versus 44.4\% (111 of 250)
+on Qwen2.5-7B. We report these within-rewrite numbers strictly descriptively,
+without causal interpretation. Conditioning on non-identical outputs introduces
+potential selection bias: the composition of non-identical subsets can differ across arms.
+
+\begin{table*}[t]
+\centering
+\caption{Outcome decomposition across arms and models (RQ2). Trials are
+decomposed 4-way into \cls{repaired\_copy} (exact restoration to clean stage
+output as canonical JSON), \cls{repaired\_rewrite} (repaired, non-identical),
+\cls{replaced\_or\_deleted} (strict repair criterion not met), and
+\cls{unrepaired} (injected check still fires). These labels do not establish whether the model located the defect. 3-way totals
+and descriptive within-rewrite repair rates are shown below.}
+\label{tab:decomposition}
+\footnotesize
+\begingroup
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l rrrr rrrr@{}}
+\toprule
+& \multicolumn{4}{c}{\textbf{Hosted Model (Gemini 2.5 Flash, \cell{T2})}} & \multicolumn{4}{c}{\textbf{Local Model (Qwen2.5-7B, \cell{T2L})}} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-9}
+Outcome Category & \arm{A1} ($421$) & \arm{A2} ($417$) & \arm{A0} ($209$) & \arm{A3} ($102$) & \arm{A1} ($414$) & \arm{A2} ($413$) & \arm{A0} & \arm{A3} ($102$) \\
+\midrule
+1. \cls{repaired\_copy} (exact restoration) & 288 (68.4\%) & 223 (53.5\%) & 149 (71.3\%) & 46 (45.1\%) & 174 (42.0\%) & 163 (39.5\%) & -- & 0 (0.0\%) \\
+2. \cls{repaired\_rewrite} (repaired, altered) & 111 (26.4\%) & 169 (40.5\%) & 60 (28.7\%) & 48 (47.1\%) & 128 (30.9\%) & 111 (26.9\%) & -- & 39 (38.2\%) \\
+\quad \emph{Total repaired (1 + 2)} & \emph{399 (94.8\%)} & \emph{392 (94.0\%)} & \emph{209 (100\%)} & \emph{94 (92.2\%)} & \emph{302 (72.9\%)} & \emph{274 (66.3\%)} & -- & \emph{39 (38.2\%)} \\
+3. \cls{replaced\_or\_deleted} & 19 (4.5\%) & 23 (5.5\%) & 0 (0.0\%) & 8 (7.8\%) & 80 (19.3\%) & 32 (7.7\%) & -- & 43 (42.2\%) \\
+4. \cls{unrepaired} (check still fires) & 3 (0.7\%) & 2 (0.5\%) & 0 (0.0\%) & 0 (0.0\%) & 32 (7.7\%) & 107 (25.9\%) & -- & 20 (19.6\%) \\
+\quad \emph{Total fail (3 + 4)} & \emph{22 (5.2\%)} & \emph{25 (6.0\%)} & \emph{0 (0.0\%)} & \emph{8 (7.8\%)} & \emph{112 (27.1\%)} & \emph{139 (33.7\%)} & -- & \emph{63 (61.8\%)} \\
+\midrule
+\emph{Within-rewrite repair rate}$^*$ & 83.5\% & 87.1\% & 100.0\% & 85.7\% & 53.3\% & 44.4\% & -- & 38.2\% \\
+\bottomrule
+\end{tabular*}
+\endgroup
+
+\smallskip
+\parbox{\linewidth}{\footnotesize $^*$Descriptive only; conditioning on non-identical output introduces potential selection bias because the non-identical subsets may differ between arms.}
+\end{table*}
+

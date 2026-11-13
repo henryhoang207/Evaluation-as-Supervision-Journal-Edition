@@ -47,8 +47,7 @@ RQ4 and the third by RQ3; both are exploratory.
   locally (Section~\ref{sec:design-cells}).
 \end{description}
 
-Only RQ1 carries a hypothesis test. Everything else is an estimate with an
-interval, labelled exploratory or descriptive where it appears.
+Only RQ1 is confirmatory. Other tests and estimates are exploratory or descriptive, as labelled.
 
 % ---------------------------------------------------------------------
 \subsection{Workloads and injection bases}
@@ -387,9 +386,12 @@ Downstream propagation & A9 & later stages re-run from clean, unrepaired,
 Second model$^\dagger$ & A10, A11 & Qwen2.5-7B-Instruct, served locally;
   \arm{A1}, \arm{A2} at \arm{P1} (all eligible defects); \arm{A3} at \arm{P0}
   (a quarter); $r=3$ & 138 & 930 & 929 \\
+Thinking budget$^\dagger$ & A12 & \texttt{reasoning\_effort} in \{\texttt{none},
+  \texttt{low}, \texttt{medium}, \texttt{high}\}; \arm{A1}, \arm{A2}@\arm{P1} ($N{=}45$);
+  \arm{A3}@\arm{P0} ($N{=}12$); $r=3$ & 45 & 1{,}224 & 1{,}224 \\
 \bottomrule
 \multicolumn{6}{@{}l}{$^\ast$ Conditions (defect $\times$ starting point), 796
-calls in total.}
+stage executions and 1,246 model calls in total.}
 \end{tabularx}
 \end{table*}
 
@@ -416,7 +418,7 @@ of RQ2--RQ6.
   varies. This definition was chosen before either level ran, from two
   candidates defined together.
 \item[Warm resampling.] Temperature~1.0, to test whether the ceiling is an
-  artefact of greedy decoding and to give the equal-budget comparison with
+  artefact of greedy decoding and to compare token budgets with
   best-of-$k$ resampling that \citet{olausson2024selfrepair} require. This cell
   was designed \emph{after} the core's ceiling and its byte-identity pattern
   were known. Both possible readings were fixed before it ran.
@@ -455,34 +457,31 @@ of RQ2--RQ6.
   served locally (Section~\ref{sec:design-execution}). It reuses the hosted
   model's bases and injected defects unchanged, so it compares models and
   runtimes on fixed defects; it does not run the pipeline on the second model.
-  Four gates preceded any final trial: the model fully on the GPU with its
-  context loaded (G1); ten real \arm{A1} prompts, sent twice, returning
-  identical outputs (G2); every planned prompt fitting the context with a
-  4{,}096-token output reserve, any defect that does not being excluded before
-  any call (G3); and most first calls schema-valid in a five-defect pilot (G4).
-  \arm{A1} and \arm{A2} run at \arm{P1} on every eligible defect and \arm{A3}
-  at \arm{P0} on the core's quarter stride, with $r=3$ after G2 failed
-  (Section~\ref{sec:design-deviations}) and the first repetition alone as a
-  sensitivity. Four readings were fixed before the gates: both rates at or
+  Four gates preceded final trials; their detailed criteria are in
+  Appendix~\ref{app:runtime}. G2 failed and the amended design used three
+  repetitions per defect, with first-repetition sensitivity.
+  Four readings were fixed before the gates: both rates at or
   above 90\% with an interval containing zero, consistent with the core's
   ceiling; a positive interval excluding zero, exploratory evidence that
   measured facts help; both rates below 90\%, a contrast with headroom; anything
   else, mixed.
+\item[Thinking-budget sweep.] On 45 stratified defects, \model{} was run at
+  four \texttt{reasoning\_effort} levels, with caps of 24,576, 8,192, 1,024
+  and zero thinking tokens. Table~\ref{tab:cells} gives allocation; the sweep
+  examines repair and exact restoration prospectively after the core result.
 \end{description}
 
 % ---------------------------------------------------------------------
 \subsection{Execution}
 \label{sec:design-execution}
 
-All trials outside the second-model cell used \model{} through Google's
-OpenAI-compatible endpoint, at temperature~0 except in the warm cell. Fallback
-to a second model was disabled throughout. The second-model cell used
-Qwen2.5-7B-Instruct with 7.6 billion parameters, in Q4\_K\_M quantisation
-(Ollama model digest \code{d7898812a651}\ldots). Ollama~0.40.3 served it on
-one NVIDIA RTX~5060~Ti GPU with 16\,GB of memory, with every layer on the GPU.
-Decoding used temperature~0, a fixed seed, a 32{,}768-token context, a
-4{,}096-token output cap and one request at a time. The run header records the
-full provenance, including tokenizer and executable hashes.
+All cells except the second-model cell used \model{} at temperature zero
+except in the warm cell, with fallback disabled. The second model was
+Qwen2.5-7B-Instruct, quantised and served locally on the hosted model's fixed
+bases. Its determinism gate failed (8/10 prompt pairs identical); the amended
+three-repetition design and first-repetition sensitivity are reported below and
+in Section~\ref{sec:results-rq6}. Runtime and gate details appear in
+Appendix~\ref{app:runtime}.
 
 \paragraph{One session per defect}
 A temperature of zero does not make a hosted model deterministic across
@@ -511,54 +510,19 @@ records by the committed analysis scripts, with no model calls.
 \paragraph{Losses}
 The core lost 18 of 1{,}167 trials to provider errors: network drops and one
 overnight sleep of the client machine. These cost three defects their
-\arm{A1}/\arm{A2} pair. Because all arms of a defect share one session, a loss
-cannot depend on the arm. The second-model cell lost one of 930 trials. Its
+\arm{A1}/\arm{A2} pair. The trials were matched in session, but that alone does not establish arm-independent loss. The second-model cell lost one of 930 trials. Its
 first response hit the output cap, and the schema-correction call would have
 overflowed the context, so the runtime guard refused it before inference.
 Counting it as unrepaired, as fixed in advance, changes no estimate. The hosted
-model consumed about 53 million tokens; the second-model cell used 7.4 million
-more on the local GPU, at no API cost.
+model consumed about 64.3 million tokens (including 11.16 million in the
+thinking-budget sweep); the second-model cell used 7.4 million more on the
+local GPU, at no API cost.
 
 % ---------------------------------------------------------------------
 \subsection{Deviations from the pre-registration}
 \label{sec:design-deviations}
 
-\begin{table*}[t]
-\centering
-\caption{Amendments filed after the freeze. None adds a confirmatory claim or
-changes the core. Each was committed before the pass it governs. The last
-column records what had already been observed when it was written.}
-\label{tab:amendments}
-\footnotesize
-\begin{tabularx}{\linewidth}{@{}l l Y L{2.9cm}@{}}
-\toprule
-\# & Date & Change & Results known at filing \\
-\midrule
-A1 & 2026-09-20 & C1 prompt written; condition factor wired & none \\
-A2 & 2026-10-07 & Overwrite counterfactual wired: trigger gate inverted for
-  \op{O4}; \arm{A1} fed production's correction flags & core \\
-A3 & 2026-10-07 & C1 run as its own pass with in-session C0 comparators & core \\
-A4 & 2026-10-07 & Confirmatory analysis code written; one interim budget look
-  disclosed & core \\
-A5 & 2026-10-07 & Placement pass: all four levels, \arm{P1} re-run in-session
-  & core, D19, C1 \\
-A6 & 2026-10-07 & \op{O1} severity: level~2 defined (extent), \arm{A1} only &
-  core, D19, C1 \\
-A7 & 2026-10-07 & Warm-resampling cell, both readings fixed & core, D19, C1,
-  placement \\
-A8 & 2026-10-08 & Real-defect replay wired; descriptive only & all of the above
-  \\
-A9 & 2026-10-08 & Downstream propagation brought into scope; endpoint set
-  chosen before the pass & all of the above \\
-A10 & 2026-10-12 & Second-model cell: model, runtime and decoding fixed;
-  gates G1--G4; arms, allocation, sensitivities and readings & all hosted-model
-  cells \\
-A11 & 2026-10-12 & G2 failed (8 of 10 identical): $r=3$ with defect-level
-  means; first repetition as a sensitivity; G2 kept as a measurement & all
-  hosted-model cells; G1--G3 of the second-model cell \\
-\bottomrule
-\end{tabularx}
-\end{table*}
+The complete amendment ledger is in Appendix~\ref{app:amendments}.
 
 Table~\ref{tab:amendments} lists every change since the freeze. Four
 disclosures go beyond the table.
@@ -568,15 +532,15 @@ outcome counts and per-trial token use were inspected to check the budget.
 Nothing about the design, the stopping point or the analysis changed, and the
 run continued to completion.
 
-\emph{Amendments written with results in hand.} Amendments A5--A11 were filed
+\emph{Amendments written with results in hand.} Amendments A5--A12 were filed
 after the core's ceiling was known. Their sizes and arms follow a grid fixed in
 the study plan before any result existed. The one parameter that grid left
 open, \op{O1}'s second severity level, was chosen between two candidates
 defined before either ran. The second-model cell's model, gates and readings
 were fixed after every hosted-model result was known, and before its own gates
-ran. The warm cell (A7) is the exception. It was designed
-in response to the core's byte-identity pattern, and it is reported as a test
-of that explanation, not as an independent finding.
+ran. The warm cell (A7) and thinking-budget sweep (A12) are mechanistic
+tests designed in response to the core's byte-identity pattern and ceiling,
+and are reported as evaluations of those mechanisms rather than independent findings.
 
 \emph{A re-roled arm.} Before the freeze, \arm{A3} was planned as a near-zero
 floor, with two further confirmatory tests built on that assumption: Cochran's

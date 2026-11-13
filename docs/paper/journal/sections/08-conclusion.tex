@@ -1,36 +1,18 @@
-% =====================================================================
 \section{Conclusion}
 \label{sec:conclusion}
-% =====================================================================
 
-We asked whether the measured facts a deterministic supervisor writes into a
-retry prompt are what repairs a defective stage in an LLM pipeline. The
-pre-registered answer is no, for injected defects. A rejection that said
-nothing repaired them as well as one that named the offending item and its
-measured value: the difference was +0.7 percentage points, with an interval
-that excludes anything larger than about 4. The reason is that the model,
-shown its defective output, mostly copies it back and corrects the one
-inconsistency it can see. The information the supervisor measures is in the
-model's context too. A second model that repaired far less often gained an
-exploratory 6.8 points from the measured facts, apparently because they told it
-where the defect was; the null describes a capable model, not every model.
+In this pre-registered study, measured-fact feedback did not materially change
+overall repair of injected defects relative to contentless rejection on the
+hosted model near its ceiling (+0.7\,pp, 95\% CI \ci{-2.9}{+4.3}). It did
+increase unconditional exact canonical-JSON restoration in an exploratory
+analysis. Restoration outcomes were associated with downstream divergence,
+though those post-treatment comparisons cannot establish causation. A local
+model showed an exploratory repair advantage with substantial limitations.
 
-What the supervisor \emph{does} matters more than what it \emph{says}. Showing
-the model its rejected output left repair unchanged and cut collateral damage
-by an order of magnitude. The precision of a check decides whether a retry
-fixes anything: on the defects the supervisor really caught in production, most
-of them its own false positives, the production retry was accepted 28\% of the
-time. Stage-local checks certify consistency with upstream, so a defect that
-gets past its own stage is invisible to every later stage and is sometimes
-rewarded by them. And a statistic the supervisor can compute is better
-overwritten than retried. A retry also fixes it, but only an overwrite does so
-exactly and at no cost.
-
-For engineers, the lesson is to spend effort on where a check looks and how
-precisely it fires, not on how its complaint is worded beyond naming what
-failed. For researchers who
-evaluate LLM systems by fault injection, the lesson is one that mutation
-testing learned for detection: injected faults stand in for real ones only once
-a coupling study shows that they do. Until then, a repair rate measured on
-injected defects is a property of the operators. It is not yet evidence about
-the defects the system actually produces.
+The production retry was accepted less often on real defects than on injected
+ones, and acceptance is not a correctness measure. Showing the rejected artifact
+reduced measured collateral damage in the placement experiment. Together with
+the propagation and calibration results, these findings support assessing
+verifier precision, artifact placement and downstream outcomes when designing
+runtime supervision, and caution against treating injected-defect repair rates
+as production estimates.

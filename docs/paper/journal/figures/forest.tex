@@ -1,5 +1,5 @@
 % =====================================================================
-%  Fig. forest -- every A1 - A2 contrast the study measured (pp), with 95%
+%  Fig. forest -- selected A1 - A2 contrasts (pp), with 95%
 %  bootstrap intervals over defects. Values transcribed from:
 %    rows 1-5   backend/out_study/T2/analysis.json  (confirmatory + secondary)
 %    rows 6-7   backend/out_study/T2C1/analysis.json (gap_C0, gap_C1)
@@ -13,7 +13,7 @@
 %  Width budget: labels ~4.3 cm + plot 5.6 cm + estimates ~2.9 cm < 18.4 cm
 %  (the two-column layout's full-width figure* text block).
 % =====================================================================
-\begin{tikzpicture}[x=0.17cm, y=-0.5cm, font=\footnotesize]
+\begin{tikzpicture}[x=0.135cm, y=-0.5cm, font=\footnotesize]
   \definecolor{fpaccent}{HTML}{2A78D6}
   \definecolor{fpink}{HTML}{52514E}
   \definecolor{fpgrid}{HTML}{E4E3DE}
@@ -21,26 +21,26 @@
 
   % \fprow{y}{label}{lo}{est}{hi}{text}{colour}
   \newcommand{\fprow}[7]{%
-    \node[anchor=east, align=right] at (-14.6,#1) {#2};
+    \node[anchor=east, align=right] at (-15.5,#1) {#2};
     \draw[#7, line width=0.9pt] (#3,#1) -- (#5,#1);
     \filldraw[fill=#7, draw=white, line width=0.7pt] (#4,#1) circle (2.4pt);
-    \node[anchor=west, text=fpink, font=\scriptsize] at (14.6,#1) {#6};
+    \node[anchor=west, text=fpink, font=\scriptsize] at (22.5,#1) {#6};
   }
 
-  % last data row (second model) sits at y = 13.4
-  \def\ybottom{14.2}
+  % last data row (exact restoration) sits at y = 15.0
+  \def\ybottom{15.8}
 
   % primary interval band
   \fill[fpaccent!10] (-2.9,0.35) rectangle (4.3,\ybottom);
   % gridlines and zero line (solid hairlines)
-  \foreach \gx in {-10,-5,5,10}
+  \foreach \gx in {-10,-5,5,10,15,20}
     \draw[fpgrid, line width=0.35pt] (\gx,0.35) -- (\gx,\ybottom);
   \draw[fpzero, line width=0.5pt] (0,0.35) -- (0,\ybottom);
 
   % column heads
-  \node[anchor=east, font=\footnotesize\bfseries] at (-14.6,-0.4)
+  \node[anchor=east, font=\footnotesize\bfseries] at (-15.5,-0.4)
        {Contrast ($N$ defects)};
-  \node[anchor=west, font=\scriptsize\bfseries] at (14.6,-0.4)
+  \node[anchor=west, font=\scriptsize\bfseries] at (22.5,-0.4)
        {Estimate [95\% CI]};
 
   % --- core (confirmatory, then pre-specified companions)
@@ -70,17 +70,20 @@
   % --- second model (Qwen2.5-7B-Instruct, local)
   \fprow{13.4}{Second model (138)}{0.5}{6.8}{13.3}%
         {+6.8 [+0.5, +13.3]}{fpink}
+  % --- exact restoration (exploratory mechanism)
+  \fprow{15.0}{\textbf{Exact restoration, core} (139)}{8.2}{14.6}{21.3}%
+        {\textcolor{black}{\textbf{+14.6 [+8.2, +21.3]}}}{fpaccent}
 
   % x axis
-  \draw[fpzero, line width=0.4pt] (-14,\ybottom) -- (14,\ybottom);
-  \foreach \gx/\lab in {-10/$-$10,-5/$-$5,0/0,5/+5,10/+10} {
+  \draw[fpzero, line width=0.4pt] (-15,\ybottom) -- (22,\ybottom);
+  \foreach \gx/\lab in {-10/$-$10,-5/$-$5,0/0,5/+5,10/+10,15/+15,20/+20} {
     \draw[fpzero, line width=0.4pt] (\gx,\ybottom) -- (\gx,\ybottom+0.18);
     \node[anchor=north, text=fpink] at (\gx,\ybottom+0.2) {\lab};
   }
-  \node[anchor=north] at (0,\ybottom+0.95)
+  \node[anchor=north] at (5,\ybottom+0.95)
        {\arm{A1}\,$-$\,\arm{A2} (percentage points)};
-  \node[anchor=north east, text=fpink, font=\scriptsize] at (-0.6,\ybottom+1.75)
+  \node[anchor=north east, text=fpink, font=\scriptsize] at (4.4,\ybottom+1.75)
        {$\leftarrow$ rejection better};
-  \node[anchor=north west, text=fpink, font=\scriptsize] at (0.6,\ybottom+1.75)
+  \node[anchor=north west, text=fpink, font=\scriptsize] at (5.6,\ybottom+1.75)
        {measured facts better $\rightarrow$};
 \end{tikzpicture}

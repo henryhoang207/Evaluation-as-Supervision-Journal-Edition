@@ -1,0 +1,66 @@
+\section{Amendment ledger}
+\label{app:amendments}
+\begin{table}[!htbp]
+\setlength{\tabcolsep}{2pt}
+\centering
+\caption{Amendments filed after the freeze. None adds a confirmatory claim or
+changes the core. Each was committed before the pass it governs. The last
+column records what had already been observed when it was written.}
+\label{tab:amendments}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}l l Y L{1.7cm}@{}}
+\toprule
+\# & Date & Change & Results known at filing \\
+\midrule
+A1 & 2026-09-20 & C1 prompt written; condition factor wired & none \\
+A2 & 2026-10-07 & Overwrite counterfactual wired: trigger gate inverted for
+  \op{O4}; \arm{A1} fed production's correction flags & core \\
+A3 & 2026-10-07 & C1 run as its own pass with in-session C0 comparators & core \\
+A4 & 2026-10-07 & Confirmatory analysis code written; one interim budget look
+  disclosed & core \\
+A5 & 2026-10-07 & Placement pass: all four levels, \arm{P1} re-run in-session
+  & core, D19, C1 \\
+A6 & 2026-10-07 & \op{O1} severity: level~2 defined (extent), \arm{A1} only &
+  core, D19, C1 \\
+A7 & 2026-10-07 & Warm-resampling cell, both readings fixed & core, D19, C1,
+  placement \\
+A8 & 2026-10-08 & Real-defect replay wired; descriptive only & all of the above
+  \\
+A9 & 2026-10-08 & Downstream propagation brought into scope; endpoint set
+  chosen before the pass & all of the above \\
+A10 & 2026-10-12 & Second-model cell: model, runtime and decoding fixed;
+  gates G1--G4; arms, allocation, sensitivities and readings & all hosted-model
+  cells \\
+A11 & 2026-10-12 & G2 failed (8 of 10 identical): $r=3$ with defect-level
+  means; first repetition as a sensitivity; G2 kept as a measurement & all
+  hosted-model cells; G1--G3 of the second-model cell \\
+A12 & 2026-10-30 & Thinking-budget sweep: 4 effort levels on \model{};
+  dose-response OLS trend test, exact copy contrast, within-weights \arm{A3} &
+  all previous cells \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+\subsection{Second-model runtime and gates}
+\label{app:runtime}
+All trials outside the second-model cell used \model{} through Google's
+OpenAI-compatible endpoint, at temperature~0 except in the warm cell. Fallback
+to a second model was disabled throughout. The second-model cell used
+Qwen2.5-7B-Instruct with 7.6 billion parameters, in Q4\_K\_M quantisation
+(Ollama model digest \code{d7898812a651}\ldots). Ollama~0.40.3 served it on
+one NVIDIA RTX~5060~Ti GPU with 16\,GB of memory, with every layer on the GPU.
+Decoding used temperature~0, a fixed seed, a 32{,}768-token context, a
+4{,}096-token output cap and one request at a time. The run header records the
+full provenance, including tokenizer and executable hashes.
+
+
+Four gates preceded any final trial: the model fully on the GPU with its
+  context loaded (G1); ten real \arm{A1} prompts, sent twice, returning
+  identical outputs (G2); every planned prompt fitting the context with a
+  4{,}096-token output reserve, any defect that does not being excluded before
+  any call (G3); and most first calls schema-valid in a five-defect pilot (G4).
+  \arm{A1} and \arm{A2} run at \arm{P1} on every eligible defect and \arm{A3}
+  at \arm{P0} on the core's quarter stride, with $r=3$ after G2 failed
+  (Section~\ref{sec:design-deviations}) and the first repetition alone as a
+  sensitivity.

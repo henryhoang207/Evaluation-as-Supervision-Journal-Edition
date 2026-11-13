@@ -4,7 +4,7 @@
 # Bullet 2 covers both models (revised 2026-10-13 after the second-model run):
 # the confirmatory null on the hosted model, and the exploratory local result.
 - Pre-registered fault injection into a deterministically supervised LLM pipeline
-- Feedback content: null at the ceiling, +6.8 pp on a small local model (exploratory)
-- Repair is copy-and-correct of the shown output, not re-derivation
+- Repair contrast: +0.7 pp confirmatory; +6.8 pp exploratory on a local model
+- Measured facts raise exact restoration by +14.6 pp (+23.7 pp at zero thinking)
+- Restoration is associated with less downstream divergence at reasoning
 - Production retry is accepted for 28% of real defects vs 98.5% of injected ones
-- Unrepaired defects propagate silently; local checks reward fidelity to upstream

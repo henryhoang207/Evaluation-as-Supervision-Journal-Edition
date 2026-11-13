@@ -21,9 +21,12 @@ where every design decision is filed, **before** its run.
 5. **Runs:** `LLM_DISABLE_FALLBACK=1`, detached via `Start-Process`, logs in
    `%TEMP%`. A dead run is resumed (resume skips whole defects; it never
    re-runs a `status_error`). Three dead runs in a row → stop and ask.
-6. **Budget guard:** before launching, sum `total_tokens` over every checkpoint.
-   If spent + projected > **55 M tokens** (≈ $137 if every token were billed at
-   the output rate), stop and ask. Budget: $150.
+6. **Token accounting (no cap, author decision I7, 2026-11-13):** the former
+   75 M-token / $150 ceiling (raised from 55 M for A12) is **lifted** for S2,
+   Option H and S5 (`SUPERVISOR_FEEDBACK_2026-11-13.md` §2). Before launching,
+   still sum `total_tokens` over every checkpoint and log the cell's exact
+   pre-run estimate; after it is verified, log its exact actual `total_tokens`.
+   Spent before the lift: 64.3 M (after Q7).
 7. **Blocked = stop and ask.** Never guess a decision the author owns.
 
 ## Queue
@@ -36,6 +39,7 @@ where every design decision is filed, **before** its run.
 | Q4 | **Downstream propagation** (plan D12; §0.1 A9; endpoint (b), author's choice) — `run_downstream.py` → `T2D` | ✅ done 2026-10-08 12:09, verified |
 | Q5 | **Tier-1 replay** (prereg §3 item 5; §0.1 A8 filed) — `run_tier1_replay.py` → `T1` | ✅ done 2026-10-08 06:36, verified | 13 real defects × {A1, A2, A3} at P0 (A0 undefined at P0, D9b) × r = 3 = 117 trials. Judged by the same checks (plan §5 Tier 1, item 2), descriptive only (MDE ≈ 31 pp) |
 | Q6 | **Second model — C7** (plan D5b) | ✅ **done 2026-10-12 17:31, verified** on the RTX 5060 Ti 16 GB | [Full results](C7_STATUS.md). A10/A11, r=3; 138 eligible defects, 930 local trials, 929 usable, no API fees. A1 72.9%, A2 66.2%; exploratory gap +6.8 pp [+0.5, +13.3], McNemar p=0.0525. Data `T2L`, commit `7188bb9` |
+| Q7 | **Thinking-budget sweep — Gemini 2.5 Flash** (§0.1 A12) — `--cell thinking` → `T2T` | ✅ **done 2026-11-02, verified** | 71/71 rows, 45/45 runnable defects, 1,224/1,224 usable trials, 1 session per defect, 1,224/1,224 offline re-score agreement, 11.16M tokens, total spent 64.3M < 75M. Binary repair at ceiling (100% at `none`); exact copy gap widens to +23.7 pp [+12.6, +36.3] at `none` ($p=0.00098$); dose-response slope +5.48 pp/step [+0.44, +10.59] |
 
 ### Q3 defaults (to be filed as A7 — the author may change them before launch)
 
@@ -53,6 +57,8 @@ where every design decision is filed, **before** its run.
 
 ## Log
 
+- 2026-11-02 — **Q7 verified; full queue complete.** Live `--cell thinking` batch finished across 45 runnable defects with 100% (1,224/1,224) usable trials, 71/71 checkpoint rows, 1 session per defect, 100% offline re-score agreement, consuming 11.16M tokens (total spent 64.3M < 75M budget cap). Binary repair remains at ceiling (100% at `none`). Exact restoration widens monotonically from +10.4 pp at `high` to +23.7 pp at `none` ($p=0.00098$, 11 vs 0 discordant); dose-response slope +5.48 pp/step [+0.44, +10.59]. Within-weights A3 baseline rises from 75.0% to 91.7% at `none` (+16.7 pp), demonstrating that thinking traces generate paraphrase churn. Zero thinking cuts latency by $2.4\times$ (7.17 s vs 17.44 s) and suppresses schema-retry loops.
+- 2026-11-01 — **Q7 amended to Option A (thinking-budget sweep)** following HTTP 404 endpoint rejection on gemini-2.5-flash-lite. Implemented BaseAgent.reasoning_effort, run_injection_study.py --cell thinking (45 defects, 1,224 trials across 4 effort levels: none, low, medium, high), and repair_analysis.py --cell thinking (OLS dose-response trend test against rank and -log2(1+budget), level rates, within-effort and cross-effort contrasts, exact copy contrast, repair decomposition, drift, tokens). All tests pass; frozen core intact at 1,167 trials.
 - 2026-10-12 17:32 — **Q6 verified; queue complete.** Qwen2.5-7B Q4_K_M / Ollama 0.40.3, all GPU, 32k context, 4096 output cap. Original G2 failed 8/10 identity; A11 r=3 was committed/pushed before final trials, G4 passed 8/10. 168/168 rows, 138 runnable defects, 930/930 trials, 929 usable, one session per defect; 929/929 offline scores/post-facts agree and all 966 returned raw calls verified. Four whole-defect context exclusions and 26 inapplicable rows. One A2 correction was blocked after its first response hit the output cap; counting it as unrepaired leaves results unchanged. A1 72.9%, A2 66.2%, gap +6.8 pp [+0.5, +13.3], exact majority McNemar p=0.0525; first-draw +5.8 pp [−0.7, +12.4]. Severe gap +9.5 pp [+3.2, +16.4]. Gemini ceiling does not replicate; feedback evidence is exploratory. Valid trials: 7.36 M unbilled local tokens, about 4 h 34 min collection, 426 offline tests passed. Data commit `7188bb9`; full report `C7_STATUS.md`. Charged Gemini budget unchanged. Next is journal writing; conference `main.tex` untouched.
 
 - 2026-10-07 — queue created; Q1 running, Q2 chained behind it.

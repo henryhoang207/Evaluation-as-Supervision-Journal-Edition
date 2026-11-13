@@ -8,7 +8,7 @@ result it touches is reported as exploratory. No trial ran before the tag.
 regeneration baseline, and the confirmatory set is now the single A1-vs-A2
 test** (§2, §2.1).
 
-**Eleven amendments have been filed since the freeze (§0.1 A1–A11).** None adds a
+**Twelve amendments have been filed since the freeze (§0.1 A1–A12).** None adds a
 confirmatory claim or moves the core. **The core ran 2026-10-05 → 07** (1,167
 trials, 1,149 usable).
 
@@ -79,6 +79,7 @@ section records every divergence from it.
 | **A9** | **2026-10-08** | **Downstream propagation (plan D12) is wired** (`run_downstream.py`), endpoint (b) chosen by the author: 90 defects × {clean ×2, unrepaired, A1, A2}, downstream stages once each through the production nodes; E1 accepted, E2 planted issue in the report (O5), E3 divergence vs an in-session noise floor. Brings into scope what §1 and §3 item 6 left out. | Exploratory |
 | **A10** | **2026-10-12** | **C7 local replication is defined and wired**: Qwen2.5-7B-Instruct Q4_K_M, Ollama 0.40.3, RTX 5060 Ti 16 GB, 32k context, seed 20261012, temperature 0, output cap 4096. A1/A2 first draw over 142 defects, a second draw on a 1/6 operator stride (22), A3 on the frozen quarter stride (34): 362 trials before context exclusions. G1–G4 and the full protocol/readings are fixed in [`C7_PROTOCOL.md`](C7_PROTOCOL.md) before preflight; exact digest/provenance and passed gates are committed before final trials. | Exploratory; Gemini bases and all existing results remain fixed |
 | **A11** | **2026-10-12** | **C7's original G2 failed (8/10 byte-identical; token calibration 10/10).** Before G4 or final data, use three repetitions per arm and defect-level means: 954 trials before context exclusions, 930 after. Preserve the failed G2 data; bit identity becomes a measured outcome, with calibration, context and schema reliability still gating collection. Full specification: [`C7_A11.md`](C7_A11.md). | Exploratory; no final A10 trial ran; runtime variability is disclosed |
+| **A12** | **2026-11-01** | **Thinking-budget sweep on Gemini 2.5 Flash** (`--cell thinking` → `out_study/T2T`): 45 defects, 1,224 trials across `reasoning_effort` ∈ {`none`, `low`, `medium`, `high`}, dose-response trend test, exact copy contrast, repair decomposition. | Exploratory; core remains frozen |
 
 **A1 — the C1 cell, in full.**
 
@@ -443,6 +444,69 @@ core's defect-level outcome for that repetition against E1.
 
 *Runner:* `scripts/run_downstream.py`. *Analysis:* `repair_analysis.py --cell
 downstream`.
+
+**A12 — the within-weights thinking-budget sweep on Gemini 2.5 Flash (2026-11-01).**
+
+*Status: Approved by supervisor (Option A) following upstream HTTP 404 endpoint rejection on gemini-2.5-flash-lite; wired and ready to run.*
+
+*What existed before this amendment.* The core (T2, Gemini 2.5 Flash, 1,167 trials),
+D19, C1, placement (T2P), severity (T2S), warm (T2W), Tier-1 (T1), downstream
+(T2D, 447 conditions), and C7 (T2L, Qwen2.5-7B, 930 trials) had all run. The
+supervisor feedback (2026-10-30) established that:
+1. Exact restoration (P(exact copy)) differs between Gemini (+14.6 pp [+8.2, +21.3],
+   p=0.0013) and Qwen (+2.7 pp [-4.0, +9.5], p=0.463);
+2. Downstream E3 report churn is driven almost entirely by reasoning-stage
+   rewrites (16.65 % vs 4.16 % copy, against 2.6 % noise floor);
+3. Search difficulty scales with review count (14 -> 34 -> 92 -> 214) for reasoning
+   operators (O1, O2, O3) while report-stage controls (O5, O6, O7) remain flat.
+To test whether test-time compute (thinking budget) modulates feedback utility
+and copy-and-correct restoration without the confounding factors of cross-model
+architecture or tokenization changes, this amendment implements a within-weights
+thinking-budget sweep on the primary model `gemini-2.5-flash`.
+
+*Design.*
+- **Model & runtime:** `gemini-2.5-flash` accessed via Google's OpenAI-compatible
+  endpoint with explicit `reasoning_effort` parameterized per request, `temperature = 0`,
+  `LLM_DISABLE_FALLBACK=1`, identical 45 defects from the placement 1/3 per-operator
+  stride across the 28 Gemini bases, one session per defect (defect-outer loop), r = 3.
+- **Thinking budgets & efforts:**
+  Four levels spanning 0 to 24,576 tokens:
+  - `none`: 0 tokens
+  - `low`: 1,024 tokens
+  - `medium`: 8,192 tokens
+  - `high`: 24,576 tokens
+- **Arms & trials (1,224 trials total):**
+  - 45 defects selected via 1/3 per-operator stride (`PLACEMENT_FRACTION = 1/3`).
+  - Arms A1 and A2 across all 45 defects: 45 defects × 2 arms × 4 efforts × 3 reps = 1,080 trials
+    (540 A1, 540 A2).
+  - Arm A3 at P0 on the 1/3 subset of those defects (12 defects = 2 defects per operator
+    across all 6 operators): 12 defects × 1 arm × 4 efforts × 3 reps = 144 trials.
+  - Total trials: 1,224 trials (exactly 306 trials per reasoning effort: 306 none, 306 low,
+    306 medium, 306 high).
+- **Output directory:** `backend/out_study/T2T/checkpoint.jsonl`.
+- **Budget guard:** Projecting ~17.4 M tokens (1,224 trials × ~14.2k tokens/trial).
+  Spent ~53.1 M + projected ~17.4 M = ~70.5 M < 75 M ceiling in `RUN_QUEUE.md`.
+
+*Prospective Readouts & Hypotheses (fixed before collection):*
+1. **Dose-response trend test:** OLS slope of A1 − A2 repair gap against effort rank
+   (0..3) and against log-budget (−log2(1 + budget_e)), tested with cluster bootstrap 95 % CI
+   over defects. Tests whether additional reasoning tokens substitute for informative
+   feedback (narrowing A1 − A2) or amplify feedback utilisation (widening A1 − A2).
+2. **Level-specific repair rates and within-effort contrasts:** Evaluated for each
+   effort level e ∈ {none, low, medium, high} (A1@e − A2@e) with defect-bootstrap CIs.
+3. **Cross-effort contrasts against high baseline:** A1@e − A1@high and A2@e − A2@high
+   to measure diminishing returns in test-time compute for structured repair.
+4. **Prospective test of P(exact copy) contrast & 4-way decomposition:** Unconditional
+   contrast P(exact copy) A1 − A2 and full 4-way decomposition (repaired_copy,
+   repaired_rewrite, replaced_or_deleted, unrepaired) across effort levels to determine
+   whether extended thinking promotes copy-and-correct or generative rewrite.
+5. **Serving drift:** Comparison of in-pass unthought / baseline runs vs frozen core
+   for the same 45 defects.
+6. **Token & latency calibration:** Empirical thinking tokens (completion_tokens −
+   prompt_tokens) and wall-clock latency recorded per trial row and aggregated by effort level.
+
+*Runner:* `backend/scripts/run_injection_study.py --cell thinking`.
+*Analysis:* `backend/scripts/analysis/repair_analysis.py --cell thinking`.
 
 ---
 
@@ -1013,6 +1077,9 @@ Recorded here so that no reviewer has to discover them:
 | **Tier-1 replay complete — 117 trials, all usable** | **2026-10-08** |
 | §0.1 A9 — downstream propagation wired (endpoint (b), author's choice), committed and pushed before it ran | 2026-10-08 |
 | **Downstream propagation complete — 447 conditions, all usable** | **2026-10-08** |
+| §0.1 A10 and A11 — C7 local replication defined, wired and calibrated | 2026-10-12 |
+| **C7 local replication complete — 930 trials, 929 usable** | **2026-10-12** |
+| §0.1 A12 — Thinking-budget sweep on Gemini 2.5 Flash defined and wired | 2026-11-01 |
 
 ---
 

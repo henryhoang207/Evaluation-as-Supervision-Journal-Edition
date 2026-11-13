@@ -329,5 +329,1669 @@
       "missing_evidence_id": 3
     },
     "note": "by construction at the check-class level: every class that fires has an operator"
+  },
+  "stratum_gradient": {
+    "strata": [
+      "p25",
+      "p50",
+      "p75",
+      "p90"
+    ],
+    "stratum_counts": {
+      "p25": 14,
+      "p50": 34,
+      "p75": 92,
+      "p90": 214
+    },
+    "business_strata": {
+      "-uzQNt-3jsRK5okUuJiQLA": "p90",
+      "26FBIjrkQ9SH-JPvvr0PXA": "p50",
+      "2qVZiMB22YPC2HCM62Gnbw": "p90",
+      "4h88UgiaoNt3P0r97VJrow": "p50",
+      "8fHYd3HdWotxsG5Ze-oMXw": "p25",
+      "8jbGUpLnTwt6eO36l5VYEQ": "p75",
+      "9fajAXTAT1A_pcGakz64hA": "p25",
+      "B0SPP0RsKkJxf6zK6mG9kw": "p25",
+      "Fd-CY5oUjewSTawi-O5Bqw": "p75",
+      "FnEWE7CdxTolKWEgVKAlsg": "p90",
+      "KCVLunGXXLTVnP2sP2bhuQ": "p50",
+      "KbvW90THoQ7uvgn9mlAYhA": "p50",
+      "PbqJmjSijS7aXr0qkjbuxA": "p75",
+      "QeAouJuRkWWJl_IPgF1xWA": "p25",
+      "V2ORmEuA7WA1XwYmMpSxvg": "p75",
+      "YJ-sr_YVhnsZaBl-j9tjCg": "p90",
+      "ZGznjpkqi6a_It4lAgCnYw": "p75",
+      "_cXaVePsZOiKlXwsQ8vcxA": "p50",
+      "_pHMElutAeebkqmYYNeI6w": "p75",
+      "d1nD7knOKA5PzZK_HYG4JQ": "p50",
+      "dutm97q2F4a6RV6YQ0uLHw": "p50",
+      "fpoy10eejKRpe9DhkUB9wg": "p25",
+      "gk3hzKydevLKZ2FVmJdt-A": "p90",
+      "gvAOc8vwczgVscNj-NN6hw": "p25",
+      "i9R_CJQ5oN1tVglXpL-GCA": "p75",
+      "o3hDZ2nv80tApZMNQw2aZA": "p90",
+      "v5kwdvmg-J8g-ll0nkc3Sw": "p90",
+      "xjZHp1slZNUBJvQLuHSTTA": "p25"
+    },
+    "T2_gemini_core": {
+      "O1": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.8333333333333334,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.4666666666666666,
+              "n_defects": 5
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.09972985637261562,
+            "ci95": [
+              -0.26928509341410345,
+              0.08780270544559755
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.6666666666666666,
+              "trial_rate": 0.6666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 12
+            },
+            "p50": {
+              "defect_rate": 0.888888888888889,
+              "trial_rate": 0.8888888888888888,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 16
+            },
+            "p75": {
+              "defect_rate": 0.6666666666666666,
+              "trial_rate": 0.6666666666666666,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 14
+            },
+            "p90": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 5,
+              "n_trials": 15,
+              "identical_trials": 0
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.22077329337468707,
+            "ci95": [
+              -0.39012195091442065,
+              -0.022549054819241174
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.26666666666666666,
+              "n_defects": 5
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.2148732659505919,
+            "ci95": [
+              -0.34060732518371817,
+              -0.0623197382235766
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.5,
+              "trial_rate": 0.5,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 9
+            },
+            "p50": {
+              "defect_rate": 0.6666666666666666,
+              "trial_rate": 0.6666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 12
+            },
+            "p75": {
+              "defect_rate": 0.6666666666666666,
+              "trial_rate": 0.6666666666666666,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 14
+            },
+            "p90": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 5,
+              "n_trials": 15,
+              "identical_trials": 0
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.1387977229090869,
+            "ci95": [
+              -0.30365523545449274,
+              0.04589431524149134
+            ]
+          }
+        }
+      },
+      "O2": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.7333333333333333,
+              "n_defects": 5
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.0781357330729425,
+            "ci95": [
+              -0.1966743213118836,
+              0.0
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.9444444444444443,
+              "trial_rate": 0.9444444444444444,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 17
+            },
+            "p50": {
+              "defect_rate": 0.9444444444444443,
+              "trial_rate": 0.9444444444444444,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 17
+            },
+            "p75": {
+              "defect_rate": 0.5238095238095238,
+              "trial_rate": 0.5238095238095238,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 11
+            },
+            "p90": {
+              "defect_rate": 0.3333333333333333,
+              "trial_rate": 0.3333333333333333,
+              "n_defects": 5,
+              "n_trials": 15,
+              "identical_trials": 5
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.24665434531416963,
+            "ci95": [
+              -0.3762793043494074,
+              -0.11500829637339571
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.888888888888889,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.6666666666666667,
+              "n_defects": 5
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.0849526859950127,
+            "ci95": [
+              -0.2102600221106522,
+              0.022448272348454538
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.611111111111111,
+              "trial_rate": 0.6111111111111112,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 11
+            },
+            "p50": {
+              "defect_rate": 0.5,
+              "trial_rate": 0.5,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 9
+            },
+            "p75": {
+              "defect_rate": 0.5714285714285714,
+              "trial_rate": 0.5714285714285714,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 12
+            },
+            "p90": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 5,
+              "n_trials": 15,
+              "identical_trials": 0
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.17272080011788213,
+            "ci95": [
+              -0.32228592835021364,
+              0.006124538259046411
+            ]
+          }
+        }
+      },
+      "O3": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 1.0,
+              "n_defects": 3
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 1.0,
+              "trial_rate": 1.0,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 18
+            },
+            "p50": {
+              "defect_rate": 0.8333333333333334,
+              "trial_rate": 0.8333333333333334,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 15
+            },
+            "p75": {
+              "defect_rate": 0.47619047619047616,
+              "trial_rate": 0.47619047619047616,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 10
+            },
+            "p90": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 3,
+              "n_trials": 9,
+              "identical_trials": 0
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.3425275585803514,
+            "ci95": [
+              -0.44123650575869705,
+              -0.21062480013548804
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p90": {
+              "rate": 1.0,
+              "n_defects": 3
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.611111111111111,
+              "trial_rate": 0.6111111111111112,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 11
+            },
+            "p50": {
+              "defect_rate": 0.5555555555555555,
+              "trial_rate": 0.5555555555555556,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 10
+            },
+            "p75": {
+              "defect_rate": 0.611111111111111,
+              "trial_rate": 0.6111111111111112,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 11
+            },
+            "p90": {
+              "defect_rate": 0.2222222222222222,
+              "trial_rate": 0.2222222222222222,
+              "n_defects": 3,
+              "n_trials": 9,
+              "identical_trials": 2
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.08972391183942849,
+            "ci95": [
+              -0.2761827507856715,
+              0.12814632181272523
+            ]
+          }
+        }
+      },
+      "O5": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.7777777777777777,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 4
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p90": {
+              "rate": 1.0,
+              "n_defects": 3
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.08586182223984216,
+            "ci95": [
+              0.0,
+              0.19947084221380243
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.1111111111111111,
+              "trial_rate": 0.1111111111111111,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 2
+            },
+            "p50": {
+              "defect_rate": 0.5,
+              "trial_rate": 0.5,
+              "n_defects": 4,
+              "n_trials": 12,
+              "identical_trials": 6
+            },
+            "p75": {
+              "defect_rate": 0.2222222222222222,
+              "trial_rate": 0.2222222222222222,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 4
+            },
+            "p90": {
+              "defect_rate": 0.3333333333333333,
+              "trial_rate": 0.3333333333333333,
+              "n_defects": 3,
+              "n_trials": 9,
+              "identical_trials": 3
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": 0.05059970693392214,
+            "ci95": [
+              -0.12890588699159874,
+              0.2286012127301622
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.7222222222222223,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 4
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p90": {
+              "rate": 0.7777777777777778,
+              "n_defects": 3
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.05365962423223834,
+            "ci95": [
+              -0.10749863632130426,
+              0.22912508761224312
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.05555555555555555,
+              "trial_rate": 0.05555555555555555,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 1
+            },
+            "p50": {
+              "defect_rate": 0.5833333333333333,
+              "trial_rate": 0.5833333333333334,
+              "n_defects": 4,
+              "n_trials": 12,
+              "identical_trials": 7
+            },
+            "p75": {
+              "defect_rate": 0.16666666666666666,
+              "trial_rate": 0.16666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 3
+            },
+            "p90": {
+              "defect_rate": 0.2222222222222222,
+              "trial_rate": 0.2222222222222222,
+              "n_defects": 3,
+              "n_trials": 9,
+              "identical_trials": 2
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": 0.02760027805714053,
+            "ci95": [
+              -0.11964827178369597,
+              0.16827570558916913
+            ]
+          }
+        }
+      },
+      "O6": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 1.0,
+              "n_defects": 6
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 1.0,
+              "trial_rate": 1.0,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 18
+            },
+            "p50": {
+              "defect_rate": 1.0,
+              "trial_rate": 1.0,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 21
+            },
+            "p75": {
+              "defect_rate": 0.9047619047619049,
+              "trial_rate": 0.9047619047619048,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 19
+            },
+            "p90": {
+              "defect_rate": 0.8333333333333334,
+              "trial_rate": 0.8333333333333334,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 15
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.06556779646059616,
+            "ci95": [
+              -0.18403789818497926,
+              0.0
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 1.0,
+              "n_defects": 6
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.888888888888889,
+              "trial_rate": 0.8888888888888888,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 16
+            },
+            "p50": {
+              "defect_rate": 0.6666666666666667,
+              "trial_rate": 0.6666666666666666,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 14
+            },
+            "p75": {
+              "defect_rate": 0.7142857142857143,
+              "trial_rate": 0.7142857142857143,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 15
+            },
+            "p90": {
+              "defect_rate": 0.3333333333333333,
+              "trial_rate": 0.3333333333333333,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 6
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.16943437408859416,
+            "ci95": [
+              -0.28635197810754687,
+              -0.03587281689735788
+            ]
+          }
+        }
+      },
+      "O7": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p75": {
+              "rate": 0.9047619047619049,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.9444444444444445,
+              "n_defects": 6
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.03060822987903522,
+            "ci95": [
+              -0.08079285788951504,
+              0.0
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 1.0,
+              "trial_rate": 1.0,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 18
+            },
+            "p50": {
+              "defect_rate": 1.0,
+              "trial_rate": 1.0,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 21
+            },
+            "p75": {
+              "defect_rate": 0.8571428571428571,
+              "trial_rate": 0.8421052631578947,
+              "n_defects": 7,
+              "n_trials": 19,
+              "identical_trials": 16
+            },
+            "p90": {
+              "defect_rate": 0.5555555555555555,
+              "trial_rate": 0.5555555555555556,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 10
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.15953093620862585,
+            "ci95": [
+              -0.2668134934551279,
+              -0.054938883046880146
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p90": {
+              "rate": 1.0,
+              "n_defects": 6
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.8333333333333334,
+              "trial_rate": 0.8333333333333334,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 15
+            },
+            "p50": {
+              "defect_rate": 0.7142857142857143,
+              "trial_rate": 0.7142857142857143,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 15
+            },
+            "p75": {
+              "defect_rate": 0.8888888888888888,
+              "trial_rate": 0.8888888888888888,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 16
+            },
+            "p90": {
+              "defect_rate": 0.6666666666666666,
+              "trial_rate": 0.6666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 12
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.03161813357566364,
+            "ci95": [
+              -0.19223410672968366,
+              0.14080415779588978
+            ]
+          }
+        }
+      }
+    },
+    "T2S_severity_O1": {
+      "L1": {
+        "repair_by_stratum": {
+          "p25": {
+            "rate": 0.888888888888889,
+            "n_defects": 6
+          },
+          "p50": {
+            "rate": 1.0,
+            "n_defects": 6
+          },
+          "p75": {
+            "rate": 1.0,
+            "n_defects": 7
+          },
+          "p90": {
+            "rate": 0.4666666666666666,
+            "n_defects": 5
+          }
+        },
+        "repair_slope_log_reviews": {
+          "estimate": -0.11857705963037206,
+          "ci95": [
+            -0.27235248089129555,
+            0.04287054217420461
+          ]
+        }
+      },
+      "L2": {
+        "repair_by_stratum": {
+          "p25": {
+            "rate": 1.0,
+            "n_defects": 6
+          },
+          "p50": {
+            "rate": 1.0,
+            "n_defects": 6
+          },
+          "p75": {
+            "rate": 1.0,
+            "n_defects": 7
+          },
+          "p90": {
+            "rate": 0.4666666666666666,
+            "n_defects": 5
+          }
+        },
+        "repair_slope_log_reviews": {
+          "estimate": -0.156271466145885,
+          "ci95": [
+            -0.2662925176475479,
+            -0.03398692666911196
+          ]
+        }
+      }
+    },
+    "T2L_qwen_c7": {
+      "O1": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.4444444444444444,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.16666666666666666,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 0.42857142857142855,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.6666666666666666,
+              "n_defects": 3
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.0758497088221724,
+            "ci95": [
+              -0.16076087097930197,
+              0.29328982947109766
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.3333333333333333,
+              "trial_rate": 0.3333333333333333,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 6
+            },
+            "p50": {
+              "defect_rate": 0.16666666666666666,
+              "trial_rate": 0.16666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 3
+            },
+            "p75": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 0
+            },
+            "p90": {
+              "defect_rate": 0.3333333333333333,
+              "trial_rate": 0.3333333333333333,
+              "n_defects": 3,
+              "n_trials": 9,
+              "identical_trials": 3
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.06351842642995345,
+            "ci95": [
+              -0.27347438787503336,
+              0.13838700792613265
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.6666666666666666,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.3333333333333333,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 0.42857142857142855,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.4444444444444444,
+              "n_defects": 3
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.07569480358862749,
+            "ci95": [
+              -0.2858290698302625,
+              0.15008628835159563
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.3333333333333333,
+              "trial_rate": 0.3333333333333333,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 6
+            },
+            "p50": {
+              "defect_rate": 0.27777777777777773,
+              "trial_rate": 0.2777777777777778,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 5
+            },
+            "p75": {
+              "defect_rate": 0.2857142857142857,
+              "trial_rate": 0.2857142857142857,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 6
+            },
+            "p90": {
+              "defect_rate": 0.1111111111111111,
+              "trial_rate": 0.1111111111111111,
+              "n_defects": 3,
+              "n_trials": 9,
+              "identical_trials": 1
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.057704258707518344,
+            "ci95": [
+              -0.23915066332093454,
+              0.121117861160735
+            ]
+          }
+        }
+      },
+      "O2": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.6666666666666666,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.8333333333333334,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 0.42857142857142855,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.6666666666666666,
+              "n_defects": 3
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.0740227027038411,
+            "ci95": [
+              -0.3140681764717295,
+              0.14084025159014862
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.5,
+              "trial_rate": 0.5,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 9
+            },
+            "p50": {
+              "defect_rate": 0.16666666666666666,
+              "trial_rate": 0.16666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 3
+            },
+            "p75": {
+              "defect_rate": 0.42857142857142855,
+              "trial_rate": 0.42857142857142855,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 9
+            },
+            "p90": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 3,
+              "n_trials": 9,
+              "identical_trials": 0
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.10034588789843735,
+            "ci95": [
+              -0.28276912173656477,
+              0.11812039209055145
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.4444444444444444,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.3333333333333333,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 0.14285714285714285,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.0,
+              "n_defects": 3
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.16507614738001805,
+            "ci95": [
+              -0.3305258088800889,
+              0.0001896655441945682
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 0
+            },
+            "p50": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 0
+            },
+            "p75": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 0
+            },
+            "p90": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 3,
+              "n_trials": 9,
+              "identical_trials": 0
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "O3": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.6666666666666666,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 0.8571428571428571,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.0,
+              "n_defects": 3
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.23411957359306154,
+            "ci95": [
+              -0.3486928531413981,
+              -0.05089093441283013
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.5,
+              "trial_rate": 0.5,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 9
+            },
+            "p50": {
+              "defect_rate": 0.16666666666666666,
+              "trial_rate": 0.16666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 3
+            },
+            "p75": {
+              "defect_rate": 0.42857142857142855,
+              "trial_rate": 0.42857142857142855,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 9
+            },
+            "p90": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 3,
+              "n_trials": 9,
+              "identical_trials": 0
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.10034588789843733,
+            "ci95": [
+              -0.2855320753274611,
+              0.12046514538848277
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.7222222222222222,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.5,
+              "n_defects": 6
+            },
+            "p75": {
+              "rate": 0.7142857142857143,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.0,
+              "n_defects": 3
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.14801993706136682,
+            "ci95": [
+              -0.31451236794347237,
+              0.07322624949688428
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.3888888888888889,
+              "trial_rate": 0.3888888888888889,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 7
+            },
+            "p50": {
+              "defect_rate": 0.16666666666666666,
+              "trial_rate": 0.16666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 3
+            },
+            "p75": {
+              "defect_rate": 0.2857142857142857,
+              "trial_rate": 0.2857142857142857,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 6
+            },
+            "p90": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 3,
+              "n_trials": 8,
+              "identical_trials": 0
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.093222762215066,
+            "ci95": [
+              -0.26281722559666054,
+              0.08501527984832981
+            ]
+          }
+        }
+      },
+      "O5": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.5,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.75,
+              "n_defects": 4
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p90": {
+              "rate": 0.75,
+              "n_defects": 4
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.13448033635865037,
+            "ci95": [
+              -0.07764419493904852,
+              0.33750605281757756
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.16666666666666666,
+              "trial_rate": 0.16666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 3
+            },
+            "p50": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 4,
+              "n_trials": 12,
+              "identical_trials": 0
+            },
+            "p75": {
+              "defect_rate": 0.16666666666666666,
+              "trial_rate": 0.16666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 3
+            },
+            "p90": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 4,
+              "n_trials": 12,
+              "identical_trials": 0
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.032980659424658124,
+            "ci95": [
+              -0.17301444610770692,
+              0.0894274107664324
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.8333333333333334,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.5,
+              "n_defects": 4
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p90": {
+              "rate": 0.75,
+              "n_defects": 4
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.030910841500847698,
+            "ci95": [
+              -0.13854189606013956,
+              0.2224577866632867
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 0
+            },
+            "p50": {
+              "defect_rate": 0.25,
+              "trial_rate": 0.25,
+              "n_defects": 4,
+              "n_trials": 12,
+              "identical_trials": 3
+            },
+            "p75": {
+              "defect_rate": 0.16666666666666666,
+              "trial_rate": 0.16666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 3
+            },
+            "p90": {
+              "defect_rate": 0.0,
+              "trial_rate": 0.0,
+              "n_defects": 4,
+              "n_trials": 12,
+              "identical_trials": 0
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": 0.009271726934598698,
+            "ci95": [
+              -0.07721880209720301,
+              0.10929851147459378
+            ]
+          }
+        }
+      },
+      "O6": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.8571428571428571,
+              "n_defects": 7
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.8333333333333334,
+              "n_defects": 6
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.033518600009548705,
+            "ci95": [
+              -0.1465026348051625,
+              0.06110714245520916
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.5,
+              "trial_rate": 0.5,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 9
+            },
+            "p50": {
+              "defect_rate": 0.5714285714285714,
+              "trial_rate": 0.5714285714285714,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 12
+            },
+            "p75": {
+              "defect_rate": 0.8571428571428571,
+              "trial_rate": 0.8571428571428571,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 18
+            },
+            "p90": {
+              "defect_rate": 0.6666666666666666,
+              "trial_rate": 0.6666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 12
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": 0.09221064964690039,
+            "ci95": [
+              -0.10558478313842333,
+              0.29105974512267363
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.8571428571428571,
+              "n_defects": 7
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.8333333333333334,
+              "n_defects": 6
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.033518600009548705,
+            "ci95": [
+              -0.1465026348051625,
+              0.06110714245520916
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.8333333333333334,
+              "trial_rate": 0.8333333333333334,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 15
+            },
+            "p50": {
+              "defect_rate": 0.8571428571428571,
+              "trial_rate": 0.8571428571428571,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 18
+            },
+            "p75": {
+              "defect_rate": 0.7142857142857143,
+              "trial_rate": 0.7142857142857143,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 15
+            },
+            "p90": {
+              "defect_rate": 0.8333333333333334,
+              "trial_rate": 0.8333333333333334,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 15
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.019564016545783883,
+            "ci95": [
+              -0.17255557228258406,
+              0.13310858237324674
+            ]
+          }
+        }
+      },
+      "O7": {
+        "A1": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 0.8333333333333334,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.8571428571428571,
+              "n_defects": 7
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.8333333333333334,
+              "n_defects": 6
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": 0.019821323218980367,
+            "ci95": [
+              -0.12423818793647126,
+              0.16967658522880236
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.6666666666666666,
+              "trial_rate": 0.6666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 12
+            },
+            "p50": {
+              "defect_rate": 0.8571428571428571,
+              "trial_rate": 0.8571428571428571,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 18
+            },
+            "p75": {
+              "defect_rate": 1.0,
+              "trial_rate": 1.0,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 21
+            },
+            "p90": {
+              "defect_rate": 0.6666666666666666,
+              "trial_rate": 0.6666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 12
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": 0.02072189657516805,
+            "ci95": [
+              -0.16727378497105405,
+              0.21070947314234692
+            ]
+          }
+        },
+        "A2": {
+          "repair_by_stratum": {
+            "p25": {
+              "rate": 1.0,
+              "n_defects": 6
+            },
+            "p50": {
+              "rate": 0.7142857142857143,
+              "n_defects": 7
+            },
+            "p75": {
+              "rate": 1.0,
+              "n_defects": 7
+            },
+            "p90": {
+              "rate": 0.8333333333333334,
+              "n_defects": 6
+            }
+          },
+          "repair_slope_log_reviews": {
+            "estimate": -0.01459785014675601,
+            "ci95": [
+              -0.13235059540031077,
+              0.10158528952109228
+            ]
+          },
+          "copy_by_stratum": {
+            "p25": {
+              "defect_rate": 0.8333333333333334,
+              "trial_rate": 0.8333333333333334,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 15
+            },
+            "p50": {
+              "defect_rate": 0.7142857142857143,
+              "trial_rate": 0.7142857142857143,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 15
+            },
+            "p75": {
+              "defect_rate": 0.8571428571428571,
+              "trial_rate": 0.8571428571428571,
+              "n_defects": 7,
+              "n_trials": 21,
+              "identical_trials": 18
+            },
+            "p90": {
+              "defect_rate": 0.6666666666666666,
+              "trial_rate": 0.6666666666666666,
+              "n_defects": 6,
+              "n_trials": 18,
+              "identical_trials": 12
+            }
+          },
+          "copy_slope_log_reviews": {
+            "estimate": -0.03338994667295044,
+            "ci95": [
+              -0.19622496726011338,
+              0.13891337601042722
+            ]
+          }
+        }
+      }
+    }
   }
 }

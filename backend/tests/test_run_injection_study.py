@@ -965,10 +965,151 @@ def test_the_warm_seam_sets_the_temperature_on_the_trials_own_agent(monkeypatch)
 
 
 @needs_study
-def test_the_trial_row_records_the_temperature():
+def test_the_trial_row_records_temperature():
     _, base, injected, descriptor, _ = _reasoning_defect()
     defect = {"defect_id": "x", "operator": descriptor.operator, "cell": "warm"}
     row = runner.run_trial(defect, {"arm": "A1", "placement": "P1", "rep": 0,
                                     "temperature": 1.0},
                            base, injected, descriptor, "s", dry_run=True)
     assert row["temperature"] == 1.0
+
+
+# -- the thinking sweep pass (section 0.1 A12) --------------------------------
+
+
+@needs_study
+def test_thinking_plan_summary_and_freezes_core():
+    # thinking cell
+    plan_th = runner.build_plan(str(STUDY_ROOT), cell="thinking")
+    s_th = runner.plan_summary(plan_th)
+    assert s_th["defects_runnable"] == 45
+    # 45 runnable defects on the 1/3 per-operator stride.
+    # A1, A2 across all 45 defects (45 * 12 = 540 each).
+    # A3 across 1/3 per-operator stride of the subset: 6 operators * 2 defects = 12 defects (144 trials).
+    # Total = 540 + 540 + 144 = 1,224 trials (306 per reasoning effort).
+    assert s_th["trials"] == 1224
+    assert s_th["trials_by_arm"] == {"A1": 540, "A2": 540, "A3": 144}
+    assert s_th["trials_by_reasoning_effort"] == {
+        "none": 306, "low": 306, "medium": 306, "high": 306
+    }
+    assert runner.verify_order(plan_th) == []
+
+    # core cell remains frozen at 1167
+    plan_core = runner.build_plan(str(STUDY_ROOT), cell="core")
+    s_core = runner.plan_summary(plan_core)
+    assert s_core["defects_runnable"] == 142
+    assert s_core["trials"] == 1167
+    assert s_core["trials_by_arm"] == {"A1": 426, "A2": 426, "A0": 213, "A3": 102}
+
+
+def test_verify_order_catches_thinking_arm_missing_effort():
+    bad = [{
+        "defect_id": "d", "runnable": True, "cell": "thinking", "arms": [
+            {"arm": "A1", "placement": "P1", "rep": 0, "reasoning_effort": "none"},
+            {"arm": "A1", "placement": "P1", "rep": 0, "reasoning_effort": "low"},
+            {"arm": "A1", "placement": "P1", "rep": 0, "reasoning_effort": "medium"},
+            # missing high
+            {"arm": "A2", "placement": "P1", "rep": 0, "reasoning_effort": "none"},
+            {"arm": "A2", "placement": "P1", "rep": 0, "reasoning_effort": "low"},
+            {"arm": "A2", "placement": "P1", "rep": 0, "reasoning_effort": "medium"},
+            {"arm": "A2", "placement": "P1", "rep": 0, "reasoning_effort": "high"},
+        ]
+    }]
+    assert any("reasoning efforts" in p for p in runner.verify_order(bad))
+
+
+def test_thinking_model_and_reasoning_effort_pinning(monkeypatch):
+    from app.agents.reasoning_agent import ReasoningAgent
+
+    assert runner.THINKING_MODEL == "gemini-2.5-flash"
+    assert runner.THINKING_EFFORTS == ("none", "low", "medium", "high")
+    agents = []
+
+    def make(stage):
+        agent = _capturing_agent(ReasoningAgent, {})
+        agents.append(agent)
+        return agent
+
+    monkeypatch.setattr(runner, "_agent_for", make)
+    _, base, injected, descriptor, decision = _reasoning_defect()
+    runner._regenerate({"arm": "A1", "placement": "P1", "reasoning_effort": "high"},
+                       base, injected, descriptor, decision, defect_cell="thinking")
+    assert agents[0]._model == runner.THINKING_MODEL
+    assert agents[0]._fallback_model == runner.THINKING_MODEL
+    assert agents[0].reasoning_effort == "high"
+
+
+def test_base_agent_reasoning_effort_and_thinking_tokens_logging(monkeypatch):
+    from app.agents.base_agent import BaseAgent
+    from app.agents.reasoning_agent import ReasoningAgent
+
+    agent = ReasoningAgent()
+    agent.reasoning_effort = "medium"
+
+    # Verify BaseAgent class default
+    assert BaseAgent.reasoning_effort is None
+
+    # Test _create passes reasoning_effort in kwargs
+    seen_kwargs = {}
+    def fake_create(**kwargs):
+        seen_kwargs.update(kwargs)
+        class FakeChoice:
+            message = type("Msg", (), {"content": "{}"})()
+        class FakeUsage:
+            prompt_tokens = 200
+            completion_tokens = 100
+            total_tokens = 500
+        class FakeResp:
+            choices = [FakeChoice()]
+            model = "gemini-2.5-flash"
+            usage = FakeUsage()
+        return FakeResp()
+
+    monkeypatch.setattr(agent._client.chat.completions, "create", fake_create)
+    resp = agent._create("gemini-2.5-flash", [{"role": "user", "content": "hi"}])
+    assert seen_kwargs["reasoning_effort"] == "medium"
+    assert seen_kwargs["temperature"] == agent.temperature
+
+    # Test _record_usage calculates thinking_tokens = 500 - (200 + 100) = 200
+    BaseAgent.reset_instrumentation()
+    agent._record_usage(resp, "gemini-2.5-flash", fallback_used=False)
+    assert len(BaseAgent.call_log) == 1
+    log_entry = BaseAgent.call_log[0]
+    assert log_entry["prompt_tokens"] == 200
+    assert log_entry["completion_tokens"] == 100
+    assert log_entry["thinking_tokens"] == 200
+    assert log_entry["total_tokens"] == 500
+    assert log_entry["reasoning_effort"] == "medium"
+
+    # Test _record_usage fallback to completion_tokens_details.reasoning_tokens
+    # when total_tokens == prompt_tokens + completion_tokens (standard OpenAI/Gemini format)
+    class FakeDetails:
+        reasoning_tokens = 85
+    class FakeRespWithDetails:
+        choices = []
+        model = "gemini-2.5-flash"
+        usage = type("Usage", (), {
+            "prompt_tokens": 150,
+            "completion_tokens": 120,
+            "total_tokens": 270,
+            "completion_tokens_details": FakeDetails(),
+        })()
+    BaseAgent.reset_instrumentation()
+    agent._record_usage(FakeRespWithDetails(), "gemini-2.5-flash", fallback_used=False)
+    assert len(BaseAgent.call_log) == 1
+    detail_entry = BaseAgent.call_log[0]
+    assert detail_entry["prompt_tokens"] == 150
+    assert detail_entry["completion_tokens"] == 120
+    assert detail_entry["thinking_tokens"] == 85
+    assert detail_entry["total_tokens"] == 270
+
+
+def test_thinking_trial_row_records_reasoning_effort_and_tokens():
+    _, base, injected, descriptor, _ = _reasoning_defect()
+    defect = {"defect_id": "x", "operator": descriptor.operator, "cell": "thinking"}
+    row = runner.run_trial(defect, {"arm": "A1", "placement": "P1", "rep": 0,
+                                    "reasoning_effort": "low"},
+                           base, injected, descriptor, "s", dry_run=True)
+    assert row["reasoning_effort"] == "low"
+    assert row["cell"] == "thinking"
+

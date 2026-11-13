@@ -1,5 +1,19 @@
 # START HERE — next session
 
+> **Update, 2026-11-02:** All phases of
+> **[`SUPERVISOR_FEEDBACK_2026-10-30.md`](SUPERVISOR_FEEDBACK_2026-10-30.md)**
+> are **100% complete and verified**:
+> - **Phase 1 (Offline analyses):** Unconditional copy contrasts, 4-way decomposition, downstream copy vs rewrite split, and review-count stratum gradient (`secondary_extra.json`, `T2*/analysis.json`).
+> - **Phase 2 (Study execution):** Executed Option A thinking-budget sweep (`T2T`, 1,224 trials, 100% usable, 100% offline re-score agreement) across `none`, `low`, `medium`, and `high` budgets under Amendment A12. Analysis enhanced with `dose_response_copy_A1_minus_A2` and `copy_gap_differences` (`443` unit tests passing).
+> - **Phase 3 (JSS manuscript integration):** Fully integrated into `docs/paper/journal/` (`00-abstract.tex` 245 words, `highlights.txt` $\le 79$ chars, `01-introduction.tex`, `04-design.tex` Table 4 & Table 5, `05-results.tex` §5.2 & §5.8 Table 8, `06-discussion.tex`, `07-threats.tex`, `08-conclusion.tex`). Draft checks pass with 0 placeholders, and `main.pdf` compiles cleanly with 0 errors and 0 overfull `\hbox`.
+>
+> **Update, 2026-10-31:** Two rounds of supervisor feedback and the verified
+> action plan (offline copy-rate contrast, `T2D` `E3` split by copy vs. rewrite,
+> per-operator search-space gradient over `p25/p50/p75/p90`, and the
+> `gemini-2.5-flash-lite` pass with full `A0`) are recorded in
+> **[`SUPERVISOR_FEEDBACK_2026-10-30.md`](SUPERVISOR_FEEDBACK_2026-10-30.md)**.
+> Start there (§8 checklist).
+>
 > **Update, 2026-10-23:** **every `\TODO` in the journal draft is closed**
 > (`check_draft.py`: 0 TODO, 0 C7), from the author's answers. Authors: Hoang
 > and Nguyen only. Conference #1: accepted at EAI FISAT 2026, not yet
@@ -439,6 +453,11 @@ been removed.** `docs/paper/` has been tracked since the journal-edition switch,
 and `git status` is clean because the work is *committed*, not because it is
 ignored. The remote is
 `https://github.com/Hahhahahaadsa/Evaluation-as-Supervision-Journal-Edition.git`.
+**2026-10-25:** the author decided that the public repository will live under
+`henryhoang207/Evaluation-as-Supervision-Journal-Edition`, and the data
+statement already gives that URL. `origin` keeps the old URL until the
+repository has moved; `journal/RESOLVED_TODOS.md` §6 says what has to move
+with it.
 
 ⚠ **Two physical repo directories exist.** `Tài liệu` appears on disk in two
 Unicode normalisations (NFD and NFC) and they render identically in every

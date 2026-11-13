@@ -1,140 +1,53 @@
 % =====================================================================
 \section{Discussion}
 \label{sec:discussion}
-% =====================================================================
 
-\subsection{What the feedback buys, and what it does not}
+\subsection{What feedback and placement buy}
 \label{sec:discussion-content}
+The confirmatory comparison is bounded by a ceiling: measured facts and a
+contentless rejection produced similar repair on these injected defects and the
+hosted model. The constraint-disclosure and severity comparisons likewise did
+not establish a difference, but were small. The local model had headroom and an
+exploratory advantage for measured facts; model family, size, quantisation and
+runtime changed together. A plausible interpretation is that informative
+feedback helps when a model cannot locate a defect unaided, but the study does
+not identify internal model processes.
 
-The confirmatory result is a null, and a ceiling bounds what it can mean.
-Measured-fact feedback and a contentless rejection repaired injected defects
-equally well, to within about 4 percentage points. Both sat near the capability
-ceiling, which \arm{A0} reached in every trial. For defects of this kind, on
-this model, it does not matter what the supervisor says, provided the model is
-told that something is wrong and can see what it produced. Restating the
-stage's obligations at retry time did not matter either. That excludes the
-explanation \citet{huang2024cannot} and \citet{kamoi2024} warn of, in which
-measured feedback wins by teaching the task. The C1 gap and the C0 gap were
-identical.
+Measured facts also increased unconditional canonical-JSON restoration in the
+core. Copy-versus-rewrite downstream comparisons are post-treatment and
+observational: matched clean-run noise floors do not eliminate selection bias.
+Reasoning rewrites showed more divergence than copies, while strategy rewrites
+showed little excess. The overall downstream arm contrast was small. The
+thinking-budget sweep shows high repair with zero configured thinking tokens,
+but schema retries occurred and the results do not establish a single-pass
+mechanism.
 
-The mechanism suggests why. We offer it as an interpretation, not a tested
-claim. Derivability works in both directions. The supervisor can detect an
-injected defect because the defect is inconsistent with upstream state that the
-pipeline holds. That same upstream state is in the retried stage's prompt. An
-evidence identifier that matches none of the reviews the stage was given, or a
-recommendation unrelated to any pattern it was given, is as visible to a capable
-model holding its own output and its inputs as it is to the checker. The
-measured fact repeats what the model can already see. On this reading the
-copy-and-correct pattern is to be expected: the model keeps what is consistent
-with its inputs and reverts what is not, and the result is often its original
-output byte for byte.
-
-The result therefore sides with the accounts that locate the active ingredient
-in the signal and in what the model can see
-\citep{chen2024selfdebug,chen2026rolerelabel,tsui2026scbench}. It does not side
-with those that locate it in feedback content~\citep{olausson2024selfrepair},
-but only for defects this easy to undo. The core says nothing about defects the
-model cannot see or cannot fix. The one cell with headroom, the
-production-like \op{O1} at 84.7\%, gives the same answer: \arm{A1} and \arm{A2}
-were identical. Its interval of $\pm12.5$\pp{} is too wide to exclude a
-moderate effect.
-
-The second model supplies the headroom that the core lacks, and there a gap
-opens: measured facts led by +6.8\pp{} \ci{+0.5}{+13.3}, mostly at the
-reasoning stage (Section~\ref{sec:results-rq6}). The gap is exploratory and
-fragile ($p=0.052$, and the first repetition alone includes zero), but its form
-fits the mechanism above. Without the measured fact, the second model left the
-defect in place after a quarter of its retries; with it, after fewer than one
-in ten. The fact supplied the location of the inconsistency, which the hosted
-model found unaided. Models that cannot find their reasoning errors can
-correct many of them once told where they are~\citep{tyen2024}, and the second
-model behaved that way. Location is not always enough: on \op{O1}, where the
-fix is to recover an exact identifier, naming it helped neither model. On this
-evidence the null is a property of a capable model at its ceiling, not of the
-method. We read the gap as a hypothesis: feedback content matters to the
-extent that the model cannot find the defect by itself.
-
-\subsection{Placement is the design lever the production retry lacks}
+\subsection{Placement and verifier precision}
 \label{sec:discussion-placement}
+Showing the rejected artifact at \arm{P1} was associated with less collateral
+damage than production's artifact-absent \arm{P0}; the repair contrast was
+imprecise. The placement comparison and downstream analyses concern the hosted
+model. In the budget comparison, one \arm{P1} retry repaired at least as often as three
+warm fresh draws at lower token cost in this setting.
 
-The production retry does not show the model its rejected output; it runs at
-\arm{P0}. Showing the output (\arm{P1}) left repair statistically unchanged
-($+3.7$\pp{} \ci{-1.5}{+9.6}). It cut collateral damage from 38.4\% of retries
-to 1.1\%, and it avoided a schema-correction call that every report-stage retry
-at \arm{P0} needed. A model that cannot see its output regenerates all of it,
-and regeneration churns content that was correct. The same comparison favours
-showing the artifact at equal budget. One retry at \arm{P1} repaired 97.0\%
-of defects, at about a quarter of the token cost of three fresh draws, which
-repaired 93.3\%. These results are exploratory and come from one model. But they
-point to a change that costs nothing to make and is invisible to every
-repair-rate metric: return the rejected output with the rejection. The second
-model did not test placement, and below the ceiling wording mattered too
-(Section~\ref{sec:discussion-content}). But the production feedback already
-carries the measured facts; showing the output is the change that remains.
-
-\subsection{A supervisor's precision bounds the value of its retries}
 \label{sec:discussion-precision}
+Acceptance after production retry was low on the 13 real defects, and the
+blinded audit judged the 11 then available as technicalities or checker false
+positives. Acceptance is not correctness. Offline calibration changes acceptance
+under an alternative trace matcher, but cannot by itself establish correctness
+or production reliability. Coupling injected and real defects by check class
+was insufficient to make their acceptance rates representative of one another,
+as anticipated by the mutation-testing question of \citet{just2014mutants}.
 
-On real, production-caught defects the production retry was accepted 28.2\% of
-the time. The obvious reading is that real defects are harder to fix. The data
-support a different one. Most real defects were checker false positives: the
-pre-study audit found none of them to be an error to a human rater, and the
-calibration measured the trace check firing on 5.0\% of grounded
-recommendations. The retry cannot repair content that is already correct. It
-regenerates the content in other words, and the same lexical check rejects it
-again. The rate also shows in clean runs: 16\% of clean pipelines in the
-downstream pass were rejected, every one by the trace check. A false positive
-costs a model call, and at the retry cap it becomes a halt or a warning on a
-run that had nothing wrong with it. For the engineer of such a supervisor, the
-precision of each check matters more than the wording of the feedback. On our
-data, a content-word matcher fired on no grounded issue and on every foreign
-one. We kept the production supervisor unchanged, because it is the system
-under study. Replacing its matcher is the obvious follow-up, and we have not
-evaluated it.
-
-The same result is a caution for fault-injection studies of LLM systems in
-general. The injected defects coupled to the real ones at the level of check
-class: every real defect fires a class that some operator targets. Their repair
-rates were nonetheless 98.5\% and 28.2\%. For this system, the question
-\citet{just2014mutants} raised for program repair has a negative answer.
-A repair rate measured on injected defects is not an estimate of the rate on
-the defects the system produces, and coupling by class does not make it one. A
-study that reports only injected-defect repair should not describe it as a
-production repair rate. Ours does not, and the replay is what entitles us to
-say so.
-
-\subsection{Local checks verify fidelity, not correctness}
+\subsection{Fidelity and practical implications}
 \label{sec:discussion-local}
-
-An unrepaired defect passed the downstream checks about as often as a clean
-run, and the report-containment check \emph{rewarded} carrying it forward. The
-reason is structural. A check that verifies each stage against its upstream
-certifies consistency, and consistency with a defective upstream is still
-consistency. Once a defect has been accepted where it arose, every later check
-treats it as ground truth. This is a property of derivability-based
-verification in general, not of our thresholds. The conference
-version~\citep{hoang2026eas} noted that ``an accepted claim may inherit an
-upstream error''; the downstream pass measures it. Two consequences follow.
-First, such a supervisor needs its recall at the point of origin, because
-downstream checks cannot make up for a miss
-upstream. Second, repair is not restoration. Repaired runs removed the planted
-content but still diverged from the clean report beyond the noise floor,
-because a repaired stage is a regenerated stage. Together with the loose
-coupling between defect-level and pipeline-level outcomes, this is the pattern
-\citet{cemri2025mast} report for multi-agent failures. A supervisor that
-improves the defect-level rate need not move the run-level outcome, and
-evaluations should report both.
-
-\subsection{What the overwrite bought}
-\label{sec:discussion-overwrite}
-
-The retry repaired every divergent frequency it was given, without collateral
-damage. The recompute-and-overwrite design was therefore not needed for
-correctness. It is still the better design, for reasons the counterfactual makes
-precise: it is exact by construction, costs no call, cannot introduce churn, and
-does not depend on the model's cooperation. The principle that a quantity the
-checker can compute should not be asked of the model stands. It stands on cost
-and determinism, not on any failure of the alternative.
+Local checks verify consistency with upstream state, not truth: a later stage
+can faithfully propagate an upstream error. Engineers should calibrate checks,
+consider showing the rejected artifact, and evaluate both local outcomes and
+pipeline consequences. Deterministically overwriting a derivable statistic
+avoids a model call; the counterfactual retry also repaired the tested values.
+Match comparisons within sessions, measure variation at temperature zero, and
+compare injected faults with real ones before generalising repair rates.
 
 \subsection{Revisions to the conference version}
 \label{sec:discussion-reconcile}
@@ -151,7 +64,7 @@ The new results qualify four claims of~\citet{hoang2026eas}.
   runtime serving one request at a time did better, but two of ten prompts sent
   twice still returned different text. And with the artifact in view, the
   content of the feedback did not change the outcome on the hosted model. On the
-  second model it changed it modestly (Section~\ref{sec:results-rq6}).
+  second model the point estimate was positive and exploratory (Section~\ref{sec:results-rq6}).
 \item \emph{Defect incidence (35\% of runs) and instability (20\%).} These
   rates count the supervisor's verdicts. Some of those verdicts are false
   positives of the trace check, which fires on 5.0\% of grounded
@@ -175,31 +88,3 @@ The new results qualify four claims of~\citet{hoang2026eas}.
 % FISAT camera-ready changes any of the four claims quoted above, revise this
 % list to match the published version.
 
-\subsection{Recommendations for building runtime supervisors}
-\label{sec:discussion-recommendations}
-
-Five practical lessons follow for engineers who put a deterministic checker in
-the control path of an LLM pipeline. All are scoped to one pipeline. Lessons
-1, 3 and 4 rest on the hosted model alone. The second model qualifies lesson 2
-and extends lesson 5 to a local runtime.
-\begin{enumerate}
-\item \textbf{Return the rejected output with the rejection.} Repair stayed the
-  same, collateral damage fell from 38\% to 1\%, and one retry repaired at
-  least as often as three fresh draws, at under a quarter of their token cost.
-\item \textbf{Invest in check precision before feedback wording.} Wording made
-  no measurable difference on the hosted model. On the second model, naming
-  the defect helped by an exploratory 6.8 points, apparently by showing the
-  model where the defect was. Keep the measured facts, which cost nothing, but do not
-  expect them to make up for an imprecise check. False positives made up most
-  of what the production retry was asked to fix.
-\item \textbf{Verify where defects arise.} Stage-local consistency checks
-  certify fidelity to upstream, so they cannot catch a defect after a later
-  stage has built on it.
-\item \textbf{Compute what can be computed.} Overwriting a derivable statistic
-  is exact, free and churn-free. A retry achieves the same correctness at a
-  cost.
-\item \textbf{Treat temperature~0 as non-deterministic, on a hosted API and on
-  a local runtime alike, and check injected defects against real ones.} Match
-  every comparison within a serving session. Replay real defects before reading
-  an injected-defect repair rate as a production one.
-\end{enumerate}

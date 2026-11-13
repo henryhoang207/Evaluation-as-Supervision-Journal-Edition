@@ -108,6 +108,7 @@ class BaseAgent(ABC):
     # 0.1 A7) sets it on its own, freshly constructed agent instance. A class
     # attribute, so every existing construction path keeps the production value.
     temperature: float = 0.0
+    reasoning_effort: str | None = None
 
     def __init__(self) -> None:
         self._client = OpenAI(**llm_config.client_kwargs())
@@ -176,28 +177,47 @@ class BaseAgent(ABC):
         """
         usage = getattr(resp, "usage", None)
         tokens = getattr(usage, "total_tokens", None) if usage is not None else None
-        if tokens:
+        if isinstance(tokens, int):
             BaseAgent.total_tokens_used += tokens
+        prompt_tokens = getattr(usage, "prompt_tokens", None) if usage else None
+        completion_tokens = getattr(usage, "completion_tokens", None) if usage else None
+        thinking_tokens = (
+            max(0, tokens - (prompt_tokens + completion_tokens))
+            if isinstance(tokens, int) and isinstance(prompt_tokens, int) and isinstance(completion_tokens, int)
+            else None
+        )
+        if thinking_tokens == 0:
+            details = getattr(usage, "completion_tokens_details", None)
+            reasoning = getattr(details, "reasoning_tokens", None) if details else None
+            if reasoning is None:
+                reasoning = getattr(usage, "reasoning_tokens", None) if usage else None
+            if isinstance(reasoning, int) and reasoning > 0:
+                thinking_tokens = reasoning
         BaseAgent.call_log.append(
             {
                 "agent": type(self).__name__,
                 "requested_model": requested_model,
                 "served_model": getattr(resp, "model", None),
                 "fallback_used": fallback_used,
-                "prompt_tokens": getattr(usage, "prompt_tokens", None) if usage else None,
-                "completion_tokens": getattr(usage, "completion_tokens", None) if usage else None,
+                "prompt_tokens": prompt_tokens,
+                "completion_tokens": completion_tokens,
+                "thinking_tokens": thinking_tokens,
                 "total_tokens": tokens,
                 "temperature": self.temperature,
+                "reasoning_effort": self.reasoning_effort,
             }
         )
 
     def _create(self, model: str, messages: list[dict]):
-        return self._client.chat.completions.create(
-            model=model,
-            messages=messages,
-            temperature=self.temperature,
-            response_format={"type": "json_object"},
-        )
+        kwargs = {
+            "model": model,
+            "messages": messages,
+            "temperature": self.temperature,
+            "response_format": {"type": "json_object"},
+        }
+        if self.reasoning_effort is not None:
+            kwargs["reasoning_effort"] = self.reasoning_effort
+        return self._client.chat.completions.create(**kwargs)
 
     def _call_llm(self, messages: list[dict], model: str | None = None) -> str:
         target = model or self._model

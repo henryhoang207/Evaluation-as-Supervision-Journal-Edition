@@ -143,10 +143,10 @@ DEFAULT_PLACEMENT = "P1"  # D10: the Tier-2 core runs at P1, not the production 
 #   warm      -- 0.1 A7 (plan D2's warm-resample subset). On the placement
 #          subset: A1@P1 and A2@P1 at temperature 0 (in-session comparators)
 #          and at WARM_TEMPERATURE, plus A3@P0 at WARM_TEMPERATURE, r = 3.
-CELLS = ("core", "c1", "d19", "placement", "severity", "warm", "c7")
+CELLS = ("core", "c1", "d19", "placement", "severity", "warm", "c7", "thinking")
 CELL_OUT = {"core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
             "placement": "out_study/T2P", "severity": "out_study/T2S",
-            "warm": "out_study/T2W", "c7": "out_study/T2L"}
+            "warm": "out_study/T2W", "c7": "out_study/T2L", "thinking": "out_study/T2T"}
 C7_REPS = 3  # A11: G2 returned 8/10 identical; determinism is measured, not assumed
 # D2 cites Tyen section 4(d), which needed temperature 1 to force a different
 # step; it is also the provider's default sampling temperature.
@@ -159,9 +159,13 @@ D19_CELLS = (("A1", DEFAULT_PLACEMENT), ("A3", "P0"))
 PLACEMENT_FRACTION = 1 / 3
 PLACEMENT_LEVELS = ("P0", "P1", "P2", "P3")
 SEVERITY_OPERATORS = ("O1",)
+# Amendment A12 pinned thinking sweep on primary model
+THINKING_MODEL = "gemini-2.5-flash"
+THINKING_EFFORTS = ("none", "low", "medium", "high")
+THINKING_BUDGETS = {"none": 0, "low": 1024, "medium": 8192, "high": 24576}
 # Arms the order check requires each pass's defects to hold.
 REQUIRED_ARMS = {"d19": ("A1", "A3"), "placement": ("A1",), "severity": ("A1",),
-                 "warm": ("A1", "A2", "A3")}
+                 "warm": ("A1", "A2", "A3"), "thinking": ("A1", "A2")}
 
 
 # ── checkpointing ─────────────────────────────────────────────────────────────
@@ -287,6 +291,27 @@ def _c7_cells(index: int) -> list[dict]:
         cells.extend({"arm": "A3", "placement": "P0", "condition": "C0", "rep": r}
                      for r in range(C7_REPS))
     return cells
+
+
+def _thinking_cells(index: int, reps: int = DEFAULT_REPS) -> list[dict]:
+    """A12: within-weights thinking-budget sweep on 45-defect subset (1/3 per operator).
+
+    A1, A2 at P1 on all 45 defects; A3 at P0 on 1/3 of the subset (14 defects).
+    Each arm runs across all four reasoning_efforts ('none', 'low', 'medium', 'high').
+    """
+    if not _in_subset(index, PLACEMENT_FRACTION):
+        return []
+    subset_index = int((index + 1) * PLACEMENT_FRACTION) - 1
+    arm_specs = [("A1", "P1"), ("A2", "P1")]
+    if _in_subset(subset_index, PLACEMENT_FRACTION):
+        arm_specs.append(("A3", "P0"))
+    return [
+        {"arm": arm, "placement": placement, "condition": "C0", "rep": r,
+         "reasoning_effort": effort}
+        for arm, placement in arm_specs
+        for effort in THINKING_EFFORTS
+        for r in range(reps)
+    ]
 
 
 def not_in_pass(entry: dict) -> bool:
@@ -427,6 +452,8 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
                 arms = _warm_cells(op_index[op], reps)
             elif cell == "c7":
                 arms = _c7_cells(op_index[op])
+            elif cell == "thinking":
+                arms = _thinking_cells(op_index[op], reps)
             else:
                 arms = _cells_for(op_index[op], reps, placement, with_c1)
             op_index[op] += 1
@@ -470,6 +497,7 @@ def plan_summary(plan: list[dict]) -> dict:
     by_placement: dict[str, int] = {}
     by_severity: dict[str, int] = {}
     by_temperature: dict[str, int] = {}
+    by_effort: dict[str, int] = {}
     c1_defects = 0
     for d in runnable:
         if any(c.get("condition", "C0") == "C1" for c in d["arms"]):
@@ -485,6 +513,8 @@ def plan_summary(plan: list[dict]) -> dict:
             by_severity[level] = by_severity.get(level, 0) + 1
             temp = str(cell.get("temperature", 0.0))
             by_temperature[temp] = by_temperature.get(temp, 0) + 1
+            effort = str(cell.get("reasoning_effort") or "default")
+            by_effort[effort] = by_effort.get(effort, 0) + 1
 
     def _rate(num: int, den: int) -> float | None:
         return round(num / den, 4) if den else None
@@ -510,6 +540,7 @@ def plan_summary(plan: list[dict]) -> dict:
         "trials_by_placement": by_placement,
         "trials_by_severity": by_severity,
         "trials_by_temperature": by_temperature,
+        "trials_by_reasoning_effort": by_effort,
         "core_trials": by_condition.get("C0", 0),
         "c1_trials": by_condition.get("C1", 0),
         "defects_c1": c1_defects,
@@ -563,6 +594,12 @@ def verify_order(plan: list[dict]) -> list[str]:
                 got = {c.get("temperature", 0.0) for c in d["arms"] if c["arm"] == arm}
                 if got != set(temps):
                     problems.append(f"{d['defect_id']}: {arm} temperatures {sorted(got)}")
+        if d.get("cell") == "thinking":
+            for arm in {c["arm"] for c in d["arms"]}:
+                efforts = {c.get("reasoning_effort") for c in d["arms"] if c["arm"] == arm}
+                if efforts != set(THINKING_EFFORTS):
+                    problems.append(
+                        f"{d['defect_id']}: arm {arm} reasoning efforts {sorted(str(e) for e in efforts)}")
         # A half-populated C1 cell yields no C0-vs-C1 contrast for this defect,
         # which is the one thing the cell exists to produce (D8d).
         c1 = [arm for condition, arm in seen if condition == "C1"]
@@ -607,6 +644,7 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
         "cell": defect.get("cell", "core"),
         "severity": cell.get("severity", 1),
         "temperature": cell.get("temperature", 0.0),
+        "reasoning_effort": cell.get("reasoning_effort"),
     }
 
     if dry_run:
@@ -619,7 +657,8 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
     started = time.time()
     calls_before = len(BaseAgent.call_log)
     try:
-        retried_state = _regenerate(cell, base_state, injected_state, descriptor, routed)
+        retried_state = _regenerate(cell, base_state, injected_state, descriptor, routed,
+                                    defect_cell=defect.get("cell", "core"))
     except Exception as exc:  # noqa: BLE001 — recorded, not swallowed
         row.update(status="error", error_type=type(exc).__name__, error_detail=str(exc)[:400])
         return row
@@ -650,6 +689,9 @@ def run_trial(defect: dict, cell: dict, base_state: dict, injected_state: dict,
         # the placement manipulation did not ask for.
         attempts_made=len(calls),
         served_models=[c.get("served_model") for c in calls],
+        prompt_tokens=sum(c.get("prompt_tokens") or 0 for c in calls) or None,
+        completion_tokens=sum(c.get("completion_tokens") or 0 for c in calls) or None,
+        thinking_tokens=sum(c.get("thinking_tokens") or 0 for c in calls) if any(c.get("thinking_tokens") is not None for c in calls) else None,
         total_tokens=sum(c.get("total_tokens") or 0 for c in calls) or None,
         post_facts=post_facts,
         post_verdict=post_decision.verdict,   # 14.4: the terminal run-level verdict
@@ -694,7 +736,7 @@ def _agent_for(stage: str):
 
 
 def _regenerate(cell: dict, base_state: dict, injected_state: dict,
-                descriptor, decision) -> dict:
+                descriptor, decision, defect_cell: str = "core") -> dict:
     """Re-run the defective stage under this arm's prompt. Live call.
 
     Three properties this function exists to enforce, each of which would be a
@@ -729,6 +771,10 @@ def _regenerate(cell: dict, base_state: dict, injected_state: dict,
     if cell.get("runtime") == "c7":
         runtime = sys.modules.get("c7_runtime") or _load_by_path("c7_runtime", "c7_runtime.py")
         runtime.configure_agent(agent)
+    if defect_cell == "thinking" or cell.get("cell") == "thinking":
+        agent._model = THINKING_MODEL
+        agent._fallback_model = THINKING_MODEL
+    agent.reasoning_effort = cell.get("reasoning_effort")
     # Warm pass only (0.1 A7). A fresh agent per trial, so this cannot leak
     # into another trial; every other cell leaves the production value, 0.
     agent.temperature = float(cell.get("temperature", 0.0))
@@ -794,6 +840,13 @@ def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
         for p in problems[:10]:
             print(f"  ! {p}")
         return 1
+
+    if cell == "thinking":
+        os.environ["LLM_PRIMARY_MODEL"] = THINKING_MODEL
+        os.environ["LLM_FALLBACK_MODEL"] = THINKING_MODEL
+        from app.agents import base_agent  # noqa: PLC0415
+        os.environ[base_agent.FALLBACK_DISABLED_ENV] = "1"
+        print(f"Cell thinking: pinned model {THINKING_MODEL}")
 
     if not dry_run:
         # B2 / section 14.1: a silent failover to the fallback model inside one

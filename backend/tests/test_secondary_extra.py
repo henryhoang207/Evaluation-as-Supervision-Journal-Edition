@@ -86,3 +86,27 @@ def test_the_trace_curve_counts_grounded_and_foreign_issues():
         lo = float(band.strip("[)").split(",")[0])
         if lo >= 0.35:
             assert v["production_difflib_fires"] == 0.0
+
+
+@needs_study
+def test_stratum_gradient_runs_and_returns_expected_structure():
+    res = se.stratum_gradient(str(STUDY_ROOT))
+    assert "strata" in res
+    assert "business_strata" in res
+    assert set(res["strata"]) == {"p25", "p50", "p75", "p90"}
+    assert res["stratum_counts"] == {"p25": 14, "p50": 34, "p75": 92, "p90": 214}
+    # 7 businesses per stratum
+    from collections import Counter
+    counts = Counter(res["business_strata"].values())
+    assert counts == {"p25": 7, "p50": 7, "p75": 7, "p90": 7}
+    # Check model datasets
+    assert "T2_gemini_core" in res
+    assert "T2L_qwen_c7" in res
+    assert "T2S_severity_O1" in res
+    for op in ("O1", "O2", "O3", "O5", "O6", "O7"):
+        assert op in res["T2_gemini_core"]
+        assert op in res["T2L_qwen_c7"]
+    assert "L1" in res["T2S_severity_O1"]
+    assert "L2" in res["T2S_severity_O1"]
+
+
