@@ -1,6 +1,6 @@
 {
   "provenance": {
-    "script_sha256": "ab8405362496bbc4954e3d936a56ce6deffe91892d1e3fc4ab8c8bd28e1481bb",
+    "script_sha256": "e9e5c21f0f9fc77c2a07f8497653fb2820b2f6fa09dec9bc4797e75c24db4af6",
     "seed": 20260803,
     "n_boot": 10000,
     "prospective": true,
@@ -311,12 +311,16 @@
           -0.3111111111111111,
           -0.07407407407407407
         ],
-        "reported": true,
-        "estimate": -1.28,
-        "ci95": [
-          -3.9,
-          -0.5128205128205129
-        ]
+        "reported": false,
+        "applicable": false,
+        "reason": "not applicable: A0 below A2 (CI of A0 - A2 below 0), no gap to close",
+        "literal_rule_value": {
+          "estimate": -1.28,
+          "ci95": [
+            -3.9,
+            -0.5128205128205129
+          ]
+        }
       }
     },
     "high": {

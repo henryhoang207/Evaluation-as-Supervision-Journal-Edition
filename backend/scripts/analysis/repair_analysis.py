@@ -1221,9 +1221,12 @@ def _copy_trials(trials: list[dict], clean: dict) -> list[dict]:
 def share_of_gap(cm: dict, a0: str, a1: str, a2: str, seed: int) -> dict:
     """(A1 - A2) / (A0 - A2) on defects carrying all three, defect bootstrap.
 
-    Reported only when the CI of A0 - A2 excludes 0 (amendment rule); otherwise
-    the denominator can sit near zero and the ratio is unstable, so it is
-    withheld with the reason rather than printed.
+    Reported only when the CI of A0 - A2 lies wholly above 0 (A13, as clarified
+    by its 2026-11-14 note). If the CI includes 0 the denominator can sit near
+    zero and the ratio is unstable, so it is withheld. If the CI lies wholly
+    below 0, A0 restores less often than A2: there is no gap to close and the
+    ratio is not applicable. Its literal value is kept under
+    ``literal_rule_value`` for the record, never as ``estimate``.
     """
     ids = sorted(d for d in {d for d, _ in cm}
                  if all(cm.get((d, lv)) for lv in (a0, a1, a2)))
@@ -1242,8 +1245,12 @@ def share_of_gap(cm: dict, a0: str, a1: str, a2: str, seed: int) -> dict:
     nb, db = num[idx].mean(axis=1), den[idx].mean(axis=1)
     ok = db != 0
     blo, bhi = np.percentile(nb[ok] / db[ok], [2.5, 97.5])
-    return {**base, "reported": True, "estimate": float(num.mean() / den.mean()),
-            "ci95": [float(blo), float(bhi)]}
+    value = {"estimate": float(num.mean() / den.mean()), "ci95": [float(blo), float(bhi)]}
+    if hi < 0:
+        return {**base, "reported": False, "applicable": False,
+                "reason": "not applicable: A0 below A2 (CI of A0 - A2 below 0), no gap to close",
+                "literal_rule_value": value}
+    return {**base, "reported": True, **value}
 
 
 def restoration_reading(a1_minus_a0: dict) -> str:
@@ -1424,6 +1431,12 @@ def _cell_bootstrap(per_defect: dict, cell_of: dict, seed: int, n_boot: int = N_
     Tier-1 defects nest in their cell (section 2.2), so the resampling unit is
     the cell; a bootstrap over defects would treat neighbours as independent.
     """
+    lo, hi = np.percentile(_cell_boot_dist(per_defect, cell_of, seed, n_boot), [2.5, 97.5])
+    return [float(lo), float(hi)]
+
+
+def _cell_boot_dist(per_defect: dict, cell_of: dict, seed: int, n_boot: int = N_BOOT):
+    """The bootstrap distribution behind ``_cell_bootstrap`` (same draws)."""
     cells = sorted({cell_of[d] for d in per_defect})
     by_cell = {c: [per_defect[d] for d in per_defect if cell_of[d] == c] for c in cells}
     rng = np.random.default_rng(seed)
@@ -1432,8 +1445,7 @@ def _cell_bootstrap(per_defect: dict, cell_of: dict, seed: int, n_boot: int = N_
         pick = rng.integers(0, len(cells), size=len(cells))
         vals = [v for i in pick for v in by_cell[cells[i]]]
         boot.append(np.mean(vals))
-    lo, hi = np.percentile(boot, [2.5, 97.5])
-    return [float(lo), float(hi)]
+    return np.array(boot)
 
 
 def _tier1_cell(trial: dict) -> tuple[str, str]:
@@ -1503,6 +1515,141 @@ def analyse_tier1(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
             for s in sorted({t["stage"] for t in usable}) for a in TIER1_ARMS},
         "multi_attempt_trials_by_arm": dict(Counter(
             t["arm"] for t in usable if (t.get("attempts_made") or 0) > 1)),
+    }
+
+
+# ── Tier 1 pooled with the Option-H harvest (section 0.1 A14) ─────────────────
+
+TIER1_TEST_MIN_CELLS = 15     # A14: the one test runs iff the pooled bank has >= 15 cells
+SINGLE_PASS_LABEL = "A"       # defect_bank source label of a Phase-A dump (out_study/A, H/A)
+
+
+def clean_check_pass(trial: dict) -> bool | None:
+    """A14's clean-check pass: the supervisor passes the retried output outright.
+
+    ``post_verdict == "proceed"``: no check fires at any level. ``accepted``
+    also counts ``proceed_with_warning`` (no *retry*-level class fires), so
+    this rate is never above acceptance. Fixed 2026-11-14, before any T1H trial.
+    """
+    v = trial.get("post_verdict")
+    return None if v is None else v == "proceed"
+
+
+def _tier1_bank(usable: list[dict], seed: int) -> dict:
+    """One column of A14's RQ3 table: rates by arm and two acceptance differences."""
+    cell_of = {t["defect_id"]: _tier1_cell(t) for t in usable}
+
+    def per_defect(arm: str, value) -> dict:
+        reps: dict = defaultdict(list)
+        for t in usable:
+            v = value(t) if t["arm"] == arm else None
+            if v is not None:
+                reps[t["defect_id"]].append(1.0 if v else 0.0)
+        return {d: float(np.mean(v)) for d, v in reps.items()}
+
+    def rate(arm: str, value) -> dict:
+        pd = per_defect(arm, value)
+        if not pd:
+            return {"n_defects": 0, "n_cells": 0}
+        return {"rate": float(np.mean(list(pd.values()))),
+                "ci95_cells": _cell_bootstrap(pd, cell_of, seed),
+                "n_defects": len(pd), "n_cells": len({cell_of[d] for d in pd})}
+
+    def difference(arm_a: str, arm_b: str) -> dict:
+        a = per_defect(arm_a, lambda t: t.get("accepted"))
+        b = per_defect(arm_b, lambda t: t.get("accepted"))
+        diff = {d: a[d] - b[d] for d in sorted(a.keys() & b.keys())}
+        if not diff:
+            return {"n_defects": 0, "n_cells": 0}
+        boot = _cell_boot_dist(diff, cell_of, seed)
+        lo, hi = np.percentile(boot, [2.5, 97.5])
+        return {"estimate": float(np.mean(list(diff.values()))),
+                "ci95_cells": [float(lo), float(hi)],
+                "n_defects": len(diff), "n_cells": len({cell_of[d] for d in diff}),
+                "_boot": boot}
+
+    accepted = lambda t: t.get("accepted")
+    resolved = lambda t: t.get("target_resolved")
+    return {
+        "n_defects": len(cell_of),
+        "n_cells": len(set(cell_of.values())),
+        "defects_by_stage": dict(Counter(
+            t["stage"] for t in {t["defect_id"]: t for t in usable}.values())),
+        "accepted": {a: rate(a, accepted) for a in TIER1_ARMS},
+        "target_resolved": {a: rate(a, resolved) for a in TIER1_ARMS},
+        "clean_check_pass": {a: rate(a, clean_check_pass) for a in TIER1_ARMS},
+        "A2_minus_A1_accepted": difference("A2", "A1"),
+        "A1_minus_A3_accepted": difference("A1", "A3"),
+    }
+
+
+def _strip_boot(res: dict) -> dict:
+    return {k: ({kk: vv for kk, vv in v.items() if kk != "_boot"} if isinstance(v, dict) else v)
+            for k, v in res.items()}
+
+
+def analyse_tier1_pooled(t1_rows: list[dict], t1h_rows: list[dict],
+                         seed: int = DEFAULT_SEED) -> dict:
+    """Section 0.1 A14: T1, T1H, pooled and the single-pass (A + H) sensitivity.
+
+    The one test (A14): iff the pooled bank has >= 15 distinct business x stage
+    cells with an A2 - A1 difference, a two-sided cell-cluster bootstrap test of
+    A2 - A1 acceptance at alpha = 0.05. It rejects iff the percentile 95 % CI
+    excludes 0; p is 2 x the smaller bootstrap tail share at 0, capped at 1.
+    Nothing else is tested.
+    """
+    def usable_of(rows):
+        return [t for r in rows for t in r.get("trials", []) if t.get("status") == "ok"]
+
+    t1, t1h = usable_of(t1_rows), usable_of(t1h_rows)
+    shared = {t["defect_id"] for t in t1} & {t["defect_id"] for t in t1h}
+    if shared:
+        raise ValueError(f"defects in both T1 and T1H: {sorted(shared)[:5]}")
+    keys: dict = defaultdict(set)
+    for t in t1 + t1h:
+        parts = t["defect_id"].split(":")
+        keys[(parts[1], t["stage"])].add(_tier1_cell(t))
+    split = {k: v for k, v in keys.items() if len(v) > 1}
+    if split:
+        raise ValueError(f"one business x stage under two cell labels: {split}")
+
+    pooled = t1 + t1h
+    single = [t for t in pooled if t["defect_id"].split(":")[0] == SINGLE_PASS_LABEL]
+    banks = {"T1": _tier1_bank(t1, seed), "T1H": _tier1_bank(t1h, seed),
+             "Pooled": _tier1_bank(pooled, seed), "A+H": _tier1_bank(single, seed)}
+
+    gap = banks["Pooled"]["A2_minus_A1_accepted"]
+    n_cells = gap.get("n_cells", 0)
+    if n_cells >= TIER1_TEST_MIN_CELLS:
+        boot = gap["_boot"]
+        lo, hi = gap["ci95_cells"]
+        test = {"run": True, "n_cells": n_cells, "alpha": ALPHA,
+                "estimate": gap["estimate"], "ci95_cells": [lo, hi],
+                "rejects": bool(lo > 0 or hi < 0),
+                "p_two_sided": float(min(1.0, 2 * min(np.mean(boot <= 0),
+                                                      np.mean(boot >= 0))))}
+    else:
+        test = {"run": False, "n_cells": n_cells,
+                "reason": f"pooled bank has {n_cells} < {TIER1_TEST_MIN_CELLS} cells: no p-value "
+                          "(small-cluster Type I inflation, paper section 4.7)"}
+
+    all_trials = [t for r in t1_rows + t1h_rows for t in r.get("trials", [])]
+    return {
+        "provenance": {
+            "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "seed": seed, "n_boot": N_BOOT,
+            "trials_usable": {"T1": len(t1), "T1H": len(t1h)},
+            "exclusions": dict(Counter(t.get("status") for t in all_trials
+                                       if t.get("status") != "ok")),
+            "served_models": dict(Counter(m for t in all_trials
+                                          for m in (t.get("served_models") or []))),
+            "total_tokens": {"T1": int(sum(t.get("total_tokens") or 0 for t in t1)),
+                             "T1H": int(sum(t.get("total_tokens") or 0 for t in t1h))},
+        },
+        "note": ("descriptive apart from the one A14 test on the pooled A2 - A1 acceptance; "
+                 "A+H keeps only defects from single-pass Phase-A dumps (drops out_study/R)"),
+        "banks": {name: _strip_boot(b) for name, b in banks.items()},
+        "test_pooled_A2_minus_A1_accepted": test,
     }
 
 
@@ -1960,6 +2107,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--cell", default="core",
                     choices=("core", "c1", "d19", "placement", "severity", "warm", "tier1",
+                             "tier1_pooled",
                              "downstream", "o5sens", "c7", "thinking", "a0fill",
                              "thinking_a0"))
     ap.add_argument("--checkpoint", default=None,
@@ -1971,13 +2119,15 @@ def main() -> int:
                     help="c1/placement/severity: the core, for the serving-drift comparison")
     ap.add_argument("--thinking-checkpoint", default="out_study/T2T/checkpoint.jsonl",
                     help="thinking_a0: the sweep's A1/A2, joined on defect_id and effort")
+    ap.add_argument("--t1h-checkpoint", default="out_study/T1H/checkpoint.jsonl",
+                    help="tier1_pooled: the Option-H replay, pooled with --checkpoint (T1)")
     ap.add_argument("--json", default=None, help="write the full result here")
     ap.add_argument("--seed", type=int, default=DEFAULT_SEED)
     args = ap.parse_args()
     checkpoint = args.checkpoint or {
         "core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
         "placement": "out_study/T2P", "severity": "out_study/T2S", "warm": "out_study/T2W",
-        "tier1": "out_study/T1", "downstream": "out_study/T2D", "o5sens": "out_study/T2",
+        "tier1": "out_study/T1", "tier1_pooled": "out_study/T1", "downstream": "out_study/T2D", "o5sens": "out_study/T2",
         "c7": "out_study/T2L", "thinking": "out_study/T2T",
         "a0fill": "out_study/T2A0", "thinking_a0": "out_study/T2TA0",
     }[args.cell] + "/checkpoint.jsonl"
@@ -1996,6 +2146,9 @@ def main() -> int:
             res = analyse_warm(load_rows(checkpoint), core, seed=args.seed, root=args.root)
         elif args.cell == "tier1":
             res = analyse_tier1(load_rows(checkpoint), seed=args.seed)
+        elif args.cell == "tier1_pooled":
+            res = analyse_tier1_pooled(load_rows(checkpoint), load_rows(args.t1h_checkpoint),
+                                       seed=args.seed)
         elif args.cell == "c7":
             res = analyse_c7(load_rows(checkpoint), core, seed=args.seed, root=args.root)
         elif args.cell == "thinking":

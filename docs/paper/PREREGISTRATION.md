@@ -80,7 +80,7 @@ section records every divergence from it.
 | **A10** | **2026-10-12** | **C7 local replication is defined and wired**: Qwen2.5-7B-Instruct Q4_K_M, Ollama 0.40.3, RTX 5060 Ti 16 GB, 32k context, seed 20261012, temperature 0, output cap 4096. A1/A2 first draw over 142 defects, a second draw on a 1/6 operator stride (22), A3 on the frozen quarter stride (34): 362 trials before context exclusions. G1–G4 and the full protocol/readings are fixed in [`C7_PROTOCOL.md`](C7_PROTOCOL.md) before preflight; exact digest/provenance and passed gates are committed before final trials. | Exploratory; Gemini bases and all existing results remain fixed |
 | **A11** | **2026-10-12** | **C7's original G2 failed (8/10 byte-identical; token calibration 10/10).** Before G4 or final data, use three repetitions per arm and defect-level means: 954 trials before context exclusions, 930 after. Preserve the failed G2 data; bit identity becomes a measured outcome, with calibration, context and schema reliability still gating collection. Full specification: [`C7_A11.md`](C7_A11.md). | Exploratory; no final A10 trial ran; runtime variability is disclosed |
 | **A12** | **2026-11-01** | **Thinking-budget sweep on Gemini 2.5 Flash** (`--cell thinking` → `out_study/T2T`): 45 defects, 1,224 trials across `reasoning_effort` ∈ {`none`, `low`, `medium`, `high`}, dose-response trend test, exact copy contrast, repair decomposition. | Exploratory; core remains frozen |
-| **A13** | **2026-11-13** | **S2 — the A0 ceiling is completed on `gemini-2.5-flash` before its withdrawal (1 Dec 2026).** `--cell a0fill` → `out_study/T2A0`: A0@P1 r = 3 on the 71 core defects the frozen A0 stride skipped, plus an in-session A1@P1 r = 1 anchor — 284 trials. `--cell thinking_a0` → `out_study/T2TA0`: on the 45 T2T defects, A0@P1 r = 3 and the A1@P1 r = 1 anchor at `reasoning_effort` `none` and `high` — 360 trials. Readings, including the case A1 ≥ A0 in restoration, fixed below. | Exploratory; cross-session joins to T2 and T2T are labelled as such; core and T2T untouched |
+| **A13** | **2026-11-13** | **S2 — the A0 ceiling is completed on `gemini-2.5-flash` before its withdrawal (1 Dec 2026).** `--cell a0fill` → `out_study/T2A0`: A0@P1 r = 3 on the 71 core defects the frozen A0 stride skipped, plus an in-session A1@P1 r = 1 anchor — 284 trials. `--cell thinking_a0` → `out_study/T2TA0`: on the 45 T2T defects, A0@P1 r = 3 and the A1@P1 r = 1 anchor at `reasoning_effort` `none` and `high` — 360 trials. Readings, including the case A1 ≥ A0 in restoration, fixed below. *Note 2026-11-14, after the data:* the share of the gap closed is not applicable when A0 − A2 lies wholly below 0 (S2b `none`); see the note at the end of A13. | Exploratory; cross-session joins to T2 and T2T are labelled as such; core and T2T untouched |
 | **A14** | **2026-11-13** | **S3 — the real-defect bank is enlarged by harvest (Option H).** Phase A (observe) on 56 fresh businesses in two stratified batches of 28 into `out_study/H/A`; stop after Batch 1 if the pooled bank (T1 + T1H) reaches ≥ 18 business × stage cells; replay into `out_study/T1H` with the A8 design. T1, T1H and pooled reported side by side; one two-sided cell-cluster bootstrap test on A2 − A1 acceptance iff the pooled bank has ≥ 15 cells. | Descriptive, plus at most one test fixed here; T1 (A8) untouched |
 
 **A1 — the C1 cell, in full.**
@@ -621,6 +621,45 @@ the same effort): S2a ≈ 3.5 M, S2b ≈ 3.2 M, **≈ 6.7 M tokens**.
 `tests/test_run_injection_study.py` and `tests/test_repair_analysis.py`. Script
 hashes are recorded in the amendment commit message.
 
+*Note on the share of the gap closed (2026-11-14, written after the S2a and S2b
+data were seen).* S2b readout 3 assumed that A0 sits above A2, so that A0 − A2
+is a gap A1 can close part of. It does not say what to do when A0 sits *below*
+A2. At `none` it does:
+
+| Exact restoration at `none` (45 defects) | |
+|---|---|
+| A0 | 38.5 % |
+| A1 | 80.7 % |
+| A2 | 57.0 % |
+| A0 − A2 | −18.5 pp [−31.1, −7.4] |
+| A1 − A2 | +23.7 pp |
+
+The CI of A0 − A2 excludes 0, so the rule as filed reports the ratio:
+(A1 − A2)/(A0 − A2) = **−1.28 [−3.90, −0.51]**. A negative share has no
+"gap closed" meaning, because there is no gap from A2 up to A0. The A13 reading
+at `none` is already *A2 below the task level*, under which the share is not
+interpreted.
+
+The rule is therefore clarified as follows. The share is reported only when the
+CI of A0 − A2 lies wholly **above** 0.
+- When the CI lies wholly below 0, the share is recorded as **not applicable
+  (A0 below A2)**. Its value under the literal rule is kept in `analysis.json`
+  and in this note, but not in a results table.
+- When the CI includes 0, the share is withheld, as before.
+- In every case A0 − A2 and A1 − A2 are reported with their CIs, so withholding
+  the ratio removes no information.
+- A share above 1 means A1 restores more often than A0, not that it "closes"
+  more than the whole gap. S2a's pooled share is 1.24 [0.74, 2.50].
+
+What this changes:
+- It touches one descriptive line (S2b `none`). The `high` share stays withheld
+  (CI of A0 − A2 includes 0), and S2a's share stays reported.
+- No reading changes: both efforts and S2a read *A2 below the task level*.
+- No test is affected, and the core and T2T are untouched.
+
+Code: `repair_analysis.share_of_gap` (test
+`test_share_of_gap_is_not_applicable_when_a0_is_below_a2`).
+
 **A14 — the real-defect bank, Option H (harvest) (2026-11-13).**
 
 *Decision.* The supervisor asked (2026-11-13, item 3) for an explicit choice
@@ -687,6 +726,24 @@ fixing class coverage or checker precision.
 *Code still to write before the first T1H trial* (committed and hashed then):
 the pooled / A + H / cell-count stopping report and the ≥ 15-cell test in
 `repair_analysis.py --cell tier1` (currently single-checkpoint).
+
+*Code written 2026-11-14, before any T1H trial:* `repair_analysis.py
+--cell tier1_pooled` (`--checkpoint` T1, `--t1h-checkpoint` T1H). The T1 column
+reproduces `out_study/T1/analysis.json` exactly. Three operational definitions
+the text above left open, fixed here before any T1H outcome exists:
+
+- **Clean-check pass** means the supervisor's verdict on the retried output is
+  `proceed`: no check fires at any level. *Accepted* also counts
+  `proceed_with_warning`, so the clean-check rate is never above acceptance.
+  On T1: A1 23.1 %, A2 64.1 %, A3 25.6 %.
+- **A + H** means defects whose bank source label is `A`, that is Phase-A dumps
+  from `out_study/A` and `out_study/H/A`. It drops the `rep*` sources of
+  `out_study/R`. On T1 that leaves 6 defects in 6 cells.
+- **The ≥ 15-cell gate** counts the pooled cells that carry an A2 − A1
+  difference, meaning at least one usable A1 trial and one usable A2 trial. It
+  is the same count as the bank's cells unless a cell's trials all error. The
+  analysis refuses to run if a defect appears in both T1 and T1H, or if one
+  business × stage pair appears under two cell labels.
 
 ---
 

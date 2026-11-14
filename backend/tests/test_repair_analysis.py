@@ -490,6 +490,62 @@ def test_tier1_reports_the_trace_class_both_ways():
     assert res["trace_class_content_words"]["A1"]["rate"] == pytest.approx(0.0)
 
 
+def _pool_rows(source: str, bids, a1: bool, a2: bool, verdict2="proceed"):
+    """One defect per business; A1/A2/A3 at r = 3 with fixed acceptance."""
+    rows = []
+    for b in bids:
+        d = f"{source}:{b}:reasoning_agent:0"
+        ts = []
+        for arm, acc in (("A1", a1), ("A2", a2), ("A3", False)):
+            for r in range(3):
+                t = _t1_trial(d, f"{b} [{b}] / reasoning_agent", arm, acc, r)
+                t["post_verdict"] = (verdict2 if arm == "A2" else "proceed") if acc else "retry"
+                ts.append(t)
+        rows.append({"defect_id": d, "trials": ts})
+    return rows
+
+
+def test_tier1_pooled_reports_four_banks_and_keeps_r_out_of_the_single_pass():
+    t1 = _pool_rows("A", ["a1", "a2"], False, True) + _pool_rows("rep1", ["r1"], True, True)
+    t1h = _pool_rows("A", ["h1", "h2", "h3"], False, True, verdict2="proceed_with_warning")
+    res = ra.analyse_tier1_pooled(t1, t1h, seed=0)
+    b = res["banks"]
+    assert {k: b[k]["n_cells"] for k in b} == {"T1": 3, "T1H": 3, "Pooled": 6, "A+H": 5}
+    assert b["A+H"]["A2_minus_A1_accepted"]["estimate"] == pytest.approx(1.0)
+    assert b["Pooled"]["A2_minus_A1_accepted"]["estimate"] == pytest.approx(5 / 6)
+    assert b["T1"]["A1_minus_A3_accepted"]["estimate"] == pytest.approx(1 / 3)
+    # clean-check pass counts only `proceed`; acceptance also counts the warning.
+    assert b["T1H"]["accepted"]["A2"]["rate"] == 1.0
+    assert b["T1H"]["clean_check_pass"]["A2"]["rate"] == 0.0
+    assert '"_boot"' not in json.dumps(res)
+    t = res["test_pooled_A2_minus_A1_accepted"]
+    assert t["run"] is False and "6 < 15" in t["reason"] and "p_two_sided" not in t
+
+
+def test_tier1_pooled_runs_the_one_test_at_15_cells():
+    t1 = _pool_rows("A", [f"a{i}" for i in range(7)], False, True)
+    t1h = _pool_rows("A", [f"h{i}" for i in range(8)], True, True)
+    t = ra.analyse_tier1_pooled(t1, t1h, seed=0)["test_pooled_A2_minus_A1_accepted"]
+    assert t["run"] is True and t["n_cells"] == 15
+    assert t["estimate"] == pytest.approx(7 / 15)
+    assert t["rejects"] is True and t["ci95_cells"][0] > 0
+    assert 0 <= t["p_two_sided"] < 0.05
+    null = ra.analyse_tier1_pooled(_pool_rows("A", [f"a{i}" for i in range(15)], True, True),
+                                   [], seed=0)["test_pooled_A2_minus_A1_accepted"]
+    assert null["rejects"] is False and null["p_two_sided"] == 1.0
+
+
+def test_tier1_pooled_refuses_a_defect_in_both_banks_and_a_split_cell():
+    rows = _pool_rows("A", ["a1"], False, True)
+    with pytest.raises(ValueError, match="both T1 and T1H"):
+        ra.analyse_tier1_pooled(rows, rows, seed=0)
+    old = _pool_rows("rep1", ["a1"], False, True)
+    for t in old[0]["trials"]:
+        t["cell"] = "a1 / reasoning_agent"      # pre-2026-11-14 name-only label
+    with pytest.raises(ValueError, match="two cell labels"):
+        ra.analyse_tier1_pooled(old, rows, seed=0)
+
+
 def test_the_cell_bootstrap_resamples_cells_not_defects():
     # Two defects in one cell and one in another: a cell draw moves both together.
     per_defect = {"a": 1.0, "b": 1.0, "c": 0.0}
@@ -875,6 +931,20 @@ def test_share_of_gap_is_withheld_unless_a0_minus_a2_excludes_zero():
     assert res["reported"] is True
     assert res["estimate"] == pytest.approx((1 - 0.5 / 3) / 1.0)
     assert res["ci95"][0] <= res["estimate"] <= res["ci95"][1]
+
+
+def test_share_of_gap_is_not_applicable_when_a0_is_below_a2():
+    # A13 note 2026-11-14: S2b `none` had A0 < A2 with a CI below 0.
+    cm = {}
+    for i in range(20):
+        cm[(f"d{i}", "A0")] = [0, 0, 0]
+        cm[(f"d{i}", "A1")] = [1, 1, 1]
+        cm[(f"d{i}", "A2")] = [1, 1, 0] if i % 2 else [1, 1, 1]
+    res = ra.share_of_gap(cm, "A0", "A1", "A2", seed=0)
+    assert res["reported"] is False and res["applicable"] is False
+    assert "estimate" not in res and "A0 below A2" in res["reason"]
+    assert res["A0_minus_A2_ci95"][1] < 0
+    assert res["literal_rule_value"]["estimate"] < 0
 
 
 def _sweep_rows():
