@@ -35,6 +35,22 @@ def test_every_usable_bank_defect_replays_its_recorded_retry_exactly():
     assert s["trials_by_arm"] == {"A1": 39, "A2": 39, "A3": 39}
 
 
+def test_a_cell_is_business_id_by_stage_not_business_name():
+    # Chains share names (two Wingstops are sampled); A14's stopping rule counts cells.
+    w1 = {"defect_id": "A:w1:reasoning_agent:0", "business_id": "w1",
+          "business_name": "Wingstop", "stage": "reasoning_agent"}
+    w2 = {**w1, "defect_id": "A:w2:reasoning_agent:0", "business_id": "w2"}
+    w1_rep = {**w1, "defect_id": "rep1:w1:reasoning_agent:0"}
+    assert t1.cell_of(w1) != t1.cell_of(w2)
+    assert t1.cell_of(w1) == t1.cell_of(w1_rep)
+    assert t1.cell_of(w1) != t1.cell_of({**w1, "stage": "strategy_agent"})
+    plan = [{"cell": t1.cell_of(e), "stage": e["stage"], "runnable": True, "arms": []}
+            for e in (w1, w2, w1_rep)]
+    assert t1.plan_summary(plan)["cells"] == 2
+    with pytest.raises(ValueError):
+        t1.cell_of({**w1, "business_id": None})
+
+
 @needs_study
 def test_tier1_runs_a1_a2_a3_at_p0_and_never_a0():
     for d in t1.build_plan(str(STUDY_ROOT)):

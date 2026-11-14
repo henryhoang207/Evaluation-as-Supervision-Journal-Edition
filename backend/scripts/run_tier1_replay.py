@@ -74,8 +74,17 @@ TRACE_CLASS = "untraceable_recommendation"
 
 
 def cell_of(entry: dict) -> str:
-    """The business x stage cell a Tier-1 defect nests in (section 2.2)."""
-    return f"{entry.get('business_name')} / {entry['stage']}"
+    """The business x stage cell a Tier-1 defect nests in (section 2.2).
+
+    Keyed by business ID, with the name kept for reading. Chains share names
+    (two Wingstops are sampled), so a name-only label could pool two
+    businesses into one cell, and A14's stopping rule counts cells. T1 rows
+    written before 2026-11-14 carry the name-only label; ``repair_analysis``
+    takes the ID from the defect ID, so it reads both alike.
+    """
+    if not entry.get("business_id"):
+        raise ValueError(f"{entry.get('defect_id')}: bank entry has no business_id")
+    return f"{entry.get('business_name')} [{entry['business_id']}] / {entry['stage']}"
 
 
 def build_plan(root: str, reps: int = DEFAULT_REPS) -> list[dict]:

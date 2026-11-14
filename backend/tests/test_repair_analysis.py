@@ -460,18 +460,31 @@ def _t1_trial(defect, cell, arm, accepted, rep=0, trace=False):
             "same_as_original": not accepted, "served_models": ["m"], "attempts_made": 1}
 
 
+D1, D2 = "A:b1:reasoning_agent:0", "A:b2:reasoning_agent:0"   # defect_bank ID format
+
+
 def test_tier1_rates_average_reps_per_defect_and_run_no_test():
-    rows = [{"defect_id": "d1", "trials": [_t1_trial("d1", "c1", "A1", True, 0),
-                                            _t1_trial("d1", "c1", "A1", False, 1)]},
-            {"defect_id": "d2", "trials": [_t1_trial("d2", "c2", "A1", True, 0)]}]
+    rows = [{"defect_id": D1, "trials": [_t1_trial(D1, "c1", "A1", True, 0),
+                                          _t1_trial(D1, "c1", "A1", False, 1)]},
+            {"defect_id": D2, "trials": [_t1_trial(D2, "c2", "A1", True, 0)]}]
     res = ra.analyse_tier1(rows, seed=0)
     assert res["accepted"]["A1"]["rate"] == pytest.approx(0.75)
     assert res["accepted"]["A1"]["n_cells"] == 2
     assert "mcnemar" not in json.dumps(res)
 
 
+def test_tier1_cells_split_two_businesses_that_share_a_name():
+    # Chains share names (two Wingstops are sampled): one label, two business IDs.
+    label = "Wingstop / reasoning_agent"
+    w1, w2, w1_rep = "A:w1:reasoning_agent:0", "A:w2:reasoning_agent:0", "rep1:w1:reasoning_agent:0"
+    rows = [{"defect_id": d, "trials": [_t1_trial(d, label, "A1", True)]} for d in (w1, w2, w1_rep)]
+    assert ra.analyse_tier1(rows, seed=0)["accepted"]["A1"]["n_cells"] == 2   # w1 twice, w2 once
+    with pytest.raises(ValueError):
+        ra._tier1_cell({"defect_id": "w1", "cell": label})
+
+
 def test_tier1_reports_the_trace_class_both_ways():
-    rows = [{"defect_id": "d1", "trials": [_t1_trial("d1", "c1", "A1", True, trace=True)]}]
+    rows = [{"defect_id": D1, "trials": [_t1_trial(D1, "c1", "A1", True, trace=True)]}]
     res = ra.analyse_tier1(rows, seed=0)
     assert res["trace_class_production"]["A1"]["rate"] == pytest.approx(1.0)
     assert res["trace_class_content_words"]["A1"]["rate"] == pytest.approx(0.0)

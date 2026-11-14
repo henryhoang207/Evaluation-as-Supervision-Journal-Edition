@@ -235,7 +235,11 @@ def build(root: str) -> dict:
 
     genuine = [e for e in entries if e["usable"]]
     cascades = [e for e in entries if e["genuine"] and not e["usable"]]
-    cells = sorted({(e["business_name"], e["stage"]) for e in genuine})
+    # A cell is business ID x stage: chains share names (two Wingstops are
+    # sampled), so keying on the name could pool two businesses.
+    names = {e["business_id"]: e["business_name"] for e in genuine}
+    cells = sorted({(e["business_id"], e["stage"]) for e in genuine},
+                   key=lambda c: (names[c[0]] or "", c[0], c[1]))
 
     return {
         "root": root,
@@ -256,10 +260,10 @@ def build(root: str) -> dict:
             "by_stage": dict(Counter(e["stage"] for e in genuine)),
             "by_class": dict(Counter(c for e in genuine for c in e["classes"])),
             "distinct_cells": len(cells),
-            "distinct_businesses": len({e["business_name"] for e in genuine}),
-            "cells": [{"business": b, "stage": s} for b, s in cells],
+            "distinct_businesses": len(names),
+            "cells": [{"business": names[b], "business_id": b, "stage": s} for b, s in cells],
             "observations_per_cell": dict(
-                Counter(f"{b} / {s}" for b, s in ((e["business_name"], e["stage"]) for e in genuine))
+                Counter(f"{e['business_name']} [{e['business_id']}] / {e['stage']}" for e in genuine)
             ),
         },
     }

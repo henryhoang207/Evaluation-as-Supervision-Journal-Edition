@@ -179,3 +179,20 @@ def test_defect_bank_matches_the_numbers_the_plan_cites():
     assert s["distinct_businesses"] == 6
     # The warn-level frequency signal the plan argues is worth reclaiming.
     assert bank["warn_level_flags"]["frequency_corrected"] == 27
+
+
+def test_bank_cells_are_keyed_by_business_id_not_name(monkeypatch):
+    # Chains share names (two Wingstops are sampled): two businesses, two cells.
+    rows = [{"status": "ok", "business_id": bid, "business_name": "Wingstop",
+             "observations": [{"stage": "reasoning_agent", "would_be_verdict": "retry",
+                               "facts": {}, "retry_feedback": "f"}]}
+            for bid in ("w1", "w2")]
+    monkeypatch.setattr(defect_bank, "sources", lambda root: [("A", "cp", "dumps")])
+    monkeypatch.setattr(defect_bank, "_read_jsonl", lambda path: rows)
+    monkeypatch.setattr(defect_bank, "classify",
+                        lambda stage, facts: (["missing_evidence_id"], True, None))
+    monkeypatch.setattr(defect_bank, "upstream_degenerate", lambda dump_dir, stage: None)
+    s = defect_bank.build("root")["summary"]
+    assert s["distinct_cells"] == 2 and s["distinct_businesses"] == 2
+    assert [c["business_id"] for c in s["cells"]] == ["w1", "w2"]
+    assert len(s["observations_per_cell"]) == 2

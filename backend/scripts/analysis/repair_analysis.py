@@ -1436,6 +1436,23 @@ def _cell_bootstrap(per_defect: dict, cell_of: dict, seed: int, n_boot: int = N_
     return [float(lo), float(hi)]
 
 
+def _tier1_cell(trial: dict) -> tuple[str, str]:
+    """The business x stage cell of a Tier-1 trial, keyed by business ID.
+
+    Until 2026-11-14 the stored ``cell`` label named only the business, and
+    chains share names (two Wingstops are sampled), so the label alone could
+    pool two businesses. The ID comes from the bank's defect ID
+    (``source:business_id:stage:index``, ``defect_bank.build``). The label
+    stays first in the key, so where no two businesses share a name the cells
+    sort, and the cluster bootstrap resamples, exactly as before: T1's
+    intervals are unchanged.
+    """
+    parts = trial["defect_id"].split(":")
+    if len(parts) != 4:
+        raise ValueError(f"not a defect-bank ID: {trial['defect_id']!r}")
+    return (trial["cell"], parts[1])
+
+
 def analyse_tier1(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
     """Section 0.1 A8: the production retry on real defects. Descriptive only.
 
@@ -1446,7 +1463,7 @@ def analyse_tier1(rows: list[dict], seed: int = DEFAULT_SEED) -> dict:
     usable = [t for r in rows for t in r.get("trials", []) if t.get("status") == "ok"]
     excluded = Counter(t.get("status") for r in rows for t in r.get("trials", [])
                        if t.get("status") != "ok")
-    cell_of = {t["defect_id"]: t["cell"] for t in usable}
+    cell_of = {t["defect_id"]: _tier1_cell(t) for t in usable}
 
     def per_arm(field: str, arm: str, only=None) -> dict:
         reps: dict = defaultdict(list)
