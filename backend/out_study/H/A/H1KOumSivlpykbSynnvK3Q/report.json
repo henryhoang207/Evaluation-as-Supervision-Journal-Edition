@@ -1,0 +1,161 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Ukiyo",
+  "sample_size": 214,
+  "executive_summary": "An analysis of 214 customer reviews for Ukiyo reveals significant issues primarily related to inconsistent food quality, long wait times, and staff attitude. Customers also frequently cite concerns about pricing and the restaurant's ambiance. Key root causes include a lack of kitchen quality control, inefficient operations, and insufficient staff training. Recommendations prioritize implementing robust kitchen quality control, optimizing workflow, enhancing staff training, and addressing staffing levels to improve overall customer satisfaction and value perception.",
+  "key_findings": [
+    "Inconsistent or poor food quality, with dishes often not meeting expectations (32% of reviews).",
+    "Miscellaneous negative experiences not fitting other categories (14% of reviews).",
+    "Unfriendly, unhelpful, or inattentive staff (13% of reviews).",
+    "Long wait times for seating or food service (13% of reviews).",
+    "Perceived high prices or poor value for money (12% of reviews).",
+    "Unpleasant or undesirable restaurant atmosphere (7% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent or poor food quality, with dishes often not meeting expectations.",
+      "cause": "Lack of consistent quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Inconsistent or poor food quality, with dishes often not meeting expectations.",
+      "cause": "Inexperienced kitchen staff or high staff turnover.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Inconsistent or poor food quality, with dishes often not meeting expectations.",
+      "cause": "Subpar ingredient sourcing.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Miscellaneous negative experiences not fitting other categories.",
+      "cause": "Unspecified operational inefficiencies or customer experience gaps.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Unfriendly, unhelpful, or inattentive staff.",
+      "cause": "Insufficient staff training on customer service.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Unfriendly, unhelpful, or inattentive staff.",
+      "cause": "Low staff morale or high workload.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Unfriendly, unhelpful, or inattentive staff.",
+      "cause": "Lack of clear service standards.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Long wait times for seating or food service.",
+      "cause": "Understaffing during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Long wait times for seating or food service.",
+      "cause": "Inefficient order processing or kitchen workflow.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Long wait times for seating or food service.",
+      "cause": "Poor table management or seating procedures.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Perceived high prices or poor value for money.",
+      "cause": "Misalignment between perceived value and price.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Perceived high prices or poor value for money.",
+      "cause": "High ingredient costs passed to customers.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Perceived high prices or poor value for money.",
+      "cause": "Lack of competitive pricing strategy.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Unpleasant or undesirable restaurant atmosphere.",
+      "cause": "Poor maintenance or outdated decor.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Unpleasant or undesirable restaurant atmosphere.",
+      "cause": "Overcrowding or noise issues.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Unpleasant or undesirable restaurant atmosphere.",
+      "cause": "Lack of attention to environmental details (lighting, music).",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent or poor food quality due to lack of consistent quality control.",
+      "action": "Implement a comprehensive kitchen quality control program, including standardized recipes, regular taste tests by management, and clear plating guidelines. Conduct daily line checks before service.",
+      "category": "Food",
+      "expected_impact": "Significantly improve consistency and quality of dishes, leading to higher customer satisfaction and repeat business."
+    },
+    {
+      "priority": 2,
+      "issue": "Long wait times for food service due to inefficient order processing or kitchen workflow.",
+      "action": "Analyze and optimize kitchen workflow and the order-to-delivery process. Consider implementing a Kitchen Display System (KDS) or refining communication protocols between front-of-house and back-of-house staff.",
+      "category": "Operations",
+      "expected_impact": "Reduce food delivery times, improve table turnover, and enhance overall customer experience."
+    },
+    {
+      "priority": 3,
+      "issue": "Unfriendly, unhelpful, or inattentive staff due to insufficient staff training on customer service.",
+      "action": "Develop and implement mandatory customer service training for all front-of-house staff, focusing on attentiveness, proactive assistance, and effective conflict resolution.",
+      "category": "Service",
+      "expected_impact": "Improve staff professionalism and friendliness, leading to a more positive dining experience and better reviews."
+    },
+    {
+      "priority": 4,
+      "issue": "Long wait times for seating or food service due to understaffing during peak hours.",
+      "action": "Review staffing levels against historical peak hour demand. Adjust schedules and consider hiring additional staff or cross-training existing staff to ensure adequate coverage during busy periods.",
+      "category": "Operations",
+      "expected_impact": "Reduce wait times for seating and service, improving customer flow and satisfaction during busy periods."
+    },
+    {
+      "priority": 5,
+      "issue": "Inconsistent food quality due to inexperienced kitchen staff/high turnover and subpar ingredient sourcing.",
+      "action": "Invest in ongoing culinary training for kitchen staff, implement a structured onboarding process, and review supplier contracts to ensure consistent high-quality ingredient sourcing.",
+      "category": "Food",
+      "expected_impact": "Elevate overall food quality, reduce errors, and ensure a consistent culinary standard across all dishes."
+    },
+    {
+      "priority": 6,
+      "issue": "Perceived high prices or poor value for money due to misalignment between perceived value and price.",
+      "action": "Conduct a menu engineering analysis to identify high-profit, high-popularity items. Consider offering value-added promotions (e.g., lunch specials, combo deals) or clearly communicating the quality/sourcing of ingredients to justify pricing.",
+      "category": "Pricing",
+      "expected_impact": "Improve customer perception of value, potentially increasing sales and reducing price-related complaints."
+    },
+    {
+      "priority": 7,
+      "issue": "Unfriendly, unhelpful, or inattentive staff due to low staff morale/high workload and lack of clear service standards.",
+      "action": "Implement clear service standards and conduct regular performance feedback sessions. Address staff workload concerns and consider incentive programs to boost morale and engagement.",
+      "category": "Service",
+      "expected_impact": "Foster a more positive work environment, leading to improved staff engagement and better customer interactions."
+    },
+    {
+      "priority": 8,
+      "issue": "Unpleasant or undesirable restaurant atmosphere due to poor maintenance/outdated decor and lack of attention to environmental details.",
+      "action": "Schedule a deep clean and maintenance check for the entire premises. Consider minor aesthetic updates (e.g., fresh paint, updated lighting, new music playlist) to enhance the dining environment.",
+      "category": "Operations",
+      "expected_impact": "Create a more inviting and comfortable atmosphere, improving the overall dining experience and customer comfort."
+    }
+  ],
+  "limitations": [
+    "Analysis is based solely on online customer reviews, which may not represent the entire customer base.",
+    "Review data is subjective and can be influenced by individual biases and emotional states.",
+    "The analysis does not include operational data (e.g., sales figures, staff schedules) which could provide additional context."
+  ],
+  "status": "success",
+  "error_detail": null
+}

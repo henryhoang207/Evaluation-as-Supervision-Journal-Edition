@@ -1,0 +1,41 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation, low-quality ingredients, lack of skilled kitchen staff, or outdated recipes.",
+      "action": "Conduct a comprehensive audit of all menu items, focusing on ingredient sourcing, recipe adherence, and kitchen staff training. Implement daily taste tests and quality checks for consistency across all shifts.",
+      "category": "food",
+      "expected_impact": "Significant improvement in customer satisfaction with food quality, leading to higher repeat business and positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Insufficient staff training, low staff morale, understaffing leading to stress, or lack of proper management oversight.",
+      "action": "Implement a mandatory customer service training program for all front-of-house staff, focusing on attentiveness, friendliness, and efficient problem-solving. Review staffing levels during peak hours and consider incentive programs for excellent service.",
+      "category": "service",
+      "expected_impact": "Enhanced dining experience, increased customer loyalty, and a noticeable reduction in service-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Pricing strategy not aligned with perceived food quality or overall dining experience, or insufficient portion sizes for the price.",
+      "action": "After addressing food quality, re-evaluate menu pricing in conjunction with portion sizes and ingredient costs. Consider introducing value-driven specials or combo meals to enhance perceived value without compromising quality.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value for money, potentially increasing order size and overall revenue."
+    },
+    {
+      "priority": 4,
+      "issue": "Outdated decor, poor maintenance, inadequate lighting/seating, or issues with noise levels.",
+      "action": "Conduct a walk-through inspection of the dining area to identify specific areas for improvement in decor, lighting, seating comfort, and noise reduction. Prioritize minor aesthetic upgrades and maintenance fixes that can be implemented quickly.",
+      "category": "operations",
+      "expected_impact": "A more comfortable and appealing dining environment, contributing to a better overall customer experience and positive word-of-mouth."
+    },
+    {
+      "priority": 5,
+      "issue": "A combination of underlying issues (e.g., specific menu item failures, poor management of special requests, or general operational inefficiencies).",
+      "action": "Implement a direct customer feedback mechanism (e.g., digital surveys via QR code, comment cards) to gather specific details on 'other' negative experiences. Regularly review this feedback to identify and address recurring niche issues or operational glitches.",
+      "category": "operations",
+      "expected_impact": "Proactive identification and resolution of minor, yet impactful, operational issues, preventing general dissatisfaction from escalating."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

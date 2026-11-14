@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent or poor food quality",
+      "action": "Implement standardized recipes and cooking procedures across all kitchen shifts. Conduct daily taste tests and ingredient freshness checks by a senior chef. Provide mandatory refresher training for all kitchen staff on consistency and quality control.",
+      "category": "Food",
+      "expected_impact": "Significantly improve food consistency and quality, leading to higher customer satisfaction and repeat business."
+    },
+    {
+      "priority": 2,
+      "issue": "General dissatisfaction with non-categorized aspects",
+      "action": "Introduce a proactive customer feedback system (e.g., QR code surveys, comment cards, direct manager check-ins) to identify specific 'minor operational issues' or 'unaddressed customer expectations'. Conduct daily pre-opening checklists covering cleanliness, minor repairs, and overall dining area readiness.",
+      "category": "Operations",
+      "expected_impact": "Uncover and resolve hidden operational issues and specific customer pain points, leading to a more polished overall experience and reduced general complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Unfriendly or unhelpful staff attitude",
+      "action": "Launch a comprehensive customer service training program focusing on positive attitude, active listening, and conflict resolution. Implement regular staff check-ins to gauge morale and address concerns. Review staffing levels during peak hours to prevent burnout and ensure adequate support.",
+      "category": "Service",
+      "expected_impact": "Enhance the overall customer experience through improved staff interactions, foster a more positive work environment, and potentially reduce staff turnover."
+    },
+    {
+      "priority": 4,
+      "issue": "Perceived high pricing",
+      "action": "Conduct a detailed competitive pricing analysis against similar establishments in the area. Explore options to enhance perceived value through improved dish presentation, unique ingredient sourcing, or offering value-added bundles/promotions. Clearly communicate the quality and sourcing of ingredients to justify pricing.",
+      "category": "Pricing",
+      "expected_impact": "Increase customer satisfaction with value for money, potentially leading to higher sales volume and improved perception of the restaurant's offerings."
+    },
+    {
+      "priority": 5,
+      "issue": "Excessive wait times for service or food",
+      "action": "Analyze historical data to accurately forecast peak hours and adjust staffing levels accordingly for both front-of-house and kitchen. Optimize kitchen workflow by reviewing station setup and order processing. Implement a digital table management system to improve seating efficiency and order flow.",
+      "category": "Operations",
+      "expected_impact": "Reduce customer wait times, improve service efficiency, increase table turnover, and enhance overall customer satisfaction."
+    },
+    {
+      "priority": 6,
+      "issue": "Unpleasant or uninviting dining ambience",
+      "action": "Schedule a professional assessment of the dining area's decor, lighting, and seating comfort. Implement a preventative maintenance schedule for all fixtures and furniture. Ensure daily deep cleaning protocols are strictly followed, paying attention to details like air quality and table settings.",
+      "category": "Facilities",
+      "expected_impact": "Create a more inviting and comfortable dining environment, attracting more customers and encouraging longer stays and positive reviews."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

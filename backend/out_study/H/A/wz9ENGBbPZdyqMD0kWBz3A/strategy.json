@@ -1,0 +1,55 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor staff attitude and inconsistent service quality.",
+      "action": "Implement a comprehensive customer service training program focusing on attentiveness, friendliness, and conflict resolution. Conduct regular check-ins with staff to gauge morale and address concerns, and consider incentive programs for excellent service.",
+      "category": "Service",
+      "expected_impact": "Significantly improve customer satisfaction, leading to higher review scores, increased repeat business, and a more positive brand image."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent and unsatisfactory food quality.",
+      "action": "Standardize all recipes with clear preparation guidelines, portion controls, and ingredient specifications. Conduct mandatory retraining for all kitchen staff and implement a strict quality control checklist for every dish before it leaves the kitchen.",
+      "category": "Food",
+      "expected_impact": "Ensure consistent high-quality food across all dishes, reducing complaints, enhancing the restaurant's culinary reputation, and driving positive food reviews."
+    },
+    {
+      "priority": 3,
+      "issue": "Overall negative customer experience due to unaddressed minor issues or general dissatisfaction.",
+      "action": "Implement a proactive customer feedback system (e.g., digital surveys via QR codes, comment cards, direct manager check-ins) to capture specific 'other' issues. Conduct a mystery shopper program to identify subtle pain points in the overall dining experience.",
+      "category": "Operations",
+      "expected_impact": "Uncover and address hidden operational or service issues, leading to a more cohesive and positive overall customer experience and preventing minor issues from escalating."
+    },
+    {
+      "priority": 4,
+      "issue": "Customer perception of poor value for money due to high pricing.",
+      "action": "Conduct a thorough competitive pricing analysis and review menu item costs against perceived value. Consider offering value-added options (e.g., combo deals, loyalty programs, daily specials) or slightly adjusting portion sizes/ingredient quality to better justify price points.",
+      "category": "Pricing",
+      "expected_impact": "Improve customer perception of value, potentially increasing sales, reducing price-related complaints, and attracting a broader customer base."
+    },
+    {
+      "priority": 5,
+      "issue": "Unpleasant or undesirable dining atmosphere.",
+      "action": "Assess and update decor, lighting, and seating arrangements to create a more inviting and comfortable space. Address noise issues with sound-dampening solutions or strategic layout changes, and ensure consistent background music that complements the desired ambiance.",
+      "category": "Facilities",
+      "expected_impact": "Enhance the overall dining experience, encouraging longer stays, positive word-of-mouth, and a more enjoyable environment for customers."
+    },
+    {
+      "priority": 6,
+      "issue": "Excessive wait times for seating or service.",
+      "action": "Review staffing levels during peak hours and adjust schedules or hire additional front-of-house and kitchen staff as needed. Implement a more efficient table management system, consider a reservation system, or optimize order processing workflows to reduce bottlenecks.",
+      "category": "Operations",
+      "expected_impact": "Reduce customer frustration, improve table turnover efficiency, and create a smoother, more enjoyable dining experience, especially during busy periods."
+    },
+    {
+      "priority": 7,
+      "issue": "Substandard restaurant cleanliness and hygiene.",
+      "action": "Establish and rigorously enforce a detailed daily, weekly, and monthly cleaning checklist for all areas (dining room, restrooms, kitchen, exterior). Conduct regular spot checks, provide staff with proper cleaning supplies and training, and schedule deep cleaning sessions.",
+      "category": "Operations",
+      "expected_impact": "Create a more hygienic and appealing environment, boosting customer confidence, improving health and safety standards, and eliminating a common source of negative reviews."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

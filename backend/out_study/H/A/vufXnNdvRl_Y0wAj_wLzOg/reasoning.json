@@ -1,0 +1,224 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report negative experiences with food quality.",
+      "aspect": "food_quality",
+      "frequency": 0.41,
+      "evidence_review_ids": [
+        "-xCO5F6eVfN-bRcqrLo4MQ",
+        "03wIcYZGiwtgM2mXpFR3ZA",
+        "0Szv7yjh08Tr2nyZE-TZuQ",
+        "1Pyg00pN6IVfcXL_NpT0Iw",
+        "1XczaB5DButuelt0DAVqGw",
+        "2JqRPniF3LCZw_qc3D91IQ",
+        "2kvs18N0p5PM8xUmka17EQ",
+        "4vwvHAr9kd6MxM6ornDE5w",
+        "5XVr-T6pFbqknWCGtr7CrQ",
+        "7Z1l_54j4Q5rkyiSKmvbDg",
+        "Aup0Iw6oSUtHpiwi6c3p3Q",
+        "Cy5GHfcjlo8MrHELWU766A",
+        "Fcr0bIBiSMjDQfMtboxydQ",
+        "GsGpGzLDmsoDwWVTIHkgjg",
+        "HDdik_Zv3Jpn4WkCINmq8w",
+        "ICz4fkt_JSzHE80BsYCvdA",
+        "KFNv4YWxNo2LFpnwIeETrw",
+        "KnKTmIUEYYN-BoXc8ci1Uw",
+        "Lruf0eDjKTWKFswmx24geQ",
+        "MPqqpptyS3ZyF0hwMedG7Q",
+        "NMd_EVoZGT5aTubtO7Opfg",
+        "OT_Luj9ifznm3k7wIS_X7w",
+        "Qov9J9sZ7Bbn2h2md70u-A",
+        "X78ih5wS5guwqhyUuF1bsg",
+        "XhW79JKKLdHxfTGA4QdyVQ",
+        "ZltFsWzwtA4WUH48I97-NQ",
+        "bdnCVCfgYmOnJc3FXWyVnw",
+        "c0HtXRk2I1vfXLLr70cA4w",
+        "dZ1uVDd7Z8GZZT2fH15qBQ",
+        "dwprMmEo9njog_3QqU5V7w",
+        "fHAOUFx6xhvERURByeCAoQ",
+        "gcTv6E0gTJ0gRfNgbsCVgA",
+        "iR11TBPxnu81moQjxnuwgA",
+        "l4OZm2cDwlKxASvoirPFkg",
+        "pCkoeD2y677pK27cL6AwAA",
+        "rUpGra3VbRo3HyfxnwtIRQ",
+        "ss9rDvApUhR6sEl8r2TXKg",
+        "tNX8uUxpHhsqbdgQINZGlA",
+        "zdLbHOy9DcsXrHLyp6C6UA"
+      ]
+    },
+    {
+      "description": "Customers frequently report negative experiences with staff attitude.",
+      "aspect": "staff_attitude",
+      "frequency": 0.29,
+      "evidence_review_ids": [
+        "-xCO5F6eVfN-bRcqrLo4MQ",
+        "03wIcYZGiwtgM2mXpFR3ZA",
+        "1Pyg00pN6IVfcXL_NpT0Iw",
+        "2JqRPniF3LCZw_qc3D91IQ",
+        "A6_zFTRSoBYP9Uf0RzoYUw",
+        "As39Lh7NwrCaolhzZOcY6A",
+        "Aup0Iw6oSUtHpiwi6c3p3Q",
+        "E2oVKyR__CZOoZb5f2SgYQ",
+        "EEqE2WHu4i6FOPE9qFgp5g",
+        "Gtqhd78p28Zkchj_62nguA",
+        "ICz4fkt_JSzHE80BsYCvdA",
+        "M8Yhwk5U_0lelOAm_YQBqQ",
+        "N6T4Oy8wAJwhkNA2LBB2gQ",
+        "NMd_EVoZGT5aTubtO7Opfg",
+        "OT_Luj9ifznm3k7wIS_X7w",
+        "Qov9J9sZ7Bbn2h2md70u-A",
+        "RcoNPu0T83m66jY89BlVpw",
+        "XhW79JKKLdHxfTGA4QdyVQ",
+        "_SL0udVMGnMYua6v2A0mVg",
+        "cMhWFbvqT0m55B4frD8Ijw",
+        "cUaI8SxexEfwKdWRkaJsvQ",
+        "d9Dv_5wTopi7D_cypR8ywA",
+        "dZ1uVDd7Z8GZZT2fH15qBQ",
+        "fxnaf5RAk74zgEHqG9o7dQ",
+        "iR11TBPxnu81moQjxnuwgA",
+        "tNX8uUxpHhsqbdgQINZGlA",
+        "ut7fhrm5SgGLYRDlUqznHA"
+      ]
+    },
+    {
+      "description": "Customers frequently report negative experiences with ambience.",
+      "aspect": "ambience",
+      "frequency": 0.17,
+      "evidence_review_ids": [
+        "1Pyg00pN6IVfcXL_NpT0Iw",
+        "Cy5GHfcjlo8MrHELWU766A",
+        "EEqE2WHu4i6FOPE9qFgp5g",
+        "ICz4fkt_JSzHE80BsYCvdA",
+        "LLO1Qga_tbkFtAeOpi8FTA",
+        "N1MHCD2NcbagA_Vz9RV7kg",
+        "N6T4Oy8wAJwhkNA2LBB2gQ",
+        "ZltFsWzwtA4WUH48I97-NQ",
+        "c0HtXRk2I1vfXLLr70cA4w",
+        "cMhWFbvqT0m55B4frD8Ijw",
+        "dZ1uVDd7Z8GZZT2fH15qBQ",
+        "i0_KB-Q-21GEMneeDjWa1Q",
+        "pCkoeD2y677pK27cL6AwAA",
+        "rUpGra3VbRo3HyfxnwtIRQ",
+        "ss9rDvApUhR6sEl8r2TXKg",
+        "ut7fhrm5SgGLYRDlUqznHA"
+      ]
+    },
+    {
+      "description": "Customers frequently report negative experiences with wait time.",
+      "aspect": "wait_time",
+      "frequency": 0.2,
+      "evidence_review_ids": [
+        "1XczaB5DButuelt0DAVqGw",
+        "7Z1l_54j4Q5rkyiSKmvbDg",
+        "7nNEVDKTFYwlTfXc-QZIug",
+        "A6_zFTRSoBYP9Uf0RzoYUw",
+        "Aup0Iw6oSUtHpiwi6c3p3Q",
+        "E2oVKyR__CZOoZb5f2SgYQ",
+        "Gtqhd78p28Zkchj_62nguA",
+        "ICz4fkt_JSzHE80BsYCvdA",
+        "KFNv4YWxNo2LFpnwIeETrw",
+        "N6T4Oy8wAJwhkNA2LBB2gQ",
+        "RcoNPu0T83m66jY89BlVpw",
+        "cMhWFbvqT0m55B4frD8Ijw",
+        "d9Dv_5wTopi7D_cypR8ywA",
+        "iR11TBPxnu81moQjxnuwgA",
+        "ss9rDvApUhR6sEl8r2TXKg",
+        "tNX8uUxpHhsqbdgQINZGlA",
+        "ut7fhrm5SgGLYRDlUqznHA",
+        "w2lnh1uN8jgHiXsgK1XkYw"
+      ]
+    },
+    {
+      "description": "Customers frequently report negative experiences with pricing.",
+      "aspect": "pricing",
+      "frequency": 0.2,
+      "evidence_review_ids": [
+        "1XczaB5DButuelt0DAVqGw",
+        "2kvs18N0p5PM8xUmka17EQ",
+        "7Z1l_54j4Q5rkyiSKmvbDg",
+        "Aup0Iw6oSUtHpiwi6c3p3Q",
+        "D-dI-loSPH-J1JyeOQr7sg",
+        "GsGpGzLDmsoDwWVTIHkgjg",
+        "HDdik_Zv3Jpn4WkCINmq8w",
+        "MPqqpptyS3ZyF0hwMedG7Q",
+        "OtSqiD-9iOli9wktK4Cd1g",
+        "Qov9J9sZ7Bbn2h2md70u-A",
+        "XhW79JKKLdHxfTGA4QdyVQ",
+        "bdnCVCfgYmOnJc3FXWyVnw",
+        "c0HtXRk2I1vfXLLr70cA4w",
+        "cUaI8SxexEfwKdWRkaJsvQ",
+        "i0_KB-Q-21GEMneeDjWa1Q",
+        "iR11TBPxnu81moQjxnuwgA",
+        "rUpGra3VbRo3HyfxnwtIRQ",
+        "z5RDUxSTyzzuw4UXnFQnBw"
+      ]
+    },
+    {
+      "description": "Customers frequently report negative experiences with other aspects.",
+      "aspect": "other",
+      "frequency": 0.11,
+      "evidence_review_ids": [
+        "85TivYnWKR2ub1azYirKzw",
+        "D-dI-loSPH-J1JyeOQr7sg",
+        "X78ih5wS5guwqhyUuF1bsg",
+        "bdnCVCfgYmOnJc3FXWyVnw",
+        "c0HtXRk2I1vfXLLr70cA4w",
+        "cUaI8SxexEfwKdWRkaJsvQ",
+        "d9Dv_5wTopi7D_cypR8ywA",
+        "l4OZm2cDwlKxASvoirPFkg",
+        "pb49uGOUqVBS_fLoADyk8Q",
+        "rUpGra3VbRo3HyfxnwtIRQ"
+      ]
+    },
+    {
+      "description": "Customers frequently report negative experiences with cleanliness.",
+      "aspect": "cleanliness",
+      "frequency": 0.04,
+      "evidence_review_ids": [
+        "GsGpGzLDmsoDwWVTIHkgjg",
+        "ZltFsWzwtA4WUH48I97-NQ",
+        "ss9rDvApUhR6sEl8r2TXKg",
+        "ut7fhrm5SgGLYRDlUqznHA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report negative experiences with food quality.",
+      "cause": "Inconsistent food preparation, poor ingredient sourcing, or lack of quality control.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers frequently report negative experiences with staff attitude.",
+      "cause": "Insufficient staff training, understaffing leading to burnout, or poor management oversight.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers frequently report negative experiences with ambience.",
+      "cause": "Unpleasant decor, uncomfortable seating, excessive noise levels, or general lack of inviting atmosphere.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers frequently report negative experiences with wait time.",
+      "cause": "Understaffing, inefficient order processing, or poor kitchen management leading to delays.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers frequently report negative experiences with pricing.",
+      "cause": "Perceived poor value for money, prices not competitive with similar establishments, or unclear pricing.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers frequently report negative experiences with other aspects.",
+      "cause": "Issues not fitting into standard categories, potentially indicating specific menu item problems, facility issues, or service elements not covered by staff attitude.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Customers frequently report negative experiences with cleanliness.",
+      "cause": "Inadequate cleaning protocols, insufficient staff for cleaning, or lack of attention to detail in maintaining hygiene.",
+      "confidence": "high"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

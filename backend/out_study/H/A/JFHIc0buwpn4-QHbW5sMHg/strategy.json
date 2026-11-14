@@ -1,0 +1,41 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inadequate staff training on customer service, lack of motivation/morale among employees, or insufficient management supervision.",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on empathy, active listening, and conflict resolution. Introduce a staff recognition program for excellent service and conduct regular, anonymous staff surveys to gauge morale and identify management issues.",
+      "category": "Service",
+      "expected_impact": "Significant improvement in customer satisfaction, reduction in negative staff-related reviews, and enhanced brand reputation."
+    },
+    {
+      "priority": 2,
+      "issue": "Lack of standardized recipes or preparation procedures, inconsistent ingredient quality, or insufficient quality control checks in the kitchen.",
+      "action": "Develop and enforce detailed, standardized recipe cards and preparation procedures for all menu items. Establish a robust daily quality control checklist for ingredients upon delivery and for prepared dishes before serving, overseen by a dedicated kitchen manager or head chef.",
+      "category": "Food",
+      "expected_impact": "Consistent food quality and taste, leading to higher customer satisfaction and fewer complaints about dishes."
+    },
+    {
+      "priority": 3,
+      "issue": "Understaffing during busy periods, inefficient kitchen operations, or poor table management/seating processes.",
+      "action": "Conduct a peak-hour staffing analysis to identify and address understaffing. Implement a digital table management system to optimize seating and turn times. Streamline kitchen workflows and consider cross-training staff to improve efficiency during rushes.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, increased table turnover, and improved overall operational efficiency, leading to a better customer experience."
+    },
+    {
+      "priority": 4,
+      "issue": "Inadequate cleaning schedules, insufficient staff training on hygiene standards, or lack of regular maintenance.",
+      "action": "Create and enforce a detailed daily, weekly, and monthly cleaning checklist for all areas (dining room, restrooms, kitchen, entrance). Conduct regular spot checks by management and provide refresher training on hygiene and sanitation protocols for all staff.",
+      "category": "Operations",
+      "expected_impact": "A visibly cleaner and more hygienic environment, enhancing customer comfort and perception of quality."
+    },
+    {
+      "priority": 5,
+      "issue": "Pricing strategy not aligned with customer expectations for value, or lack of perceived quality/experience to justify costs.",
+      "action": "Review menu pricing in conjunction with ingredient costs and perceived value. Consider introducing value-added elements (e.g., complimentary amuse-bouche, improved portion sizes, enhanced presentation) or a limited-time promotional offer to demonstrate value. Gather customer feedback on pricing perception.",
+      "category": "Pricing",
+      "expected_impact": "Improved customer perception of value for money, potentially increasing repeat business and reducing price-related complaints."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,56 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Woodstown Hotel & Tavern",
+  "sample_size": 14,
+  "executive_summary": "An analysis of 14 customer reviews for Woodstown Hotel & Tavern reveals significant issues primarily concerning staff attitude, food quality, and restaurant ambience. These problems are likely due to inadequate staff training, inconsistent kitchen procedures, and maintenance shortcomings. Urgent recommendations include comprehensive staff training, implementing strict kitchen quality control, and immediate facility improvements to enhance the overall customer experience.",
+  "key_findings": [
+    "Multiple customers reported negative experiences with the staff's attitude or service.",
+    "There are recurring complaints about the quality of the food being poor or inconsistent.",
+    "The restaurant's ambience or physical environment received negative feedback from several patrons."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Multiple customers reported negative experiences with the staff's attitude or service.",
+      "cause": "Lack of adequate staff training in customer service or insufficient staffing leading to overworked employees.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "There are recurring complaints about the quality of the food being poor or inconsistent.",
+      "cause": "Inconsistent quality control in the kitchen, potentially due to varying ingredient quality or lack of standardized cooking procedures.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "The restaurant's ambience or physical environment received negative feedback from several patrons.",
+      "cause": "Issues with cleanliness, outdated decor, or general lack of maintenance contributing to an unappealing atmosphere.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Negative staff attitude and inconsistent service quality.",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on communication, conflict resolution, and proactive guest engagement. Concurrently, review and adjust staffing levels during peak hours to ensure adequate coverage and prevent employee burnout.",
+      "category": "Service",
+      "expected_impact": "Significantly improved customer satisfaction, higher service ratings, and a more positive and efficient work environment."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent and poor food quality.",
+      "action": "Establish a daily kitchen quality control protocol, including taste tests and visual inspections for all menu items. Standardize all recipes with precise measurements and cooking procedures, and conduct regular reviews of ingredient suppliers to ensure consistent quality.",
+      "category": "Food",
+      "expected_impact": "Consistent delivery of high-quality dishes, leading to fewer food-related complaints and increased customer loyalty."
+    },
+    {
+      "priority": 3,
+      "issue": "Unappealing restaurant ambience due to cleanliness, outdated decor, or lack of maintenance.",
+      "action": "Conduct a deep cleaning of the entire restaurant, including restrooms and less visible areas. Develop a phased plan for decor updates (e.g., fresh paint, updated lighting, modern furnishings) and implement a daily maintenance checklist to ensure ongoing cleanliness and upkeep.",
+      "category": "Operations",
+      "expected_impact": "A more inviting and pleasant dining environment, enhancing the overall customer experience and perceived value of the restaurant."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not fully represent the entire customer base or capture all potential issues."
+  ],
+  "status": "success",
+  "error_detail": null
+}

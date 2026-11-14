@@ -1,0 +1,626 @@
+[
+  {
+    "review_id": "-kOpLvC079GLsH7OU8LIQg",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "2w8EZW_HYG4PB_SiCCKENw",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "4U4sK_F_o6ATKcpgBBpGNg",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "8RSGd0b_OvlH2VeXPrBIkg",
+    "sentiment": "mixed",
+    "aspects": [
+      {
+        "category": "ambience",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "positive"
+      },
+      {
+        "category": "cleanliness",
+        "label": "positive"
+      },
+      {
+        "category": "food_quality",
+        "label": "positive"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "AFo_qJmKx9g5JxzGxp3jEg",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "wait_time",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "other",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "BEUUJ_wEdLHhnM6Ds5gtzw",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "wait_time",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "GCVDRtZ10ImRnHWu88Oc5w",
+    "sentiment": "positive",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "positive"
+      },
+      {
+        "category": "food_quality",
+        "label": "positive"
+      },
+      {
+        "category": "pricing",
+        "label": "positive"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "HRBqM_zCPq4-riekbYBQ0Q",
+    "sentiment": "positive",
+    "aspects": [
+      {
+        "category": "cleanliness",
+        "label": "positive"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "positive"
+      },
+      {
+        "category": "food_quality",
+        "label": "positive"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "JgRSDcxTa8kzI5pLkANATw",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "M1wdldAO1hy7vtgMdth1kA",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "wait_time",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "O0Nmsq9jrNAFOTRMd9SKUw",
+    "sentiment": "mixed",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "positive"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "other",
+        "label": "positive"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "PeE7qYbS34TEM3iHN16d6w",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "positive"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "pricing",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "RakbRn-YHFZNO0Nz1mWTKA",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "VLwlx7sCARi_Nx1pF065vg",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "wait_time",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "cleanliness",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "WZcGTdtMjwFPGodSJDMYpQ",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "pricing",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "YNAFYmRXW1ce4FQcvD_tKw",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "wait_time",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "bJE05lukjmd-ZzorM6BBpA",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "other",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "bkxAhBP6ib0BO16OljLm2A",
+    "sentiment": "positive",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "positive"
+      },
+      {
+        "category": "other",
+        "label": "positive"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "e7PFCYsbCgzkpV3OkApbWg",
+    "sentiment": "positive",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "positive"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "iqCxPPhTq0v5USid2q0wPg",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "jqAH7re3sBgdMNePAp9TXA",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "kLzn7_CN3OBCmT8VJf_Q9w",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "cleanliness",
+        "label": "negative"
+      },
+      {
+        "category": "wait_time",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "kQB_vbKs98uvB1s-4xWEGw",
+    "sentiment": "mixed",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "positive"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "o26Zs7bgrqlL6bkjO6xW6A",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "pricing",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "rnGOlkspTFHAnc47BJ8U-Q",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "sCjKgao-rYmnz_LUTtqG3w",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "cleanliness",
+        "label": "negative"
+      },
+      {
+        "category": "other",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "sUwPXc8ztNZQcB6ByDKo-A",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "wait_time",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "uE4e1JpqZR7iSNnT4NpBCA",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "wait_time",
+        "label": "negative"
+      },
+      {
+        "category": "cleanliness",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "v3mz9-Xa4S6z9vzFyMwchA",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "vEt4S-WL2EKNIGSWX3Jy-g",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "cleanliness",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "vG-VQV9Ak-KED00vrx2ChQ",
+    "sentiment": "mixed",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "positive"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      },
+      {
+        "category": "wait_time",
+        "label": "neutral"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "wUY5QLwDINVbgaukN-SADg",
+    "sentiment": "mixed",
+    "aspects": [
+      {
+        "category": "cleanliness",
+        "label": "positive"
+      },
+      {
+        "category": "ambience",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "positive"
+      },
+      {
+        "category": "pricing",
+        "label": "positive"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "staff_attitude",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "wWbmdX8xikYa4wRj7kWI1Q",
+    "sentiment": "negative",
+    "aspects": [
+      {
+        "category": "other",
+        "label": "negative"
+      },
+      {
+        "category": "wait_time",
+        "label": "negative"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  },
+  {
+    "review_id": "x1pXenwziZArBVUIIV_mXA",
+    "sentiment": "mixed",
+    "aspects": [
+      {
+        "category": "food_quality",
+        "label": "neutral"
+      },
+      {
+        "category": "wait_time",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "negative"
+      },
+      {
+        "category": "food_quality",
+        "label": "positive"
+      }
+    ],
+    "status": "success",
+    "error_detail": null
+  }
+]

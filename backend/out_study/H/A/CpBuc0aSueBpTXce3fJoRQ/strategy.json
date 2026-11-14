@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality across dishes, leading to customer dissatisfaction.",
+      "action": "Implement a comprehensive kitchen standardization program. This includes creating detailed, documented recipes for all dishes, conducting mandatory training for all kitchen staff on these recipes and preparation techniques, and establishing daily quality checks for ingredients and finished dishes by a senior chef.",
+      "category": "food",
+      "expected_impact": "Significant improvement in food consistency and customer satisfaction, leading to fewer complaints and better reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Customers perceive pricing as too high or offering poor value for money.",
+      "action": "Conduct a thorough menu engineering analysis to evaluate profitability and popularity of dishes, alongside a competitive pricing review. Consider adjusting portion sizes, enhancing ingredient quality for key dishes, or introducing value-driven promotions/combo meals to align price with perceived value. Gather direct customer feedback on pricing expectations.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value, potentially increasing sales and reducing price-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Negative customer experiences due to unfriendly, unhelpful, or inattentive staff.",
+      "action": "Implement a mandatory customer service training program focusing on positive attitude, attentiveness, proactive problem-solving, and communication skills. Introduce a staff recognition program for excellent service and ensure adequate staffing levels during peak hours to reduce stress and improve attentiveness.",
+      "category": "service",
+      "expected_impact": "Enhanced customer service, leading to improved guest satisfaction, higher tips, and better online reviews."
+    },
+    {
+      "priority": 4,
+      "issue": "General dissatisfaction and unclassified negative issues indicating minor operational inefficiencies and lack of attention to detail.",
+      "action": "Implement a daily manager walk-through checklist covering all operational areas (cleanliness, table setup, restroom checks, staff readiness, minor maintenance issues) to proactively identify and address small issues before they impact customer experience. Encourage staff to report any operational glitches immediately.",
+      "category": "operations",
+      "expected_impact": "A more polished and consistent overall dining experience, reducing minor irritations and improving general customer sentiment."
+    },
+    {
+      "priority": 5,
+      "issue": "Long wait times for seating, ordering, or receiving food.",
+      "action": "Optimize kitchen workflow and table management. This could involve cross-training staff, implementing a reservation system (if not already in place), using a digital order management system, and reviewing staffing schedules to ensure adequate coverage during peak periods.",
+      "category": "operations",
+      "expected_impact": "Reduced customer wait times, leading to a smoother dining experience and improved customer satisfaction, especially during busy periods."
+    },
+    {
+      "priority": 6,
+      "issue": "Unpleasant or unsatisfactory restaurant ambience.",
+      "action": "Conduct an internal audit of the restaurant's physical space, focusing on decor, lighting, seating comfort, noise levels, and cleanliness. Prioritize small, cost-effective improvements like updating lighting, adding sound dampening elements, or refreshing decor, and ensure regular maintenance.",
+      "category": "operations",
+      "expected_impact": "A more inviting and comfortable dining environment, enhancing the overall customer experience and encouraging longer stays and repeat visits."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

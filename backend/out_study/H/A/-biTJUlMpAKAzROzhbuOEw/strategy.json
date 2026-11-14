@@ -1,0 +1,41 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Negative staff experiences (rudeness, inattentiveness, unhelpfulness)",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on active listening, empathy, conflict resolution, and proactive service. Pair this with regular performance reviews and a clear incentive structure for excellent service.",
+      "category": "service",
+      "expected_impact": "Significantly improved customer satisfaction, reduced negative reviews related to staff, and enhanced brand reputation."
+    },
+    {
+      "priority": 2,
+      "issue": "Dissatisfaction with food quality (taste, preparation, consistency)",
+      "action": "Standardize all recipes with precise measurements and cooking instructions. Conduct weekly taste tests and quality checks led by the head chef. Invest in ongoing culinary training for kitchen staff and establish a consistent ingredient sourcing strategy with quality benchmarks.",
+      "category": "food",
+      "expected_impact": "Consistent high-quality food, increased positive feedback on taste and preparation, and stronger customer loyalty."
+    },
+    {
+      "priority": 3,
+      "issue": "Long wait times for seating, ordering, and food delivery",
+      "action": "Conduct a detailed operational audit during peak hours to identify bottlenecks in seating, order taking, and kitchen workflow. Adjust staffing levels (both FOH and BOH) based on demand patterns, implement a more efficient POS system, and consider a reservation system or waitlist management tool.",
+      "category": "operations",
+      "expected_impact": "Reduced customer frustration, improved table turnover, and a smoother, more enjoyable dining experience."
+    },
+    {
+      "priority": 4,
+      "issue": "Pricing perceived as too high for value/quality",
+      "action": "Re-evaluate the menu pricing strategy in conjunction with a detailed cost analysis and competitor benchmarking. Consider offering value-added options (e.g., combo deals, loyalty programs) or enhancing the perceived value through improved presentation, larger portions, or highlighting premium ingredients. Address food quality issues (Priority 2) to align price with perceived value.",
+      "category": "pricing",
+      "expected_impact": "Better alignment of price with customer expectations, reduced complaints about value, and potentially increased sales."
+    },
+    {
+      "priority": 5,
+      "issue": "Dissatisfaction with restaurant atmosphere (decor, cleanliness, comfort)",
+      "action": "Perform a thorough assessment of the dining area's decor, lighting, seating comfort, and cleanliness. Develop a schedule for deep cleaning and regular maintenance. Consider minor aesthetic updates or re-arrangements to improve comfort and visual appeal, ensuring a welcoming and well-maintained environment.",
+      "category": "operations",
+      "expected_impact": "A more pleasant and inviting dining environment, contributing to a better overall customer experience and positive word-of-mouth."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

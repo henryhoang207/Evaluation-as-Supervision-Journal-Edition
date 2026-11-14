@@ -1,0 +1,129 @@
+{
+  "business_name": "La Pita",
+  "business_id": "7VpTJyMcAnEA-Y6vj0XV4w",
+  "run_config": {
+    "provider": "google-gemini (openai-compatible)",
+    "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "primary_model": "gemini-2.5-flash",
+    "fallback_model": "gemini-2.5-flash"
+  },
+  "pipeline_status": "complete",
+  "skipped_agents": [],
+  "failed_agent": null,
+  "errors": {},
+  "retry_counts": {},
+  "flags": [],
+  "last_verdict": "proceed",
+  "observations": [
+    {
+      "stage": "analysis_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "n_loaded": 214,
+        "n_success": 214,
+        "failure_ratio": 0.0,
+        "failure_details": [],
+        "contradiction_rate": 0.0,
+        "contradictions": []
+      }
+    },
+    {
+      "stage": "reasoning_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 214,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "food_quality",
+            "description": "Customers frequently report dissatisfaction with the quality",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.107,
+            "recomputed_frequency": 0.10747663551401869
+          },
+          {
+            "index": 1,
+            "aspect": "ambience",
+            "description": "Several reviews mention a negative or unappealing atmosphere",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.051,
+            "recomputed_frequency": 0.056074766355140186
+          },
+          {
+            "index": 2,
+            "aspect": "other",
+            "description": "A variety of miscellaneous negative experiences are reported",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.051,
+            "recomputed_frequency": 0.0514018691588785
+          },
+          {
+            "index": 3,
+            "aspect": "staff_attitude",
+            "description": "A noticeable number of customers experienced negative intera",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.023,
+            "recomputed_frequency": 0.02336448598130841
+          },
+          {
+            "index": 4,
+            "aspect": "cleanliness",
+            "description": "Multiple reviews highlight issues with the restaurant's clea",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.019,
+            "recomputed_frequency": 0.018691588785046728
+          },
+          {
+            "index": 5,
+            "aspect": "wait_time",
+            "description": "Customers occasionally complain about excessive wait times.",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.009,
+            "recomputed_frequency": 0.009345794392523364
+          }
+        ]
+      }
+    },
+    {
+      "stage": "strategy_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": []
+      }
+    },
+    {
+      "stage": "report_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [],
+        "invented_recommendations": [],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    }
+  ],
+  "phase": "A",
+  "mode": "observe",
+  "wall_clock_s": 506.15,
+  "stratum": "p90"
+}

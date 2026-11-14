@@ -1,0 +1,82 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Wingstop",
+  "sample_size": 34,
+  "executive_summary": "This report analyzes 34 customer reviews for Wingstop, revealing significant issues primarily related to staff attitude, excessive wait times, and inconsistent food quality. These factors are negatively impacting customer satisfaction and the overall dining experience. Key recommendations include implementing comprehensive staff training, optimizing operational processes, and standardizing food preparation to improve service, efficiency, and product consistency.",
+  "key_findings": [
+    "Customers frequently report negative experiences with staff, including rudeness, unhelpfulness, or general lack of attentiveness (47% of reviews).",
+    "Customers consistently experience long wait times for seating, ordering, or receiving their food (41% of reviews).",
+    "A significant number of reviews indicate dissatisfaction with the quality of the food, suggesting inconsistency or specific issues with dishes (26% of reviews).",
+    "Several customers reported issues with the cleanliness of the restaurant (12% of reviews).",
+    "A few reviews mention a negative experience related to the restaurant's atmosphere (6% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Poor Staff Attitude",
+      "cause": "Inadequate staff training on customer service, high staff turnover, or insufficient management oversight leading to a decline in service standards.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Excessive Wait Times",
+      "cause": "Understaffing (both front-of-house and kitchen), inefficient operational processes (e.g., order taking, food preparation, table turnover), or poor capacity management during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Inconsistent Food Quality",
+      "cause": "Lack of standardized recipes and cooking procedures, inconsistent quality of ingredients from suppliers, or insufficient training and supervision of kitchen staff.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Poor Cleanliness",
+      "cause": "Insufficient cleaning schedule or protocols, lack of dedicated cleaning staff, or inadequate supervision to ensure cleanliness standards are met.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Unpleasant Ambience",
+      "cause": "Outdated or poorly maintained decor, excessive noise levels, or general lack of attention to the dining environment.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor Staff Attitude",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on communication, problem-solving, and attentiveness. Include regular refreshers and performance reviews tied to service standards.",
+      "category": "Service",
+      "expected_impact": "Significant improvement in customer satisfaction, leading to better reviews and repeat business by addressing rudeness and lack of attentiveness."
+    },
+    {
+      "priority": 2,
+      "issue": "Excessive Wait Times",
+      "action": "Conduct a detailed operational audit during peak hours to identify bottlenecks in seating, order taking, and kitchen workflow. Implement process improvements (e.g., digital ordering, pre-bussing, optimized kitchen stations) and adjust staffing levels based on demand forecasting.",
+      "category": "Operations",
+      "expected_impact": "Reduced wait times for seating, ordering, and food delivery, improving table turnover and enhancing the overall customer experience."
+    },
+    {
+      "priority": 3,
+      "issue": "Inconsistent Food Quality",
+      "action": "Develop and enforce strict standardized recipes and cooking procedures for all dishes. Implement a robust quality control system for incoming ingredients and conduct regular taste tests and kitchen staff training on consistency.",
+      "category": "Food",
+      "expected_impact": "Consistent high-quality food across all dishes, leading to increased customer satisfaction and positive food reviews."
+    },
+    {
+      "priority": 4,
+      "issue": "Poor Cleanliness",
+      "action": "Establish a detailed daily and weekly cleaning checklist for all areas (dining room, restrooms, kitchen, entrance). Assign clear responsibilities, allocate dedicated cleaning time, and implement regular management checks to ensure adherence.",
+      "category": "Operations",
+      "expected_impact": "A visibly cleaner and more hygienic environment, improving customer perception of the restaurant and overall dining comfort."
+    },
+    {
+      "priority": 5,
+      "issue": "Unpleasant Ambience",
+      "action": "Conduct a walk-through audit of the dining area to identify outdated decor, lighting issues, and potential noise sources. Plan for minor aesthetic updates (e.g., fresh paint, updated lighting, sound dampening solutions) to create a more inviting atmosphere.",
+      "category": "Operations",
+      "expected_impact": "A more pleasant and comfortable dining environment, contributing to a better overall customer experience and positive perception of the restaurant."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a sample size of 34 reviews, which may not fully represent the entire customer base or all operational periods. Further analysis with a larger dataset would provide more robust insights."
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation, low-quality ingredients, or issues with recipe execution.",
+      "action": "Implement a standardized recipe and portion control system, conduct daily taste tests, and source higher-quality ingredients. Provide refresher training for kitchen staff on preparation techniques.",
+      "category": "food",
+      "expected_impact": "Significant improvement in food consistency and taste, leading to higher customer satisfaction and repeat business."
+    },
+    {
+      "priority": 2,
+      "issue": "Perceived high prices relative to food quality/portion size or local market, or lack of clear value proposition.",
+      "action": "Conduct a competitive pricing analysis. Consider adjusting prices, increasing portion sizes, or introducing value-driven specials/combo meals. Clearly communicate the value proposition of dishes.",
+      "category": "pricing",
+      "expected_impact": "Enhanced perception of value, potentially increasing sales volume and customer loyalty."
+    },
+    {
+      "priority": 3,
+      "issue": "Lack of proper staff training, insufficient staffing leading to stress, or poor management oversight.",
+      "action": "Implement comprehensive customer service training for all front-of-house staff, focusing on attitude, attentiveness, and problem-solving. Review staffing levels during peak hours and improve management supervision.",
+      "category": "service",
+      "expected_impact": "Improved customer experience, leading to better reviews and a more positive restaurant atmosphere."
+    },
+    {
+      "priority": 4,
+      "issue": "Outdated decor, poor lighting, uncomfortable seating, or excessive noise levels.",
+      "action": "Conduct an audit of the dining area. Prioritize improvements such as updating decor, optimizing lighting, replacing uncomfortable seating, and implementing sound-dampening solutions.",
+      "category": "operations",
+      "expected_impact": "A more inviting and comfortable dining environment, enhancing the overall customer experience."
+    },
+    {
+      "priority": 5,
+      "issue": "General operational inefficiencies, lack of attention to detail, or specific recurring minor issues.",
+      "action": "Implement a daily operational checklist for all areas (kitchen, front-of-house, restrooms) to ensure consistency and attention to detail. Encourage staff to report minor issues promptly for resolution.",
+      "category": "operations",
+      "expected_impact": "Reduction in minor complaints and a more polished, efficient operation."
+    },
+    {
+      "priority": 6,
+      "issue": "Understaffing during peak hours, inefficient order processing, or kitchen delays.",
+      "action": "Analyze peak hour traffic and adjust staffing schedules accordingly. Streamline order taking and kitchen communication processes. Consider implementing a reservation system or a digital waitlist.",
+      "category": "operations",
+      "expected_impact": "Shorter wait times, leading to improved customer satisfaction and reduced customer frustration."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

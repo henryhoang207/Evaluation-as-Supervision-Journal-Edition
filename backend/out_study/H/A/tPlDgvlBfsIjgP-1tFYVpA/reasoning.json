@@ -1,0 +1,63 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently experience long wait times for service or food.",
+      "aspect": "wait_time",
+      "frequency": 0.5714,
+      "evidence_review_ids": [
+        "0XKIwYpFOJvHBBUo062h_Q",
+        "1zCglKjYwA2wNceLQsiyxg",
+        "3mSfNBCbxS9Rm7gAGT_8zg",
+        "QcLSIUyyJFzqT4-esLb9-Q",
+        "b_BBITIa5NXNniMaACEEfA",
+        "rUgElwEn3txhHboYWzugKg",
+        "uExl7UCjfKLltsi8Wka99Q",
+        "yFa_RccIyC6Aye4aCq6Xmg"
+      ]
+    },
+    {
+      "description": "A significant number of reviews mention negative staff attitudes, such as unfriendliness or unhelpfulness.",
+      "aspect": "staff_attitude",
+      "frequency": 0.6428,
+      "evidence_review_ids": [
+        "0XKIwYpFOJvHBBUo062h_Q",
+        "3K4O4t_ozQx2SM9KctVncw",
+        "3mSfNBCbxS9Rm7gAGT_8zg",
+        "QcLSIUyyJFzqT4-esLb9-Q",
+        "X_K-5lzn7FqCnJXpz5iesQ",
+        "b_BBITIa5NXNniMaACEEfA",
+        "rUgElwEn3txhHboYWzugKg",
+        "uExl7UCjfKLltsi8Wka99Q",
+        "yFa_RccIyC6Aye4aCq6Xmg"
+      ]
+    },
+    {
+      "description": "Some customers express dissatisfaction with the quality of the food.",
+      "aspect": "food_quality",
+      "frequency": 0.1428,
+      "evidence_review_ids": [
+        "3mSfNBCbxS9Rm7gAGT_8zg",
+        "pudikhBNZCdciKMjP29C6g"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently experience long wait times for service or food.",
+      "cause": "Understaffing or inefficient operational processes leading to slow service delivery.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of reviews mention negative staff attitudes, such as unfriendliness or unhelpfulness.",
+      "cause": "Lack of proper staff training, low employee morale, or high stress levels due to operational pressures (e.g., understaffing).",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Some customers express dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent food preparation standards or issues with ingredient quality.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

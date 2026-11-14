@@ -1,0 +1,107 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report dissatisfaction with the quality of the food, citing issues with taste, preparation, or freshness.",
+      "aspect": "food_quality",
+      "frequency": 0.41,
+      "evidence_review_ids": [
+        "3OLfrsoakvOjfiFiHxp9gA",
+        "3VG_YxTWTYGj8HO3Mk_NNg",
+        "89zeUqhI9e6DxuRmXIp8eg",
+        "9uZ8QnYH9aGgP_jne_MBzg",
+        "OtV_u6Qk6sc66hpcn2xRRA",
+        "Pjuv53N3A-J5YqjlR36qzQ",
+        "Q-4k9xitWdpnE7ZIeSTjZg",
+        "QLIi6FIVCpC-sg2vHRlHUA",
+        "lKH9dv0hlt6tOU2gLr74fQ",
+        "lNsDcjx7bT5firAdbTB2ag",
+        "oPqFQB_mrnAeF5nX6pLLhw",
+        "pWlqiea6_ZAJoidiBP_q8w",
+        "rIFXEyFNrQbpYaSMwPy7Qw",
+        "wluU6ZDrx1iE1HuyjQ6ZiA"
+      ]
+    },
+    {
+      "description": "A significant number of reviews highlight negative interactions with staff, including rudeness, unhelpfulness, or poor service attitude.",
+      "aspect": "staff_attitude",
+      "frequency": 0.32,
+      "evidence_review_ids": [
+        "3OLfrsoakvOjfiFiHxp9gA",
+        "3VG_YxTWTYGj8HO3Mk_NNg",
+        "Bmp1BnVEbe9FRCVtHV7vEw",
+        "CuawOwB-stge9ReFaCRngg",
+        "N2lDeBZSAw3VJiQECDPdhQ",
+        "PX3KXLETeDDtcIl0mZafjA",
+        "QLIi6FIVCpC-sg2vHRlHUA",
+        "aYfCN_xz7GsVuH63xeAGHg",
+        "i8WyECCWRKrKAJPS2Qf0YA",
+        "pWlqiea6_ZAJoidiBP_q8w",
+        "wluU6ZDrx1iE1HuyjQ6ZiA"
+      ]
+    },
+    {
+      "description": "Several reviews indicate a general negative experience not tied to specific categories, suggesting broader operational or environmental issues.",
+      "aspect": "other",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "3OLfrsoakvOjfiFiHxp9gA",
+        "Bmp1BnVEbe9FRCVtHV7vEw",
+        "CuawOwB-stge9ReFaCRngg",
+        "Ftz14AHWQJCISmMBaNG4og",
+        "N2lDeBZSAw3VJiQECDPdhQ",
+        "PX3KXLETeDDtcIl0mZafjA",
+        "QLIi6FIVCpC-sg2vHRlHUA"
+      ]
+    },
+    {
+      "description": "Customers frequently perceive the prices as too high for the value received, leading to dissatisfaction with the cost-effectiveness.",
+      "aspect": "pricing",
+      "frequency": 0.12,
+      "evidence_review_ids": [
+        "89zeUqhI9e6DxuRmXIp8eg",
+        "9uZ8QnYH9aGgP_jne_MBzg",
+        "QLIi6FIVCpC-sg2vHRlHUA",
+        "pWlqiea6_ZAJoidiBP_q8w"
+      ]
+    },
+    {
+      "description": "Customers often complain about excessive wait times for service or food, impacting their overall dining experience.",
+      "aspect": "wait_time",
+      "frequency": 0.09,
+      "evidence_review_ids": [
+        "3VG_YxTWTYGj8HO3Mk_NNg",
+        "Bmp1BnVEbe9FRCVtHV7vEw",
+        "PX3KXLETeDDtcIl0mZafjA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food, citing issues with taste, preparation, or freshness.",
+      "cause": "Inconsistent food preparation, use of sub-par ingredients, or lack of effective quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of reviews highlight negative interactions with staff, including rudeness, unhelpfulness, or poor service attitude.",
+      "cause": "Insufficient staff training in customer service, low staff morale, or understaffing leading to stressed employees.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Several reviews indicate a general negative experience not tied to specific categories, suggesting broader operational or environmental issues.",
+      "cause": "General operational inefficiencies, lack of attention to the overall customer experience, or a combination of minor issues that accumulate.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers frequently perceive the prices as too high for the value received, leading to dissatisfaction with the cost-effectiveness.",
+      "cause": "Pricing strategy not aligned with customer expectations of value, high ingredient/operational costs, or lack of competitive pricing.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers often complain about excessive wait times for service or food, impacting their overall dining experience.",
+      "cause": "Inefficient kitchen operations, understaffing during peak hours, or poor order management and communication.",
+      "confidence": "high"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

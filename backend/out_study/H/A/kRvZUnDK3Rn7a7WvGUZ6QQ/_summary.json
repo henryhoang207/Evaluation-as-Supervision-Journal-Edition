@@ -1,0 +1,129 @@
+{
+  "business_name": "The Original Clam Tavern",
+  "business_id": "kRvZUnDK3Rn7a7WvGUZ6QQ",
+  "run_config": {
+    "provider": "google-gemini (openai-compatible)",
+    "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "primary_model": "gemini-2.5-flash",
+    "fallback_model": "gemini-2.5-flash"
+  },
+  "pipeline_status": "complete",
+  "skipped_agents": [],
+  "failed_agent": null,
+  "errors": {},
+  "retry_counts": {},
+  "flags": [],
+  "last_verdict": "proceed",
+  "observations": [
+    {
+      "stage": "analysis_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "n_loaded": 214,
+        "n_success": 214,
+        "failure_ratio": 0.0,
+        "failure_details": [],
+        "contradiction_rate": 0.0,
+        "contradictions": []
+      }
+    },
+    {
+      "stage": "reasoning_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 214,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "food_quality",
+            "description": "Customers frequently report dissatisfaction with the quality",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.121,
+            "recomputed_frequency": 0.12149532710280374
+          },
+          {
+            "index": 1,
+            "aspect": "pricing",
+            "description": "A notable number of customers perceive the prices to be too ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.075,
+            "recomputed_frequency": 0.07476635514018691
+          },
+          {
+            "index": 2,
+            "aspect": "wait_time",
+            "description": "Customers frequently experience delays in service or long wa",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.061,
+            "recomputed_frequency": 0.06074766355140187
+          },
+          {
+            "index": 3,
+            "aspect": "staff_attitude",
+            "description": "Several reviews indicate issues with the staff's attitude, a",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.051,
+            "recomputed_frequency": 0.04672897196261682
+          },
+          {
+            "index": 4,
+            "aspect": "ambience",
+            "description": "A recurring complaint is about the restaurant's atmosphere o",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.047,
+            "recomputed_frequency": 0.04672897196261682
+          },
+          {
+            "index": 5,
+            "aspect": "other",
+            "description": "A significant number of reviews mention various other negati",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.098,
+            "recomputed_frequency": 0.102803738317757
+          }
+        ]
+      }
+    },
+    {
+      "stage": "strategy_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": []
+      }
+    },
+    {
+      "stage": "report_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [],
+        "invented_recommendations": [],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    }
+  ],
+  "phase": "A",
+  "mode": "observe",
+  "wall_clock_s": 651.38,
+  "stratum": "p90"
+}

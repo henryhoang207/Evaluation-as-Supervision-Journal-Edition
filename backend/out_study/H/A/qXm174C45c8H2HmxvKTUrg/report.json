@@ -1,0 +1,95 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Saltus Gyros",
+  "sample_size": 92,
+  "executive_summary": "Saltus Gyros is experiencing significant customer dissatisfaction, primarily driven by poor staff attitude, inconsistent food quality, and excessive wait times. These core issues are contributing to an overall negative dining experience and impacting the restaurant's reputation. Addressing these operational and service deficiencies through targeted training, quality control, and process optimization is crucial for improving customer satisfaction and business performance.",
+  "key_findings": [
+    "Customers frequently report negative experiences with staff attitude, including rudeness, unhelpfulness, or general lack of attentiveness (21.7% of reviews).",
+    "A significant number of reviews mention issues with food quality, such as dishes being poorly prepared, tasting bad, or not meeting expectations (20.7% of reviews).",
+    "Customers often complain about excessive waiting periods for seating, ordering, or receiving their food (18.5% of reviews).",
+    "A notable portion of reviews indicate general dissatisfaction or unspecified negative issues, often alongside other specific complaints (15.2% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report negative experiences with staff attitude, including rudeness, unhelpfulness, or general lack of attentiveness.",
+      "cause": "Inadequate staff training on customer service, low staff morale, insufficient staffing leading to overworked employees, or lack of clear service standards.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of reviews mention issues with food quality, such as dishes being poorly prepared, tasting bad, or not meeting expectations.",
+      "cause": "Lack of standardized recipes or preparation methods, inconsistent ingredient sourcing, insufficient training for kitchen staff, high staff turnover in the kitchen, or poor quality control processes.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers often complain about excessive waiting periods for seating, ordering, or receiving their food.",
+      "cause": "Understaffing (both front-of-house and kitchen), inefficient order processing systems, poor kitchen management, or inadequate preparedness for peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A notable portion of reviews indicate general dissatisfaction or unspecified negative issues, often alongside other specific complaints.",
+      "cause": "Likely a combination of multiple underlying issues (e.g., service, food, wait times) contributing to an overall poor experience, or other uncaptured aspects like uncomfortable environment or specific menu item unavailability.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Some customers find the prices to be too high, especially when considering the overall experience or quality.",
+      "cause": "Perceived poor value for money (often exacerbated by issues in food quality or service), pricing not competitive with similar establishments, or lack of transparency in pricing.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A small but noticeable number of reviews mention problems with cleanliness, indicating potential hygiene issues.",
+      "cause": "Inadequate cleaning protocols, insufficient cleaning staff, lack of regular inspections, or poor management oversight of hygiene standards.",
+      "confidence": "high"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent and poor staff attitude, including rudeness and lack of attentiveness.",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on attentiveness, problem-solving, and positive communication. Follow up with regular performance reviews and positive reinforcement.",
+      "category": "Service",
+      "expected_impact": "Significantly improved customer interactions, leading to higher satisfaction, increased positive reviews, and enhanced staff morale."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent food quality, including poorly prepared dishes and unmet expectations.",
+      "action": "Develop and enforce standardized recipes and preparation protocols for all menu items. Implement a robust daily quality control system, including taste tests and visual inspections by kitchen management, to ensure consistency and adherence to standards.",
+      "category": "Food",
+      "expected_impact": "Consistent, high-quality dishes that consistently meet customer expectations, enhancing the restaurant's reputation and reducing food-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Excessive waiting periods for seating, ordering, and receiving food.",
+      "action": "Conduct a detailed operational audit during peak hours to identify bottlenecks in seating, order taking, and kitchen production. Based on findings, adjust staffing levels, optimize kitchen workflow, and consider implementing a digital waitlist or reservation system.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, improved operational efficiency, higher table turnover, and a smoother, more enjoyable dining experience."
+    },
+    {
+      "priority": 4,
+      "issue": "General dissatisfaction or unspecified negative issues, indicating an overall poor experience.",
+      "action": "Implement a proactive customer feedback system (e.g., digital surveys via QR codes on tables, direct manager check-ins) to capture specific details on general dissatisfaction and identify emerging or less frequent issues not covered by other categories.",
+      "category": "Customer Experience",
+      "expected_impact": "Deeper insights into customer pain points, enabling targeted improvements beyond the most frequent issues and fostering a sense of being heard by customers."
+    },
+    {
+      "priority": 5,
+      "issue": "Perceived poor value for money, leading to complaints about high prices.",
+      "action": "Review current menu pricing against competitor offerings and ingredient costs. Consider introducing value-focused promotions (e.g., lunch specials, combo deals) or clearly highlighting the quality, source, or unique preparation methods of ingredients to justify pricing.",
+      "category": "Pricing",
+      "expected_impact": "Improved customer perception of value, potentially increasing sales, attracting new customers, and reducing price-related complaints."
+    },
+    {
+      "priority": 6,
+      "issue": "Inadequate cleanliness and hygiene standards.",
+      "action": "Establish and enforce a rigorous daily and weekly cleaning checklist for all areas (dining room, restrooms, kitchen, and exterior). Conduct regular, unannounced management inspections and provide ongoing staff training on hygiene protocols and standards.",
+      "category": "Operations",
+      "expected_impact": "Enhanced customer comfort and safety, improved restaurant image, compliance with health regulations, and a more pleasant environment for both customers and staff."
+    }
+  ],
+  "limitations": [
+    "The analysis is based solely on customer review data, which may not capture all operational nuances or internal perspectives.",
+    "The sample size of 92 reviews, while indicative, may not represent the full spectrum of customer experiences over a longer period.",
+    "Sentiment analysis relies on interpretation and may not perfectly reflect every customer's intent."
+  ],
+  "status": "success",
+  "error_detail": null
+}

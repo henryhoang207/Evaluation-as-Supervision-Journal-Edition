@@ -1,0 +1,50 @@
+{
+  "patterns": [
+    {
+      "description": "Customers occasionally experience issues with the quality of the food, indicating inconsistency.",
+      "aspect": "food_quality",
+      "frequency": 0.0588,
+      "evidence_review_ids": [
+        "18dBCj5ArY1msVhMrt5bRg",
+        "TgTyw78HvYS7tdZngR3vTw"
+      ]
+    },
+    {
+      "description": "A small number of reviews indicate general dissatisfaction or issues not fitting into specific categories, labeled as 'other'.",
+      "aspect": "other",
+      "frequency": 0.0588,
+      "evidence_review_ids": [
+        "NOcCiVrO84M6A-9VGlhEvQ",
+        "TgTyw78HvYS7tdZngR3vTw"
+      ]
+    },
+    {
+      "description": "Some customers found the restaurant's atmosphere or environment to be unpleasant.",
+      "aspect": "ambience",
+      "frequency": 0.0588,
+      "evidence_review_ids": [
+        "TgTyw78HvYS7tdZngR3vTw",
+        "XA-myBG99x4Db_fxyV82VA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers occasionally experience issues with the quality of the food, indicating inconsistency.",
+      "cause": "Potential causes include varying ingredient freshness, inconsistent cooking standards across shifts or staff, or issues with specific menu items.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A small number of reviews indicate general dissatisfaction or issues not fitting into specific categories, labeled as 'other'.",
+      "cause": "Without specific details from the reviews, the underlying cause for 'other' negative feedback is difficult to pinpoint. It could relate to minor operational glitches, specific unmentioned aspects, or personal preferences.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Some customers found the restaurant's atmosphere or environment to be unpleasant.",
+      "cause": "Possible causes include issues with decor, lighting, noise levels, cleanliness (though 'cleanliness' was a separate aspect in one review), or general upkeep of the dining area.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

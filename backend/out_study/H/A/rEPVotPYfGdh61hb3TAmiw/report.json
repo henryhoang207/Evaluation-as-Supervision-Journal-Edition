@@ -1,0 +1,109 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Zaxby's Chicken Fingers & Buffalo Wings",
+  "sample_size": 34,
+  "executive_summary": "This report analyzes 34 customer reviews for Zaxby's Chicken Fingers & Buffalo Wings, revealing significant areas for improvement. The primary concerns are food quality (44.1% of reviews), poor staff attitude (38.2%), and consistently long wait times (29.4%). These issues are rooted in inconsistent operational standards, insufficient staff training, and potential understaffing. Addressing these core problems through targeted quality control, customer service training, and operational efficiency enhancements is crucial for improving overall customer satisfaction and business performance.",
+  "key_findings": [
+    "Customers frequently report dissatisfaction with the quality of the food (44.1% of reviews).",
+    "Staff members are often described as having a poor or unhelpful attitude (38.2% of reviews).",
+    "Customers experience consistently long wait times for service or food (29.4% of reviews).",
+    "Customers express general dissatisfaction or encounter various unspecified negative issues (23.5% of reviews).",
+    "Concerns are raised regarding the cleanliness of the establishment (8.8% of reviews).",
+    "The restaurant's atmosphere or ambiance is negatively perceived (5.9% of reviews).",
+    "Customers find the pricing to be unsatisfactory or too high (5.9% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent ingredient quality, poor cooking standards, or lack of attention to detail in food preparation.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Staff members are often described as having a poor or unhelpful attitude.",
+      "cause": "Insufficient staff training in customer service, low staff morale, or inadequate management oversight.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers experience consistently long wait times for service or food.",
+      "cause": "Understaffing during peak hours, inefficient kitchen operations, or poor table management.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers express general dissatisfaction or encounter various unspecified negative issues.",
+      "cause": "A combination of minor operational inefficiencies, lack of attention to customer experience details, or a general decline in service standards.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Concerns are raised regarding the cleanliness of the establishment.",
+      "cause": "Inadequate cleaning protocols, insufficient cleaning staff, or lack of regular maintenance checks.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "The restaurant's atmosphere or ambiance is negatively perceived.",
+      "cause": "Outdated decor, poor lighting, uncomfortable seating, or excessive noise levels.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers find the pricing to be unsatisfactory or too high.",
+      "cause": "Perceived poor value for money, prices not aligning with food quality or service, or being higher than competitors.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality, poor cooking standards, or lack of attention to detail in food preparation.",
+      "action": "Implement a comprehensive quality control program for all ingredients and dishes. This includes daily checks on incoming produce, standardized recipes with clear cooking instructions, and regular taste tests by kitchen management. Conduct mandatory retraining for all kitchen staff on cooking techniques and presentation standards.",
+      "category": "food",
+      "expected_impact": "Significant improvement in customer satisfaction with food quality, leading to increased repeat business and positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Insufficient staff training in customer service, low staff morale, or inadequate management oversight leading to poor staff attitude.",
+      "action": "Launch a mandatory customer service training program focusing on communication, problem-solving, and positive attitude. Implement a staff recognition program to boost morale and conduct regular one-on-one check-ins with staff to address concerns and provide feedback. Ensure managers are actively coaching and supervising front-of-house staff.",
+      "category": "service",
+      "expected_impact": "Enhanced customer experience, reduced negative feedback regarding staff, and improved team morale and retention."
+    },
+    {
+      "priority": 3,
+      "issue": "Understaffing during peak hours, inefficient kitchen operations, or poor table management causing consistently long wait times.",
+      "action": "Conduct a peak-hour staffing analysis to ensure adequate front-of-house and kitchen staff. Optimize kitchen workflow and station assignments to improve efficiency. Implement a reservation system or host stand protocol for better table management and customer communication regarding wait times.",
+      "category": "operations",
+      "expected_impact": "Reduced customer wait times, improved service flow, and higher customer satisfaction during busy periods."
+    },
+    {
+      "priority": 4,
+      "issue": "A combination of minor operational inefficiencies, lack of attention to customer experience details, or a general decline in service standards leading to general dissatisfaction.",
+      "action": "Implement a daily pre-shift briefing for all staff to review potential issues, customer feedback, and service standards. Empower staff to proactively address minor customer concerns on the spot. Conduct a thorough operational audit to identify and rectify small inefficiencies across all departments.",
+      "category": "operations",
+      "expected_impact": "A more cohesive and attentive service environment, proactively addressing minor issues before they escalate, and an overall uplift in customer experience."
+    },
+    {
+      "priority": 5,
+      "issue": "Inadequate cleaning protocols, insufficient cleaning staff, or lack of regular maintenance checks resulting in cleanliness concerns.",
+      "action": "Develop and enforce a detailed daily, weekly, and monthly cleaning checklist for all areas (dining room, restrooms, kitchen, entrance). Assign specific staff members responsibility for cleanliness checks and conduct regular management inspections. Consider hiring additional cleaning staff or outsourcing deep cleaning services.",
+      "category": "operations",
+      "expected_impact": "A visibly cleaner and more hygienic environment, improving customer comfort and perception of the restaurant's standards."
+    },
+    {
+      "priority": 6,
+      "issue": "Outdated decor, poor lighting, uncomfortable seating, or excessive noise levels negatively impacting the restaurant's atmosphere or ambiance.",
+      "action": "Evaluate and update the restaurant's decor, lighting, and seating for comfort and aesthetic appeal. Consider a minor refresh or renovation. Manage noise levels through acoustic panels or background music adjustments.",
+      "category": "operations",
+      "expected_impact": "A more inviting and comfortable dining environment, enhancing the overall customer experience and encouraging longer stays."
+    },
+    {
+      "priority": 7,
+      "issue": "Perceived poor value for money, prices not aligning with food quality or service, or being higher than competitors.",
+      "action": "Conduct a competitive pricing analysis and review menu item costs. Consider adjusting prices for specific items or introducing value-oriented specials/combos. Clearly communicate the quality of ingredients and unique aspects of dishes to justify pricing.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value, potentially leading to increased sales and reduced price-related complaints."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 34 reviews, which may not fully represent the entire customer base or long-term trends.",
+    "The data is derived from customer reviews, which can be subjective and may not always provide complete context or objective facts."
+  ],
+  "status": "success",
+  "error_detail": null
+}

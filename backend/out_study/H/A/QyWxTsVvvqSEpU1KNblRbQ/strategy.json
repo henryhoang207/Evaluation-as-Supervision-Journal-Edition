@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation, use of lower quality ingredients, or lack of quality control in the kitchen.",
+      "action": "Implement a comprehensive kitchen quality control program including daily taste tests by a senior chef, mandatory recipe adherence checks, and a review of key ingredient suppliers to ensure consistent high quality. Provide refresher training on cooking techniques and presentation standards.",
+      "category": "food",
+      "expected_impact": "Significant improvement in customer satisfaction with food taste and consistency, leading to higher repeat visits and positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Pricing strategy not aligned with customer expectations of value, or perceived discrepancy between price and portion size/ingredient quality.",
+      "action": "Conduct a detailed menu engineering analysis to evaluate profitability and popularity of dishes. Adjust pricing where necessary, consider offering value-oriented specials or combo meals, and clearly communicate the quality of ingredients or unique preparation methods to justify price points.",
+      "category": "pricing",
+      "expected_impact": "Increased perception of value for money, potentially leading to higher sales volume and reduced price-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Understaffing during peak hours, inefficient kitchen operations, or poor table management leading to service delays.",
+      "action": "Analyze peak hour traffic patterns and adjust staffing levels for both front-of-house and kitchen accordingly. Implement kitchen process improvements (e.g., mise en place optimization, clear communication systems) and train staff on efficient table turnover and order taking to minimize delays.",
+      "category": "operations",
+      "expected_impact": "Reduced customer wait times, leading to a smoother dining experience, improved customer satisfaction, and potentially higher table turnover."
+    },
+    {
+      "priority": 4,
+      "issue": "Insufficient staff training, low employee morale, or inadequate supervision leading to inconsistent customer interactions.",
+      "action": "Develop and implement a mandatory customer service training program focusing on communication skills, conflict resolution, and proactive guest engagement. Introduce regular performance feedback sessions and consider incentive programs to boost morale and reward excellent service.",
+      "category": "service",
+      "expected_impact": "Enhanced customer service quality, leading to more positive interactions, improved guest satisfaction, and a better overall restaurant atmosphere."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

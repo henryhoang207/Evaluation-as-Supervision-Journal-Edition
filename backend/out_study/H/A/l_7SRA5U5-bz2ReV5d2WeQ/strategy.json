@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation, use of low-quality ingredients, or lack of attention to detail in the kitchen.",
+      "action": "Implement a comprehensive kitchen quality control program including standardized recipes, daily ingredient checks upon delivery, regular taste tests by management, and mandatory weekly training refreshers for all kitchen staff on consistency and presentation.",
+      "category": "Food",
+      "expected_impact": "Significantly improve food consistency and quality, leading to higher customer satisfaction, fewer complaints, and enhanced brand reputation."
+    },
+    {
+      "priority": 2,
+      "issue": "Inadequate cleaning protocols, insufficient cleaning staff, or lack of regular maintenance and upkeep.",
+      "action": "Develop and enforce a detailed daily, weekly, and monthly cleaning checklist for all areas (dining room, restrooms, kitchen, exterior). Assign specific staff responsibilities and conduct daily spot checks by a manager. Consider increasing cleaning staff hours or hiring a dedicated cleaner.",
+      "category": "Operations",
+      "expected_impact": "Drastically improve the restaurant's overall appearance and hygiene, boosting customer comfort, confidence, and positive perceptions of the establishment."
+    },
+    {
+      "priority": 3,
+      "issue": "Insufficient staff training, low employee morale, or inadequate staffing levels leading to rushed or indifferent service.",
+      "action": "Launch a mandatory customer service excellence training program for all front-of-house staff, focusing on positive attitude, attentiveness, and conflict resolution. Implement a staff recognition program (e.g., 'Employee of the Month') and review staffing levels during peak hours to ensure adequate coverage.",
+      "category": "Service",
+      "expected_impact": "Elevate the overall dining experience through improved staff interactions, leading to higher customer satisfaction, better reviews, and increased repeat business."
+    },
+    {
+      "priority": 4,
+      "issue": "Misalignment between perceived value and actual cost, or a pricing strategy that is not competitive with similar establishments.",
+      "action": "Conduct a thorough competitive pricing analysis of similar restaurants in the area. Review current menu item costs, portion sizes, and presentation. Consider introducing a few value-oriented specials or combo meals, or enhancing the perceived value of existing dishes through improved plating or ingredient sourcing communication.",
+      "category": "Pricing",
+      "expected_impact": "Align customer expectations with pricing, potentially increasing sales volume, attracting a broader customer base, and improving value perception."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

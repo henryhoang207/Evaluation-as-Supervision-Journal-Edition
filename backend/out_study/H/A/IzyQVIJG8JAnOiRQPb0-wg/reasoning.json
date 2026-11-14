@@ -1,0 +1,159 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report dissatisfaction with the quality of the food, indicating inconsistency or general poor preparation.",
+      "aspect": "food_quality",
+      "frequency": 0.1588,
+      "evidence_review_ids": [
+        "2Myfe9ELiIYWmhuBTXot5w",
+        "6T81ehRGGj3VzQcSSAWDYA",
+        "8UyHwIAI0NpEy2zTOHUJbA",
+        "94FyFphSw842PdgoTTN5uw",
+        "9Z5-Gv1hp31ZR-3FLv2ONQ",
+        "AsNd3wns2t4_QuJ-eO0YTQ",
+        "B0CAWgOdjeDWk7uPPjR6-Q",
+        "EPTc06uVnbsxkWWhIh95JQ",
+        "LW-DpHqRqi6Lxj6AiSXH8g",
+        "LWYhOWEf-0ZkT-v7bJm9Uw",
+        "NVj47E28YIogUJXzQusVqg",
+        "OFNT8GpUP9vRhlRvolP1cQ",
+        "Of50i-FqLazwRBi3LMgoxg",
+        "PmFQVBU6rAOOTAZaKO1qxg",
+        "Sa7RsxYmAvgclFM5NR9vow",
+        "TYRGCSq-RVGeMl7d_mms3g",
+        "UPU2H2YhmRGQ-u6wB2Extw",
+        "aEpHXNcPaa98s9IBN7XAtw",
+        "adBYaVMOXfoBQGNLnlsL2A",
+        "bGF02XnKW6gOGNoNMdEGfQ",
+        "bbO7LV2vcvMkRmIHnWnuxw",
+        "hXDnYrEVVcp9CikcTFGelQ",
+        "hs-DbI2THlHa9_UQuyksjw",
+        "JIrASsvuEiqT0yMWeUCYIw",
+        "ktUe1z2rMdAGXMeQIKCycg",
+        "lnOkL2aSdNJpJR9HQDWB-Q",
+        "mWYXAgmyufb2459SY5Rxbw",
+        "rmaCb2E590XqfhzHibEBgQ",
+        "v4MRckyVjhlCs_cXwz3UHA",
+        "vCPqFBW5GVsis0fdRxtA0Q",
+        "w3z3_4i_HlfJ1OCUP-MDbg",
+        "w4V1O2bDc4erQQ9Z4nZwoQ",
+        "w4hZBfFO0jBp1jl0eEJAqQ",
+        "wGyrOg-ZdPz4qAHj3UZ_1A"
+      ]
+    },
+    {
+      "description": "A significant number of customers perceive the prices to be too high or not commensurate with the value received.",
+      "aspect": "pricing",
+      "frequency": 0.0934,
+      "evidence_review_ids": [
+        "-2JxRny5itRF18WihTYnsQ",
+        "0H4y5oA6b4ZPrZD1HHp4Wg",
+        "1M_heK-CTzJCDdUFN0979w",
+        "5xib8sLkVJSgr1GYEVLQDA",
+        "94FyFphSw842PdgoTTN5uw",
+        "9Z5-Gv1hp31ZR-3FLv2ONQ",
+        "LSogsuhGIJFNHIC7kqqkAw",
+        "LWYhOWEf-0ZkT-v7bJm9Uw",
+        "EU71icNX-_5jLH0EmY_EUg",
+        "Of50i-FqLazwRBi3LMgoxg",
+        "_auEOBnCnLvVf1R2vYh0Ww",
+        "bGF02XnKW6gOGNoNMdEGfQ",
+        "gdWRAONBlhDUmr8wUWfvJw",
+        "hLZcYbEJjL7xM3hlo5ThKQ",
+        "lnOkL2aSdNJpJR9HQDWB-Q",
+        "sE43c-LcJGguGfE9VFaz0Q",
+        "sPTOQvu_v3ypxxhcjcPizg",
+        "vB0hwnGivJzxYA-Utl4dUQ",
+        "w4hZBfFO0jBp1jl0eEJAqQ",
+        "wGyrOg-ZdPz4qAHj3UZ_1A"
+      ]
+    },
+    {
+      "description": "A notable number of reviews mention various unspecified negative experiences or general dissatisfaction not fitting into other categories.",
+      "aspect": "other",
+      "frequency": 0.0747,
+      "evidence_review_ids": [
+        "-2JxRny5itRF18WihTYnsQ",
+        "0H4y5oA6b4ZPrZD1HHp4Wg",
+        "EPTc06uVnbsxkWWhIh95JQ",
+        "EU71icNX-_5jLH0EmY_EUg",
+        "GK023R1AXYWcicbVXHp3PA",
+        "I8-wBcsCK6KU6r57OZ0_0w",
+        "JIrASsvuEiqT0yMWeUCYIw",
+        "ktUe1z2rMdAGXMeQIKCycg",
+        "cKdq1tNEH46bA6vmCTJ_zw",
+        "aEpHXNcPaa98s9IBN7XAtw",
+        "baxAvvT6DFwuPr7a1rlKGw",
+        "gs4JFEERHj-rpphc4_Fwkw",
+        "vB0hwnGivJzxYA-Utl4dUQ",
+        "w3z3_4i_HlfJ1OCUP-MDbg",
+        "wGyrOg-ZdPz4qAHj3UZ_1A",
+        "w4hZBfFO0jBp1jl0eEJAqQ"
+      ]
+    },
+    {
+      "description": "Several customers found the restaurant's atmosphere or environment to be negative.",
+      "aspect": "ambience",
+      "frequency": 0.0187,
+      "evidence_review_ids": [
+        "2Myfe9ELiIYWmhuBTXot5w",
+        "94FyFphSw842PdgoTTN5uw",
+        "UUUu_Ecctuxhn1cnubSbVQ",
+        "FGM-4F67rr28zlFOsKtPXQ"
+      ]
+    },
+    {
+      "description": "A few reviews indicate issues with excessive waiting times for service or food.",
+      "aspect": "wait_time",
+      "frequency": 0.014,
+      "evidence_review_ids": [
+        "-2JxRny5itRF18WihTYnsQ",
+        "UUUu_Ecctuxhn1cnubSbVQ",
+        "htO5eLiXWxUisUftGl34_w"
+      ]
+    },
+    {
+      "description": "A small number of reviews highlight negative interactions or poor attitudes from staff members.",
+      "aspect": "staff_attitude",
+      "frequency": 0.0093,
+      "evidence_review_ids": [
+        "LSogsuhGIJFNHIC7kqqkAw",
+        "OFNT8GpUP9vRhlRvolP1cQ"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food, indicating inconsistency or general poor preparation.",
+      "cause": "Inconsistent cooking standards, poor ingredient sourcing, or lack of quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of customers perceive the prices to be too high or not commensurate with the value received.",
+      "cause": "Misalignment between menu prices and perceived food quality/portion sizes, or competitive pricing issues in the market.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A notable number of reviews mention various unspecified negative experiences or general dissatisfaction not fitting into other categories.",
+      "cause": "Broad operational inefficiencies, lack of attention to detail in overall customer experience, or specific unaddressed minor issues.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Several customers found the restaurant's atmosphere or environment to be negative.",
+      "cause": "Outdated decor, poor lighting, uncomfortable seating, or issues with noise levels.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A few reviews indicate issues with excessive waiting times for service or food.",
+      "cause": "Understaffing during peak hours, inefficient kitchen processes, or poor table management.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A small number of reviews highlight negative interactions or poor attitudes from staff members.",
+      "cause": "Insufficient staff training in customer service, low staff morale, or inadequate supervision.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

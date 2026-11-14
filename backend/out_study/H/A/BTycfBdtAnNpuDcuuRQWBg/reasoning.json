@@ -1,0 +1,52 @@
+{
+  "patterns": [
+    {
+      "description": "Negative experiences with staff attitude, including unfriendliness or poor service.",
+      "aspect": "staff_attitude",
+      "frequency": 0.214,
+      "evidence_review_ids": [
+        "PdfcVMrkM30tNpD9kVi9aQ",
+        "VCyzeiUL5fpD0Jba3QkB6g",
+        "zCk7IzUnLBhQudHcOdqMdQ"
+      ]
+    },
+    {
+      "description": "Complaints about excessive wait times for service or food.",
+      "aspect": "wait_time",
+      "frequency": 0.214,
+      "evidence_review_ids": [
+        "PdfcVMrkM30tNpD9kVi9aQ",
+        "VCyzeiUL5fpD0Jba3QkB6g",
+        "zCk7IzUnLBhQudHcOdqMdQ"
+      ]
+    },
+    {
+      "description": "General negative feedback categorized as 'other', potentially indicating miscellaneous issues or overall dissatisfaction not fitting specific categories.",
+      "aspect": "other",
+      "frequency": 0.143,
+      "evidence_review_ids": [
+        "PdfcVMrkM30tNpD9kVi9aQ",
+        "VCyzeiUL5fpD0Jba3QkB6g"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Negative experiences with staff attitude, including unfriendliness or poor service.",
+      "cause": "Lack of comprehensive customer service training for staff or high stress levels due to understaffing.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints about excessive wait times for service or food.",
+      "cause": "Operational inefficiencies, insufficient staffing during peak hours, or inadequate kitchen capacity leading to delays.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "General negative feedback categorized as 'other', potentially indicating miscellaneous issues or overall dissatisfaction not fitting specific categories.",
+      "cause": "A combination of minor operational shortcomings or an overall negative impression stemming from the issues with staff attitude and wait times.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

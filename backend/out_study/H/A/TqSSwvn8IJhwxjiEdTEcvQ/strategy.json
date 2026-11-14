@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality due to varying preparation and ingredient sourcing.",
+      "action": "Develop and strictly enforce detailed, standardized recipes and cooking procedures for all menu items. Implement a daily chef's tasting panel for quality control before service, and establish a robust supplier vetting process with clear quality specifications for all incoming ingredients.",
+      "category": "Food / Operations",
+      "expected_impact": "Significant improvement in dish consistency and overall food quality, directly addressing customer dissatisfaction and building trust, which is foundational for value perception."
+    },
+    {
+      "priority": 2,
+      "issue": "Customer perception that pricing is too high or does not offer good value, exacerbated by food quality issues.",
+      "action": "Once food quality consistency is established (from Priority 1 action), conduct a comprehensive menu engineering analysis to identify high-profit, high-popularity items and adjust pricing or portion sizes strategically. Consider introducing value-focused promotions or combo deals to enhance perceived value without necessarily lowering base prices.",
+      "category": "Pricing / Marketing",
+      "expected_impact": "Improved customer perception of value for money, potentially leading to increased sales and reduced complaints about pricing, especially once food quality is consistently high."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

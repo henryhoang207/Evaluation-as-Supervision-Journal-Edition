@@ -1,0 +1,215 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently experience long wait times for their orders or service.",
+      "aspect": "wait_time",
+      "frequency": 0.28,
+      "evidence_review_ids": [
+        "-L05Wae-uFb6XrOtlJL-xg",
+        "-oB5FxYVFmp9xdKS74rnLQ",
+        "-okdnsPQFMgogsfSCU2Xbw",
+        "-p5-AeRuYF-I9W3KGGlCqA",
+        "0-TTDKGjcKaZAb14AtpkEQ",
+        "08VvAZ93ub2EoJiJh_oyGg",
+        "0UwFVuPsxb3yn8-sN9e7YQ",
+        "0lOeRdt4RtpNaxm1iqeb-w",
+        "1ZqV6qe8wH0YeOYScT_ymQ",
+        "1_rkZSH96hVoUgpCxNdxbg",
+        "29xZ0I8RrFyuek19A2Hf7Q",
+        "2BG85lzvM7kAs1BZGI8iDw",
+        "2JgjZrwNxehGl9JpsJ7zvg",
+        "2ae-BE6SxTqAeKQo8-njpg",
+        "2ydtWsdE7xnOCxowryEYnw",
+        "3ulW8mDx05qRZBwJST8iGQ",
+        "3zP-Ordx5PYQMNF37uyfZA",
+        "6aVtWlSMBVCPFvz88RQ9Sg",
+        "AXPeI0sAn65tgr0sIrY0ig",
+        "Ci6-BpqCDrx-v2j2m9dN_g",
+        "DS-PqTmTAcivQ6zsL2VuKQ",
+        "DwJgwSqIL1Un3vVkJt9bTg",
+        "EzMY4JWwINEZOQ8_YtZPvA",
+        "G-R8fxfBzF0znm4Tv_AEJw",
+        "K1JG-xJCpeGMsLpdYh_tnQ",
+        "KiOvJ72n1ChKA0qDktIopQ",
+        "L7NVsacZrRpA88HBBlka6w",
+        "LRPPPzCEf_iQWd27SpYoGw",
+        "LWEo140mjlFcBLsfUUalLQ",
+        "MZpWVb79KPYIoMnkGNkH9Q",
+        "P2PiXaRRl6b-9K_xfDsMzA",
+        "PG3gvW2ms7ZrZZ7P4Jyy1A",
+        "QTcxEqsTEvt_YU1ESXXSyg",
+        "R6p0ozF6FMePL_FBbyE04Q",
+        "Rp19V_fSYeROxfpEcnsjdw",
+        "S-RtSz7yOJDj0Zz2D_txyA",
+        "Sqkfj3xOkDWiJCa_dkiDGA",
+        "TLsvU26Ft2x2Nl7p9VXR6g",
+        "T_ASU2xHTXuAyYc2dzbseA",
+        "Tj7wy7unh5k5hwZubC4TvA",
+        "U1lrwzLzgogMblDOFa2C9Q",
+        "U5emfaxQY3D-MKPfszRokg",
+        "U9p9dKgByJLXiRXZAKEsvg",
+        "WG482ZTSGp5bna2E2Zd9dQ",
+        "XU-h-XNpGapg00T7jCuSBA",
+        "Xpp3ZxEn_sWWR8ZM9iBqFQ",
+        "_OAK1rK4WSi1O0USmr462w",
+        "bHplngJy7wxCYMW9DkjFCw",
+        "bo8Ab_hCxQrD4bWVI2QNAw",
+        "dYopD6_aRnyCfjVjYyCDCg",
+        "e2NcN_I3A_61cr_IUfeSnA",
+        "e9EK-vO1bSkRAVrr-fiRsQ",
+        "edHnVF6s1YS794GzrTD3ug",
+        "g94VtbgSXe0Z_1Taq6seTA",
+        "ggiIol8PSALDXFDpZNO_Aw",
+        "iqmx_i81azjGkNPlaNOAPQ",
+        "j8XtY5Nf0fHzcba7DuBJkQ",
+        "j8utgF5Y9CgEzkoLRcbD4g",
+        "jHLT-o1VoF0jzKdqUXeY1g",
+        "kS5rhzyp07uVUXQ2_lX_Ew",
+        "l7o8Cxalpr5iIJJAmqkdRw",
+        "lSNZqMdapBVsGn9KEwrDBA",
+        "mN-1xl-ZB8fAC5ngYkyLUA",
+        "n9FGlavXi7VlxcxzYpPbtA",
+        "nAiGPvA9xtlQNg4R3vg6sg",
+        "nYGuPcNy_DuaZGX_oZfpKQ",
+        "ncdd09ujrelTrcCC6FrX2Q",
+        "np4vpDAxQKmok5F4hS4KBg",
+        "oUvGwI7XdSgqv1gaX6MdUQ",
+        "ohjCJ02Pihg-CHAUYpiEQQ",
+        "pFdUG3IsLLjo-UVELRgvpQ",
+        "qgenKa6cRp6yG1NyHXYfLA",
+        "s_QJnzc2asRI5JWnRdEqXw",
+        "tT3kkrTc1QzLXKecHOX8ZA",
+        "uuZ3CLzaESrORpiIhJBG8g",
+        "vNLOOBzM2cf9LHFNAIdc8A",
+        "wiJsV9iVdfYi6T2p3gmorQ",
+        "xo7FRM-jPwkfnFTLkL7MhA",
+        "xu3e_6wq268a7JbxK6VaSA",
+        "xuORLxp6sQfnMf5hCZ_rrA",
+        "yUv0yk5NsTiNn69sLGCvvg",
+        "z3ULKUSd0Wv1bhdiA_AiXA"
+      ]
+    },
+    {
+      "description": "While many reviews praise the food, a significant number report issues with food quality, suggesting inconsistency or specific dish problems.",
+      "aspect": "food_quality",
+      "frequency": 0.093,
+      "evidence_review_ids": [
+        "29xZ0I8RrFyuek19A2Hf7Q",
+        "2BG85lzvM7kAs1BZGI8iDw",
+        "2FfasJHp08j8PVYfC88BRg",
+        "ESWSy7wcS1qAUdgmxIJ8GQ",
+        "GPcY-Jx8doFgACFDYTTKSQ",
+        "I2tm4lqfjhdf-DjY94hFXg",
+        "JnSUz5LbzsHim6XZdNi2PQ",
+        "OzURoM0qV0ZJHoJC5ddSeA",
+        "QfZMZN3rcGMIaXwpVqMX4g",
+        "SzETBxUuqryOFsX3atIiDg",
+        "VVAbL6v_VyLYdysoO-i2MQ",
+        "Xpp3ZxEn_sWWR8ZM9iBqFQ",
+        "98mpP3rxJhc_wx240uE3qw",
+        "d3bXh1nFixmw1vqB3bIKhg",
+        "l7o8Cxalpr5iIJJAmqkdRw",
+        "oQCD3EPHeDn0vUv26WJhEw",
+        "oSS8DSikUmxZ2yiW_FHwmw",
+        "r3GzB9YpbwRb_2VFwLWryg",
+        "vNLOOBzM2cf9LHFNAIdc8A",
+        "wcQVTL7rRaZ2GKvDvdsJqw",
+        "wr0G3P_FUqTQ1xwZiI1Tkg"
+      ]
+    },
+    {
+      "description": "A notable number of reviews mention general negative experiences not tied to specific categories, often indicating overall dissatisfaction or minor unclassified issues.",
+      "aspect": "other",
+      "frequency": 0.051,
+      "evidence_review_ids": [
+        "2JgjZrwNxehGl9JpsJ7zvg",
+        "2ydtWsdE7xnOCxowryEYnw",
+        "3zP-Ordx5PYQMNF37uyfZA",
+        "98mpP3rxJhc_wx240uE3qw",
+        "9xVsRsttHOyJofQ9UoXD6w",
+        "BLnOaDFUa9iWJY_3NHOpOA",
+        "S-RtSz7yOJDj0Zz2D_txyA",
+        "SzETBxUuqryOFsX3atIiDg",
+        "U1lrwzLzgogMblDOFa2C9Q",
+        "VVAbL6v_VyLYdysoO-i2MQ",
+        "bHplngJy7wxCYMW9DkjFCw",
+        "vNLOOBzM2cf9LHFNAIdc8A"
+      ]
+    },
+    {
+      "description": "Several customers feel that the pricing is too high for the value received.",
+      "aspect": "pricing",
+      "frequency": 0.047,
+      "evidence_review_ids": [
+        "08VvAZ93ub2EoJiJh_oyGg",
+        "0UwFVuPsxb3yn8-sN9e7YQ",
+        "1ZqV6qe8wH0YeOYScT_ymQ",
+        "2ydtWsdE7xnOCxowryEYnw",
+        "a8l9Wn9IMpi54IxSZDtysg",
+        "dES-jxc3nI5C4HeZPItwKw",
+        "lSNZqMdapBVsGn9KEwrDBA",
+        "oUvGwI7XdSgqv1gaX6MdUQ",
+        "qghAeAC2wd6JhmJrN28-0g",
+        "vpYR3lpX8SnvvWlt8UUCAA"
+      ]
+    },
+    {
+      "description": "A smaller but consistent number of reviews highlight negative interactions with staff, citing poor attitude or unhelpfulness.",
+      "aspect": "staff_attitude",
+      "frequency": 0.023,
+      "evidence_review_ids": [
+        "0lOeRdt4RtpNaxm1iqeb-w",
+        "3zP-Ordx5PYQMNF37uyfZA",
+        "6aVtWlSMBVCPFvz88RQ9Sg",
+        "NQGNy0liRBgo9bieujMmYA",
+        "bHplngJy7wxCYMW9DkjFCw"
+      ]
+    },
+    {
+      "description": "Some reviews indicate dissatisfaction with the restaurant's atmosphere or physical environment.",
+      "aspect": "ambience",
+      "frequency": 0.023,
+      "evidence_review_ids": [
+        "2ydtWsdE7xnOCxowryEYnw",
+        "Apu36iI4SYfz3GT38WJF_A",
+        "d-N4ZrvjSzoQcckACsLZmQ",
+        "s_QJnzc2asRI5JWnRdEqXw",
+        "xu3e_6wq268a7JbxK6VaSA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently experience long wait times for their orders or service.",
+      "cause": "Understaffing during peak hours, inefficient order processing system, or kitchen capacity issues.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "While many reviews praise the food, a significant number report issues with food quality, suggesting inconsistency or specific dish problems.",
+      "cause": "Lack of standardized cooking procedures, varying ingredient quality, or insufficient training for kitchen staff.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A notable number of reviews mention general negative experiences not tied to specific categories, often indicating overall dissatisfaction or minor unclassified issues.",
+      "cause": "Could be a combination of minor issues, or a general feeling of disappointment that doesn't fit neatly into other categories. Potentially linked to overall service flow or atmosphere.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Several customers feel that the pricing is too high for the value received.",
+      "cause": "Misalignment between customer expectations of value and actual pricing, or pricing not competitive with similar establishments.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A smaller but consistent number of reviews highlight negative interactions with staff, citing poor attitude or unhelpfulness.",
+      "cause": "Insufficient staff training in customer service, low staff morale, or inadequate supervision.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Some reviews indicate dissatisfaction with the restaurant's atmosphere or physical environment.",
+      "cause": "Outdated decor, poor lighting, uncomfortable seating, or issues with cleanliness/noise levels.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

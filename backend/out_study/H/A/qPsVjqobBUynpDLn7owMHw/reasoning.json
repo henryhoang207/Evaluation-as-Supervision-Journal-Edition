@@ -1,0 +1,25 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report issues with the quality of the food, indicating inconsistency or dissatisfaction with dishes.",
+      "aspect": "food_quality",
+      "frequency": 0.357,
+      "evidence_review_ids": [
+        "JZwu_FMxicFIvplpUzL9bg",
+        "MxFeRmFyuUUyPNPo10esnQ",
+        "NogvCnnljl1FryftRUxa-w",
+        "iEzuEe5koVrk3yXkhzMWuw",
+        "ivJsrgOgxb5Y3-N7S15Yjg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report issues with the quality of the food, indicating inconsistency or dissatisfaction with dishes.",
+      "cause": "Inconsistent food preparation, potential issues with ingredient quality, or a lack of strict quality control in the kitchen.",
+      "confidence": "high"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

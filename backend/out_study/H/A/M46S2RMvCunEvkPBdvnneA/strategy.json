@@ -1,0 +1,55 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation and quality control.",
+      "action": "Implement standardized recipes and cooking procedures for all dishes. Conduct daily taste tests and quality checks by a senior chef or manager before service. Review and potentially upgrade ingredient suppliers for key menu items.",
+      "category": "food",
+      "expected_impact": "Significantly improve food consistency and overall quality, leading to higher customer satisfaction and fewer complaints about taste or preparation."
+    },
+    {
+      "priority": 2,
+      "issue": "Customer perception of high pricing not matching value received.",
+      "action": "Conduct a comprehensive competitive pricing analysis against similar restaurants in the area. Re-evaluate menu item costs and perceived value, considering slight price adjustments or adding value-enhancing elements (e.g., improved portion sizes, complimentary bread, enhanced presentation) to justify current prices.",
+      "category": "pricing",
+      "expected_impact": "Align customer expectations with pricing, increase perceived value, and potentially improve sales by addressing price sensitivity."
+    },
+    {
+      "priority": 3,
+      "issue": "Negative experiences with staff attitude and service.",
+      "action": "Implement mandatory, comprehensive customer service training focused on attentiveness, politeness, and problem-solving. Conduct regular staff morale surveys and address underlying issues. Review staffing levels during peak hours to ensure employees are not overwhelmed.",
+      "category": "service",
+      "expected_impact": "Enhance the overall dining experience, reduce negative staff-related reviews, and foster a more positive work environment."
+    },
+    {
+      "priority": 4,
+      "issue": "Excessive wait times for seating, ordering, and food delivery.",
+      "action": "Optimize kitchen workflow and station assignments to improve efficiency. Cross-train front-of-house staff to assist during peak times. Implement a more robust table management system or reservation software to streamline seating and reduce bottlenecks.",
+      "category": "operations",
+      "expected_impact": "Reduce customer wait times, improve table turnover, and enhance the overall flow and efficiency of service."
+    },
+    {
+      "priority": 5,
+      "issue": "Uncomfortable, unappealing, or noisy restaurant atmosphere.",
+      "action": "Conduct an assessment of the restaurant's decor, lighting, and seating comfort. Invest in minor renovations or updates to create a more appealing environment. Explore sound-dampening solutions (e.g., acoustic panels, soft furnishings) to reduce noise levels.",
+      "category": "operations",
+      "expected_impact": "Create a more pleasant and comfortable dining environment, improving the overall customer experience and encouraging longer stays."
+    },
+    {
+      "priority": 6,
+      "issue": "General operational inefficiencies and lack of attention to detail.",
+      "action": "Implement a daily operational checklist for all departments (kitchen, front-of-house, restrooms) to ensure consistent standards. Encourage staff to proactively identify and report minor issues. Conduct regular management walk-throughs to catch and address issues before they impact guests.",
+      "category": "operations",
+      "expected_impact": "Proactively identify and resolve minor issues, leading to an overall improvement in the guest experience and a reduction in miscellaneous complaints."
+    },
+    {
+      "priority": 7,
+      "issue": "Problems with restaurant cleanliness.",
+      "action": "Establish detailed daily, weekly, and monthly cleaning checklists for all areas, including restrooms, dining areas, and kitchen. Provide thorough training to staff on cleaning protocols and schedule regular deep cleaning sessions. Conduct frequent spot checks by management.",
+      "category": "operations",
+      "expected_impact": "Significantly improve hygiene standards, enhance customer perception of the restaurant's upkeep, and reduce health-related concerns."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

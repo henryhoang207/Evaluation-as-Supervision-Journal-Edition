@@ -1,0 +1,87 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report dissatisfaction with the quality of the food.",
+      "aspect": "food_quality",
+      "frequency": 0.43,
+      "evidence_review_ids": [
+        "AyG7pqD_sFrtLCjXQysO0w",
+        "IvqEhpXSiXpMlaUNhzzsww",
+        "Nifv7gQe4R1LOfM-cnGJLA",
+        "YoYNavUlNi-wXoy7JC68UQ",
+        "cPDi9OQnlE8ama7FbnOtMw",
+        "lzyXVg5pHQQm8-kjT5Yjrg"
+      ]
+    },
+    {
+      "description": "A significant number of reviews mention general negative experiences or unspecified issues.",
+      "aspect": "other",
+      "frequency": 0.36,
+      "evidence_review_ids": [
+        "AyG7pqD_sFrtLCjXQysO0w",
+        "EJAm_wBtxs9fM1tzncjcUA",
+        "IvqEhpXSiXpMlaUNhzzsww",
+        "cPDi9OQnlE8ama7FbnOtMw",
+        "lOqmW-QQvVeXqa3c5lcmEQ"
+      ]
+    },
+    {
+      "description": "Multiple customers report negative interactions or poor attitudes from staff members.",
+      "aspect": "staff_attitude",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "IvqEhpXSiXpMlaUNhzzsww",
+        "cPDi9OQnlE8ama7FbnOtMw",
+        "lOqmW-QQvVeXqa3c5lcmEQ"
+      ]
+    },
+    {
+      "description": "Customers express concerns about the pricing being too high or not offering good value.",
+      "aspect": "pricing",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "cPDi9OQnlE8ama7FbnOtMw",
+        "lzyXVg5pHQQm8-kjT5Yjrg",
+        "z7sBgeDKSuvnAT7YYkOANg"
+      ]
+    },
+    {
+      "description": "There are complaints about long or unreasonable wait times for service or food.",
+      "aspect": "wait_time",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "YoYNavUlNi-wXoy7JC68UQ",
+        "cPDi9OQnlE8ama7FbnOtMw"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent food preparation, use of lower quality ingredients, or lack of proper quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Multiple customers report negative interactions or poor attitudes from staff members.",
+      "cause": "Insufficient staff training in customer service, high staff turnover, or inadequate management oversight of front-of-house operations.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers express concerns about the pricing being too high or not offering good value.",
+      "cause": "Pricing strategy not aligned with customer expectations or perceived value, or high operational costs being passed directly to the consumer.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "There are complaints about long or unreasonable wait times for service or food.",
+      "cause": "Understaffing during peak hours, inefficient kitchen workflow, or poor table management leading to bottlenecks.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A significant number of reviews mention general negative experiences or unspecified issues.",
+      "cause": "This broad category likely indicates a combination of the specific issues identified (food, staff, pricing, wait times) or other uncaptured minor frustrations that collectively contribute to a poor overall experience. It could also point to a general lack of attention to detail in the overall customer journey.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

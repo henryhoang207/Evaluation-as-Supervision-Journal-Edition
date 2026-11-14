@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Dissatisfaction with food quality",
+      "action": "Implement a comprehensive kitchen quality control program, including standardized recipes, regular staff training on preparation consistency, strict ingredient sourcing guidelines, and daily taste tests/audits by a senior chef.",
+      "category": "food",
+      "expected_impact": "Significantly improve food consistency and quality, leading to higher customer satisfaction and fewer complaints related to taste and preparation."
+    },
+    {
+      "priority": 2,
+      "issue": "Pricing perceived as too high or poor value",
+      "action": "Conduct a detailed menu engineering analysis to assess profitability and popularity of dishes, alongside a competitor pricing review. Explore options to adjust pricing, introduce value-focused specials, or identify cost-saving measures in operations/sourcing to enhance perceived value without compromising quality.",
+      "category": "pricing",
+      "expected_impact": "Increase customer perception of value, potentially boosting sales volume and improving competitiveness in the market."
+    },
+    {
+      "priority": 3,
+      "issue": "Negative perception of restaurant atmosphere/ambience",
+      "action": "Perform an internal audit of the restaurant's physical environment, focusing on cleanliness, maintenance, lighting, seating comfort, and noise levels. Prioritize immediate repairs and consider minor aesthetic upgrades (e.g., new decor, improved lighting) based on customer feedback.",
+      "category": "operations",
+      "expected_impact": "Enhance the overall dining experience, improve customer comfort, and positively influence reviews related to the restaurant's environment."
+    },
+    {
+      "priority": 4,
+      "issue": "General customer dissatisfaction (unspecified aspects)",
+      "action": "Implement a proactive customer feedback system, such as short digital surveys after meals or direct manager check-ins at tables. Train front-of-house staff to actively listen for and log any specific, recurring 'other' issues mentioned by customers to identify hidden operational shortcomings.",
+      "category": "service",
+      "expected_impact": "Uncover specific, previously unaddressed operational or service issues, allowing for targeted improvements and a boost in overall customer satisfaction."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

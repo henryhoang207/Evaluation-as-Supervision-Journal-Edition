@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    {
+      "priority": 2,
+      "issue": "Excessive wait times for service or food caused by operational inefficiencies, insufficient staffing during peak hours, and/or inadequate kitchen capacity.",
+      "action": "Conduct a thorough staffing analysis to identify peak hours and ensure adequate front-of-house and kitchen staff coverage. Simultaneously, review kitchen workflow and service processes to identify and eliminate inefficiencies, potentially by re-allocating tasks or investing in new equipment.",
+      "category": "Operations",
+      "expected_impact": "Significantly reduced wait times for both service and food, decreased staff stress, improved operational flow, and increased customer satisfaction."
+    },
+    {
+      "priority": 3,
+      "issue": "General negative feedback indicating a combination of minor operational shortcomings or an overall negative impression stemming from the issues with staff attitude and wait times.",
+      "action": "Implement a system for proactive customer feedback collection (e.g., QR code surveys at tables, follow-up emails for reservations) specifically asking about overall experience and any minor inconveniences. Regularly review feedback to identify recurring 'other' issues and implement small, targeted improvements.",
+      "category": "Customer Experience",
+      "expected_impact": "Uncovering and resolving minor issues before they escalate, demonstrating a commitment to customer satisfaction, and fostering a culture of continuous improvement."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,41 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor Staff Attitude",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on communication, problem-solving, and attentiveness. Include regular refreshers and performance reviews tied to service standards.",
+      "category": "Service",
+      "expected_impact": "Significant improvement in customer satisfaction, leading to better reviews and repeat business by addressing rudeness and lack of attentiveness."
+    },
+    {
+      "priority": 2,
+      "issue": "Excessive Wait Times",
+      "action": "Conduct a detailed operational audit during peak hours to identify bottlenecks in seating, order taking, and kitchen workflow. Implement process improvements (e.g., digital ordering, pre-bussing, optimized kitchen stations) and adjust staffing levels based on demand forecasting.",
+      "category": "Operations",
+      "expected_impact": "Reduced wait times for seating, ordering, and food delivery, improving table turnover and enhancing the overall customer experience."
+    },
+    {
+      "priority": 3,
+      "issue": "Inconsistent Food Quality",
+      "action": "Develop and enforce strict standardized recipes and cooking procedures for all dishes. Implement a robust quality control system for incoming ingredients and conduct regular taste tests and kitchen staff training on consistency.",
+      "category": "Food",
+      "expected_impact": "Consistent high-quality food across all dishes, leading to increased customer satisfaction and positive food reviews."
+    },
+    {
+      "priority": 4,
+      "issue": "Poor Cleanliness",
+      "action": "Establish a detailed daily and weekly cleaning checklist for all areas (dining room, restrooms, kitchen, entrance). Assign clear responsibilities, allocate dedicated cleaning time, and implement regular management checks to ensure adherence.",
+      "category": "Operations",
+      "expected_impact": "A visibly cleaner and more hygienic environment, improving customer perception of the restaurant and overall dining comfort."
+    },
+    {
+      "priority": 5,
+      "issue": "Unpleasant Ambience",
+      "action": "Conduct a walk-through audit of the dining area to identify outdated decor, lighting issues, and potential noise sources. Plan for minor aesthetic updates (e.g., fresh paint, updated lighting, sound dampening solutions) to create a more inviting atmosphere.",
+      "category": "Operations",
+      "expected_impact": "A more pleasant and comfortable dining environment, contributing to a better overall customer experience and positive perception of the restaurant."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

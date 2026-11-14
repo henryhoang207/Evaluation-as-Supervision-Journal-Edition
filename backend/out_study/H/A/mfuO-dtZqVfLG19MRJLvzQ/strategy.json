@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality (taste, preparation, ingredients) leading to customer dissatisfaction.",
+      "action": "Implement a standardized ingredient sourcing process with approved suppliers, conduct mandatory weekly chef training on recipe adherence and quality checks, and establish a daily taste-testing protocol for all menu items before service.",
+      "category": "Food",
+      "expected_impact": "Significant improvement in customer satisfaction with food quality, leading to repeat business and positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Unappealing or negative restaurant atmosphere/physical environment.",
+      "action": "Conduct a full audit of the dining area's decor, lighting, seating, and cleanliness. Develop a phased renovation plan focusing on modernizing decor, improving lighting, ensuring comfortable seating, and implementing a stricter daily cleaning schedule.",
+      "category": "Operations",
+      "expected_impact": "Enhanced customer experience, increased comfort, and a more inviting atmosphere, potentially attracting new customers and improving overall review scores."
+    },
+    {
+      "priority": 3,
+      "issue": "Perceived high pricing not matching value received by customers.",
+      "action": "Conduct a comprehensive competitive pricing analysis and a cost-benefit analysis of menu items. Adjust pricing where necessary, or enhance perceived value through improved portion sizes, ingredient quality, or presentation, clearly communicating the value proposition to customers.",
+      "category": "Pricing",
+      "expected_impact": "Increased customer satisfaction with value for money, potentially leading to higher sales volume and reduced price-related complaints."
+    },
+    {
+      "priority": 4,
+      "issue": "Undefined general operational inefficiencies or isolated negative incidents.",
+      "action": "Implement a daily manager walk-through checklist covering all operational areas (front-of-house, back-of-house, restrooms, exterior) to identify and rectify minor issues proactively. Encourage staff to report any observed operational shortcomings immediately.",
+      "category": "Operations",
+      "expected_impact": "Reduction in minor operational glitches and improved overall customer experience by addressing small issues before they escalate."
+    },
+    {
+      "priority": 5,
+      "issue": "Negative staff attitude (unfriendliness, lack of attentiveness, poor service demeanor).",
+      "action": "Implement mandatory monthly customer service training workshops focusing on communication, attentiveness, and conflict resolution. Introduce a staff recognition program to boost morale and review staffing levels during peak hours to alleviate stress.",
+      "category": "Service",
+      "expected_impact": "Improved staff morale and customer interactions, leading to a more positive dining experience and better service reviews."
+    },
+    {
+      "priority": 6,
+      "issue": "Longer than acceptable wait times for service or food.",
+      "action": "Analyze peak hour traffic and adjust staffing schedules accordingly. Review kitchen workflow and implement process improvements (e.g., prep lists, station organization) and consider upgrading the order management system to streamline communication between front and back of house.",
+      "category": "Operations",
+      "expected_impact": "Reduced wait times, leading to improved customer satisfaction and operational efficiency during busy periods."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

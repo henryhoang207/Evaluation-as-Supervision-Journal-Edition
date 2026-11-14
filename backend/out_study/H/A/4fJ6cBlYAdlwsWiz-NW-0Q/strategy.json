@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and potentially low-quality ingredients.",
+      "action": "Implement a comprehensive kitchen audit: review all recipes for clarity and consistency, conduct blind taste tests, source higher-quality ingredients from new or existing suppliers, and provide refresher training on preparation standards to all kitchen staff.",
+      "category": "Food",
+      "expected_impact": "Significant improvement in customer satisfaction with food taste and quality, leading to repeat business and positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Poor staff attitude and service, potentially due to training gaps, understaffing, or management issues.",
+      "action": "Implement mandatory customer service training focusing on empathy, conflict resolution, and proactive service. Review staffing levels during peak hours and ensure adequate supervision and support for front-of-house staff to reduce stress.",
+      "category": "Service",
+      "expected_impact": "Enhanced customer experience, reduced negative feedback on staff interactions, and improved staff morale."
+    },
+    {
+      "priority": 3,
+      "issue": "Perceived poor value for money or uncompetitive pricing.",
+      "action": "Conduct a competitive pricing analysis of similar restaurants in the area. Evaluate menu items for cost-effectiveness and perceived value, considering options for value-added bundles or slightly adjusting prices where justified by quality improvements.",
+      "category": "Pricing",
+      "expected_impact": "Improved customer perception of value, potentially increasing sales and reducing price-related complaints."
+    },
+    {
+      "priority": 4,
+      "issue": "Excessive wait times for service and food.",
+      "action": "Analyze peak hour operations to identify bottlenecks in kitchen production and front-of-house service. Consider adjusting staff schedules, optimizing kitchen workflow, or implementing a more efficient order management system to streamline operations.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, leading to higher satisfaction and improved table turnover."
+    },
+    {
+      "priority": 5,
+      "issue": "Subpar cleanliness standards across the establishment.",
+      "action": "Establish and enforce a daily, weekly, and monthly cleaning checklist for all areas (dining room, restrooms, kitchen, entrance). Assign specific staff members to cleaning duties and conduct regular spot checks by management.",
+      "category": "Operations",
+      "expected_impact": "A more pleasant and hygienic dining environment, reducing health concerns and improving overall customer perception."
+    },
+    {
+      "priority": 6,
+      "issue": "Unappealing or uncomfortable dining atmosphere.",
+      "action": "Conduct a walk-through audit of the dining area to identify specific issues with decor, lighting, and seating comfort. Prioritize small, cost-effective improvements (e.g., new lighting, rearranging seating, fresh paint) that can quickly enhance the ambiance.",
+      "category": "Environment",
+      "expected_impact": "A more inviting and comfortable dining experience, encouraging longer stays and repeat visits."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

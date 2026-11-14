@@ -1,0 +1,17 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Duck In Market",
+  "sample_size": 14,
+  "executive_summary": "A comprehensive analysis of customer sentiment and operational insights for Duck In Market could not be performed due to the absence of detailed upstream analysis, reasoning, and recommendation data. The small sample size of 14 reviews further limits the ability to draw meaningful conclusions.",
+  "key_findings": [
+    "No specific key findings could be extracted as the upstream 'analysis_summary' was empty."
+  ],
+  "root_causes": [],
+  "recommendations": [],
+  "limitations": [
+    "The analysis is based on a very small sample size of 14 reviews, which may not be representative of the overall customer experience.",
+    "Detailed analysis, reasoning, and recommendations were not provided in the upstream outputs, preventing the generation of specific insights and actionable advice."
+  ],
+  "status": "success",
+  "error_detail": null
+}

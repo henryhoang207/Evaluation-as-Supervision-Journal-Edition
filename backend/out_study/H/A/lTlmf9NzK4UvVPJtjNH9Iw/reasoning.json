@@ -1,0 +1,83 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report issues with the quality of the food, including taste, preparation, or freshness.",
+      "aspect": "food_quality",
+      "frequency": 0.38,
+      "evidence_review_ids": [
+        "8zXABZIYxfaLfSjgmZV9eQ",
+        "B53x3dFFUvYebccrq8VpYA",
+        "C7oIa0IAcGCDGDKru4niBg",
+        "DBvu5cM6eBEu4-wO3ujlmQ",
+        "I4KL7qgFzmsK5oRUjb6flg",
+        "OojhJPDH7k_vn_r6bGKi1w",
+        "Qo5R2YCEavikPU02rGgFcA",
+        "Ufw70MVO3CmxOHwKo4ViHA",
+        "doIlT-jFgr1uHN05TmuO3A",
+        "gQTGJjClsNuk6EJEkZaJyQ",
+        "itUthAheadrQQK-T32_DEw",
+        "mxT8LHiN4VZEj82I4-bv-A",
+        "zpiEdZGthMEa0ZHuF6sfhA"
+      ]
+    },
+    {
+      "description": "There are recurring complaints about the staff's attitude, indicating unfriendliness or unhelpfulness.",
+      "aspect": "staff_attitude",
+      "frequency": 0.26,
+      "evidence_review_ids": [
+        "8zXABZIYxfaLfSjgmZV9eQ",
+        "B53x3dFFUvYebccrq8VpYA",
+        "HeyzUknVUEhGjO5ORkb_gg",
+        "I4KL7qgFzmsK5oRUjb6flg",
+        "OojhJPDH7k_vn_r6bGKi1w",
+        "PyI4f4vIFVuexWnrvblSUg",
+        "aEe7iq5heujPb9wOqJQXMg",
+        "itUthAheadrQQK-T32_DEw",
+        "mxT8LHiN4VZEj82I4-bv-A"
+      ]
+    },
+    {
+      "description": "Customers occasionally find the pricing to be too high for the perceived value received.",
+      "aspect": "pricing",
+      "frequency": 0.06,
+      "evidence_review_ids": [
+        "I4KL7qgFzmsK5oRUjb6flg",
+        "OojhJPDH7k_vn_r6bGKi1w"
+      ]
+    },
+    {
+      "description": "A small number of reviews mention general negative experiences not fitting into specific categories.",
+      "aspect": "other",
+      "frequency": 0.09,
+      "evidence_review_ids": [
+        "DBvu5cM6eBEu4-wO3ujlmQ",
+        "OojhJPDH7k_vn_r6bGKi1w",
+        "doIlT-jFgr1uHN05TmuO3A"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report issues with the quality of the food, including taste, preparation, or freshness.",
+      "cause": "Inconsistent food preparation, use of lower quality ingredients, or lack of rigorous quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "There are recurring complaints about the staff's attitude, indicating unfriendliness or unhelpfulness.",
+      "cause": "Insufficient training for customer service, low staff morale, or inadequate management supervision leading to poor interactions.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers occasionally find the pricing to be too high for the perceived value received.",
+      "cause": "Pricing strategy may not align with customer expectations for value, or prices are perceived as uncompetitive.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A small number of reviews mention general negative experiences not fitting into specific categories.",
+      "cause": "Could stem from various minor operational inefficiencies, specific unlisted menu item issues, or overall dissatisfaction not captured by other categories.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

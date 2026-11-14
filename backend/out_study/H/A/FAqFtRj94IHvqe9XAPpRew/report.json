@@ -1,0 +1,111 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Aqua",
+  "sample_size": 214,
+  "executive_summary": "An analysis of 214 customer reviews for Aqua reveals significant dissatisfaction primarily driven by inconsistent food quality, poor staff attitude, and excessive wait times. These core issues are negatively impacting the customer experience and overall perception of value. Addressing these areas is crucial for improving customer satisfaction and the restaurant's reputation.",
+  "key_findings": [
+    "Customers frequently complain about the quality of the food, citing issues such as taste, preparation, or freshness (62% of reviews).",
+    "Staff are often described as unfriendly, unhelpful, or inattentive (57% of reviews).",
+    "Customers experience long wait times for seating, ordering, or receiving their food (43% of reviews).",
+    "Customers perceive the prices as too high for the value received (28% of reviews).",
+    "Various other negative issues, such as specific service failures or general dissatisfaction (26% of reviews).",
+    "The restaurant's atmosphere or decor is frequently criticized as unpleasant or lacking (10% of reviews).",
+    "Concerns are raised about the cleanliness of the restaurant, including tables, restrooms, or general hygiene (9% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about the quality of the food, citing issues such as taste, preparation, or freshness.",
+      "cause": "Inconsistent food preparation, low-quality ingredients, or lack of attention to detail in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Staff are often described as unfriendly, unhelpful, or inattentive.",
+      "cause": "Insufficient staff training, understaffing leading to burnout, or poor management oversight.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers experience long wait times for seating, ordering, or receiving their food.",
+      "cause": "Understaffing, inefficient kitchen operations, or poor table management during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers perceive the prices as too high for the value received.",
+      "cause": "Mismatch between perceived food quality/portion size and menu prices, or competitors offering better value.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "The restaurant's atmosphere or decor is frequently criticized as unpleasant or lacking.",
+      "cause": "Outdated decor, poor lighting, uncomfortable seating, or excessive noise levels.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Concerns are raised about the cleanliness of the restaurant, including tables, restrooms, or general hygiene.",
+      "cause": "Insufficient cleaning protocols, lack of staff attention to hygiene, or inadequate maintenance.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers mention various other negative issues not fitting into specific categories, such as specific service failures or general dissatisfaction.",
+      "cause": "Broad operational inefficiencies or isolated incidents of poor service/product delivery.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality, taste, and freshness.",
+      "action": "Implement a 'Chef's Table' quality control program: daily blind taste tests of 3-5 random dishes by the head chef or manager, weekly review of ingredient supplier performance, and mandatory bi-weekly training refreshers for kitchen staff on recipe adherence and plating standards.",
+      "category": "Food",
+      "expected_impact": "A measurable increase in food consistency and quality, leading to a reduction in food-related complaints by 30% within three months and improved customer satisfaction scores."
+    },
+    {
+      "priority": 2,
+      "issue": "Unfriendly, unhelpful, or inattentive staff.",
+      "action": "Launch a 'Service Excellence' training module focusing on active listening, proactive guest engagement, and conflict resolution. Implement a peer-to-peer recognition program for outstanding service and conduct weekly 15-minute team briefings to reinforce service standards and address specific feedback.",
+      "category": "Service",
+      "expected_impact": "Improved staff morale and a 25% reduction in negative comments regarding staff attitude, fostering a more welcoming and professional dining experience."
+    },
+    {
+      "priority": 3,
+      "issue": "Long wait times for seating, ordering, and food delivery.",
+      "action": "Deploy a digital waitlist and reservation system to manage guest flow efficiently. Cross-train front-of-house staff to assist with basic kitchen prep during non-peak hours and implement a 'speed-of-service' incentive for kitchen staff to reduce ticket times during rushes.",
+      "category": "Operations",
+      "expected_impact": "A 20% reduction in average wait times during peak hours, leading to increased table turnover and improved customer satisfaction."
+    },
+    {
+      "priority": 4,
+      "issue": "Customer perception of high prices relative to value.",
+      "action": "Conduct a competitive price analysis of 3-5 local restaurants with similar cuisine and quality. Introduce a 'Chef's Daily Special' at a competitive price point to showcase value, and ensure menu descriptions clearly highlight premium ingredients or unique preparation methods.",
+      "category": "Pricing",
+      "expected_impact": "Enhanced perception of value, potentially increasing average check size by 5% and attracting new customers seeking good value."
+    },
+    {
+      "priority": 5,
+      "issue": "Broad operational inefficiencies and isolated service failures leading to general dissatisfaction.",
+      "action": "Implement a 'Daily Feedback Loop' where managers review all customer feedback (online and in-person) at the start of each shift, assigning specific staff members to address recurring minor issues or follow up on specific complaints.",
+      "category": "Operations",
+      "expected_impact": "Proactive resolution of minor issues, preventing escalation, and a general uplift in customer satisfaction by demonstrating responsiveness to diverse concerns."
+    },
+    {
+      "priority": 6,
+      "issue": "Unpleasant or outdated restaurant atmosphere/decor.",
+      "action": "Allocate a small budget for immediate aesthetic improvements: update lighting fixtures to warmer tones, add live plants, and curate a background music playlist. Gather staff and customer input on potential larger decor changes for future planning.",
+      "category": "Environment",
+      "expected_impact": "A more inviting and comfortable dining environment, improving overall guest experience and potentially increasing positive mentions of atmosphere in reviews."
+    },
+    {
+      "priority": 7,
+      "issue": "Concerns about restaurant cleanliness and hygiene.",
+      "action": "Institute a 'Cleanliness Champion' program, assigning a rotating staff member each shift to perform hourly checks of restrooms, dining tables, and high-touch surfaces, using a detailed checklist. Post 'Cleanliness Check' logs in restrooms.",
+      "category": "Operations",
+      "expected_impact": "A noticeable improvement in overall restaurant hygiene, reducing health risks and significantly enhancing customer comfort and trust."
+    }
+  ],
+  "limitations": [
+    "Analysis is based solely on online reviews, which may not represent the entire customer base.",
+    "Reviews are subjective and can be influenced by individual biases or isolated incidents.",
+    "Lack of demographic information prevents segmentation of feedback by customer groups.",
+    "The analysis captures past sentiment and may not reflect recent operational changes."
+  ],
+  "status": "success",
+  "error_detail": null
+}

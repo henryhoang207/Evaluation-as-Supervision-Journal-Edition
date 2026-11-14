@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation, use of low-quality ingredients, or lack of attention to detail in cooking.",
+      "action": "Implement a comprehensive kitchen audit to standardize recipes, source higher-quality ingredients, and provide refresher training for all kitchen staff on preparation techniques and quality control. Consider daily taste tests by management.",
+      "category": "Food",
+      "expected_impact": "Significant improvement in customer satisfaction, reduction in negative food reviews, and potential for increased repeat business."
+    },
+    {
+      "priority": 2,
+      "issue": "Understaffing during peak hours, inefficient kitchen operations, or poor order management.",
+      "action": "Conduct a peak-hour staffing analysis to ensure adequate front-of-house and kitchen staff. Optimize kitchen workflow and implement a new order management system (e.g., digital order display, improved communication between FOH and BOH) to streamline service.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, improved table turnover, and enhanced overall dining experience, leading to fewer complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Insufficient staff training in customer service, low staff morale, or inadequate supervision.",
+      "action": "Develop and implement mandatory customer service training modules focusing on attentiveness, friendliness, and conflict resolution. Introduce a staff recognition program to boost morale and increase management presence on the floor for active supervision and coaching.",
+      "category": "Service",
+      "expected_impact": "Improved staff professionalism and attentiveness, leading to a more positive customer experience and better review scores for service."
+    },
+    {
+      "priority": 4,
+      "issue": "Inadequate cleaning protocols, insufficient staff for cleaning duties, or lack of management oversight on hygiene standards.",
+      "action": "Establish a daily, weekly, and monthly cleaning checklist with assigned responsibilities and manager sign-offs. Schedule regular deep cleaning sessions and ensure sufficient cleaning supplies and staff are allocated for maintaining high hygiene standards throughout operating hours.",
+      "category": "Operations",
+      "expected_impact": "A cleaner, more inviting environment, reducing health concerns and improving overall customer perception of the restaurant."
+    },
+    {
+      "priority": 5,
+      "issue": "Pricing strategy not aligned with perceived food quality or service, or competitors offering better value.",
+      "action": "Conduct a competitive pricing analysis and a cost-benefit analysis of current menu items. Consider adjusting prices, enhancing portion sizes, or introducing value-added promotions (e.g., lunch specials, combo deals) to better align with customer perception of value, especially after addressing food quality and service issues.",
+      "category": "Pricing",
+      "expected_impact": "Improved customer perception of value for money, potentially increasing sales and reducing complaints about high prices."
+    },
+    {
+      "priority": 6,
+      "issue": "This is a broad category, but often correlates with other issues like poor food, service, or ambience. It could indicate a cumulative effect of multiple minor issues or a significant but unclassified problem.",
+      "action": "Implement a customer feedback system (e.g., comment cards, QR code surveys) to gather more specific insights into 'other' negative experiences. Regularly review feedback and conduct mystery shopper visits to identify subtle issues not captured by specific categories.",
+      "category": "Customer Experience",
+      "expected_impact": "Uncover latent issues, provide a channel for customers to voice concerns, and demonstrate commitment to continuous improvement, contributing to overall satisfaction."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

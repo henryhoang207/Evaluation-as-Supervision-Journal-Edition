@@ -1,0 +1,67 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report dissatisfaction with the quality of the food.",
+      "aspect": "food_quality",
+      "frequency": 0.29,
+      "evidence_review_ids": [
+        "5irI_Z77CwBiPcUaU2ehWw",
+        "dm1IZF8WN-bK-mLhEov9_Q",
+        "m3C0TQeiU2P9WJkX_R4ppA",
+        "yjid1O_qBWEYi7zu5KUU7A"
+      ]
+    },
+    {
+      "description": "Many customers find the pricing to be too high or not offering good value.",
+      "aspect": "pricing",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "5irI_Z77CwBiPcUaU2ehWw",
+        "Lt91gfjwl2SQpQjwRVEX7g",
+        "O1FxQ62K6dP8fCjX5CblQA"
+      ]
+    },
+    {
+      "description": "The restaurant's atmosphere or physical environment is often described negatively.",
+      "aspect": "ambience",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "5irI_Z77CwBiPcUaU2ehWw",
+        "Lt91gfjwl2SQpQjwRVEX7g"
+      ]
+    },
+    {
+      "description": "Customers express general dissatisfaction with aspects not covered by other categories.",
+      "aspect": "other",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "5irI_Z77CwBiPcUaU2ehWw",
+        "m3C0TQeiU2P9WJkX_R4ppA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent food preparation, poor ingredient sourcing, or lack of quality control.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Many customers find the pricing to be too high or not offering good value.",
+      "cause": "Overpricing relative to perceived value, or high operational costs passed to customers.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "The restaurant's atmosphere or physical environment is often described negatively.",
+      "cause": "Poor interior design, lack of maintenance, uncomfortable seating, or undesirable noise levels.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers express general dissatisfaction with aspects not covered by other categories.",
+      "cause": "Unspecified operational shortcomings, unmet expectations, or issues not fitting standard categories.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

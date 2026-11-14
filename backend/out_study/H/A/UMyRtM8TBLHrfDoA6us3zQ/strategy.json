@@ -1,0 +1,27 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Negative staff attitude and poor service.",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on communication, conflict resolution, and proactive service. Additionally, review current staffing levels to ensure adequate coverage and prevent burnout.",
+      "category": "service",
+      "expected_impact": "Significantly improve customer satisfaction, reduce negative reviews related to staff interactions, and foster a more positive dining environment."
+    },
+    {
+      "priority": 2,
+      "issue": "Long wait times and inefficient service delivery.",
+      "action": "Conduct an operational audit of kitchen and service workflows during peak hours to identify bottlenecks. Implement process improvements such as optimizing kitchen layout, streamlining order processing, and adjusting staff scheduling to match demand fluctuations.",
+      "category": "operations",
+      "expected_impact": "Reduce average wait times, improve table turnover efficiency, and enhance overall customer experience by providing quicker service."
+    },
+    {
+      "priority": 3,
+      "issue": "Customer dissatisfaction with pricing and perceived poor value.",
+      "action": "Review current menu pricing against competitor offerings and customer perceived value. Consider introducing value-focused promotions, combo deals, or clearly highlighting premium ingredient sourcing and unique selling points to justify pricing and enhance perceived value.",
+      "category": "pricing",
+      "expected_impact": "Address customer concerns about value for money, potentially increase sales by attracting price-sensitive customers, and improve overall price perception."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and preparation standards.",
+      "action": "Implement standardized recipes and portion controls for all menu items. Conduct daily taste tests and quality checks by a senior chef. Invest in higher quality, consistent ingredient suppliers where current quality is lacking. Provide refresher training to kitchen staff on preparation techniques and consistency.",
+      "category": "food",
+      "expected_impact": "Significantly improve customer satisfaction with food taste and consistency, reduce complaints, and enhance the restaurant's culinary reputation."
+    },
+    {
+      "priority": 2,
+      "issue": "Negative staff attitude and poor customer service demeanor.",
+      "action": "Introduce mandatory, recurring customer service training focused on positive attitude, active listening, and conflict resolution. Review staffing levels during peak hours to alleviate stress. Implement a 'mystery shopper' program and a clear feedback mechanism for staff performance, coupled with recognition for excellent service.",
+      "category": "service",
+      "expected_impact": "Elevate the overall customer experience, increase positive reviews related to service, and foster a more positive work environment for staff."
+    },
+    {
+      "priority": 3,
+      "issue": "Customer perception of poor value for money and high pricing.",
+      "action": "Conduct a comprehensive competitive pricing analysis against similar establishments in the area. Evaluate current menu item costs and explore options for value-added offerings (e.g., combo deals, loyalty programs) or slight price adjustments where justified by market perception. Clearly communicate the quality of ingredients or unique aspects that justify pricing.",
+      "category": "pricing",
+      "expected_impact": "Enhance perceived value for customers, potentially attract a broader customer base, and align pricing more effectively with market expectations and product offering."
+    },
+    {
+      "priority": 4,
+      "issue": "Recurring complaints about restaurant cleanliness.",
+      "action": "Establish a detailed daily, weekly, and monthly cleaning checklist for all areas (dining room, restrooms, kitchen, entrance). Assign clear responsibilities to staff members and implement regular management checks. Schedule professional deep cleaning services quarterly and address any maintenance issues promptly.",
+      "category": "operations",
+      "expected_impact": "Improve customer comfort and confidence in the restaurant's hygiene standards, reducing negative reviews and enhancing the overall dining environment."
+    },
+    {
+      "priority": 5,
+      "issue": "Long wait times for service and food.",
+      "action": "Analyze peak hour traffic patterns to optimize staff scheduling and kitchen workflow. Implement a table management system to improve seating efficiency. Cross-train front-of-house staff to assist with basic tasks during busy periods. Communicate estimated wait times clearly to customers upon arrival.",
+      "category": "operations",
+      "expected_impact": "Reduce customer frustration, improve service efficiency, and enhance the overall dining experience by managing expectations and speeding up service delivery."
+    },
+    {
+      "priority": 6,
+      "issue": "Negative or uninviting restaurant ambience.",
+      "action": "Conduct an audit of the dining area's decor, lighting, and sound levels. Prioritize minor aesthetic updates (e.g., fresh paint, updated artwork, improved lighting). Address any visible maintenance issues (e.g., worn furniture, chipped paint). Consider solutions for noise reduction if it's a significant factor.",
+      "category": "operations",
+      "expected_impact": "Create a more pleasant and inviting dining environment, contributing to a better overall customer experience and potentially encouraging longer stays."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,111 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "QDOBA Mexican Eats",
+  "sample_size": 92,
+  "executive_summary": "An analysis of 92 customer reviews for QDOBA Mexican Eats reveals significant dissatisfaction primarily driven by poor staff attitude (52% of reviews), inconsistent food quality (35%), and cleanliness issues (20%). These core problems are negatively impacting the customer experience and overall perception of value. Addressing staff training, food preparation consistency, and hygiene protocols are critical to improving customer satisfaction and the restaurant's reputation.",
+  "key_findings": [
+    "A significant number of reviews indicate issues with staff attitude, suggesting unhelpful, rude, or inattentive service (52% of reviews).",
+    "A substantial portion of reviews report dissatisfaction with the quality of food, indicating issues with taste, preparation, or consistency (35% of reviews).",
+    "A noticeable number of reviews highlight issues with the restaurant's cleanliness, including dirty tables, floors, or general unhygienic conditions (20% of reviews).",
+    "Several reviews mention various negative experiences not fitting into standard categories, such as general dissatisfaction, specific incidents, or issues with overall experience (20% of reviews).",
+    "A recurring complaint is about excessive wait times for seating, ordering, or food delivery (9% of reviews).",
+    "Several customers express dissatisfaction with the pricing, finding it too high for the value received (9% of reviews).",
+    "A number of reviews mention a negative or uninviting atmosphere in the restaurant (9% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "A significant number of reviews indicate issues with staff attitude, suggesting unhelpful, rude, or inattentive service.",
+      "cause": "Inadequate staff training, insufficient staffing levels leading to stress, lack of motivation, or poor management oversight.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A substantial portion of reviews report dissatisfaction with the quality of food, indicating issues with taste, preparation, or consistency.",
+      "cause": "Inconsistent ingredient sourcing, lack of standardized recipes/preparation, insufficient training for kitchen staff, or quality control issues.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A noticeable number of reviews highlight issues with the restaurant's cleanliness, including dirty tables, floors, or general unhygienic conditions.",
+      "cause": "Insufficient cleaning protocols, inadequate staffing for cleaning, lack of regular checks, or poor staff adherence to hygiene standards.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Several reviews mention various negative experiences not fitting into standard categories, such as general dissatisfaction, specific incidents, or issues with overall experience.",
+      "cause": "A combination of other operational failures (e.g., poor service, long waits, specific incidents) or general unmet expectations.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "A recurring complaint is about excessive wait times for seating, ordering, or food delivery.",
+      "cause": "Understaffing (front-of-house or kitchen), inefficient order processing, poor table management, or unexpected high demand without adequate preparation.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Several customers express dissatisfaction with the pricing, finding it too high for the value received.",
+      "cause": "Misalignment between perceived value and price, high operational costs passed to customers, or competitive pricing not being met.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A number of reviews mention a negative or uninviting atmosphere in the restaurant.",
+      "cause": "Outdated decor, poor lighting, uncomfortable seating, noise issues, or lack of maintenance.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor staff attitude and inconsistent service quality.",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on attentiveness, problem-solving, and positive communication. Simultaneously, review staffing levels during peak hours to reduce stress and ensure adequate coverage.",
+      "category": "Service",
+      "expected_impact": "Significantly improved customer satisfaction, leading to higher review scores and increased customer loyalty. Reduced staff turnover due to better support and training."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent and unsatisfactory food quality (taste, preparation, consistency).",
+      "action": "Standardize all recipes with precise measurements and cooking procedures, and conduct regular, unannounced taste tests and quality checks by management. Provide advanced training for kitchen staff on new standards and ingredient handling, and establish a system for consistent ingredient sourcing from reliable suppliers.",
+      "category": "Food",
+      "expected_impact": "Consistent delivery of high-quality, delicious food, directly addressing a major source of customer dissatisfaction and enhancing the restaurant's reputation."
+    },
+    {
+      "priority": 3,
+      "issue": "Poor restaurant cleanliness and hygiene.",
+      "action": "Develop and enforce detailed daily and weekly cleaning checklists for all areas (dining room, restrooms, kitchen, entrance). Assign specific staff members responsibility for cleanliness zones and conduct regular, documented inspections by management. Retrain all staff on hygiene standards and the importance of a clean environment.",
+      "category": "Operations",
+      "expected_impact": "A visibly cleaner and more hygienic dining environment, improving customer comfort, perception of quality, and reducing health and safety concerns."
+    },
+    {
+      "priority": 4,
+      "issue": "Unidentified or miscellaneous negative customer experiences leading to general dissatisfaction.",
+      "action": "Implement a robust, multi-channel customer feedback system (e.g., digital surveys via QR codes, comment cards, direct manager check-ins at tables) to capture specific details of 'other' negative experiences. Analyze this feedback weekly to identify emerging patterns or niche issues not covered by existing categories.",
+      "category": "Service",
+      "expected_impact": "Proactive identification and resolution of emerging or niche issues, improving overall customer experience and preventing minor issues from escalating into significant complaints."
+    },
+    {
+      "priority": 5,
+      "issue": "Excessive wait times for seating, ordering, or food delivery.",
+      "action": "Optimize staffing schedules to align with peak demand periods for both front-of-house and kitchen staff. Implement a digital table management system to streamline seating and order flow, and cross-train staff to assist in different areas during busy times to improve efficiency.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, leading to improved customer flow, higher table turnover, and enhanced overall dining experience."
+    },
+    {
+      "priority": 6,
+      "issue": "Customer perception of poor value for money due to high pricing.",
+      "action": "Conduct a thorough menu engineering analysis to evaluate profitability and perceived value of each dish. Review pricing against direct competitors and consider offering value-added promotions (e.g., lunch specials, loyalty programs) or clearly communicating the quality and sourcing of ingredients to justify pricing.",
+      "category": "Pricing",
+      "expected_impact": "Customers will perceive better value for their money, reducing price-related complaints and potentially increasing sales and customer satisfaction."
+    },
+    {
+      "priority": 7,
+      "issue": "Uninviting or negative restaurant atmosphere.",
+      "action": "Conduct an audit of the restaurant's decor, lighting, seating comfort, and noise levels. Prioritize minor aesthetic upgrades (e.g., fresh paint, updated lighting, comfortable cushions) and consider sound-dampening solutions. Ensure regular maintenance of all facilities to prevent wear and tear.",
+      "category": "Facilities",
+      "expected_impact": "A more pleasant and inviting dining environment, enhancing the overall customer experience and encouraging longer stays and repeat visits."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a sample size of 92 reviews, which may not fully represent all customer experiences.",
+    "Review data is subjective and can be influenced by individual biases and expectations.",
+    "The analysis does not include demographic information of reviewers, which could provide additional context.",
+    "The data reflects past experiences and may not account for recent operational changes."
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,44 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Gaya Korean Restaurant",
+  "sample_size": 14,
+  "executive_summary": "Analysis of 14 customer reviews for Gaya Korean Restaurant reveals a primary concern regarding inconsistent food quality. This issue is likely due to varying preparation standards, potential ingredient quality problems, and insufficient kitchen quality control. Recommendations focus on implementing standardized recipes, supplier audits, and final plate inspections to significantly improve food consistency and customer satisfaction.",
+  "key_findings": [
+    "Customers frequently report issues with the quality of the food, indicating inconsistency or dissatisfaction with dishes."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report issues with the quality of the food, indicating inconsistency or dissatisfaction with dishes.",
+      "cause": "Inconsistent food preparation, potential issues with ingredient quality, or a lack of strict quality control in the kitchen.",
+      "confidence": "high"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation and lack of strict quality control in the kitchen.",
+      "action": "Implement a 'Recipe & Quality Control Program'. This includes: 1) Updating/creating detailed, standardized recipes with precise measurements and cooking times for all menu items. 2) Conducting mandatory, hands-on training for all kitchen staff on these new standards. 3) Establishing a daily pre-service tasting panel (Head Chef + Sous Chef) to evaluate consistency and quality of key dishes.",
+      "category": "Food, Operations, Training",
+      "expected_impact": "A significant and immediate improvement in the consistency of taste, presentation, and overall quality of dishes, directly addressing customer dissatisfaction and building trust."
+    },
+    {
+      "priority": 2,
+      "issue": "Potential issues with ingredient quality.",
+      "action": "Conduct a comprehensive 'Supplier & Ingredient Quality Audit'. This involves: 1) Reviewing all current food suppliers and their contracts. 2) Establishing clear, measurable quality specifications for all incoming ingredients. 3) Implementing a strict receiving checklist for daily deliveries, empowering staff to reject ingredients that do not meet specified standards.",
+      "category": "Food, Supply Chain, Operations",
+      "expected_impact": "Ensures a higher baseline quality for all raw materials, reducing variability and elevating the overall quality of prepared dishes."
+    },
+    {
+      "priority": 3,
+      "issue": "Lack of strict quality control in the kitchen (final output).",
+      "action": "Implement a 'Final Plate Inspection Protocol'. Designate a senior kitchen staff member (e.g., Sous Chef or Expediter) to visually inspect every dish for presentation, correct temperature, and portion size before it leaves the kitchen pass.",
+      "category": "Food, Operations",
+      "expected_impact": "Acts as a final safeguard, catching any last-minute inconsistencies or errors before they reach the customer, reinforcing quality standards."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not fully represent the entire customer experience or capture all potential issues. Further analysis with a larger dataset would provide more robust insights."
+  ],
+  "status": "success",
+  "error_detail": null
+}

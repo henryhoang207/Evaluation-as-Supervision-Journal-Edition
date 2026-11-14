@@ -1,0 +1,55 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality, taste, preparation, or freshness.",
+      "action": "Implement a comprehensive kitchen audit to standardize recipes, conduct daily taste tests by a senior chef, and review all primary ingredient supplier contracts to ensure consistent quality. Provide targeted training for kitchen staff on portion control, cooking techniques, and food handling.",
+      "category": "Food",
+      "expected_impact": "A significant and measurable improvement in food consistency and taste, leading to higher customer satisfaction, increased positive reviews, and reduced food waste."
+    },
+    {
+      "priority": 2,
+      "issue": "Customers perceive pricing as too high or poor value for money.",
+      "action": "Conduct a detailed competitive pricing analysis against similar restaurants in the area. Re-evaluate menu item profitability and consider introducing value-focused specials, combo meals, or a loyalty program. Clearly articulate the quality of ingredients or unique preparation methods to justify price points.",
+      "category": "Pricing",
+      "expected_impact": "Enhanced customer perception of value, potentially leading to increased sales volume and improved customer loyalty, while maintaining or improving profit margins."
+    },
+    {
+      "priority": 3,
+      "issue": "Long waiting times for service or food.",
+      "action": "Analyze peak hour traffic patterns and adjust staffing levels in both the front-of-house and kitchen accordingly. Implement a digital order management system to streamline communication between servers and kitchen, and train staff on efficient table turnover procedures and proactive customer updates.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer frustration, improved dining experience, faster table turnover, and increased capacity during busy periods."
+    },
+    {
+      "priority": 4,
+      "issue": "Negative experiences with staff, including unfriendliness, lack of attentiveness, or poor service.",
+      "action": "Develop and implement a mandatory customer service training program focusing on active listening, empathy, conflict resolution, and proactive attentiveness. Introduce a staff recognition program for exceptional service and conduct regular, constructive performance feedback sessions.",
+      "category": "Service",
+      "expected_impact": "A noticeable improvement in staff professionalism and friendliness, leading to enhanced customer satisfaction, increased tips for staff, and a more positive work environment."
+    },
+    {
+      "priority": 5,
+      "issue": "Various unspecified negative experiences indicating minor operational oversights or isolated incidents.",
+      "action": "Implement a proactive customer feedback system, such as brief digital surveys after meals or manager check-ins at tables, specifically asking for any 'minor issues' or suggestions. Analyze this new data weekly to identify emerging patterns or specific recurring complaints.",
+      "category": "Customer Experience",
+      "expected_impact": "Identification and resolution of previously hidden minor issues, leading to a more polished overall customer experience and preventing small problems from escalating."
+    },
+    {
+      "priority": 6,
+      "issue": "Concerns regarding the cleanliness of the restaurant.",
+      "action": "Establish and enforce a detailed daily, weekly, and monthly cleaning checklist for all areas, including restrooms, dining tables, floors, and kitchen surfaces. Assign specific staff responsibilities for cleanliness checks throughout shifts and ensure adequate cleaning supplies are always available.",
+      "category": "Operations",
+      "expected_impact": "A visibly cleaner and more hygienic environment, improving customer comfort, confidence, and adherence to health standards."
+    },
+    {
+      "priority": 7,
+      "issue": "Dissatisfaction with the restaurant's atmosphere or environment.",
+      "action": "Conduct a review of the restaurant's interior design, lighting, music selection, and seating comfort. Prioritize small, cost-effective improvements such as adjusting lighting levels, updating background music playlists, or adding plants/artwork to enhance the overall dining ambiance.",
+      "category": "Environment",
+      "expected_impact": "A more pleasant and inviting dining atmosphere, contributing positively to the overall customer experience and potentially encouraging longer stays."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

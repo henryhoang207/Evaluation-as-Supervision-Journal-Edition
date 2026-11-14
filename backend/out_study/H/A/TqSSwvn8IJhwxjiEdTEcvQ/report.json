@@ -1,0 +1,44 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Kokomos Bar & Grille",
+  "sample_size": 14,
+  "executive_summary": "Analysis of 14 customer reviews for Kokomos Bar & Grille reveals primary concerns regarding inconsistent food quality and a perception of poor value for money. Key recommendations include standardizing food preparation and ingredient sourcing to improve quality, followed by a strategic review of pricing and value propositions to better align with customer expectations.",
+  "key_findings": [
+    "Customers frequently report issues with the quality of the food, indicating dissatisfaction with taste, preparation, or ingredients.",
+    "There are recurring complaints about the pricing being too high or not offering good value for money."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report issues with the quality of the food, indicating dissatisfaction with taste, preparation, or ingredients.",
+      "cause": "Inconsistent food preparation or ingredient sourcing, leading to varying quality of dishes.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "There are recurring complaints about the pricing being too high or not offering good value for money.",
+      "cause": "Pricing strategy is not aligned with customer perception of value, especially when combined with food quality issues.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality due to varying preparation and ingredient sourcing.",
+      "action": "Develop and strictly enforce detailed, standardized recipes and cooking procedures for all menu items. Implement a daily chef's tasting panel for quality control before service, and establish a robust supplier vetting process with clear quality specifications for all incoming ingredients.",
+      "category": "Food / Operations",
+      "expected_impact": "Significant improvement in dish consistency and overall food quality, directly addressing customer dissatisfaction and building trust, which is foundational for value perception."
+    },
+    {
+      "priority": 2,
+      "issue": "Customer perception that pricing is too high or does not offer good value, exacerbated by food quality issues.",
+      "action": "Once food quality consistency is established (from Priority 1 action), conduct a comprehensive menu engineering analysis to identify high-profit, high-popularity items and adjust pricing or portion sizes strategically. Consider introducing value-focused promotions or combo deals to enhance perceived value without necessarily lowering base prices.",
+      "category": "Pricing / Marketing",
+      "expected_impact": "Improved customer perception of value for money, potentially leading to increased sales and reduced complaints about pricing, especially once food quality is consistently high."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not fully represent the entire customer experience or broader trends.",
+    "Review data is subjective and may not always provide specific actionable details without further investigation."
+  ],
+  "status": "success",
+  "error_detail": null
+}

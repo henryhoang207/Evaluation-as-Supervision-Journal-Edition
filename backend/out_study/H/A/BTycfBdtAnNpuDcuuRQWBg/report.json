@@ -1,0 +1,50 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Papa Murphy's",
+  "sample_size": 14,
+  "executive_summary": "Papa Murphy's is experiencing customer dissatisfaction primarily due to negative staff interactions and excessive wait times. Analysis indicates these issues likely stem from inadequate staff training, potential understaffing, and operational inefficiencies. Key recommendations focus on optimizing staffing and kitchen processes to reduce wait times, and implementing a proactive feedback system to address general customer experience issues.",
+  "key_findings": [
+    "Negative experiences with staff attitude, including unfriendliness or poor service.",
+    "Complaints about excessive wait times for service or food.",
+    "General negative feedback categorized as 'other', potentially indicating miscellaneous issues or overall dissatisfaction not fitting specific categories."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Negative experiences with staff attitude, including unfriendliness or poor service.",
+      "cause": "Lack of comprehensive customer service training for staff or high stress levels due to understaffing.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints about excessive wait times for service or food.",
+      "cause": "Operational inefficiencies, insufficient staffing during peak hours, or inadequate kitchen capacity leading to delays.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "General negative feedback categorized as 'other', potentially indicating miscellaneous issues or overall dissatisfaction not fitting specific categories.",
+      "cause": "A combination of minor operational shortcomings or an overall negative impression stemming from the issues with staff attitude and wait times.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 2,
+      "issue": "Excessive wait times for service or food caused by operational inefficiencies, insufficient staffing during peak hours, and/or inadequate kitchen capacity.",
+      "action": "Conduct a thorough staffing analysis to identify peak hours and ensure adequate front-of-house and kitchen staff coverage. Simultaneously, review kitchen workflow and service processes to identify and eliminate inefficiencies, potentially by re-allocating tasks or investing in new equipment.",
+      "category": "Operations",
+      "expected_impact": "Significantly reduced wait times for both service and food, decreased staff stress, improved operational flow, and increased customer satisfaction."
+    },
+    {
+      "priority": 3,
+      "issue": "General negative feedback indicating a combination of minor operational shortcomings or an overall negative impression stemming from the issues with staff attitude and wait times.",
+      "action": "Implement a system for proactive customer feedback collection (e.g., QR code surveys at tables, follow-up emails for reservations) specifically asking about overall experience and any minor inconveniences. Regularly review feedback to identify recurring 'other' issues and implement small, targeted improvements.",
+      "category": "Customer Experience",
+      "expected_impact": "Uncovering and resolving minor issues before they escalate, demonstrating a commitment to customer satisfaction, and fostering a culture of continuous improvement."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not fully represent the overall customer sentiment or capture the full range of issues.",
+    "The provided recommendations do not explicitly address the root cause of negative staff attitude, which was identified as a key finding."
+  ],
+  "status": "success",
+  "error_detail": null
+}

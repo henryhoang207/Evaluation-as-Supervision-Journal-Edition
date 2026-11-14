@@ -1,0 +1,71 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Pikkles Plus",
+  "sample_size": 14,
+  "executive_summary": "An analysis of 14 customer reviews for Pikkles Plus reveals significant dissatisfaction primarily concerning food quality, pricing, and restaurant ambience. Key recommendations include implementing comprehensive kitchen quality control, re-evaluating pricing for better value, and improving the physical environment to enhance the overall customer experience. Addressing these core issues is crucial for improving customer satisfaction and business performance.",
+  "key_findings": [
+    "Customers frequently report dissatisfaction with the quality of the food (29% of reviews).",
+    "Many customers find the pricing to be too high or not offering good value (21% of reviews).",
+    "The restaurant's atmosphere or physical environment is often described negatively (14% of reviews).",
+    "General dissatisfaction with unspecified aspects was also noted (14% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent food preparation, poor ingredient sourcing, or lack of quality control.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Many customers find the pricing to be too high or not offering good value.",
+      "cause": "Overpricing relative to perceived value, or high operational costs passed to customers.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "The restaurant's atmosphere or physical environment is often described negatively.",
+      "cause": "Poor interior design, lack of maintenance, uncomfortable seating, or undesirable noise levels.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers express general dissatisfaction with aspects not covered by other categories.",
+      "cause": "Unspecified operational shortcomings, unmet expectations, or issues not fitting standard categories.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Dissatisfaction with food quality",
+      "action": "Implement a comprehensive kitchen quality control program, including standardized recipes, regular staff training on preparation consistency, strict ingredient sourcing guidelines, and daily taste tests/audits by a senior chef.",
+      "category": "food",
+      "expected_impact": "Significantly improve food consistency and quality, leading to higher customer satisfaction and fewer complaints related to taste and preparation."
+    },
+    {
+      "priority": 2,
+      "issue": "Pricing perceived as too high or poor value",
+      "action": "Conduct a detailed menu engineering analysis to assess profitability and popularity of dishes, alongside a competitor pricing review. Explore options to adjust pricing, introduce value-focused specials, or identify cost-saving measures in operations/sourcing to enhance perceived value without compromising quality.",
+      "category": "pricing",
+      "expected_impact": "Increase customer perception of value, potentially boosting sales volume and improving competitiveness in the market."
+    },
+    {
+      "priority": 3,
+      "issue": "Negative perception of restaurant atmosphere/ambience",
+      "action": "Perform an internal audit of the restaurant's physical environment, focusing on cleanliness, maintenance, lighting, seating comfort, and noise levels. Prioritize immediate repairs and consider minor aesthetic upgrades (e.g., new decor, improved lighting) based on customer feedback.",
+      "category": "operations",
+      "expected_impact": "Enhance the overall dining experience, improve customer comfort, and positively influence reviews related to the restaurant's environment."
+    },
+    {
+      "priority": 4,
+      "issue": "General customer dissatisfaction (unspecified aspects)",
+      "action": "Implement a proactive customer feedback system, such as short digital surveys after meals or direct manager check-ins at tables. Train front-of-house staff to actively listen for and log any specific, recurring 'other' issues mentioned by customers to identify hidden operational shortcomings.",
+      "category": "service",
+      "expected_impact": "Uncover specific, previously unaddressed operational or service issues, allowing for targeted improvements and a boost in overall customer satisfaction."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not be fully representative of all customer experiences.",
+    "The findings are qualitative and based on customer sentiment, which can be subjective.",
+    "Specific details for some 'other' dissatisfaction points were not available, limiting deeper root cause analysis for those issues."
+  ],
+  "status": "success",
+  "error_detail": null
+}

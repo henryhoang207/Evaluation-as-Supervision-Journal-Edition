@@ -1,0 +1,83 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Wingstop",
+  "sample_size": 34,
+  "executive_summary": "An analysis of 34 customer reviews for Wingstop reveals significant dissatisfaction primarily driven by poor staff attitude, inconsistent food quality, and long wait times. These issues point to underlying operational and training deficiencies. Addressing these core problems through targeted staff training, robust quality control, and operational efficiency improvements is crucial for enhancing customer satisfaction and the restaurant's reputation.",
+  "key_findings": [
+    "Customers frequently report negative interactions with staff, including rudeness, unhelpfulness, or general disinterest (59% of reviews).",
+    "A significant number of reviews mention issues with the quality, taste, or preparation of food items (47% of reviews).",
+    "Customers often experience long waits for seating, ordering, or receiving their food (29% of reviews).",
+    "Concerns regarding the cleanliness of the restaurant environment were also noted (15% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report negative interactions with staff, including rudeness, unhelpfulness, or general disinterest.",
+      "cause": "Inadequate staff training on customer service, lack of motivation/morale among employees, or insufficient management supervision.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of reviews mention issues with the quality, taste, or preparation of food items.",
+      "cause": "Lack of standardized recipes or preparation procedures, inconsistent ingredient quality, or insufficient quality control checks in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers often experience long waits for seating, ordering, or receiving their food.",
+      "cause": "Understaffing during busy periods, inefficient kitchen operations, or poor table management/seating processes.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Several reviews highlight concerns regarding the cleanliness of the restaurant environment.",
+      "cause": "Inadequate cleaning schedules, insufficient staff training on hygiene standards, or lack of regular maintenance.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Some customers feel that the prices are too high for the value received.",
+      "cause": "Pricing strategy not aligned with customer expectations for value, or lack of perceived quality/experience to justify costs.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inadequate staff training on customer service, lack of motivation/morale among employees, or insufficient management supervision.",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on empathy, active listening, and conflict resolution. Introduce a staff recognition program for excellent service and conduct regular, anonymous staff surveys to gauge morale and identify management issues.",
+      "category": "Service",
+      "expected_impact": "Significant improvement in customer satisfaction, reduction in negative staff-related reviews, and enhanced brand reputation."
+    },
+    {
+      "priority": 2,
+      "issue": "Lack of standardized recipes or preparation procedures, inconsistent ingredient quality, or insufficient quality control checks in the kitchen.",
+      "action": "Develop and enforce detailed, standardized recipe cards and preparation procedures for all menu items. Establish a robust daily quality control checklist for ingredients upon delivery and for prepared dishes before serving, overseen by a dedicated kitchen manager or head chef.",
+      "category": "Food",
+      "expected_impact": "Consistent food quality and taste, leading to higher customer satisfaction and fewer complaints about dishes."
+    },
+    {
+      "priority": 3,
+      "issue": "Understaffing during busy periods, inefficient kitchen operations, or poor table management/seating processes.",
+      "action": "Conduct a peak-hour staffing analysis to identify and address understaffing. Implement a digital table management system to optimize seating and turn times. Streamline kitchen workflows and consider cross-training staff to improve efficiency during rushes.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, increased table turnover, and improved overall operational efficiency, leading to a better customer experience."
+    },
+    {
+      "priority": 4,
+      "issue": "Inadequate cleaning schedules, insufficient staff training on hygiene standards, or lack of regular maintenance.",
+      "action": "Create and enforce a detailed daily, weekly, and monthly cleaning checklist for all areas (dining room, restrooms, kitchen, entrance). Conduct regular spot checks by management and provide refresher training on hygiene and sanitation protocols for all staff.",
+      "category": "Operations",
+      "expected_impact": "A visibly cleaner and more hygienic environment, enhancing customer comfort and perception of quality."
+    },
+    {
+      "priority": 5,
+      "issue": "Pricing strategy not aligned with customer expectations for value, or lack of perceived quality/experience to justify costs.",
+      "action": "Review menu pricing in conjunction with ingredient costs and perceived value. Consider introducing value-added elements (e.g., complimentary amuse-bouche, improved portion sizes, enhanced presentation) or a limited-time promotional offer to demonstrate value. Gather customer feedback on pricing perception.",
+      "category": "Pricing",
+      "expected_impact": "Improved customer perception of value for money, potentially increasing repeat business and reducing price-related complaints."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 34 reviews, which may not fully represent the entire customer base or all operational periods.",
+    "Review data can be subjective and may not always capture the full context of customer experiences.",
+    "The analysis relies on available text data and does not include direct customer surveys or operational data (e.g., sales figures, staff turnover) which could provide additional insights."
+  ],
+  "status": "success",
+  "error_detail": null
+}

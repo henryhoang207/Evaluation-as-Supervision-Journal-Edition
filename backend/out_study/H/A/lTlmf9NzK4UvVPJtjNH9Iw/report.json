@@ -1,0 +1,57 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "China 1",
+  "sample_size": 34,
+  "executive_summary": "An analysis of 34 customer reviews for China 1 reveals significant issues primarily concerning food quality and staff attitude. Approximately 38% of reviews highlight problems with taste, preparation, or freshness, while 26% report unfriendly or unhelpful staff. Addressing these core areas through enhanced kitchen quality control and comprehensive customer service training is crucial for improving customer satisfaction and the restaurant's overall reputation.",
+  "key_findings": [
+    "Food quality is a major concern, with 38% of reviews citing issues with taste, preparation, or freshness.",
+    "Staff attitude is a recurring problem, with 26% of reviews mentioning unfriendliness or unhelpfulness.",
+    "A smaller number of customers (6%) perceive the pricing as too high for the value received."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report issues with the quality of the food, including taste, preparation, or freshness.",
+      "cause": "Inconsistent food preparation, use of lower quality ingredients, or lack of rigorous quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "There are recurring complaints about the staff's attitude, indicating unfriendliness or unhelpfulness.",
+      "cause": "Insufficient training for customer service, low staff morale, or inadequate management supervision leading to poor interactions.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers occasionally find the pricing to be too high for the perceived value received.",
+      "cause": "Pricing strategy may not align with customer expectations for value, or prices are perceived as uncompetitive.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality (taste, preparation, freshness).",
+      "action": "Implement a comprehensive kitchen quality control program, including daily ingredient freshness checks, standardized recipe adherence audits, and regular taste tests by management. Provide refresher training for kitchen staff on key dishes.",
+      "category": "Food",
+      "expected_impact": "Significant improvement in food consistency, taste, and freshness, leading to higher customer satisfaction and repeat business."
+    },
+    {
+      "priority": 2,
+      "issue": "Recurring complaints about staff attitude (unfriendliness, unhelpfulness).",
+      "action": "Launch a mandatory customer service excellence training program for all front-of-house staff, focusing on positive communication, proactive guest engagement, and effective problem-solving. Implement a weekly check-in for staff feedback and morale assessment.",
+      "category": "Service",
+      "expected_impact": "Enhanced customer interactions, reduced complaints about staff attitude, and a more welcoming dining environment, improving overall guest experience."
+    },
+    {
+      "priority": 3,
+      "issue": "Customer perception of high pricing for the value received.",
+      "action": "Conduct a competitive pricing analysis and a menu value assessment. Consider adjusting prices for specific items or enhancing portion sizes/ingredient quality to better align with customer value perception. Introduce a 'Chef's Special' value meal or loyalty program.",
+      "category": "Pricing",
+      "expected_impact": "Improved customer perception of value for money, potentially increasing sales, reducing price-related complaints, and attracting a broader customer base."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 34 reviews, which may not fully represent all customer experiences.",
+    "Review data is subjective and may not capture all operational nuances or external factors influencing customer perception."
+  ],
+  "status": "success",
+  "error_detail": null
+}

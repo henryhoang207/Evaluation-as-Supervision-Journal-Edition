@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent or poor food quality",
+      "action": "Implement a comprehensive kitchen quality control program, including standardized recipes, daily taste tests by a senior chef, and regular audits of ingredient suppliers to ensure consistency.",
+      "category": "Food",
+      "expected_impact": "Significantly improve food consistency and quality, leading to higher customer satisfaction and reduced negative food-related reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Overpriced menu items or poor value for money",
+      "action": "Conduct a competitive pricing analysis against similar restaurants, review portion sizes to ensure perceived value, and consider introducing value-focused promotions or combo deals to enhance customer perception of value.",
+      "category": "Pricing",
+      "expected_impact": "Increase customer perception of value, potentially boosting sales volume and attracting a broader customer base."
+    },
+    {
+      "priority": 3,
+      "issue": "Unfriendly or unhelpful staff attitude",
+      "action": "Mandate comprehensive customer service training for all front-of-house staff, focusing on hospitality, problem-solving, and proactive guest engagement. Implement a staff recognition program to boost morale and reward excellent service.",
+      "category": "Service",
+      "expected_impact": "Elevate the overall dining experience, foster customer loyalty, and generate positive word-of-mouth referrals."
+    },
+    {
+      "priority": 4,
+      "issue": "Excessively long wait times for service or food",
+      "action": "Analyze staffing levels during peak hours and adjust schedules to ensure adequate coverage. Optimize kitchen workflow and service processes through staff training and technology (e.g., kitchen display systems) to improve efficiency.",
+      "category": "Operations",
+      "expected_impact": "Reduce customer frustration, improve table turnover rates, and enhance the overall efficiency of service delivery."
+    },
+    {
+      "priority": 5,
+      "issue": "Miscellaneous negative experiences not fitting other categories",
+      "action": "Establish a daily manager walk-through checklist covering all operational areas (cleanliness, minor repairs, staff readiness) and implement a structured system for logging and promptly addressing all customer feedback, no matter how minor.",
+      "category": "Operations",
+      "expected_impact": "Proactively identify and resolve minor operational issues before they impact customer experience, demonstrating attention to detail and care."
+    },
+    {
+      "priority": 6,
+      "issue": "Unpleasant or uninviting restaurant atmosphere",
+      "action": "Conduct a thorough assessment of the restaurant's interior and exterior. Prioritize immediate repairs and cleanliness improvements, and develop a phased plan for decor updates, lighting enhancements, and comfortable seating arrangements.",
+      "category": "Ambience",
+      "expected_impact": "Create a more inviting and comfortable dining environment, encouraging longer stays and repeat visits."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

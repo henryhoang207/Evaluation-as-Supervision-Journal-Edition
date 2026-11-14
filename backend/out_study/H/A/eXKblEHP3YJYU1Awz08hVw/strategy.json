@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inefficient operations leading to long wait times for orders and service.",
+      "action": "Conduct a detailed operational audit to identify bottlenecks in order taking, kitchen prep, and service delivery. Implement staff scheduling optimization based on historical peak hour data and consider investing in a Kitchen Display System (KDS) to streamline communication and track order progress.",
+      "category": "operations",
+      "expected_impact": "Significantly reduce customer wait times, improve table turnover, enhance customer satisfaction, and potentially increase revenue."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent food quality across dishes or visits.",
+      "action": "Develop and strictly enforce standardized recipes and cooking procedures for all menu items. Implement a comprehensive training program for all kitchen staff on these standards, including ingredient handling and portion control. Establish a daily quality control check for prepared dishes before service.",
+      "category": "food",
+      "expected_impact": "Ensure consistent high-quality food, reduce negative food reviews, build customer trust, and strengthen brand reputation."
+    },
+    {
+      "priority": 3,
+      "issue": "Customer perception of poor value for money.",
+      "action": "Conduct a thorough competitive analysis of menu pricing against direct competitors, considering portion sizes and ingredient quality. Clearly articulate the value proposition of dishes (e.g., source of ingredients, unique preparation) on the menu or through staff. Explore value-added offerings like combo meals or loyalty programs.",
+      "category": "pricing",
+      "expected_impact": "Align pricing with customer value perception, improve competitiveness, reduce price-related complaints, and potentially attract a broader customer base."
+    },
+    {
+      "priority": 4,
+      "issue": "Undefined minor issues contributing to overall customer dissatisfaction.",
+      "action": "Implement a proactive customer feedback system, such as brief digital surveys after dining or manager check-ins at tables, specifically asking about overall experience and any minor inconveniences. Analyze this feedback regularly to identify recurring subtle issues.",
+      "category": "service",
+      "expected_impact": "Uncover and address previously unclassified pain points, improve overall customer experience, and convert vague dissatisfaction into actionable insights."
+    },
+    {
+      "priority": 5,
+      "issue": "Negative interactions due to poor staff attitude or unhelpfulness.",
+      "action": "Develop and implement a mandatory customer service excellence training program for all front-of-house staff, focusing on positive communication, conflict resolution, and proactive service. Introduce a recognition program for outstanding service and regular performance feedback sessions.",
+      "category": "service",
+      "expected_impact": "Improve staff professionalism and morale, enhance customer interactions, and foster a more welcoming dining environment."
+    },
+    {
+      "priority": 6,
+      "issue": "Unappealing or uncomfortable restaurant atmosphere.",
+      "action": "Conduct a comprehensive audit of the restaurant's physical environment, including lighting, seating comfort, noise levels, cleanliness, and decor. Prioritize and implement cost-effective improvements (e.g., updated music playlist, better lighting fixtures, minor decor refresh) and plan for larger renovations if budget allows.",
+      "category": "ambiance",
+      "expected_impact": "Create a more inviting and comfortable dining environment, improving the overall customer experience and encouraging longer stays."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

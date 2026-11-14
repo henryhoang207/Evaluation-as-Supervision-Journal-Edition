@@ -1,0 +1,97 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Fat Mo's Burgers",
+  "sample_size": 92,
+  "executive_summary": "Fat Mo's Burgers is experiencing significant customer dissatisfaction, primarily driven by issues with food quality, an unappealing restaurant atmosphere, and perceived high pricing. Other contributing factors include negative staff attitudes and long wait times. Addressing these core areas through targeted operational and service improvements is crucial for enhancing customer experience and improving overall business performance.",
+  "key_findings": [
+    "Customers frequently report dissatisfaction with the quality of the food, indicating issues with taste, preparation, or ingredients.",
+    "A significant number of customers find the restaurant's atmosphere or physical environment to be negative or unappealing.",
+    "Customers frequently express dissatisfaction with the pricing, finding it too high or not commensurate with the value received.",
+    "Customers reported various other negative experiences not fitting into specific categories, which could indicate general operational issues or specific isolated incidents.",
+    "Several reviews indicate issues with the staff's attitude, suggesting unfriendliness, lack of attentiveness, or poor service demeanor.",
+    "A few customers experienced longer than acceptable wait times for service or food."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food, indicating issues with taste, preparation, or ingredients.",
+      "cause": "Inconsistent ingredient sourcing, inadequate chef training, or poor quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of customers find the restaurant's atmosphere or physical environment to be negative or unappealing.",
+      "cause": "Outdated decor, poor maintenance, inadequate lighting/seating, or lack of attention to cleanliness/comfort.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers frequently express dissatisfaction with the pricing, finding it too high or not commensurate with the value received.",
+      "cause": "Misalignment of pricing strategy with perceived value, high operational costs, or lack of competitive analysis.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers reported various other negative experiences not fitting into specific categories, which could indicate general operational issues or specific isolated incidents.",
+      "cause": "General operational inefficiencies, lack of attention to detail in various aspects of service, or isolated incidents not indicative of a systemic problem.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Several reviews indicate issues with the staff's attitude, suggesting unfriendliness, lack of attentiveness, or poor service demeanor.",
+      "cause": "Insufficient staff training in customer service, low staff morale, or understaffing leading to stress.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A few customers experienced longer than acceptable wait times for service or food.",
+      "cause": "Understaffing during peak hours, inefficient kitchen processes, or poor order management system.",
+      "confidence": "high"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality (taste, preparation, ingredients) leading to customer dissatisfaction.",
+      "action": "Implement a standardized ingredient sourcing process with approved suppliers, conduct mandatory weekly chef training on recipe adherence and quality checks, and establish a daily taste-testing protocol for all menu items before service.",
+      "category": "Food",
+      "expected_impact": "Significant improvement in customer satisfaction with food quality, leading to repeat business and positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Unappealing or negative restaurant atmosphere/physical environment.",
+      "action": "Conduct a full audit of the dining area's decor, lighting, seating, and cleanliness. Develop a phased renovation plan focusing on modernizing decor, improving lighting, ensuring comfortable seating, and implementing a stricter daily cleaning schedule.",
+      "category": "Operations",
+      "expected_impact": "Enhanced customer experience, increased comfort, and a more inviting atmosphere, potentially attracting new customers and improving overall review scores."
+    },
+    {
+      "priority": 3,
+      "issue": "Perceived high pricing not matching value received by customers.",
+      "action": "Conduct a comprehensive competitive pricing analysis and a cost-benefit analysis of menu items. Adjust pricing where necessary, or enhance perceived value through improved portion sizes, ingredient quality, or presentation, clearly communicating the value proposition to customers.",
+      "category": "Pricing",
+      "expected_impact": "Increased customer satisfaction with value for money, potentially leading to higher sales volume and reduced price-related complaints."
+    },
+    {
+      "priority": 4,
+      "issue": "Undefined general operational inefficiencies or isolated negative incidents.",
+      "action": "Implement a daily manager walk-through checklist covering all operational areas (front-of-house, back-of-house, restrooms, exterior) to identify and rectify minor issues proactively. Encourage staff to report any observed operational shortcomings immediately.",
+      "category": "Operations",
+      "expected_impact": "Reduction in minor operational glitches and improved overall customer experience by addressing small issues before they escalate."
+    },
+    {
+      "priority": 5,
+      "issue": "Negative staff attitude (unfriendliness, lack of attentiveness, poor service demeanor).",
+      "action": "Implement mandatory monthly customer service training workshops focusing on communication, attentiveness, and conflict resolution. Introduce a staff recognition program to boost morale and review staffing levels during peak hours to alleviate stress.",
+      "category": "Service",
+      "expected_impact": "Improved staff morale and customer interactions, leading to a more positive dining experience and better service reviews."
+    },
+    {
+      "priority": 6,
+      "issue": "Longer than acceptable wait times for service or food.",
+      "action": "Analyze peak hour traffic and adjust staffing schedules accordingly. Review kitchen workflow and implement process improvements (e.g., prep lists, station organization) and consider upgrading the order management system to streamline communication between front and back of house.",
+      "category": "Operations",
+      "expected_impact": "Reduced wait times, leading to improved customer satisfaction and operational efficiency during busy periods."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a sample size of 92 reviews, which may not fully represent the entire customer base.",
+    "Findings are derived from qualitative sentiment analysis, which can be subject to interpretation and inherent biases.",
+    "The report does not include financial data or operational metrics, which could provide additional context."
+  ],
+  "status": "success",
+  "error_detail": null
+}

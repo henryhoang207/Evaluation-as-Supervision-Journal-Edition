@@ -1,0 +1,131 @@
+{
+  "business_name": "Puddlers Kitchen & Tap- Conshohocken Brewing",
+  "business_id": "aY_K2q158ZTlUdUgOnLTyg",
+  "run_config": {
+    "provider": "google-gemini (openai-compatible)",
+    "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "primary_model": "gemini-2.5-flash",
+    "fallback_model": "gemini-2.5-flash"
+  },
+  "pipeline_status": "complete",
+  "skipped_agents": [],
+  "failed_agent": null,
+  "errors": {},
+  "retry_counts": {},
+  "flags": [],
+  "last_verdict": "proceed",
+  "observations": [
+    {
+      "stage": "analysis_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "n_loaded": 214,
+        "n_success": 214,
+        "failure_ratio": 0.0,
+        "failure_details": [],
+        "contradiction_rate": 0.0,
+        "contradictions": []
+      }
+    },
+    {
+      "stage": "reasoning_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 214,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "food_quality",
+            "description": "Customers frequently report issues with the quality or consi",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.257,
+            "recomputed_frequency": 0.2570093457943925
+          },
+          {
+            "index": 1,
+            "aspect": "staff_attitude",
+            "description": "A notable number of reviews highlight negative experiences w",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.084,
+            "recomputed_frequency": 0.08411214953271028
+          },
+          {
+            "index": 2,
+            "aspect": "ambience",
+            "description": "Several customers express dissatisfaction with the restauran",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.061,
+            "recomputed_frequency": 0.056074766355140186
+          },
+          {
+            "index": 3,
+            "aspect": "pricing",
+            "description": "A recurring concern is the perception of high prices or poor",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.079,
+            "recomputed_frequency": 0.0794392523364486
+          },
+          {
+            "index": 4,
+            "aspect": "wait_time",
+            "description": "Customers frequently report long or unreasonable wait times ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.047,
+            "recomputed_frequency": 0.04672897196261682
+          },
+          {
+            "index": 5,
+            "aspect": "other",
+            "description": "A variety of other negative issues are mentioned, indicating",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.061,
+            "recomputed_frequency": 0.06542056074766354
+          }
+        ]
+      }
+    },
+    {
+      "stage": "strategy_agent",
+      "would_be_verdict": "retry",
+      "flags": [],
+      "retry_feedback": "these recommendation issues do not trace back to any reasoning pattern or root cause: ['Unpleasant or unsatisfactory restaurant ambience.']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": [
+          "Unpleasant or unsatisfactory restaurant ambience."
+        ]
+      }
+    },
+    {
+      "stage": "report_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [],
+        "invented_recommendations": [],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    }
+  ],
+  "phase": "A",
+  "mode": "observe",
+  "wall_clock_s": 672.42,
+  "stratum": "p90"
+}

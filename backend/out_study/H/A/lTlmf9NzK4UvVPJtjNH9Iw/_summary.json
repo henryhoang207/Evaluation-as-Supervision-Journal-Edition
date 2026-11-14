@@ -1,0 +1,111 @@
+{
+  "business_name": "China 1",
+  "business_id": "lTlmf9NzK4UvVPJtjNH9Iw",
+  "run_config": {
+    "provider": "google-gemini (openai-compatible)",
+    "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "primary_model": "gemini-2.5-flash",
+    "fallback_model": "gemini-2.5-flash"
+  },
+  "pipeline_status": "complete",
+  "skipped_agents": [],
+  "failed_agent": null,
+  "errors": {},
+  "retry_counts": {},
+  "flags": [],
+  "last_verdict": "proceed",
+  "observations": [
+    {
+      "stage": "analysis_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "n_loaded": 34,
+        "n_success": 34,
+        "failure_ratio": 0.0,
+        "failure_details": [],
+        "contradiction_rate": 0.0,
+        "contradictions": []
+      }
+    },
+    {
+      "stage": "reasoning_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 34,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "food_quality",
+            "description": "Customers frequently report issues with the quality of the f",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.38,
+            "recomputed_frequency": 0.38235294117647056
+          },
+          {
+            "index": 1,
+            "aspect": "staff_attitude",
+            "description": "There are recurring complaints about the staff's attitude, i",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.26,
+            "recomputed_frequency": 0.2647058823529412
+          },
+          {
+            "index": 2,
+            "aspect": "pricing",
+            "description": "Customers occasionally find the pricing to be too high for t",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.06,
+            "recomputed_frequency": 0.058823529411764705
+          },
+          {
+            "index": 3,
+            "aspect": "other",
+            "description": "A small number of reviews mention general negative experienc",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.09,
+            "recomputed_frequency": 0.08823529411764706
+          }
+        ]
+      }
+    },
+    {
+      "stage": "strategy_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": []
+      }
+    },
+    {
+      "stage": "report_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [],
+        "invented_recommendations": [],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    }
+  ],
+  "phase": "A",
+  "mode": "observe",
+  "wall_clock_s": 117.58,
+  "stratum": "p50"
+}

@@ -1,0 +1,104 @@
+{
+  "patterns": [
+    {
+      "description": "Inconsistent or poor food quality",
+      "aspect": "food_quality",
+      "frequency": 0.57,
+      "evidence_review_ids": [
+        "DFrPbW3pYdDGvJH5hNOs5g",
+        "PoDrXJNfpAEr-yTt2gWuLg",
+        "Pq2z6wHw025cCAN9oLmC1Q",
+        "d4S2Cwhpn3HT_8Z6O46dUA",
+        "hcPGHeAePWI8Paw8VN8jFw",
+        "lyGJCBz_YSDjFvcya1iFdQ",
+        "ud_P6K1qqlKs6roder33hQ",
+        "yV7dxw8RBtSIT8idlRZzVw"
+      ]
+    },
+    {
+      "description": "Perceived high pricing",
+      "aspect": "pricing",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "6LQqf1gO39v_uGG46yQGCg",
+        "PoDrXJNfpAEr-yTt2gWuLg",
+        "mY7RV2wg2loNzqhixa0qtw"
+      ]
+    },
+    {
+      "description": "Unfriendly or unhelpful staff attitude",
+      "aspect": "staff_attitude",
+      "frequency": 0.29,
+      "evidence_review_ids": [
+        "6LQqf1gO39v_uGG46yQGCg",
+        "DFrPbW3pYdDGvJH5hNOs5g",
+        "PoDrXJNfpAEr-yTt2gWuLg",
+        "lyGJCBz_YSDjFvcya1iFdQ"
+      ]
+    },
+    {
+      "description": "General dissatisfaction with non-categorized aspects",
+      "aspect": "other",
+      "frequency": 0.36,
+      "evidence_review_ids": [
+        "6LQqf1gO39v_uGG46yQGCg",
+        "PoDrXJNfpAEr-yTt2gWuLg",
+        "lyGJCBz_YSDjFvcya1iFdQ",
+        "mY7RV2wg2loNzqhixa0qtw",
+        "x04aIXgQYM5Wq8AnJ9jfaw"
+      ]
+    },
+    {
+      "description": "Unpleasant or uninviting dining ambience",
+      "aspect": "ambience",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "Pq2z6wHw025cCAN9oLmC1Q",
+        "lyGJCBz_YSDjFvcya1iFdQ"
+      ]
+    },
+    {
+      "description": "Excessive wait times for service or food",
+      "aspect": "wait_time",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "lyGJCBz_YSDjFvcya1iFdQ",
+        "yV7dxw8RBtSIT8idlRZzVw"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent or poor food quality",
+      "cause": "Lack of consistent cooking standards, issues with ingredient freshness, or insufficient training for kitchen staff.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Perceived high pricing",
+      "cause": "Pricing strategy not aligned with perceived value, or lack of competitive pricing compared to similar establishments.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Unfriendly or unhelpful staff attitude",
+      "cause": "Insufficient staff training in customer service, low staff morale, or inadequate staffing levels leading to stress and burnout.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "General dissatisfaction with non-categorized aspects",
+      "cause": "Could stem from various minor operational issues, cleanliness concerns, or specific unaddressed customer expectations not fitting other categories.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Unpleasant or uninviting dining ambience",
+      "cause": "Lack of regular maintenance, outdated decor, poor lighting, or issues with cleanliness and comfort of the dining area.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Excessive wait times for service or food",
+      "cause": "Understaffing during peak hours, inefficient kitchen workflow, or poor table management and order processing.",
+      "confidence": "high"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

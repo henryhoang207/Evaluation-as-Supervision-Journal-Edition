@@ -1,0 +1,97 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Mediterranean Cuisine",
+  "sample_size": 214,
+  "executive_summary": "An analysis of 214 customer reviews for Mediterranean Cuisine reveals significant issues primarily concerning food quality, staff attitude, and the overall dining environment. Customers frequently report inconsistent food preparation and poor value for money. Key recommendations include standardizing kitchen operations, enhancing staff training, and improving cleanliness and ambiance to boost customer satisfaction and repeat business.",
+  "key_findings": [
+    "Customers frequently report dissatisfaction with the quality of food, indicating inconsistency or general poor preparation.",
+    "A notable number of customers perceive the prices to be too high for the value received.",
+    "Several reviews highlight issues with staff attitude, suggesting unfriendliness or poor service interactions.",
+    "Multiple customers found the restaurant's atmosphere or physical environment to be unsatisfactory.",
+    "A few reviews specifically mention negative experiences related to the cleanliness of the establishment.",
+    "Customers reported various other negative experiences not fitting into specific categories, indicating general dissatisfaction or specific minor issues."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of food, indicating inconsistency or general poor preparation.",
+      "cause": "Inconsistent food preparation, use of low-quality ingredients, or issues with recipe adherence.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A notable number of customers perceive the prices to be too high for the value received.",
+      "cause": "Perceived poor value for money, pricing not aligned with food quality or overall dining experience.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Several reviews highlight issues with staff attitude, suggesting unfriendliness or poor service interactions.",
+      "cause": "Lack of staff training in customer service, low staff morale, or insufficient staffing leading to stress and poor interactions.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Multiple customers found the restaurant's atmosphere or physical environment to be unsatisfactory.",
+      "cause": "Outdated decor, poor maintenance, overcrowding, or issues with noise levels/comfort.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A few reviews specifically mention negative experiences related to the cleanliness of the establishment.",
+      "cause": "Inadequate cleaning protocols, insufficient staff for cleaning, or lack of attention to detail in hygiene.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers reported various other negative experiences not fitting into specific categories, indicating general dissatisfaction or specific minor issues.",
+      "cause": "Broad category, could include specific operational failures, lack of amenities, or general dissatisfaction not captured by other categories.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and preparation, use of low-quality ingredients, or issues with recipe adherence.",
+      "action": "Implement a comprehensive kitchen audit, standardize recipes with clear portioning and cooking instructions, conduct regular taste tests, and invest in staff training on food preparation techniques and ingredient handling. Consider sourcing higher-quality ingredients if current ones are subpar.",
+      "category": "food",
+      "expected_impact": "Significant improvement in customer satisfaction, reduction in negative food reviews, and increased repeat business."
+    },
+    {
+      "priority": 2,
+      "issue": "Lack of staff training in customer service, low staff morale, or insufficient staffing leading to stress and poor interactions.",
+      "action": "Implement mandatory customer service training for all front-of-house staff, focusing on communication, problem-solving, and positive guest interaction. Introduce a staff recognition program and regularly check on staff morale. Ensure adequate staffing levels during peak hours.",
+      "category": "service",
+      "expected_impact": "Enhanced customer experience, improved staff morale, and a more welcoming restaurant atmosphere."
+    },
+    {
+      "priority": 3,
+      "issue": "Inadequate cleaning protocols, insufficient staff for cleaning, or lack of attention to detail in hygiene.",
+      "action": "Develop and enforce a strict daily, weekly, and monthly cleaning checklist for all areas (dining room, restrooms, kitchen, entrance). Conduct regular spot checks and provide staff with appropriate cleaning supplies and training.",
+      "category": "operations",
+      "expected_impact": "Improved customer perception of hygiene, a more pleasant dining environment, and compliance with health standards."
+    },
+    {
+      "priority": 4,
+      "issue": "Outdated decor, poor maintenance, overcrowding, or issues with noise levels/comfort.",
+      "action": "Conduct a full review of the restaurant's decor, lighting, seating, and noise levels. Consider minor renovations, updated furnishings, or strategic use of plants/art. Address specific issues like overcrowding by optimizing table layout or managing reservations.",
+      "category": "operations",
+      "expected_impact": "A more inviting and comfortable dining experience, potentially attracting new customers and encouraging longer stays."
+    },
+    {
+      "priority": 5,
+      "issue": "Perceived poor value for money, pricing not aligned with food quality or overall dining experience.",
+      "action": "Re-evaluate menu pricing in conjunction with improved food quality and service. Consider offering value-added options (e.g., lunch specials, combo deals) or clearly communicating the quality of ingredients/preparation to justify prices. Conduct a competitive price analysis.",
+      "category": "pricing",
+      "expected_impact": "Increased customer satisfaction with value, potentially higher sales volume, and improved competitiveness."
+    },
+    {
+      "priority": 6,
+      "issue": "Broad category, could include specific operational failures, lack of amenities, or general dissatisfaction not captured by other categories.",
+      "action": "Implement a customer feedback system (e.g., comment cards, online surveys, direct manager check-ins) to capture specific 'other' issues. Regularly review feedback to identify recurring minor problems and address them promptly.",
+      "category": "operations",
+      "expected_impact": "Identification and resolution of previously unaddressed issues, leading to overall improved customer satisfaction and a more refined dining experience."
+    }
+  ],
+  "limitations": [
+    "Analysis is based solely on customer reviews, which are subjective and may not represent the entire customer base.",
+    "The sentiment and specific details extracted are dependent on the quality and expressiveness of the reviews.",
+    "The sample size, while substantial, may not capture all nuances of customer experience over time."
+  ],
+  "status": "success",
+  "error_detail": null
+}

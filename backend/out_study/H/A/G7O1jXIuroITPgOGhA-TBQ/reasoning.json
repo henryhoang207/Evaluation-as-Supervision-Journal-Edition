@@ -1,0 +1,91 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently find the pricing to be too high or not offering good value for money.",
+      "aspect": "pricing",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "7Fa7ODXq0fpbxZiTbq-gqQ",
+        "J08qBJgPYZQPIQ6KSUYHrA",
+        "LTNlAPNiDUgLEd4PZEooOg",
+        "PKRy_zrKaG2Dk2qzy5pSEw",
+        "YLYeB3cfsRXjuDFXAIq3qw",
+        "eMLSRhptX8O3Du9JI58jJw",
+        "lASOuQvxMNXpdMhS-4ugBw"
+      ]
+    },
+    {
+      "description": "A significant number of reviews indicate dissatisfaction with the quality of the food, suggesting inconsistency or specific issues.",
+      "aspect": "food_quality",
+      "frequency": 0.18,
+      "evidence_review_ids": [
+        "eMLSRhptX8O3Du9JI58jJw",
+        "lASOuQvxMNXpdMhS-4ugBw",
+        "r7C4HnKpJXbGUy9dVXuGVQ",
+        "ry29BjzrUiA1K0yUOEacnA",
+        "sayR7MeyjjRLfKFujdyfcA",
+        "xCq_oU7NEcU_0UClt7ChVw"
+      ]
+    },
+    {
+      "description": "Several customers report general negative experiences or unspecified issues that detract from their overall visit.",
+      "aspect": "other",
+      "frequency": 0.12,
+      "evidence_review_ids": [
+        "BVPASGz-WwCRa97uyfN8PQ",
+        "Sg1_Cx3oOqTFU81us0WGVA",
+        "sayR7MeyjjRLfKFujdyfcA",
+        "xCq_oU7NEcU_0UClt7ChVw"
+      ]
+    },
+    {
+      "description": "A recurring issue is negative interactions with staff, suggesting poor attitude or unhelpful service.",
+      "aspect": "staff_attitude",
+      "frequency": 0.09,
+      "evidence_review_ids": [
+        "J08qBJgPYZQPIQ6KSUYHrA",
+        "VDvhL03-tsOI8B1x9yGcYQ",
+        "eMLSRhptX8O3Du9JI58jJw"
+      ]
+    },
+    {
+      "description": "The restaurant's atmosphere or environment is negatively perceived by some customers, impacting their dining experience.",
+      "aspect": "ambience",
+      "frequency": 0.09,
+      "evidence_review_ids": [
+        "RcUGIXAhMqpka2vouGnriA",
+        "oX5m5oTtnajzLTWB65_Kkw",
+        "thCGrQZkEBvqvPehZYfQiA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently find the pricing to be too high or not offering good value for money.",
+      "cause": "Misalignment between perceived value and cost, potentially due to high menu prices relative to portion size, ingredient quality, or competitor pricing.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of reviews indicate dissatisfaction with the quality of the food, suggesting inconsistency or specific issues.",
+      "cause": "Inconsistent food preparation, use of lower quality ingredients, or issues with specific menu items. Could also be related to kitchen staff training or oversight.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Several customers report general negative experiences or unspecified issues that detract from their overall visit.",
+      "cause": "Lack of attention to overall customer experience, potentially stemming from minor operational inefficiencies, lack of attention to detail, or a cumulative effect of small annoyances.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "A recurring issue is negative interactions with staff, suggesting poor attitude or unhelpful service.",
+      "cause": "Insufficient staff training in customer service, low staff morale, or inadequate management oversight regarding front-of-house interactions.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "The restaurant's atmosphere or environment is negatively perceived by some customers, impacting their dining experience.",
+      "cause": "Outdated decor, poor lighting, uncomfortable seating, excessive noise levels, or lack of cleanliness contributing to an uninviting atmosphere.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

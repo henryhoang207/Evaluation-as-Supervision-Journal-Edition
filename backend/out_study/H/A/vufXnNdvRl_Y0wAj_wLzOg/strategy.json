@@ -1,0 +1,55 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation, poor ingredient sourcing, or lack of quality control.",
+      "action": "Implement a mandatory daily kitchen quality control checklist, including taste tests for all menu items before service. Standardize all recipes with precise measurements and cooking instructions, and conduct weekly training sessions for kitchen staff on these standards. Review and renegotiate contracts with ingredient suppliers to ensure consistent high quality.",
+      "category": "Food",
+      "expected_impact": "A significant and measurable improvement in food consistency and taste, leading to higher customer satisfaction, repeat visits, and positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Insufficient staff training, understaffing leading to burnout, or poor management oversight.",
+      "action": "Develop and implement a comprehensive customer service training program for all front-of-house staff, focusing on positive communication, empathy, and conflict resolution, with monthly refreshers. Conduct a staffing analysis to ensure adequate coverage during peak hours to prevent burnout. Implement a 'mystery shopper' program to monitor service quality.",
+      "category": "Service",
+      "expected_impact": "A noticeable improvement in staff professionalism and friendliness, resulting in a more welcoming atmosphere, fewer negative service reviews, and increased customer loyalty."
+    },
+    {
+      "priority": 3,
+      "issue": "Understaffing, inefficient order processing, or poor kitchen management leading to delays.",
+      "action": "Conduct a detailed time-motion study of the order-to-delivery process during peak hours to identify bottlenecks. Implement a digital kitchen display system (KDS) to streamline order flow and communication. Adjust staffing levels based on demand forecasting and cross-train staff to assist in multiple roles during busy periods.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, leading to improved customer satisfaction, higher table turnover, and a more efficient operational flow."
+    },
+    {
+      "priority": 4,
+      "issue": "Perceived poor value for money, prices not competitive with similar establishments, or unclear pricing.",
+      "action": "Perform a detailed competitive analysis of menu pricing against 3-5 direct competitors. Re-evaluate ingredient costs and portion sizes to ensure perceived value. Consider introducing a 'value menu' or daily specials, and clearly highlight premium ingredients or unique preparation methods on the menu to justify pricing.",
+      "category": "Pricing",
+      "expected_impact": "Enhanced customer perception of value, potentially increasing sales, reducing price-related complaints, and attracting a broader customer base."
+    },
+    {
+      "priority": 5,
+      "issue": "Unpleasant decor, uncomfortable seating, excessive noise levels, or general lack of inviting atmosphere.",
+      "action": "Allocate a budget for immediate, low-cost improvements such as updating lighting fixtures to warmer tones, adding plants, and replacing worn-out decor. Investigate sound-dampening solutions (e.g., acoustic panels, background music adjustments) to reduce noise. Replace or reupholster uncomfortable seating.",
+      "category": "Environment",
+      "expected_impact": "A more inviting and comfortable dining environment, encouraging longer stays, positive social media mentions, and an overall enhanced customer experience."
+    },
+    {
+      "priority": 6,
+      "issue": "Inadequate cleaning protocols, insufficient staff for cleaning, or lack of attention to detail in maintaining hygiene.",
+      "action": "Develop and enforce a comprehensive daily, weekly, and monthly cleaning schedule for all areas, including restrooms, dining tables, floors, and kitchen surfaces. Assign specific cleaning responsibilities to staff members and conduct daily manager spot checks with a sign-off sheet.",
+      "category": "Operations",
+      "expected_impact": "A consistently clean and hygienic environment, preventing health code issues, improving customer comfort, and reinforcing a positive brand image."
+    },
+    {
+      "priority": 7,
+      "issue": "Issues not fitting into standard categories, potentially indicating specific menu item problems, facility issues, or service elements not covered by staff attitude.",
+      "action": "Implement a proactive customer feedback system, such as QR code surveys at tables or direct manager check-ins, specifically asking for 'any other feedback.' Regularly review these responses to identify emerging patterns or specific recurring issues that can then be addressed with targeted actions.",
+      "category": "Customer Feedback",
+      "expected_impact": "Uncovers specific, previously unidentified operational or product issues, allowing for targeted improvements and demonstrating a commitment to continuous customer satisfaction."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

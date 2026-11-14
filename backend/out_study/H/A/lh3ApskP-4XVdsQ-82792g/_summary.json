@@ -1,0 +1,143 @@
+{
+  "business_name": "Last Drop",
+  "business_id": "lh3ApskP-4XVdsQ-82792g",
+  "run_config": {
+    "provider": "google-gemini (openai-compatible)",
+    "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "primary_model": "gemini-2.5-flash",
+    "fallback_model": "gemini-2.5-flash"
+  },
+  "pipeline_status": "complete",
+  "skipped_agents": [],
+  "failed_agent": null,
+  "errors": {},
+  "retry_counts": {},
+  "flags": [
+    "frequency_corrected:staff_attitude:0.575->0.36",
+    "frequency_corrected:food_quality:0.508->0.29",
+    "frequency_corrected:ambience:0.375->0.21",
+    "frequency_corrected:other:0.292->0.16",
+    "frequency_corrected:pricing:0.242->0.13",
+    "frequency_corrected:cleanliness:0.242->0.14"
+  ],
+  "last_verdict": "proceed",
+  "observations": [
+    {
+      "stage": "analysis_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "n_loaded": 214,
+        "n_success": 214,
+        "failure_ratio": 0.0,
+        "failure_details": [],
+        "contradiction_rate": 0.0,
+        "contradictions": []
+      }
+    },
+    {
+      "stage": "reasoning_agent",
+      "would_be_verdict": "proceed_with_warning",
+      "flags": [
+        "frequency_corrected:staff_attitude:0.575->0.36",
+        "frequency_corrected:food_quality:0.508->0.29",
+        "frequency_corrected:ambience:0.375->0.21",
+        "frequency_corrected:other:0.292->0.16",
+        "frequency_corrected:pricing:0.242->0.13",
+        "frequency_corrected:cleanliness:0.242->0.14"
+      ],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 214,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "staff_attitude",
+            "description": "Customers frequently report negative experiences with staff,",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.575,
+            "recomputed_frequency": 0.3598130841121495
+          },
+          {
+            "index": 1,
+            "aspect": "food_quality",
+            "description": "A significant portion of reviews mention dissatisfaction wit",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.508,
+            "recomputed_frequency": 0.2850467289719626
+          },
+          {
+            "index": 2,
+            "aspect": "ambience",
+            "description": "Many customers find the restaurant's atmosphere or physical ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.375,
+            "recomputed_frequency": 0.2102803738317757
+          },
+          {
+            "index": 3,
+            "aspect": "other",
+            "description": "A notable number of reviews express general dissatisfaction ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.292,
+            "recomputed_frequency": 0.1588785046728972
+          },
+          {
+            "index": 4,
+            "aspect": "pricing",
+            "description": "Customers frequently perceive the prices to be too high for ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.242,
+            "recomputed_frequency": 0.1261682242990654
+          },
+          {
+            "index": 5,
+            "aspect": "cleanliness",
+            "description": "A significant number of reviews highlight issues with the re",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.242,
+            "recomputed_frequency": 0.13551401869158877
+          }
+        ]
+      }
+    },
+    {
+      "stage": "strategy_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": []
+      }
+    },
+    {
+      "stage": "report_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [],
+        "invented_recommendations": [],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    }
+  ],
+  "phase": "A",
+  "mode": "observe",
+  "wall_clock_s": 819.92,
+  "stratum": "p90"
+}

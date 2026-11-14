@@ -1,0 +1,37 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently express dissatisfaction with the restaurant's ambience, citing it as a negative aspect.",
+      "aspect": "ambience",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "32r3PXV8AmfTlOs458KM4g",
+        "OQnjeJsK1anO0GgB65IBSQ"
+      ]
+    },
+    {
+      "description": "There are recurring negative mentions in the 'other' category, indicating various unspecified issues that detract from the customer experience.",
+      "aspect": "other",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "32r3PXV8AmfTlOs458KM4g",
+        "LTVhqJi31id_cvV-Un4XKQ",
+        "MBvE-1Vp5DnweqRJcO69ew"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently express dissatisfaction with the restaurant's ambience, citing it as a negative aspect.",
+      "cause": "Outdated decor, poor maintenance, or issues with lighting/noise levels contributing to an unappealing dining environment.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "There are recurring negative mentions in the 'other' category, indicating various unspecified issues that detract from the customer experience.",
+      "cause": "General operational inefficiencies, minor recurring annoyances, or specific issues not fitting into standard categories that collectively impact customer satisfaction.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

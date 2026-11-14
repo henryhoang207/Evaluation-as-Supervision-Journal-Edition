@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality due to preparation, ingredient quality, or recipe execution.",
+      "action": "Implement a daily quality control checklist for all dishes, focusing on ingredient freshness, adherence to standardized recipes, and final presentation. Conduct weekly blind taste tests with kitchen staff and management to ensure consistency.",
+      "category": "Food",
+      "expected_impact": "Significantly improve customer satisfaction with food quality, reduce complaints, and enhance the restaurant's culinary reputation."
+    },
+    {
+      "priority": 2,
+      "issue": "Frequent negative experiences related to unspecified operational issues or minor inconveniences ('other' category).",
+      "action": "Conduct a detailed review of all customer feedback categorized as 'other' (specifically review IDs: 1k3Lt3KZ9bRDVvlZTld9nQ, 3EgsDFmcuGYzI67Qpp5S7A, VJle8-BuUxj_QaLv5GYz5Q, _AN2RbIMSoDqotGH5rQPew, e1yQ0-jfDE_PUa-r4ybr_A, mfLDf3L4ytw0duy9vb9qxQ). Categorize these specific complaints to identify recurring themes such as ambiance, cleanliness, noise levels, or minor service quirks.",
+      "category": "Operations",
+      "expected_impact": "Uncover hidden operational bottlenecks or service gaps, allowing for targeted improvements that address a broad range of customer irritations and lead to a more holistic positive experience."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

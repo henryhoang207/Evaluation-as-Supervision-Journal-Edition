@@ -1,0 +1,55 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality, taste, and freshness.",
+      "action": "Implement a 'Chef's Table' quality control program: daily blind taste tests of 3-5 random dishes by the head chef or manager, weekly review of ingredient supplier performance, and mandatory bi-weekly training refreshers for kitchen staff on recipe adherence and plating standards.",
+      "category": "Food",
+      "expected_impact": "A measurable increase in food consistency and quality, leading to a reduction in food-related complaints by 30% within three months and improved customer satisfaction scores."
+    },
+    {
+      "priority": 2,
+      "issue": "Unfriendly, unhelpful, or inattentive staff.",
+      "action": "Launch a 'Service Excellence' training module focusing on active listening, proactive guest engagement, and conflict resolution. Implement a peer-to-peer recognition program for outstanding service and conduct weekly 15-minute team briefings to reinforce service standards and address specific feedback.",
+      "category": "Service",
+      "expected_impact": "Improved staff morale and a 25% reduction in negative comments regarding staff attitude, fostering a more welcoming and professional dining experience."
+    },
+    {
+      "priority": 3,
+      "issue": "Long wait times for seating, ordering, and food delivery.",
+      "action": "Deploy a digital waitlist and reservation system to manage guest flow efficiently. Cross-train front-of-house staff to assist with basic kitchen prep during non-peak hours and implement a 'speed-of-service' incentive for kitchen staff to reduce ticket times during rushes.",
+      "category": "Operations",
+      "expected_impact": "A 20% reduction in average wait times during peak hours, leading to increased table turnover and improved customer satisfaction."
+    },
+    {
+      "priority": 4,
+      "issue": "Customer perception of high prices relative to value.",
+      "action": "Conduct a competitive price analysis of 3-5 local restaurants with similar cuisine and quality. Introduce a 'Chef's Daily Special' at a competitive price point to showcase value, and ensure menu descriptions clearly highlight premium ingredients or unique preparation methods.",
+      "category": "Pricing",
+      "expected_impact": "Enhanced perception of value, potentially increasing average check size by 5% and attracting new customers seeking good value."
+    },
+    {
+      "priority": 5,
+      "issue": "Broad operational inefficiencies and isolated service failures leading to general dissatisfaction.",
+      "action": "Implement a 'Daily Feedback Loop' where managers review all customer feedback (online and in-person) at the start of each shift, assigning specific staff members to address recurring minor issues or follow up on specific complaints.",
+      "category": "Operations",
+      "expected_impact": "Proactive resolution of minor issues, preventing escalation, and a general uplift in customer satisfaction by demonstrating responsiveness to diverse concerns."
+    },
+    {
+      "priority": 6,
+      "issue": "Unpleasant or outdated restaurant atmosphere/decor.",
+      "action": "Allocate a small budget for immediate aesthetic improvements: update lighting fixtures to warmer tones, add live plants, and curate a background music playlist. Gather staff and customer input on potential larger decor changes for future planning.",
+      "category": "Environment",
+      "expected_impact": "A more inviting and comfortable dining environment, improving overall guest experience and potentially increasing positive mentions of atmosphere in reviews."
+    },
+    {
+      "priority": 7,
+      "issue": "Concerns about restaurant cleanliness and hygiene.",
+      "action": "Institute a 'Cleanliness Champion' program, assigning a rotating staff member each shift to perform hourly checks of restrooms, dining tables, and high-touch surfaces, using a detailed checklist. Post 'Cleanliness Check' logs in restrooms.",
+      "category": "Operations",
+      "expected_impact": "A noticeable improvement in overall restaurant hygiene, reducing health risks and significantly enhancing customer comfort and trust."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

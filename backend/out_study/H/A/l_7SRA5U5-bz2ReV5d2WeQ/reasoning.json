@@ -1,0 +1,68 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report dissatisfaction with the quality of the food.",
+      "aspect": "food_quality",
+      "frequency": 0.42857142857142855,
+      "evidence_review_ids": [
+        "OFl6pVpAZ-xj8YsOWztqQg",
+        "U7aWtGrNbOuYZA03nDEqUw",
+        "Y3aRLxN40Od2Qy1uv4lN2w",
+        "fY1QM_9a9k_PXLdKY7164w",
+        "oULqBd6vj_H5oWhudxWlJw",
+        "wodOOp7pqmFJRG9NwpbrSw"
+      ]
+    },
+    {
+      "description": "There are recurring complaints about the staff's attitude or the quality of service provided.",
+      "aspect": "staff_attitude",
+      "frequency": 0.14285714285714285,
+      "evidence_review_ids": [
+        "SR1SEME04YyHsQhKVssc_w",
+        "Y3aRLxN40Od2Qy1uv4lN2w"
+      ]
+    },
+    {
+      "description": "Customers frequently find the pricing to be too high or not offering good value.",
+      "aspect": "pricing",
+      "frequency": 0.14285714285714285,
+      "evidence_review_ids": [
+        "U7aWtGrNbOuYZA03nDEqUw",
+        "oULqBd6vj_H5oWhudxWlJw"
+      ]
+    },
+    {
+      "description": "Multiple reviews indicate issues with the restaurant's cleanliness.",
+      "aspect": "cleanliness",
+      "frequency": 0.14285714285714285,
+      "evidence_review_ids": [
+        "OFl6pVpAZ-xj8YsOWztqQg",
+        "wodOOp7pqmFJRG9NwpbrSw"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent food preparation, use of low-quality ingredients, or lack of attention to detail in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "There are recurring complaints about the staff's attitude or the quality of service provided.",
+      "cause": "Insufficient staff training, low employee morale, or inadequate staffing levels leading to rushed or indifferent service.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers frequently find the pricing to be too high or not offering good value.",
+      "cause": "Misalignment between perceived value and actual cost, or a pricing strategy that is not competitive with similar establishments.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Multiple reviews indicate issues with the restaurant's cleanliness.",
+      "cause": "Inadequate cleaning protocols, insufficient cleaning staff, or lack of regular maintenance and upkeep.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

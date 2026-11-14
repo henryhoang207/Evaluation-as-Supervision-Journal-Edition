@@ -1,0 +1,138 @@
+{
+  "business_name": "Dead Bob's",
+  "business_id": "UZNmqlGoP21yt4hBfqCD0g",
+  "run_config": {
+    "provider": "google-gemini (openai-compatible)",
+    "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "primary_model": "gemini-2.5-flash",
+    "fallback_model": "gemini-2.5-flash"
+  },
+  "pipeline_status": "complete",
+  "skipped_agents": [],
+  "failed_agent": null,
+  "errors": {},
+  "retry_counts": {},
+  "flags": [],
+  "last_verdict": "proceed",
+  "observations": [
+    {
+      "stage": "analysis_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "n_loaded": 214,
+        "n_success": 214,
+        "failure_ratio": 0.0,
+        "failure_details": [],
+        "contradiction_rate": 0.0,
+        "contradictions": []
+      }
+    },
+    {
+      "stage": "reasoning_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 214,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "ambience",
+            "description": "Customers frequently report a negative or undesirable atmosp",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.131,
+            "recomputed_frequency": 0.1308411214953271
+          },
+          {
+            "index": 1,
+            "aspect": "staff_attitude",
+            "description": "A significant number of reviews indicate issues with staff b",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.121,
+            "recomputed_frequency": 0.12149532710280374
+          },
+          {
+            "index": 2,
+            "aspect": "food_quality",
+            "description": "While some reviews praise the food, a notable portion expres",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.098,
+            "recomputed_frequency": 0.09813084112149532
+          },
+          {
+            "index": 3,
+            "aspect": "other",
+            "description": "A substantial number of reviews mention various other negati",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.21,
+            "recomputed_frequency": 0.2102803738317757
+          },
+          {
+            "index": 4,
+            "aspect": "wait_time",
+            "description": "Several customers complain about excessive waiting periods f",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.065,
+            "recomputed_frequency": 0.06542056074766354
+          },
+          {
+            "index": 5,
+            "aspect": "cleanliness",
+            "description": "Multiple reviews highlight problems with the cleanliness of ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.037,
+            "recomputed_frequency": 0.04205607476635514
+          },
+          {
+            "index": 6,
+            "aspect": "pricing",
+            "description": "A recurring concern is that the pricing is perceived as too ",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.042,
+            "recomputed_frequency": 0.04205607476635514
+          }
+        ]
+      }
+    },
+    {
+      "stage": "strategy_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": []
+      }
+    },
+    {
+      "stage": "report_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [],
+        "invented_recommendations": [],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    }
+  ],
+  "phase": "A",
+  "mode": "observe",
+  "wall_clock_s": 690.56,
+  "stratum": "p90"
+}

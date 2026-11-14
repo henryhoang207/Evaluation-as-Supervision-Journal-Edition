@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Excessively long wait times for service or food due to understaffing and inefficient workflow.",
+      "action": "Conduct a detailed peak-hour staffing analysis and implement a new workflow optimization plan for both kitchen and front-of-house, including clear roles and responsibilities for order processing and delivery.",
+      "category": "operations",
+      "expected_impact": "Significantly reduce customer wait times, improve table turnover, and enhance overall customer satisfaction."
+    },
+    {
+      "priority": 2,
+      "issue": "Excessively long wait times due to lack of proper staff training on managing customer flow and order processing.",
+      "action": "Develop and implement mandatory training modules for all staff on efficient customer flow management, order taking, and expedited service techniques, with regular refreshers.",
+      "category": "service",
+      "expected_impact": "Improve staff efficiency, reduce order errors, and contribute to faster service delivery, directly impacting wait times."
+    },
+    {
+      "priority": 3,
+      "issue": "Inconsistent food quality due to varying preparation standards and lack of consistent quality control checks.",
+      "action": "Standardize all recipes with precise measurements and cooking instructions, and implement a mandatory final quality check by a designated chef or manager for every dish before it leaves the kitchen.",
+      "category": "food",
+      "expected_impact": "Ensure consistent high-quality food, reduce customer complaints about taste and presentation, and strengthen brand reputation."
+    },
+    {
+      "priority": 4,
+      "issue": "Negative or unhelpful staff attitudes due to insufficient customer service training.",
+      "action": "Implement a comprehensive customer service training program focusing on positive communication, empathy, conflict resolution, and proactive guest engagement for all front-of-house staff.",
+      "category": "service",
+      "expected_impact": "Improve staff-customer interactions, enhance the overall dining experience, and increase positive reviews related to service."
+    },
+    {
+      "priority": 5,
+      "issue": "Negative staff attitudes potentially stemming from low staff morale, high workload, or inadequate management support.",
+      "action": "Conduct anonymous staff surveys to identify specific morale issues, review current workload distribution, and implement initiatives such as regular team meetings, recognition programs, and management support training.",
+      "category": "human resources",
+      "expected_impact": "Boost staff morale, reduce burnout, foster a more positive work environment, and indirectly improve customer service quality."
+    },
+    {
+      "priority": 6,
+      "issue": "General negative experiences indicating potential broader operational oversights or lack of attention to detail.",
+      "action": "Conduct a comprehensive operational audit covering cleanliness, ambiance, facility maintenance, and minor service touchpoints to identify and rectify any overlooked issues.",
+      "category": "operations",
+      "expected_impact": "Address underlying minor issues, improve overall restaurant environment, and prevent future general complaints."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

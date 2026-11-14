@@ -1,0 +1,44 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Mamma Gina Pizza",
+  "sample_size": 14,
+  "executive_summary": "This report analyzes 14 customer reviews for Mamma Gina Pizza, identifying key areas for improvement. The primary concerns are recurring complaints about food quality and frequent negative experiences related to unspecified operational issues. Recommendations include implementing a daily quality control checklist for food and conducting a detailed review of 'other' categorized feedback to uncover hidden operational bottlenecks.",
+  "key_findings": [
+    "Customers frequently mention negative experiences related to aspects not covered by standard categories.",
+    "There are recurring complaints about the quality of the food."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently mention negative experiences related to aspects not covered by standard categories.",
+      "cause": "Unspecified operational issues or minor inconveniences that fall outside common categories, requiring further investigation into specific review texts.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "There are recurring complaints about the quality of the food.",
+      "cause": "Inconsistent food preparation, ingredient quality, or recipe execution leading to customer dissatisfaction.",
+      "confidence": "high"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality due to preparation, ingredient quality, or recipe execution.",
+      "action": "Implement a daily quality control checklist for all dishes, focusing on ingredient freshness, adherence to standardized recipes, and final presentation. Conduct weekly blind taste tests with kitchen staff and management to ensure consistency.",
+      "category": "Food",
+      "expected_impact": "Significantly improve customer satisfaction with food quality, reduce complaints, and enhance the restaurant's culinary reputation."
+    },
+    {
+      "priority": 2,
+      "issue": "Frequent negative experiences related to unspecified operational issues or minor inconveniences ('other' category).",
+      "action": "Conduct a detailed review of all customer feedback categorized as 'other' (specifically review IDs: 1k3Lt3KZ9bRDVvlZTld9nQ, 3EgsDFmcuGYzI67Qpp5S7A, VJle8-BuUxj_QaLv5GYz5Q, _AN2RbIMSoDqotGH5rQPew, e1yQ0-jfDE_PUa-r4ybr_A, mfLDf3L4ytw0duy9vb9qxQ). Categorize these specific complaints to identify recurring themes such as ambiance, cleanliness, noise levels, or minor service quirks.",
+      "category": "Operations",
+      "expected_impact": "Uncover hidden operational bottlenecks or service gaps, allowing for targeted improvements that address a broad range of customer irritations and lead to a more holistic positive experience."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not fully represent the overall customer experience.",
+    "The root cause for 'other' negative experiences has low confidence and requires further investigation into specific review texts to identify precise issues."
+  ],
+  "status": "success",
+  "error_detail": null
+}

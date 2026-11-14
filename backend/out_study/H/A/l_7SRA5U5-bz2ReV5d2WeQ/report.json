@@ -1,0 +1,69 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Penn Station",
+  "sample_size": 14,
+  "executive_summary": "An analysis of 14 customer reviews for Penn Station reveals significant dissatisfaction primarily concerning food quality, which is the most frequent complaint. Other notable issues include cleanliness, staff attitude, and pricing. Urgent action is required to address these core areas to improve customer satisfaction and overall business performance.",
+  "key_findings": [
+    "Customers frequently report dissatisfaction with the quality of the food.",
+    "Multiple reviews indicate issues with the restaurant's cleanliness.",
+    "There are recurring complaints about the staff's attitude or the quality of service provided.",
+    "Customers frequently find the pricing to be too high or not offering good value."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent food preparation, use of low-quality ingredients, or lack of attention to detail in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "There are recurring complaints about the staff's attitude or the quality of service provided.",
+      "cause": "Insufficient staff training, low employee morale, or inadequate staffing levels leading to rushed or indifferent service.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers frequently find the pricing to be too high or not offering good value.",
+      "cause": "Misalignment between perceived value and actual cost, or a pricing strategy that is not competitive with similar establishments.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Multiple reviews indicate issues with the restaurant's cleanliness.",
+      "cause": "Inadequate cleaning protocols, insufficient cleaning staff, or lack of regular maintenance and upkeep.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation, use of low-quality ingredients, or lack of attention to detail in the kitchen.",
+      "action": "Implement a comprehensive kitchen quality control program including standardized recipes, daily ingredient checks upon delivery, regular taste tests by management, and mandatory weekly training refreshers for all kitchen staff on consistency and presentation.",
+      "category": "Food",
+      "expected_impact": "Significantly improve food consistency and quality, leading to higher customer satisfaction, fewer complaints, and enhanced brand reputation."
+    },
+    {
+      "priority": 2,
+      "issue": "Inadequate cleaning protocols, insufficient cleaning staff, or lack of regular maintenance and upkeep.",
+      "action": "Develop and enforce a detailed daily, weekly, and monthly cleaning checklist for all areas (dining room, restrooms, kitchen, exterior). Assign specific staff responsibilities and conduct daily spot checks by a manager. Consider increasing cleaning staff hours or hiring a dedicated cleaner.",
+      "category": "Operations",
+      "expected_impact": "Drastically improve the restaurant's overall appearance and hygiene, boosting customer comfort, confidence, and positive perceptions of the establishment."
+    },
+    {
+      "priority": 3,
+      "issue": "Insufficient staff training, low employee morale, or inadequate staffing levels leading to rushed or indifferent service.",
+      "action": "Launch a mandatory customer service excellence training program for all front-of-house staff, focusing on positive attitude, attentiveness, and conflict resolution. Implement a staff recognition program (e.g., 'Employee of the Month') and review staffing levels during peak hours to ensure adequate coverage.",
+      "category": "Service",
+      "expected_impact": "Elevate the overall dining experience through improved staff interactions, leading to higher customer satisfaction, better reviews, and increased repeat business."
+    },
+    {
+      "priority": 4,
+      "issue": "Misalignment between perceived value and actual cost, or a pricing strategy that is not competitive with similar establishments.",
+      "action": "Conduct a thorough competitive pricing analysis of similar restaurants in the area. Review current menu item costs, portion sizes, and presentation. Consider introducing a few value-oriented specials or combo meals, or enhancing the perceived value of existing dishes through improved plating or ingredient sourcing communication.",
+      "category": "Pricing",
+      "expected_impact": "Align customer expectations with pricing, potentially increasing sales volume, attracting a broader customer base, and improving value perception."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not fully represent the entire customer base or capture all potential issues."
+  ],
+  "status": "success",
+  "error_detail": null
+}

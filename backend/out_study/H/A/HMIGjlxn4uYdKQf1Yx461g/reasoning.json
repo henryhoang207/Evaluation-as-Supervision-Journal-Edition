@@ -1,0 +1,97 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report dissatisfaction with the quality of the food.",
+      "aspect": "food_quality",
+      "frequency": 0.3529,
+      "evidence_review_ids": [
+        "-9v7dsmuk8DkpmMD9ILesw",
+        "0D51aPtSurgnpfLe9aKMPw",
+        "EreNjMea7l6AD4XXVVx2jQ",
+        "JE9228R6oMi1oRRvtapcYg",
+        "KNENSVK5GlLNXdMNyjUIBQ",
+        "NhZf4VeXdjfigjfRNnEyhA",
+        "Sw_-zUJoqMdTIccaktySOw",
+        "XJU1TOLvQaDujO6h5lCwQw",
+        "Z12tR2A46kKUVjgZPVYSrw",
+        "fnPefH7SqOOachFEnnioTw",
+        "g7AAH8iRRIExQY-pc5CzGA",
+        "joNTKZH7OfgcpwqXed2MPw"
+      ]
+    },
+    {
+      "description": "A significant number of reviews highlight negative experiences with staff attitude.",
+      "aspect": "staff_attitude",
+      "frequency": 0.2059,
+      "evidence_review_ids": [
+        "3KuQ7r1f0xstj4J2F1Pz9A",
+        "9WK6Rlm5ClQKuEjsV193NQ",
+        "EC2ku0sKmdKvBy8NlqhmQQ",
+        "EreNjMea7l6AD4XXVVx2jQ",
+        "NhZf4VeXdjfigjfRNnEyhA",
+        "Z12tR2A46kKUVjgZPVYSrw",
+        "g7AAH8iRRIExQY-pc5CzGA"
+      ]
+    },
+    {
+      "description": "Multiple customers express concerns regarding the cleanliness of the establishment.",
+      "aspect": "cleanliness",
+      "frequency": 0.1471,
+      "evidence_review_ids": [
+        "-9v7dsmuk8DkpmMD9ILesw",
+        "EreNjMea7l6AD4XXVVx2jQ",
+        "KNENSVK5GlLNXdMNyjUIBQ",
+        "NhZf4VeXdjfigjfRNnEyhA",
+        "Z12tR2A46kKUVjgZPVYSrw"
+      ]
+    },
+    {
+      "description": "Several reviews mention general negative experiences not fitting into specific categories.",
+      "aspect": "other",
+      "frequency": 0.0882,
+      "evidence_review_ids": [
+        "3KuQ7r1f0xstj4J2F1Pz9A",
+        "EC2ku0sKmdKvBy8NlqhmQQ",
+        "XJU1TOLvQaDujO6h5lCwQw"
+      ]
+    },
+    {
+      "description": "There are recurring complaints about long wait times.",
+      "aspect": "wait_time",
+      "frequency": 0.0588,
+      "evidence_review_ids": [
+        "EreNjMea7l6AD4XXVVx2jQ",
+        "KNENSVK5GlLNXdMNyjUIBQ"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent food preparation, poor ingredient quality, or lack of quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of reviews highlight negative experiences with staff attitude.",
+      "cause": "Insufficient staff training in customer service, low employee morale, or inadequate management oversight of front-of-house staff.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Multiple customers express concerns regarding the cleanliness of the establishment.",
+      "cause": "Inadequate cleaning protocols, insufficient cleaning staff, or lack of regular maintenance and oversight.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Several reviews mention general negative experiences not fitting into specific categories.",
+      "cause": "A combination of minor operational issues or a general lack of attention to overall customer experience.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "There are recurring complaints about long wait times.",
+      "cause": "Understaffing during peak hours, inefficient order processing, or kitchen bottlenecks.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

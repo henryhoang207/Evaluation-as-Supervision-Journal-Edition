@@ -1,0 +1,50 @@
+{
+  "patterns": [
+    {
+      "description": "Multiple customers reported negative experiences with the staff's attitude or service.",
+      "aspect": "staff_attitude",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "Nx5GYXdbiwPqSWfbyXruPA",
+        "co75Bu1ftkWgG5iSYd-p1w"
+      ]
+    },
+    {
+      "description": "There are recurring complaints about the quality of the food being poor or inconsistent.",
+      "aspect": "food_quality",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "Nx5GYXdbiwPqSWfbyXruPA",
+        "co75Bu1ftkWgG5iSYd-p1w"
+      ]
+    },
+    {
+      "description": "The restaurant's ambience or physical environment received negative feedback from several patrons.",
+      "aspect": "ambience",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "Nx5GYXdbiwPqSWfbyXruPA",
+        "VQHGAoSp82LpVkv4E81PeA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Multiple customers reported negative experiences with the staff's attitude or service.",
+      "cause": "Lack of adequate staff training in customer service or insufficient staffing leading to overworked employees.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "There are recurring complaints about the quality of the food being poor or inconsistent.",
+      "cause": "Inconsistent quality control in the kitchen, potentially due to varying ingredient quality or lack of standardized cooking procedures.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "The restaurant's ambience or physical environment received negative feedback from several patrons.",
+      "cause": "Issues with cleanliness, outdated decor, or general lack of maintenance contributing to an unappealing atmosphere.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

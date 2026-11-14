@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent or poor food quality",
+      "action": "Implement a comprehensive kitchen quality control program, including daily taste tests by the head chef, mandatory retraining for all kitchen staff on dish consistency, and a review of key ingredient suppliers to ensure premium quality and reliability.",
+      "category": "food",
+      "expected_impact": "Significantly improve food consistency and quality, leading to higher customer satisfaction, fewer complaints, and enhanced reputation for culinary excellence."
+    },
+    {
+      "priority": 2,
+      "issue": "Negative or unhelpful staff attitude",
+      "action": "Launch a mandatory customer service excellence training program for all front-of-house staff, focusing on proactive guest engagement, conflict resolution, and positive communication. Simultaneously, introduce a staff recognition program to boost morale and acknowledge outstanding service.",
+      "category": "service",
+      "expected_impact": "Elevate the overall dining experience through improved staff interactions, fostering a more welcoming atmosphere and encouraging repeat business and positive word-of-mouth."
+    },
+    {
+      "priority": 3,
+      "issue": "Unpleasant or uninviting ambience",
+      "action": "Conduct an immediate audit of the restaurant's decor, lighting, and noise levels. Prioritize minor aesthetic updates (e.g., fresh paint, updated artwork, improved lighting fixtures) and explore acoustic solutions to mitigate excessive noise, creating a more comfortable and modern dining environment.",
+      "category": "operations",
+      "expected_impact": "Enhance the perceived value of the dining experience, making the restaurant more appealing and comfortable for guests, which can lead to longer stays and higher spending."
+    },
+    {
+      "priority": 4,
+      "issue": "Perceived high pricing for value received",
+      "action": "Undertake a detailed pricing review, comparing menu prices against competitor offerings and the perceived value of dishes. Consider enhancing portion sizes, improving food presentation, or introducing value-added promotions (e.g., lunch specials, fixed-price menus) to better align price with customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Address customer concerns about value, potentially increasing sales by making the menu more attractive and competitive without necessarily reducing profit margins."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

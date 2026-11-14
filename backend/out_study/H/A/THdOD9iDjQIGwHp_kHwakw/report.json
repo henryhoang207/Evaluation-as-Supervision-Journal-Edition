@@ -1,0 +1,100 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Food For Your Soul",
+  "sample_size": 14,
+  "executive_summary": "Food For Your Soul is facing significant customer dissatisfaction primarily due to excessively long wait times, inconsistent food quality, and occasional negative staff attitudes. The analysis, based on a small sample of 14 reviews, suggests underlying issues in operational efficiency, staff training, and quality control. Addressing these core areas through workflow optimization, comprehensive staff training, and standardized food preparation is crucial for improving customer experience and overall reputation.",
+  "key_findings": [
+    "Customers frequently experience excessively long wait times for service or food (21% of reviews).",
+    "Some customers report dissatisfaction with the quality of the food (14% of reviews).",
+    "Customers occasionally encounter staff members with negative or unhelpful attitudes (14% of reviews).",
+    "A few reviews mention other general negative experiences without specific categorization (14% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently experience excessively long wait times for service or food.",
+      "cause": "Understaffing during peak hours or inefficient workflow management.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers frequently experience excessively long wait times for service or food.",
+      "cause": "Lack of proper training for staff on managing customer flow and order processing.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Some customers report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent ingredient sourcing or preparation standards across shifts/cooks.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Some customers report dissatisfaction with the quality of the food.",
+      "cause": "Lack of consistent quality control checks on dishes before serving.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers occasionally encounter staff members with negative or unhelpful attitudes.",
+      "cause": "Insufficient staff training in customer service and conflict resolution.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers occasionally encounter staff members with negative or unhelpful attitudes.",
+      "cause": "Low staff morale, high workload, or inadequate management support leading to burnout.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A few reviews mention other general negative experiences without specific categorization.",
+      "cause": "General operational issues or isolated incidents not fitting into specific categories, possibly indicating a broader lack of attention to detail.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Excessively long wait times for service or food due to understaffing and inefficient workflow.",
+      "action": "Conduct a detailed peak-hour staffing analysis and implement a new workflow optimization plan for both kitchen and front-of-house, including clear roles and responsibilities for order processing and delivery.",
+      "category": "operations",
+      "expected_impact": "Significantly reduce customer wait times, improve table turnover, and enhance overall customer satisfaction."
+    },
+    {
+      "priority": 2,
+      "issue": "Excessively long wait times due to lack of proper staff training on managing customer flow and order processing.",
+      "action": "Develop and implement mandatory training modules for all staff on efficient customer flow management, order taking, and expedited service techniques, with regular refreshers.",
+      "category": "service",
+      "expected_impact": "Improve staff efficiency, reduce order errors, and contribute to faster service delivery, directly impacting wait times."
+    },
+    {
+      "priority": 3,
+      "issue": "Inconsistent food quality due to varying preparation standards and lack of consistent quality control checks.",
+      "action": "Standardize all recipes with precise measurements and cooking instructions, and implement a mandatory final quality check by a designated chef or manager for every dish before it leaves the kitchen.",
+      "category": "food",
+      "expected_impact": "Ensure consistent high-quality food, reduce customer complaints about taste and presentation, and strengthen brand reputation."
+    },
+    {
+      "priority": 4,
+      "issue": "Negative or unhelpful staff attitudes due to insufficient customer service training.",
+      "action": "Implement a comprehensive customer service training program focusing on positive communication, empathy, conflict resolution, and proactive guest engagement for all front-of-house staff.",
+      "category": "service",
+      "expected_impact": "Improve staff-customer interactions, enhance the overall dining experience, and increase positive reviews related to service."
+    },
+    {
+      "priority": 5,
+      "issue": "Negative staff attitudes potentially stemming from low staff morale, high workload, or inadequate management support.",
+      "action": "Conduct anonymous staff surveys to identify specific morale issues, review current workload distribution, and implement initiatives such as regular team meetings, recognition programs, and management support training.",
+      "category": "human resources",
+      "expected_impact": "Boost staff morale, reduce burnout, foster a more positive work environment, and indirectly improve customer service quality."
+    },
+    {
+      "priority": 6,
+      "issue": "General negative experiences indicating potential broader operational oversights or lack of attention to detail.",
+      "action": "Conduct a comprehensive operational audit covering cleanliness, ambiance, facility maintenance, and minor service touchpoints to identify and rectify any overlooked issues.",
+      "category": "operations",
+      "expected_impact": "Address underlying minor issues, improve overall restaurant environment, and prevent future general complaints."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a very small sample size of 14 reviews, which may not be fully representative of all customer experiences.",
+    "The findings are derived solely from customer review text and may not capture all internal operational complexities or perspectives.",
+    "Confidence levels for identified root causes vary, indicating some degree of uncertainty in attributing specific causes to observed patterns."
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,74 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Horseshoe Barbecue",
+  "sample_size": 34,
+  "executive_summary": "An analysis of 34 customer reviews for Horseshoe Barbecue reveals critical areas for improvement. The primary concerns are consistent dissatisfaction with food quality (35.3% of reviews), negative staff attitude (20.6%), and cleanliness issues (14.7%). Addressing these core problems through targeted kitchen improvements, staff training, and enhanced hygiene protocols is crucial for improving customer satisfaction and business reputation.",
+  "key_findings": [
+    "Food Quality: 35.3% of reviews express dissatisfaction with the quality of the food, indicating a significant and recurring issue.",
+    "Staff Attitude: 20.6% of reviews highlight negative experiences with staff interactions, pointing to a need for improved customer service.",
+    "Cleanliness: 14.7% of reviews raise concerns about the cleanliness of the establishment, impacting customer comfort and perception.",
+    "Wait Times: 5.9% of reviews mention long wait times, suggesting potential operational inefficiencies during busy periods."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent food preparation, poor ingredient quality, or lack of quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of reviews highlight negative experiences with staff attitude.",
+      "cause": "Insufficient staff training in customer service, low employee morale, or inadequate management oversight of front-of-house staff.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Multiple customers express concerns regarding the cleanliness of the establishment.",
+      "cause": "Inadequate cleaning protocols, insufficient cleaning staff, or lack of regular maintenance and oversight.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Several reviews mention general negative experiences not fitting into specific categories.",
+      "cause": "A combination of minor operational issues or a general lack of attention to overall customer experience.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "There are recurring complaints about long wait times.",
+      "cause": "Understaffing during peak hours, inefficient order processing, or kitchen bottlenecks.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation, poor ingredient quality, or lack of quality control in the kitchen.",
+      "action": "Implement a comprehensive kitchen audit to standardize recipes, review ingredient sourcing, and establish daily quality control checks for all dishes. Provide refresher training for all kitchen staff on preparation techniques and plating standards.",
+      "category": "Food",
+      "expected_impact": "Significant improvement in food consistency and taste, leading to higher customer satisfaction and fewer complaints."
+    },
+    {
+      "priority": 2,
+      "issue": "Insufficient staff training in customer service, low employee morale, or inadequate management oversight of front-of-house staff.",
+      "action": "Launch a mandatory customer service excellence training program for all front-of-house staff, focusing on positive communication, conflict resolution, and proactive guest engagement. Introduce an employee recognition program to boost morale and conduct regular check-ins.",
+      "category": "Service",
+      "expected_impact": "Enhanced customer experience, increased positive interactions, and improved staff retention."
+    },
+    {
+      "priority": 3,
+      "issue": "Inadequate cleaning protocols, insufficient cleaning staff, or lack of regular maintenance and oversight.",
+      "action": "Develop and enforce detailed daily and weekly cleaning checklists for all areas (dining room, restrooms, kitchen, entrance). Assign specific staff members responsibility for each area and implement regular managerial spot checks. Consider scheduling a professional deep clean.",
+      "category": "Operations",
+      "expected_impact": "A visibly cleaner and more hygienic environment, improving customer comfort and perception of the establishment."
+    },
+    {
+      "priority": 4,
+      "issue": "Understaffing during peak hours, inefficient order processing, or kitchen bottlenecks.",
+      "action": "Analyze sales data to identify peak hours and adjust staffing schedules accordingly, ensuring adequate front-of-house and kitchen personnel. Review kitchen workflow and equipment layout to identify and resolve bottlenecks in order preparation and delivery.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, smoother service flow, and increased table turnover during busy periods."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 34 reviews, which may not fully represent the entire customer base or all operational issues."
+  ],
+  "status": "success",
+  "error_detail": null
+}

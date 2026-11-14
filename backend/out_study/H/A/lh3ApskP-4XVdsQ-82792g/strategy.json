@@ -1,0 +1,118 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor staff attitude and inconsistent service.",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on communication, problem-solving, and attentiveness.",
+      "category": "Service",
+      "expected_impact": "Significant improvement in customer satisfaction and reduction in negative service reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Understaffing leading to overworked and stressed employees.",
+      "action": "Review staffing levels during peak hours and adjust schedules or hire additional staff to ensure adequate coverage and reduce employee stress.",
+      "category": "Operations",
+      "expected_impact": "Improved staff morale, reduced stress, and more consistent, positive customer interactions."
+    },
+    {
+      "priority": 3,
+      "issue": "Lack of proper management oversight or accountability for staff performance.",
+      "action": "Establish clear performance metrics for service staff, conduct regular performance reviews, and implement a feedback system for both staff and management.",
+      "category": "Management",
+      "expected_impact": "Enhanced staff performance and a more professional service environment."
+    },
+    {
+      "priority": 4,
+      "issue": "Inconsistent food quality due to ingredient sourcing or quality control.",
+      "action": "Audit current suppliers and establish strict quality control checks for all incoming ingredients; explore new, reliable suppliers if necessary.",
+      "category": "Food",
+      "expected_impact": "More consistent and higher quality dishes, leading to improved customer satisfaction."
+    },
+    {
+      "priority": 5,
+      "issue": "Inconsistent food quality due to lack of standardized recipes or cooking procedures.",
+      "action": "Develop and enforce detailed, standardized recipes and cooking procedures for all menu items, including portion sizes and presentation guidelines.",
+      "category": "Food",
+      "expected_impact": "Greater consistency in taste, quality, and presentation across all dishes."
+    },
+    {
+      "priority": 6,
+      "issue": "Insufficiently trained kitchen staff impacting food quality.",
+      "action": "Implement a structured training program for all kitchen staff on standardized recipes, cooking techniques, and food safety protocols.",
+      "category": "Food",
+      "expected_impact": "Improved cooking consistency, reduced errors, and higher overall food quality."
+    },
+    {
+      "priority": 7,
+      "issue": "Unappealing or uncomfortable ambience due to outdated decor or poor maintenance.",
+      "action": "Plan and execute a phased renovation or refresh of the dining area, focusing on modernizing decor, repairing worn elements, and improving lighting.",
+      "category": "Operations",
+      "expected_impact": "A more inviting and pleasant dining environment, attracting more customers and improving their overall experience."
+    },
+    {
+      "priority": 8,
+      "issue": "Uncomfortable dining environment due to noise levels or seating.",
+      "action": "Evaluate and address noise sources (e.g., add sound-dampening materials, adjust music volume) and replace or reconfigure uncomfortable seating.",
+      "category": "Operations",
+      "expected_impact": "Enhanced customer comfort and a more relaxed dining experience."
+    },
+    {
+      "priority": 9,
+      "issue": "Lack of attention to creating a welcoming atmosphere.",
+      "action": "Implement daily checks for cleanliness, lighting, music, and table settings to ensure a consistently welcoming and pleasant atmosphere.",
+      "category": "Operations",
+      "expected_impact": "A more positive first impression and overall dining experience for customers."
+    },
+    {
+      "priority": 10,
+      "issue": "Broad operational problems and lack of clear service standards.",
+      "action": "Conduct a comprehensive operational audit to identify bottlenecks and inefficiencies, then develop and communicate clear service standards and operational procedures to all staff.",
+      "category": "Operations",
+      "expected_impact": "Streamlined operations, improved efficiency, and a more consistent customer experience."
+    },
+    {
+      "priority": 11,
+      "issue": "Accumulation of minor unaddressed issues leading to general dissatisfaction.",
+      "action": "Implement a daily manager walk-through checklist to identify and promptly address minor issues (e.g., burnt-out bulbs, sticky tables, restroom cleanliness) before they impact customer experience.",
+      "category": "Operations",
+      "expected_impact": "Prevention of small problems escalating into significant customer dissatisfaction."
+    },
+    {
+      "priority": 12,
+      "issue": "Poor cleanliness standards due to inadequate protocols or staff training.",
+      "action": "Develop and implement detailed daily, weekly, and monthly cleaning checklists for all areas (dining, kitchen, restrooms), and provide mandatory hygiene training for all staff.",
+      "category": "Operations",
+      "expected_impact": "A visibly cleaner and more hygienic environment, significantly improving customer perception and health safety."
+    },
+    {
+      "priority": 13,
+      "issue": "Insufficient staffing for regular cleaning and maintenance.",
+      "action": "Allocate dedicated staff hours for cleaning tasks, especially during non-peak times, or consider hiring additional cleaning support if current staff are overwhelmed.",
+      "category": "Operations",
+      "expected_impact": "More thorough and consistent cleaning, leading to a consistently clean restaurant."
+    },
+    {
+      "priority": 14,
+      "issue": "Lack of management supervision on cleanliness standards.",
+      "action": "Implement regular management inspections using a comprehensive cleanliness checklist, with immediate corrective actions and staff accountability.",
+      "category": "Management",
+      "expected_impact": "Ensured adherence to cleaning protocols and maintained high standards of hygiene."
+    },
+    {
+      "priority": 15,
+      "issue": "Pricing not aligned with perceived value (food quality, service, ambience).",
+      "action": "Re-evaluate menu pricing in conjunction with improvements in food quality, service, and ambience to ensure perceived value justifies the cost. Consider value-added promotions.",
+      "category": "Pricing",
+      "expected_impact": "Increased customer satisfaction with value for money, potentially leading to higher sales and repeat business."
+    },
+    {
+      "priority": 16,
+      "issue": "Uncompetitive pricing due to lack of market research.",
+      "action": "Conduct a thorough competitive analysis of pricing for similar menu items and dining experiences in the local market to ensure competitive positioning.",
+      "category": "Pricing",
+      "expected_impact": "Optimized pricing strategy that attracts customers while maintaining profitability."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

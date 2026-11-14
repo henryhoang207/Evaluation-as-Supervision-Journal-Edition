@@ -1,0 +1,246 @@
+{
+  "patterns": [
+    {
+      "description": "Negative feedback regarding food quality.",
+      "aspect": "food_quality",
+      "frequency": 0.2,
+      "evidence_review_ids": [
+        "-JA5LfQATg3E62ngWPt8nQ",
+        "-d1xeZNsKHmHyczY6hcfmA",
+        "0sltPl81GqcJYNSc2Sr5Yg",
+        "4vlYFXBoO_VkBWxPm8zGJw",
+        "5rCFzsj1wbpmTUwJcADaOw",
+        "AhBnM6A-SUrmAzOdLqoboA",
+        "D5EF2meMrcSlFEsuxPUyug",
+        "FY3KTf4ob2Nvm7RL_17xag",
+        "NQTcOi7MqN8zevGowAvrRw",
+        "Nd3cL50VaRE-Erdb1OHuMQ",
+        "Nt_DNBu4dgVN5Mh4rDgHwQ",
+        "OpEmgPK5heXgm4prjMe_fQ",
+        "PkdaJsl904BrLOILR9_YVQ",
+        "Q69tkO-jVp6RZGAhvOMLgQ",
+        "Rb6FblJkvhtj03jOG48JxA",
+        "S9GaJVfTxKw-UmoaKIlXkg",
+        "TZBUFLf5aRMSj_5dt_kfqA",
+        "V6ougJNYxl2aTuI9rXHLCg",
+        "VAesDcjiNLtflH2z40kltw",
+        "YOQjl2A3LWQ8_I6iouaw1w",
+        "Z-fci_gGOfIuZMfCMxBagA",
+        "ZQ1tamWAwevpVYvD1kSx-Q",
+        "bnNWFwN0h9ktGSt_FhlgQg",
+        "c9hTlnVBxlWOFX2oYm6PIA",
+        "dGhSvoo8V1jM9GzHHwAs8w",
+        "esWDo60TRNlz-a_iJDD-7A",
+        "i6UserpqopcVgNv26KgYgQ",
+        "iD0gJQmGkE7pjsqw_HtpJw",
+        "kejVTWkUZqQZ2ayTiPKILQ",
+        "lFW6l10O2yWqnneMrvs3hQ",
+        "ljLAnKmWRXI1_x0mQtZKlA",
+        "mDptRrRli7cRrTReVsc_YA",
+        "oIcYPhPJV6B6DpJb9i-w-A",
+        "oO2RZ8UsOzhOQMD7bUGcCA",
+        "osd0Bl--_6Ovg0sP4JtPBQ",
+        "poTwjm4Q4vlwBdaobPoScQ",
+        "rIsXrF50nsPfUs5mhYZTUQ",
+        "tmcOeHBTVN6Au56eM5cg3A",
+        "upNZ1BkDj_gIBfxhgyw_2g",
+        "vwXU1Nci6X6s3OWAV-BKbg",
+        "yMZmlzRy-3-kb-85grqWFA",
+        "yjGJ1k2tgme4Hcw3bqtt2A"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding pricing.",
+      "aspect": "pricing",
+      "frequency": 0.17,
+      "evidence_review_ids": [
+        "-JA5LfQATg3E62ngWPt8nQ",
+        "-d1xeZNsKHmHyczY6hcfmA",
+        "2ZFdHXOnFYaU43CsudnSrQ",
+        "4vlYFXBoO_VkBWxPm8zGJw",
+        "5rCFzsj1wbpmTUwJcADaOw",
+        "6Hgo87mUUkEV53qd1zedJw",
+        "7EMXEn_goWEKey7gsR9Eew",
+        "7cJPpBS1Wgs854h8N9eWkg",
+        "AhBnM6A-SUrmAzOdLqoboA",
+        "BJGHSSNQDTwul5OAgfKlzA",
+        "D5EF2meMrcSlFEsuxPUyug",
+        "NQTcOi7MqN8zevGowAvrRw",
+        "Nt_DNBu4dgVN5Mh4rDgHwQ",
+        "OpEmgPK5heXgm4prjMe_fQ",
+        "PkdaJsl904BrLOILR9_YVQ",
+        "Rb6FblJkvhtj03jOG48JxA",
+        "TZBUFLf5aRMSj_5dt_kfqA",
+        "V6ougJNYxl2aTuI9rXHLCg",
+        "VAesDcjiNLtflH2z40kltw",
+        "Y4AssdwKRudshGkf1x5q9w",
+        "ZQ1tamWAwevpVYvD1kSx-Q",
+        "bnNWFwN0h9ktGSt_FhlgQg",
+        "dGhSvoo8V1jM9GzHHwAs8w",
+        "eo133WKVJjjNGbQS8O2BUQ",
+        "gBzOC9iaeSxcvbxoKXfRLQ",
+        "gcuYZ6EnbQOzsstsF-0Y0Q",
+        "hXR8697Hnbb8IpUsf4JpsA",
+        "kejVTWkUZqQZ2ayTiPKILQ",
+        "lFW6l10O2yWqnneMrvs3hQ",
+        "m02RibJBhd6LEQ7TAbRzvA",
+        "mDptRrRli7cRrTReVsc_YA",
+        "oO2RZ8UsOzhOQMD7bUGcCA",
+        "pp2v4TARxu8ExH-hT8c2dQ",
+        "rIsXrF50nsPfUs5mhYZTUQ",
+        "s-rgD283cL9Pv0A36jtQ2Q",
+        "snQOayUxowA3_p5udTBnXA",
+        "tcu_zBGm0FPOcP4IaEF2Ag",
+        "upNZ1BkDj_gIBfxhgyw_2g",
+        "vwXU1Nci6X6s3OWAV-BKbg",
+        "yMZmlzRy-3-kb-85grqWFA",
+        "yWsgjSwRY9dGKwFwLEgDaQ",
+        "zz2N3rpZw7EWI-c7w4DgrQ"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding staff attitude.",
+      "aspect": "staff_attitude",
+      "frequency": 0.13,
+      "evidence_review_ids": [
+        "0sltPl81GqcJYNSc2Sr5Yg",
+        "2ZFdHXOnFYaU43CsudnSrQ",
+        "4LUADyl4wXUeFr7Eoy45oQ",
+        "5rCFzsj1wbpmTUwJcADaOw",
+        "7aDh9Ymb5hhVfKA-wC--lA",
+        "AVKzuM7LgrVYeNUwOgK7qA",
+        "AhBnM6A-SUrmAzOdLqoboA",
+        "BJGHSSNQDTwul5OAgfKlzA",
+        "EkQy44F77fP-pkCkqVesUA",
+        "L_zmySE8AY_df069sCp1bg",
+        "OGoBGQHNOO23YpGDS8PN7Q",
+        "OpEmgPK5heXgm4prjMe_fQ",
+        "TSplXh7cCK4itoRCnKn0DQ",
+        "VAesDcjiNLtflH2z40kltw",
+        "ZXeIloMzRjzCmmycInawEA",
+        "eo133WKVJjjNGbQS8O2BUQ",
+        "euLfBAcva5dZaPwp4HuJwQ",
+        "fgqumL64KsmxK-apTD9KRw",
+        "gcuYZ6EnbQOzsstsF-0Y0Q",
+        "iD0gJQmGkE7pjsqw_HtpJw",
+        "jLv5xoe3hKLbT0oExwyqvw",
+        "kejVTWkUZqQZ2ayTiPKILQ",
+        "rIsXrF50nsPfUs5mhYZTUQ",
+        "sq3-tyT4QSMsXxvk5vJsHg",
+        "upNZ1BkDj_gIBfxhgyw_2g",
+        "yMZmlzRy-3-kb-85grqWFA",
+        "zz2N3rpZw7EWI-c7w4DgrQ"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding wait time.",
+      "aspect": "wait_time",
+      "frequency": 0.07,
+      "evidence_review_ids": [
+        "Be_D6JMa9pU-_9RBDshP7Q",
+        "EkQy44F77fP-pkCkqVesUA",
+        "GRzPYL_9IjodwMVqvSq-_Q",
+        "JoGzic4ljijfxssk_3MBFg",
+        "NQTcOi7MqN8zevGowAvrRw",
+        "OpEmgPK5heXgm4prjMe_fQ",
+        "TSplXh7cCK4itoRCnKn0DQ",
+        "VAesDcjiNLtflH2z40kltw",
+        "ZQ1tamWAwevpVYvD1kSx-Q",
+        "ZXeIloMzRjzCmmycInawEA",
+        "euLfBAcva5dZaPwp4HuJwQ",
+        "lFW6l10O2yWqnneMrvs3hQ",
+        "oEHKBgsfmS3gzy5Fkq-sXg",
+        "osd0Bl--_6Ovg0sP4JtPBQ",
+        "vwXU1Nci6X6s3OWAV-BKbg"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding ambience.",
+      "aspect": "ambience",
+      "frequency": 0.07,
+      "evidence_review_ids": [
+        "0sltPl81GqcJYNSc2Sr5Yg",
+        "Be_D6JMa9pU-_9RBDshP7Q",
+        "CQ2hWbxJCsruipq0X_B2ew",
+        "D5EF2meMrcSlFEsuxPUyug",
+        "JkQlC8kEhS7sW1zvdafp9g",
+        "Nt_DNBu4dgVN5Mh4rDgHwQ",
+        "TJTyurCYaaECyFIpgnpHhQ",
+        "ZXeIloMzRjzCmmycInawEA",
+        "ef-Kuz7utFxw6-JDVrBljg",
+        "eo133WKVJjjNGbQS8O2BUQ",
+        "gcuYZ6EnbQOzsstsF-0Y0Q",
+        "hc75qbjqasBbClWO0KNN1g",
+        "iD0gJQmGkE7pjsqw_HtpJw",
+        "poTwjm4Q4vlwBdaobPoScQ"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding other.",
+      "aspect": "other",
+      "frequency": 0.06,
+      "evidence_review_ids": [
+        "648AclH4iqaoCmJGhch_Lg",
+        "7aDh9Ymb5hhVfKA-wC--lA",
+        "OGoBGQHNOO23YpGDS8PN7Q",
+        "eQcVZLQXW1mfzNgR7t1X7w",
+        "euLfBAcva5dZaPwp4HuJwQ",
+        "hXR8697Hnbb8IpUsf4JpsA",
+        "iD0gJQmGkE7pjsqw_HtpJw",
+        "jLv5xoe3hKLbT0oExwyqvw",
+        "tcu_zBGm0FPOcP4IaEF2Ag",
+        "tmcOeHBTVN6Au56eM5cg3A",
+        "yMZmlzRy-3-kb-85grqWFA",
+        "yWsgjSwRY9dGKwFwLEgDaQ"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding cleanliness.",
+      "aspect": "cleanliness",
+      "frequency": 0.01,
+      "evidence_review_ids": [
+        "AVKzuM7LgrVYeNUwOgK7qA",
+        "sq3-tyT4QSMsXxvk5vJsHg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Negative feedback regarding food quality.",
+      "cause": "Inconsistent food preparation or ingredient quality.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding pricing.",
+      "cause": "Perceived poor value for money or uncompetitive pricing.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding staff attitude.",
+      "cause": "Lack of staff training, understaffing leading to stress, or poor management oversight.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding wait time.",
+      "cause": "Understaffing, inefficient kitchen/service processes, or poor demand forecasting.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding ambience.",
+      "cause": "Unpleasant atmosphere, noise levels, or outdated decor.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative feedback regarding other.",
+      "cause": "Unspecified issues, potentially related to overall experience, specific incidents, or aspects not covered by other categories.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Negative feedback regarding cleanliness.",
+      "cause": "Insufficient cleaning protocols or lack of attention to hygiene standards.",
+      "confidence": "high"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

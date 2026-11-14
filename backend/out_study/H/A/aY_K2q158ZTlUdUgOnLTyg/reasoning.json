@@ -1,0 +1,206 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report issues with the quality or consistency of the food, indicating a significant problem with the culinary offerings.",
+      "aspect": "food_quality",
+      "frequency": 0.257,
+      "evidence_review_ids": [
+        "3tQj7iR1lxyKT_4PUaRaKg",
+        "53AzY_Lt-MLKTFFpmpug-Q",
+        "5IWFp5CjimnX7uwxL-ZL3A",
+        "6-Epqx2ZrUuz2N2jlGF9Lw",
+        "66UyadlrS7xQtQyr0N_fnA",
+        "6FDiFsmqdh4wVw2iccvGmg",
+        "9JfoHISakdJeAM6N63rwDQ",
+        "9MjLhPk6rqtIw2oGcurmIA",
+        "9T3B61wo2tYZahmGk3EPTw",
+        "AO-WCrMsq08J5kOZtHkKfA",
+        "C7lZpa8KD63URzgMb8ILzw",
+        "CisniCkQiwgSaP3KqawBoA",
+        "CjRl03xp8WEAraiHWQA3YQ",
+        "Dydp6t9EjXabKfeFM2q2GA",
+        "E7-ysu3IZZrkV-vv7IP5qw",
+        "GeXXtvxuTwTPWVnL4EZIwA",
+        "GuHCYzaWhf3pyZaIHjKi5Q",
+        "INQYoe4p9HY1sR-qEDSmBA",
+        "KBNq9pSjEqOKc-_jesdKVw",
+        "KmBnKAI1m33wYHsYDBhVaQ",
+        "Ks55tssnPL5OLPnl7pwxwg",
+        "OZdcqyQHYSZfq6BWAEbgJQ",
+        "Spa8DgHGxFmYzKO4xUp5cw",
+        "T5gmwUFVYZlnQorKC1Ixgg",
+        "U20S30h-bCJ8vwqPLs3wCQ",
+        "VnHzUmGQ1HYy7d-I3r_NOQ",
+        "Y7AenxeEQC6xgEi0vQDdFg",
+        "_YgRpxoqmALUu05RdjUAGA",
+        "a5G9LZNkdGyH-WOXt2fPEQ",
+        "bN7rscedkelCxDjl9FZCbQ",
+        "e9SP-WaLZvoDG7UF1BBA2g",
+        "ejSczk1h8HSTgv35ucXLeg",
+        "gBp7xzufKnAFR6glqq3Fmg",
+        "gIG3cLhQSpt7hVo-iGngLg",
+        "gQ9QLnB8IVW70njin_E0Bw",
+        "hy-q3LCC2lXVmCg_Ge0_7g",
+        "iuLSEEY3gfFsCDCsxA6Ctg",
+        "jrpU9Q9WTD7fOKtoflJgxQ",
+        "jvES0CAmFlKiWGL7p-nMIA",
+        "k4le3Do9yTjnVmqnKFcaBQ",
+        "kxUNKt7_IFGDiXpytsxryg",
+        "l5xebiAkkR1NRYhiBHmlmQ",
+        "ltn71QRF2yzafOLSMsdviA",
+        "mT5MD3Oz2ylAV4C0IOsHNQ",
+        "mfQgll130fPZ09W-1uvYUQ",
+        "qBTHgV2DgHM-r6rzqRjhJA",
+        "rE4sEDlTzLXfAgsdOKYY5g",
+        "rR5Pj6HGjAlmzh_-0Toihw",
+        "rSh4LQr2cS5qjdWDfWxckw",
+        "sAaB_gKgwyegDPO5-PP2Ng",
+        "sDzapYlODGxsdU42mWLJ8w",
+        "tYVJDJXGEHKx_7rj8bd5GA",
+        "uo_S0nzAsCmWATsd00EiUw",
+        "zdDhAF-TcFYomBLnS850xg",
+        "znXDCXWcNkL0hZYGJ_P0Yg"
+      ]
+    },
+    {
+      "description": "A notable number of reviews highlight negative experiences with staff, including poor service, unfriendliness, or unresponsiveness.",
+      "aspect": "staff_attitude",
+      "frequency": 0.084,
+      "evidence_review_ids": [
+        "99LDM1Xx13N3KjVyZhuMgQ",
+        "9JplsCX0NliaGfdrWLSPqw",
+        "C-phXOGnZurtdTAwSK9IfA",
+        "CisniCkQiwgSaP3KqawBoA",
+        "OZdcqyQHYSZfq6BWAEbgJQ",
+        "SOBr0kmlqpqBY8CD_nltCA",
+        "Y7LoSAlWxb4SvA_78gIp_w",
+        "_YgRpxoqmALUu05RdjUAGA",
+        "bN7rscedkelCxDjl9FZCbQ",
+        "cEDrGCEwjVG0WxaOA2hC_Q",
+        "ejSczk1h8HSTgv35ucXLeg",
+        "ifrErnpPjZK1y1zoRIGAGA",
+        "jvES0CAmFlKiWGL7p-nMIA",
+        "mfQgll130fPZ09W-1uvYUQ",
+        "q-C9SrV7_LClbhkOmliwgw",
+        "rR5Pj6HGjAlmzh_-0Toihw",
+        "sL2-nG9nNpbGfSPQzXxzMg",
+        "v8g16OboMUKzvdZ9S0odVQ"
+      ]
+    },
+    {
+      "description": "Several customers express dissatisfaction with the restaurant's atmosphere, finding it unpleasant or not up to expectations.",
+      "aspect": "ambience",
+      "frequency": 0.061,
+      "evidence_review_ids": [
+        "5IWFp5CjimnX7uwxL-ZL3A",
+        "DN0ja5OZC3xu1vt4VatAqA",
+        "INQYoe4p9HY1sR-qEDSmBA",
+        "Ks55tssnPL5OLPnl7pwxwg",
+        "U20S30h-bCJ8vwqPLs3wCQ",
+        "UgV1GC8-WIPjQ7Of64Jomw",
+        "mfQgll130fPZ09W-1uvYUQ",
+        "oSxQ1uT9iNosO9wKZIE2Ww",
+        "olsSETnO7gw1z5g7dh4xAw",
+        "sDzapYlODGxsdU42mWLJ8w",
+        "sL2-nG9nNpbGfSPQzXxzMg",
+        "tYVJDJXGEHKx_7rj8bd5GA",
+        "znXDCXWcNkL0hZYGJ_P0Yg"
+      ]
+    },
+    {
+      "description": "A recurring concern is the perception of high prices or poor value for money, suggesting that customers feel the cost does not match the quality or experience.",
+      "aspect": "pricing",
+      "frequency": 0.079,
+      "evidence_review_ids": [
+        "7DrgzklO_MCNlq76QP2qBg",
+        "CPCjGJmU4Fu4lylyTDaIlQ",
+        "CisniCkQiwgSaP3KqawBoA",
+        "TInJS_mXwbW-qbvu3kjygg",
+        "U-72PMffSg6oUirVO-pb7A",
+        "Y7LoSAlWxb4SvA_78gIp_w",
+        "e9SP-WaLZvoDG7UF1BBA2g",
+        "gIG3cLhQSpt7hVo-iGngLg",
+        "hy-q3LCC2lXVmCg_Ge0_7g",
+        "ihra6rwvb0BOjvw03mH8WQ",
+        "oq6UWOyj1ZAB3mrrGeWryA",
+        "rEIoJLofNL0I0FImX3TpCA",
+        "rSh4LQr2cS5qjdWDfWxckw",
+        "sDzapYlODGxsdU42mWLJ8w",
+        "uo_S0nzAsCmWATsd00EiUw",
+        "zdDhAF-TcFYomBLnS850xg",
+        "znXDCXWcNkL0hZYGJ_P0Yg"
+      ]
+    },
+    {
+      "description": "Customers frequently report long or unreasonable wait times for service or food, indicating potential inefficiencies in operations.",
+      "aspect": "wait_time",
+      "frequency": 0.047,
+      "evidence_review_ids": [
+        "SOBr0kmlqpqBY8CD_nltCA",
+        "Y7LoSAlWxb4SvA_78gIp_w",
+        "bN7rscedkelCxDjl9FZCbQ",
+        "e9SP-WaLZvoDG7UF1BBA2g",
+        "gHuGcoUPYSMweMqyDHrr7A",
+        "ifrErnpPjZK1y1zoRIGAGA",
+        "jvES0CAmFlKiWGL7p-nMIA",
+        "mfQgll130fPZ09W-1uvYUQ",
+        "rE4sEDlTzLXfAgsdOKYY5g",
+        "uo_S0nzAsCmWATsd00EiUw"
+      ]
+    },
+    {
+      "description": "A variety of other negative issues are mentioned, indicating general dissatisfaction or specific uncategorized problems with the overall experience.",
+      "aspect": "other",
+      "frequency": 0.061,
+      "evidence_review_ids": [
+        "66UyadlrS7xQtQyr0N_fnA",
+        "CPCjGJmU4Fu4lylyTDaIlQ",
+        "C7lZpa8KD63URzgMb8ILzw",
+        "Spa8DgHGxFmYzKO4xUp5cw",
+        "_YgRpxoqmALUu05RdjUAGA",
+        "a5G9LZNkdGyH-WOXt2fPEQ",
+        "KmBnKAI1m33wYHsYDBhVaQ",
+        "cEDrGCEwjVG0WxaOA2hC_Q",
+        "jB49HLRdbcLOkM1gSLpSnw",
+        "jrpU9Q9WTD7fOKtoflJgxQ",
+        "jvES0CAmFlKiWGL7p-nMIA",
+        "rSh4LQr2cS5qjdWDfWxckw",
+        "SOBr0kmlqpqBY8CD_nltCA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report issues with the quality or consistency of the food, indicating a significant problem with the culinary offerings.",
+      "cause": "Inconsistent cooking standards, use of lower quality ingredients, or insufficient quality control processes in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A notable number of reviews highlight negative experiences with staff, including poor service, unfriendliness, or unresponsiveness.",
+      "cause": "Lack of adequate staff training in customer service, low employee morale, or understaffing leading to overworked and stressed employees.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Several customers express dissatisfaction with the restaurant's atmosphere, finding it unpleasant or not up to expectations.",
+      "cause": "Outdated decor, poor maintenance, issues with noise levels, or overcrowding that detracts from the dining experience.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A recurring concern is the perception of high prices or poor value for money, suggesting that customers feel the cost does not match the quality or experience.",
+      "cause": "Pricing strategy that is not aligned with the perceived quality of food, portion sizes, or the overall dining experience, or lack of competitive pricing.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers frequently report long or unreasonable wait times for service or food, indicating potential inefficiencies in operations.",
+      "cause": "Understaffing during peak hours, inefficient kitchen workflow, or poor table management and seating processes.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A variety of other negative issues are mentioned, indicating general dissatisfaction or specific uncategorized problems with the overall experience.",
+      "cause": "Lack of attention to various operational details, minor service lapses, or specific unmet customer expectations not covered by other categories.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

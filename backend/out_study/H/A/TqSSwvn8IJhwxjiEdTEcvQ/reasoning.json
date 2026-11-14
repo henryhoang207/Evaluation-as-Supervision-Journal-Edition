@@ -1,0 +1,36 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report issues with the quality of the food, indicating dissatisfaction with taste, preparation, or ingredients.",
+      "aspect": "food_quality",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "GOfklUzOtZtyJ2s0Ww61QA",
+        "rvNO4V2hccoUYn-4kH5B7w"
+      ]
+    },
+    {
+      "description": "There are recurring complaints about the pricing being too high or not offering good value for money.",
+      "aspect": "pricing",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "GOfklUzOtZtyJ2s0Ww61QA",
+        "rvNO4V2hccoUYn-4kH5B7w"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report issues with the quality of the food, indicating dissatisfaction with taste, preparation, or ingredients.",
+      "cause": "Inconsistent food preparation or ingredient sourcing, leading to varying quality of dishes.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "There are recurring complaints about the pricing being too high or not offering good value for money.",
+      "cause": "Pricing strategy is not aligned with customer perception of value, especially when combined with food quality issues.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

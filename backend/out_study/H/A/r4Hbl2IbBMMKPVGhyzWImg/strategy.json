@@ -1,0 +1,27 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Negative staff attitude and inconsistent service quality.",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on communication, conflict resolution, and proactive guest engagement. Concurrently, review and adjust staffing levels during peak hours to ensure adequate coverage and prevent employee burnout.",
+      "category": "Service",
+      "expected_impact": "Significantly improved customer satisfaction, higher service ratings, and a more positive and efficient work environment."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent and poor food quality.",
+      "action": "Establish a daily kitchen quality control protocol, including taste tests and visual inspections for all menu items. Standardize all recipes with precise measurements and cooking procedures, and conduct regular reviews of ingredient suppliers to ensure consistent quality.",
+      "category": "Food",
+      "expected_impact": "Consistent delivery of high-quality dishes, leading to fewer food-related complaints and increased customer loyalty."
+    },
+    {
+      "priority": 3,
+      "issue": "Unappealing restaurant ambience due to cleanliness, outdated decor, or lack of maintenance.",
+      "action": "Conduct a deep cleaning of the entire restaurant, including restrooms and less visible areas. Develop a phased plan for decor updates (e.g., fresh paint, updated lighting, modern furnishings) and implement a daily maintenance checklist to ensure ongoing cleanliness and upkeep.",
+      "category": "Operations",
+      "expected_impact": "A more inviting and pleasant dining environment, enhancing the overall customer experience and perceived value of the restaurant."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

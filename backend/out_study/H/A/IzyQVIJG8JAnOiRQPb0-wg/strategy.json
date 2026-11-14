@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and preparation, leading to customer dissatisfaction.",
+      "action": "Implement a comprehensive kitchen audit, standardize all recipes with clear preparation guidelines, conduct daily taste tests, and provide ongoing training for kitchen staff on quality control. Review and potentially upgrade ingredient suppliers for consistency.",
+      "category": "food",
+      "expected_impact": "Significantly improve food consistency and quality, leading to a substantial reduction in food-related complaints and increased customer satisfaction."
+    },
+    {
+      "priority": 2,
+      "issue": "Customer perception of high prices not matching the value received.",
+      "action": "Conduct a detailed competitive pricing analysis against similar restaurants. Review menu item portion sizes, ingredient costs, and presentation. Consider adjusting prices for specific items, offering value-added bundles, or enhancing plate presentation to increase perceived value.",
+      "category": "pricing",
+      "expected_impact": "Improve customer perception of value for money, potentially increasing sales, encouraging repeat visits, and strengthening market position."
+    },
+    {
+      "priority": 3,
+      "issue": "General dissatisfaction from unspecified negative experiences or broad operational inefficiencies.",
+      "action": "Implement a proactive customer feedback system (e.g., digital surveys, comment cards, direct manager check-ins) to identify specific 'unspecified' issues. Conduct a holistic operational review of the entire customer journey to pinpoint and address hidden pain points.",
+      "category": "operations",
+      "expected_impact": "Uncover and resolve underlying operational issues, leading to a more seamless and positive overall customer experience and reducing general dissatisfaction."
+    },
+    {
+      "priority": 4,
+      "issue": "Negative restaurant atmosphere or environment.",
+      "action": "Evaluate and update the restaurant's decor, lighting, and seating arrangements to create a more inviting and comfortable ambiance. Address any noise issues with sound-dampening solutions if necessary. Consider a minor aesthetic refresh.",
+      "category": "operations",
+      "expected_impact": "Enhance the dining experience, attract a broader customer base, encourage longer stays, and improve overall customer comfort and satisfaction."
+    },
+    {
+      "priority": 5,
+      "issue": "Excessive waiting times for service or food.",
+      "action": "Analyze staffing levels during peak hours and adjust schedules to ensure adequate coverage. Optimize kitchen workflow and implement a modern table management system to improve efficiency. Provide staff training on efficient order taking, delivery, and table turnover practices.",
+      "category": "operations",
+      "expected_impact": "Reduce customer wait times, leading to improved satisfaction, better table turnover, and a more efficient service flow."
+    },
+    {
+      "priority": 6,
+      "issue": "Negative interactions and poor attitudes from staff members.",
+      "action": "Implement mandatory, comprehensive customer service training for all front-of-house staff, focusing on communication, conflict resolution, and maintaining a positive attitude. Introduce regular staff feedback sessions and morale-boosting initiatives to foster a positive work environment.",
+      "category": "service",
+      "expected_impact": "Improve customer-staff interactions, enhance the overall dining experience, and strengthen the restaurant's reputation for excellent service."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

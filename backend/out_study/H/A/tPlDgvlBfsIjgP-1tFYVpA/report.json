@@ -1,0 +1,71 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Domino's Pizza",
+  "sample_size": 14,
+  "executive_summary": "An analysis of 14 customer reviews for Domino's Pizza reveals significant issues primarily related to long wait times and negative staff attitudes, with some concerns about food quality. These problems are likely driven by understaffing, inefficient operations, and a lack of adequate staff training. Urgent recommendations focus on immediate staffing increases, comprehensive customer service training, and operational process optimization to improve customer satisfaction and staff morale.",
+  "key_findings": [
+    "Customers frequently experience long wait times for service or food (57% of reviews).",
+    "A significant number of reviews mention negative staff attitudes, such as unfriendliness or unhelpfulness (64% of reviews).",
+    "Some customers express dissatisfaction with the quality of the food (14% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently experience long wait times for service or food.",
+      "cause": "Understaffing or inefficient operational processes leading to slow service delivery.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of reviews mention negative staff attitudes, such as unfriendliness or unhelpfulness.",
+      "cause": "Lack of proper staff training, low employee morale, or high stress levels due to operational pressures (e.g., understaffing).",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Some customers express dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent food preparation standards or issues with ingredient quality.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Understaffing and high operational pressure leading to long wait times and negative staff attitudes.",
+      "action": "Conduct an immediate staffing audit to identify peak hour needs and hire additional front-of-house and kitchen staff to ensure adequate coverage. Implement a clear, optimized scheduling system.",
+      "category": "operations",
+      "expected_impact": "Significantly reduce customer wait times, alleviate staff stress, and improve overall service speed and quality, directly addressing the two most frequent complaints."
+    },
+    {
+      "priority": 2,
+      "issue": "Negative staff attitudes and low morale, potentially exacerbated by operational pressures.",
+      "action": "Implement a mandatory customer service training program focusing on positive communication, conflict resolution, and empathy. Introduce regular team-building activities and a recognition program to boost morale and acknowledge hard work.",
+      "category": "service",
+      "expected_impact": "Improve staff-customer interactions, foster a more positive work environment, and enhance the overall customer experience, leading to higher satisfaction scores."
+    },
+    {
+      "priority": 3,
+      "issue": "Inefficient operational processes contributing to long wait times.",
+      "action": "Review and optimize kitchen workflow, order taking, and food delivery processes. Consider implementing technology solutions like a new POS system or kitchen display system (KDS) to streamline operations and reduce manual errors.",
+      "category": "operations",
+      "expected_impact": "Further reduce service delivery times, improve order accuracy, and increase overall operational efficiency, supporting staff and enhancing customer satisfaction."
+    },
+    {
+      "priority": 4,
+      "issue": "Inconsistent food preparation standards leading to dissatisfaction with food quality.",
+      "action": "Develop and strictly enforce standardized recipes and cooking procedures for all menu items. Conduct regular taste tests and quality checks by management to ensure consistency across all shifts.",
+      "category": "food",
+      "expected_impact": "Ensure consistent high quality of food, leading to increased customer satisfaction and fewer complaints about taste, presentation, or portion size."
+    },
+    {
+      "priority": 5,
+      "issue": "Potential issues with ingredient quality contributing to overall food dissatisfaction.",
+      "action": "Review current food suppliers and ingredient sourcing. Establish clear quality specifications for all incoming ingredients and implement a strict receiving inspection process to reject substandard deliveries.",
+      "category": "food",
+      "expected_impact": "Elevate the baseline quality of dishes, reduce waste from substandard ingredients, and enhance the overall dining experience by ensuring fresh, high-quality components."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not fully represent the overall customer experience.",
+    "Findings are derived from customer perceptions and may not always reflect objective operational realities."
+  ],
+  "status": "success",
+  "error_detail": null
+}

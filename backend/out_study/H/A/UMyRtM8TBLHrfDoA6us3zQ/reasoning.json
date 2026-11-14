@@ -1,0 +1,52 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report negative experiences with staff attitude, indicating rudeness, unhelpfulness, or general poor service.",
+      "aspect": "staff_attitude",
+      "frequency": 0.2857,
+      "evidence_review_ids": [
+        "2G--P6A8O0Tm471w8xkYNQ",
+        "LDWRaebh6UP-LvZwAqXaAg",
+        "WkWpR0_8rpAxjLU_bHRIbw",
+        "iFYmpZeUVxob4jsiPDjAjw"
+      ]
+    },
+    {
+      "description": "There are recurring complaints about long wait times, suggesting inefficiency in service delivery.",
+      "aspect": "wait_time",
+      "frequency": 0.1428,
+      "evidence_review_ids": [
+        "2G--P6A8O0Tm471w8xkYNQ",
+        "WkWpR0_8rpAxjLU_bHRIbw"
+      ]
+    },
+    {
+      "description": "Customers occasionally express dissatisfaction with the pricing, finding it too high or not offering good value.",
+      "aspect": "pricing",
+      "frequency": 0.1428,
+      "evidence_review_ids": [
+        "ujl4qSheiNPjwGjwCPQwnA",
+        "xA1UGrHj2a8LeDnyIOqdWQ"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report negative experiences with staff attitude, indicating rudeness, unhelpfulness, or general poor service.",
+      "cause": "Inadequate staff training, lack of motivation, or insufficient staffing leading to burnout.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "There are recurring complaints about long wait times, suggesting inefficiency in service delivery.",
+      "cause": "Understaffing, inefficient operational processes, or poor demand management.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers occasionally express dissatisfaction with the pricing, finding it too high or not offering good value.",
+      "cause": "Perceived poor value for money, pricing not competitive with similar establishments, or lack of transparency in pricing.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,97 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "McDonald's",
+  "sample_size": 34,
+  "executive_summary": "An analysis of 34 customer reviews for McDonald's reveals significant dissatisfaction primarily concerning food quality, long wait times, and staff attitude. These issues are frequent and point to underlying problems in kitchen operations, staffing, and customer service training. Addressing these core areas through standardized food preparation, optimized staffing, and enhanced staff training is crucial for improving customer satisfaction and overall restaurant performance.",
+  "key_findings": [
+    "Consistent dissatisfaction with food quality, including taste, preparation, or freshness (44.1% of reviews).",
+    "Frequent complaints about long wait times for seating, ordering, or food delivery (32.4% of reviews).",
+    "Recurring issues with staff attitude, such as unfriendliness, inattentiveness, or poor service (29.4% of reviews).",
+    "General negative experiences not fitting into specific categories, indicating overall dissatisfaction (29.4% of reviews).",
+    "Concerns regarding the cleanliness of the restaurant premises (14.7% of reviews).",
+    "Perception of high prices or poor value for money (14.7% of reviews)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Consistent dissatisfaction with food quality, including taste, preparation, or freshness.",
+      "cause": "Inconsistent food preparation, use of low-quality ingredients, or lack of attention to detail in cooking.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Frequent complaints about long wait times for seating, ordering, or food delivery.",
+      "cause": "Understaffing during peak hours, inefficient kitchen operations, or poor order management.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Recurring issues with staff attitude, such as unfriendliness, inattentiveness, or poor service.",
+      "cause": "Insufficient staff training in customer service, low staff morale, or inadequate supervision.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "General negative experiences not fitting into specific categories, indicating overall dissatisfaction.",
+      "cause": "This is a broad category, but often correlates with other issues like poor food, service, or ambience. It could indicate a cumulative effect of multiple minor issues or a significant but unclassified problem.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Concerns regarding the cleanliness of the restaurant premises.",
+      "cause": "Inadequate cleaning protocols, insufficient staff for cleaning duties, or lack of management oversight on hygiene standards.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Perception of high prices or poor value for money.",
+      "cause": "Pricing strategy not aligned with perceived food quality or service, or competitors offering better value.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation, use of low-quality ingredients, or lack of attention to detail in cooking.",
+      "action": "Implement a comprehensive kitchen audit to standardize recipes, source higher-quality ingredients, and provide refresher training for all kitchen staff on preparation techniques and quality control. Consider daily taste tests by management.",
+      "category": "Food",
+      "expected_impact": "Significant improvement in customer satisfaction, reduction in negative food reviews, and potential for increased repeat business."
+    },
+    {
+      "priority": 2,
+      "issue": "Understaffing during peak hours, inefficient kitchen operations, or poor order management.",
+      "action": "Conduct a peak-hour staffing analysis to ensure adequate front-of-house and kitchen staff. Optimize kitchen workflow and implement a new order management system (e.g., digital order display, improved communication between FOH and BOH) to streamline service.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, improved table turnover, and enhanced overall dining experience, leading to fewer complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Insufficient staff training in customer service, low staff morale, or inadequate supervision.",
+      "action": "Develop and implement mandatory customer service training modules focusing on attentiveness, friendliness, and conflict resolution. Introduce a staff recognition program to boost morale and increase management presence on the floor for active supervision and coaching.",
+      "category": "Service",
+      "expected_impact": "Improved staff professionalism and attentiveness, leading to a more positive customer experience and better review scores for service."
+    },
+    {
+      "priority": 4,
+      "issue": "Inadequate cleaning protocols, insufficient staff for cleaning duties, or lack of management oversight on hygiene standards.",
+      "action": "Establish a daily, weekly, and monthly cleaning checklist with assigned responsibilities and manager sign-offs. Schedule regular deep cleaning sessions and ensure sufficient cleaning supplies and staff are allocated for maintaining high hygiene standards throughout operating hours.",
+      "category": "Operations",
+      "expected_impact": "A cleaner, more inviting environment, reducing health concerns and improving overall customer perception of the restaurant."
+    },
+    {
+      "priority": 5,
+      "issue": "Pricing strategy not aligned with perceived food quality or service, or competitors offering better value.",
+      "action": "Conduct a competitive pricing analysis and a cost-benefit analysis of current menu items. Consider adjusting prices, enhancing portion sizes, or introducing value-added promotions (e.g., lunch specials, combo deals) to better align with customer perception of value, especially after addressing food quality and service issues.",
+      "category": "Pricing",
+      "expected_impact": "Improved customer perception of value for money, potentially increasing sales and reducing complaints about high prices."
+    },
+    {
+      "priority": 6,
+      "issue": "This is a broad category, but often correlates with other issues like poor food, service, or ambience. It could indicate a cumulative effect of multiple minor issues or a significant but unclassified problem.",
+      "action": "Implement a customer feedback system (e.g., comment cards, QR code surveys) to gather more specific insights into 'other' negative experiences. Regularly review feedback and conduct mystery shopper visits to identify subtle issues not captured by specific categories.",
+      "category": "Customer Experience",
+      "expected_impact": "Uncover latent issues, provide a channel for customers to voice concerns, and demonstrate commitment to continuous improvement, contributing to overall satisfaction."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 34 reviews, which may not fully represent the entire customer base.",
+    "Review data can be subjective and may not always provide complete context for reported issues.",
+    "The analysis does not include demographic information or specific times of visits, which could offer further insights."
+  ],
+  "status": "success",
+  "error_detail": null
+}

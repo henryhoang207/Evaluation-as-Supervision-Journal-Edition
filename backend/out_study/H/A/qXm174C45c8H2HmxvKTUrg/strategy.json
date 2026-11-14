@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent and poor staff attitude, including rudeness and lack of attentiveness.",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on attentiveness, problem-solving, and positive communication. Follow up with regular performance reviews and positive reinforcement.",
+      "category": "Service",
+      "expected_impact": "Significantly improved customer interactions, leading to higher satisfaction, increased positive reviews, and enhanced staff morale."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent food quality, including poorly prepared dishes and unmet expectations.",
+      "action": "Develop and enforce standardized recipes and preparation protocols for all menu items. Implement a robust daily quality control system, including taste tests and visual inspections by kitchen management, to ensure consistency and adherence to standards.",
+      "category": "Food",
+      "expected_impact": "Consistent, high-quality dishes that consistently meet customer expectations, enhancing the restaurant's reputation and reducing food-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Excessive waiting periods for seating, ordering, and receiving food.",
+      "action": "Conduct a detailed operational audit during peak hours to identify bottlenecks in seating, order taking, and kitchen production. Based on findings, adjust staffing levels, optimize kitchen workflow, and consider implementing a digital waitlist or reservation system.",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, improved operational efficiency, higher table turnover, and a smoother, more enjoyable dining experience."
+    },
+    {
+      "priority": 4,
+      "issue": "General dissatisfaction or unspecified negative issues, indicating an overall poor experience.",
+      "action": "Implement a proactive customer feedback system (e.g., digital surveys via QR codes on tables, direct manager check-ins) to capture specific details on general dissatisfaction and identify emerging or less frequent issues not covered by other categories.",
+      "category": "Customer Experience",
+      "expected_impact": "Deeper insights into customer pain points, enabling targeted improvements beyond the most frequent issues and fostering a sense of being heard by customers."
+    },
+    {
+      "priority": 5,
+      "issue": "Perceived poor value for money, leading to complaints about high prices.",
+      "action": "Review current menu pricing against competitor offerings and ingredient costs. Consider introducing value-focused promotions (e.g., lunch specials, combo deals) or clearly highlighting the quality, source, or unique preparation methods of ingredients to justify pricing.",
+      "category": "Pricing",
+      "expected_impact": "Improved customer perception of value, potentially increasing sales, attracting new customers, and reducing price-related complaints."
+    },
+    {
+      "priority": 6,
+      "issue": "Inadequate cleanliness and hygiene standards.",
+      "action": "Establish and enforce a rigorous daily and weekly cleaning checklist for all areas (dining room, restrooms, kitchen, and exterior). Conduct regular, unannounced management inspections and provide ongoing staff training on hygiene protocols and standards.",
+      "category": "Operations",
+      "expected_impact": "Enhanced customer comfort and safety, improved restaurant image, compliance with health regulations, and a more pleasant environment for both customers and staff."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,41 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Perceived poor value for money / High pricing.",
+      "action": "Conduct a comprehensive menu engineering analysis, comparing current pricing, portion sizes, ingredient costs, and competitor pricing. Consider introducing value-focused specials or adjusting prices/portions for key items to better align with customer expectations.",
+      "category": "Pricing",
+      "expected_impact": "Increased customer satisfaction with value, potentially higher sales volume, and an improved perception of fairness and affordability."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent or low food quality.",
+      "action": "Implement a standardized recipe and preparation guide for all menu items. Conduct mandatory kitchen staff retraining on these standards and increase quality control checks during service, focusing on consistency and ingredient freshness.",
+      "category": "Food",
+      "expected_impact": "Improved consistency and overall quality of dishes, leading to higher customer satisfaction, positive reviews, and increased repeat visits."
+    },
+    {
+      "priority": 3,
+      "issue": "General negative customer experience / Lack of attention to detail.",
+      "action": "Implement a daily pre-opening checklist for all staff covering cleanliness, table setup, music, lighting, and general readiness. Encourage staff to proactively identify and address minor operational issues or customer discomfort throughout service.",
+      "category": "Operations",
+      "expected_impact": "A more polished and consistent dining environment, reducing minor annoyances and significantly improving overall customer perception and satisfaction."
+    },
+    {
+      "priority": 4,
+      "issue": "Poor staff attitude / Unhelpful service.",
+      "action": "Conduct mandatory customer service training workshops focusing on positive communication, active listening, problem-solving, and empathy. Implement a system for regular staff feedback and recognition to boost morale and reinforce desired behaviors.",
+      "category": "Service",
+      "expected_impact": "Improved staff-customer interactions, leading to a more welcoming and helpful atmosphere, higher customer satisfaction, and reduced negative service-related feedback."
+    },
+    {
+      "priority": 5,
+      "issue": "Uninviting or negatively perceived atmosphere.",
+      "action": "Conduct an internal audit of the dining area's decor, lighting, seating comfort, and noise levels. Prioritize small, cost-effective improvements like updated lighting, fresh paint, sound dampening panels, or comfortable seating arrangements.",
+      "category": "Operations",
+      "expected_impact": "A more pleasant and comfortable dining environment, enhancing the overall customer experience, encouraging longer stays, and improving the restaurant's aesthetic appeal."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

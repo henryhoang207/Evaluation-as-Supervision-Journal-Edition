@@ -1,0 +1,41 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and preparation.",
+      "action": "Implement a comprehensive kitchen quality control program, including standardized recipes, daily ingredient checks, and regular staff training on preparation techniques.",
+      "category": "Food",
+      "expected_impact": "Significantly improved food consistency and taste, leading to higher customer satisfaction and positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Overall poor customer experience due to a combination of factors and lack of attention to detail.",
+      "action": "Conduct a 'mystery shopper' program or implement a detailed customer journey mapping exercise to identify subtle friction points and areas for holistic improvement across all touchpoints.",
+      "category": "Customer Experience",
+      "expected_impact": "Identification and resolution of overlooked issues, leading to a more cohesive and positive overall customer experience."
+    },
+    {
+      "priority": 3,
+      "issue": "Negative staff interactions and poor attitudes.",
+      "action": "Develop and implement mandatory customer service training for all front-of-house staff, focusing on positive communication, problem-solving, and empathy. Increase management presence for real-time coaching.",
+      "category": "Service",
+      "expected_impact": "Enhanced customer experience through professional and friendly service, reducing negative interactions and improving overall atmosphere."
+    },
+    {
+      "priority": 4,
+      "issue": "Perceived high pricing or poor value for money.",
+      "action": "Conduct a detailed menu engineering analysis and competitive pricing review. Consider adjusting prices, introducing value-focused menu items, or enhancing perceived value through improved presentation or portion sizes.",
+      "category": "Pricing",
+      "expected_impact": "Better alignment of pricing with customer expectations and perceived value, potentially increasing customer satisfaction and sales."
+    },
+    {
+      "priority": 5,
+      "issue": "Long wait times for service or food.",
+      "action": "Review and optimize staffing levels during peak hours, streamline kitchen workflow processes, and implement efficient table management strategies (e.g., reservation system, clear-and-set protocols).",
+      "category": "Operations",
+      "expected_impact": "Reduced customer wait times, leading to improved operational efficiency, customer satisfaction, and potentially higher table turnover."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

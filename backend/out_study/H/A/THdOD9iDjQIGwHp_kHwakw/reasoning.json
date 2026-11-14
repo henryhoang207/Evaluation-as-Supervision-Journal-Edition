@@ -1,0 +1,80 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently experience excessively long wait times for service or food.",
+      "aspect": "wait_time",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "gfZNqMKvaKFw-3l77-2U1w",
+        "gkntbsqPTwQDLSAdgcZhVA",
+        "hE9d9sYgpS2utjY7tNBrfg"
+      ]
+    },
+    {
+      "description": "Some customers report dissatisfaction with the quality of the food.",
+      "aspect": "food_quality",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "gfZNqMKvaKFw-3l77-2U1w",
+        "hE9d9sYgpS2utjY7tNBrfg"
+      ]
+    },
+    {
+      "description": "Customers occasionally encounter staff members with negative or unhelpful attitudes.",
+      "aspect": "staff_attitude",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "gkntbsqPTwQDLSAdgcZhVA",
+        "hE9d9sYgpS2utjY7tNBrfg"
+      ]
+    },
+    {
+      "description": "A few reviews mention other general negative experiences without specific categorization.",
+      "aspect": "other",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "aD3vWk7eNEStCC0KJ9cebA",
+        "hE9d9sYgpS2utjY7tNBrfg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently experience excessively long wait times for service or food.",
+      "cause": "Understaffing during peak hours or inefficient workflow management.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers frequently experience excessively long wait times for service or food.",
+      "cause": "Lack of proper training for staff on managing customer flow and order processing.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Some customers report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent ingredient sourcing or preparation standards across shifts/cooks.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Some customers report dissatisfaction with the quality of the food.",
+      "cause": "Lack of consistent quality control checks on dishes before serving.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers occasionally encounter staff members with negative or unhelpful attitudes.",
+      "cause": "Insufficient staff training in customer service and conflict resolution.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers occasionally encounter staff members with negative or unhelpful attitudes.",
+      "cause": "Low staff morale, high workload, or inadequate management support leading to burnout.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A few reviews mention other general negative experiences without specific categorization.",
+      "cause": "General operational issues or isolated incidents not fitting into specific categories, possibly indicating a broader lack of attention to detail.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,76 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Say Cheese",
+  "sample_size": 34,
+  "executive_summary": "Say Cheese is currently facing significant customer dissatisfaction, primarily driven by inconsistent food quality and a perception of poor value for money. Operational inefficiencies are contributing to long wait times, and issues with staff attitude have also been noted. To improve customer experience and business performance, it is crucial to implement comprehensive quality control in the kitchen, review pricing strategies, optimize operations, and enhance staff training.",
+  "key_findings": [
+    "Customers frequently report dissatisfaction with the quality of the food.",
+    "A significant number of customers feel the prices are too high or do not offer good value for money.",
+    "Several reviews mention general dissatisfaction or unspecified negative experiences.",
+    "Some customers experienced unacceptably long wait times for service or food.",
+    "A few reviews indicate issues with the staff's attitude or service quality."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food.",
+      "cause": "Inconsistent food preparation, use of lower quality ingredients, or lack of quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of customers feel the prices are too high or do not offer good value for money.",
+      "cause": "Pricing strategy not aligned with customer expectations of value, or perceived discrepancy between price and portion size/ingredient quality.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Some customers experienced unacceptably long wait times for service or food.",
+      "cause": "Understaffing during peak hours, inefficient kitchen operations, or poor table management leading to service delays.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "A few reviews indicate issues with the staff's attitude or service quality.",
+      "cause": "Insufficient staff training, low employee morale, or inadequate supervision leading to inconsistent customer interactions.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Several reviews mention general dissatisfaction or unspecified negative experiences.",
+      "cause": "A combination of minor issues across different aspects, or a general feeling of disappointment not tied to a single specific category, potentially exacerbated by other identified patterns.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food preparation, use of lower quality ingredients, or lack of quality control in the kitchen.",
+      "action": "Implement a comprehensive kitchen quality control program including daily taste tests by a senior chef, mandatory recipe adherence checks, and a review of key ingredient suppliers to ensure consistent high quality. Provide refresher training on cooking techniques and presentation standards.",
+      "category": "food",
+      "expected_impact": "Significant improvement in customer satisfaction with food taste and consistency, leading to higher repeat visits and positive reviews."
+    },
+    {
+      "priority": 2,
+      "issue": "Pricing strategy not aligned with customer expectations of value, or perceived discrepancy between price and portion size/ingredient quality.",
+      "action": "Conduct a detailed menu engineering analysis to evaluate profitability and popularity of dishes. Adjust pricing where necessary, consider offering value-oriented specials or combo meals, and clearly communicate the quality of ingredients or unique preparation methods to justify price points.",
+      "category": "pricing",
+      "expected_impact": "Increased perception of value for money, potentially leading to higher sales volume and reduced price-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Understaffing during peak hours, inefficient kitchen operations, or poor table management leading to service delays.",
+      "action": "Analyze peak hour traffic patterns and adjust staffing levels for both front-of-house and kitchen accordingly. Implement kitchen process improvements (e.g., mise en place optimization, clear communication systems) and train staff on efficient table turnover and order taking to minimize delays.",
+      "category": "operations",
+      "expected_impact": "Reduced customer wait times, leading to a smoother dining experience, improved customer satisfaction, and potentially higher table turnover."
+    },
+    {
+      "priority": 4,
+      "issue": "Insufficient staff training, low employee morale, or inadequate supervision leading to inconsistent customer interactions.",
+      "action": "Develop and implement a mandatory customer service training program focusing on communication skills, conflict resolution, and proactive guest engagement. Introduce regular performance feedback sessions and consider incentive programs to boost morale and reward excellent service.",
+      "category": "service",
+      "expected_impact": "Enhanced customer service quality, leading to more positive interactions, improved guest satisfaction, and a better overall restaurant atmosphere."
+    }
+  ],
+  "limitations": [
+    "Analysis is based on a limited sample size of 34 reviews, which may not fully represent all customer experiences.",
+    "The analysis relies on text-based reviews and may not capture nuances or non-verbal feedback."
+  ],
+  "status": "success",
+  "error_detail": null
+}

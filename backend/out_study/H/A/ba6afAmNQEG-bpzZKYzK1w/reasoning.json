@@ -1,0 +1,113 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report negative experiences with staff, including rudeness, unhelpfulness, or general lack of attentiveness.",
+      "aspect": "staff_attitude",
+      "frequency": 0.47,
+      "evidence_review_ids": [
+        "4ljAJef6_AGIS1lrEaahEw",
+        "6GcHGDT9IkRkj65DagNV1g",
+        "CNWz9CgZ9fwEBKb1l-QQKA",
+        "D9SZayo63lJqXq8Dyjav2A",
+        "EhfDgjM7wvCL00_QE9rWmA",
+        "R_pwF4oeOtUkWsX3iv1ufw",
+        "WjarpUtCUit7H54EoVsc0Q",
+        "XFR6RJ8L8dz60GOUhQH7Sg",
+        "Y-nLOZY1OHCWQLvIEy4sbQ",
+        "ZIL4OUWisBMvRWPNc_dNxQ",
+        "_VxJy5gvIB_WDja-7qYiMQ",
+        "ho-8zMZ2GCxjGFR-r73Bdw",
+        "ldMEpcjzNnU7YYkJD-xOZg",
+        "lzifqxP7AfwfDWMFoiv7Vw",
+        "ofEqx9yiE8PNeh9QhlpBiw",
+        "slPom5FfSRjvDeVCBMdtNw"
+      ]
+    },
+    {
+      "description": "Customers consistently experience long wait times for seating, ordering, or receiving their food.",
+      "aspect": "wait_time",
+      "frequency": 0.41,
+      "evidence_review_ids": [
+        "2C-LdDEjCrGGE1LWkEgWZA",
+        "4ljAJef6_AGIS1lrEaahEw",
+        "CNWz9CgZ9fwEBKb1l-QQKA",
+        "D9SZayo63lJqXq8Dyjav2A",
+        "EhfDgjM7wvCL00_QE9rWmA",
+        "RZ06_WNeVMAgTgADo81C6A",
+        "R_pwF4oeOtUkWsX3iv1ufw",
+        "ZIL4OUWisBMvRWPNc_dNxQ",
+        "_VxJy5gvIB_WDja-7qYiMQ",
+        "eYgDM--EtVjxGMKCgZDYZg",
+        "ho-8zMZ2GCxjGFR-r73Bdw",
+        "lzifqxP7AfwfDWMFoiv7Vw",
+        "ofEqx9yiE8PNeh9QhlpBiw",
+        "slPom5FfSRjvDeVCBMdtNw"
+      ]
+    },
+    {
+      "description": "A significant number of reviews indicate dissatisfaction with the quality of the food, suggesting inconsistency or specific issues with dishes.",
+      "aspect": "food_quality",
+      "frequency": 0.26,
+      "evidence_review_ids": [
+        "2C-LdDEjCrGGE1LWkEgWZA",
+        "6GcHGDT9IkRkj65DagNV1g",
+        "6bdcxeMsnuly2IWwGK48mA",
+        "CNWz9CgZ9fwEBKb1l-QQKA",
+        "Y-nLOZY1OHCWQLvIEy4sbQ",
+        "cBdOG08eB9Qt478PtIF4sg",
+        "slPom5FfSRjvDeVCBMdtNw",
+        "vhevM1GdRRnPyqKHsommUQ",
+        "xSUdemaevR_f4UcbMAk0aw"
+      ]
+    },
+    {
+      "description": "Several customers reported issues with the cleanliness of the restaurant.",
+      "aspect": "cleanliness",
+      "frequency": 0.12,
+      "evidence_review_ids": [
+        "2C-LdDEjCrGGE1LWkEgWZA",
+        "6bdcxeMsnuly2IWwGK48mA",
+        "Y-nLOZY1OHCWQLvIEy4sbQ",
+        "ldMEpcjzNnU7YYkJD-xOZg"
+      ]
+    },
+    {
+      "description": "A few reviews mention a negative experience related to the restaurant's atmosphere.",
+      "aspect": "ambience",
+      "frequency": 0.06,
+      "evidence_review_ids": [
+        "ho-8zMZ2GCxjGFR-r73Bdw",
+        "vhevM1GdRRnPyqKHsommUQ"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Poor Staff Attitude",
+      "cause": "Inadequate staff training on customer service, high staff turnover, or insufficient management oversight leading to a decline in service standards.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Excessive Wait Times",
+      "cause": "Understaffing (both front-of-house and kitchen), inefficient operational processes (e.g., order taking, food preparation, table turnover), or poor capacity management during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Inconsistent Food Quality",
+      "cause": "Lack of standardized recipes and cooking procedures, inconsistent quality of ingredients from suppliers, or insufficient training and supervision of kitchen staff.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Poor Cleanliness",
+      "cause": "Insufficient cleaning schedule or protocols, lack of dedicated cleaning staff, or inadequate supervision to ensure cleanliness standards are met.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Unpleasant Ambience",
+      "cause": "Outdated or poorly maintained decor, excessive noise levels, or general lack of attention to the dining environment.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

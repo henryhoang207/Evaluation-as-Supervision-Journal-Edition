@@ -1,0 +1,83 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Ralph & Rickey's Pizza",
+  "sample_size": 34,
+  "executive_summary": "Ralph & Rickey's Pizza is facing significant customer dissatisfaction primarily due to inconsistent food quality and poor staff attitude. Other contributing factors include general operational inefficiencies, perceived high prices, and long wait times. Immediate actions should focus on implementing kitchen quality control, comprehensive staff training, and a thorough operational audit to improve the overall customer experience and value perception.",
+  "key_findings": [
+    "Customers frequently report dissatisfaction with the quality of the food, citing issues with taste, preparation, or freshness.",
+    "A significant number of reviews highlight negative interactions with staff, including rudeness, unhelpfulness, or poor service attitude.",
+    "Several reviews indicate a general negative experience not tied to specific categories, suggesting broader operational or environmental issues.",
+    "Customers frequently perceive the prices as too high for the value received, leading to dissatisfaction with the cost-effectiveness.",
+    "Customers often complain about excessive wait times for service or food, impacting their overall dining experience."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with the quality of the food, citing issues with taste, preparation, or freshness.",
+      "cause": "Inconsistent food preparation, use of sub-par ingredients, or lack of effective quality control in the kitchen.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "A significant number of reviews highlight negative interactions with staff, including rudeness, unhelpfulness, or poor service attitude.",
+      "cause": "Insufficient staff training in customer service, low staff morale, or understaffing leading to stressed employees.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Several reviews indicate a general negative experience not tied to specific categories, suggesting broader operational or environmental issues.",
+      "cause": "General operational inefficiencies, lack of attention to the overall customer experience, or a combination of minor issues that accumulate.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers frequently perceive the prices as too high for the value received, leading to dissatisfaction with the cost-effectiveness.",
+      "cause": "Pricing strategy not aligned with customer expectations of value, high ingredient/operational costs, or lack of competitive pricing.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers often complain about excessive wait times for service or food, impacting their overall dining experience.",
+      "cause": "Inefficient kitchen operations, understaffing during peak hours, or poor order management and communication.",
+      "confidence": "high"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and freshness due to preparation and ingredient issues.",
+      "action": "Implement a comprehensive kitchen quality control program, including daily ingredient freshness checks, standardized recipe adherence training for all cooks, and regular taste tests by management.",
+      "category": "food",
+      "expected_impact": "Significant improvement in food taste, consistency, and freshness, leading to higher customer satisfaction and repeat business."
+    },
+    {
+      "priority": 2,
+      "issue": "Poor staff attitude and customer service leading to negative interactions.",
+      "action": "Develop and implement mandatory customer service training modules focusing on empathy, conflict resolution, and proactive service. Conduct regular staff morale surveys and address underlying issues like understaffing or unfair workload distribution.",
+      "category": "service",
+      "expected_impact": "Enhanced customer experience, reduced negative staff interactions, and improved staff morale, fostering a more welcoming environment."
+    },
+    {
+      "priority": 3,
+      "issue": "General negative customer experience due to accumulated minor operational issues and lack of attention to overall ambiance.",
+      "action": "Conduct a thorough operational audit covering all customer touchpoints (e.g., cleanliness, ambiance, order accuracy, speed of service) to identify and rectify systemic inefficiencies and overlooked details. Implement a daily manager checklist for overall restaurant readiness.",
+      "category": "operations",
+      "expected_impact": "A more cohesive and pleasant dining environment, reducing overall dissatisfaction and improving the perception of the restaurant."
+    },
+    {
+      "priority": 4,
+      "issue": "Customers perceive prices as too high for the value received.",
+      "action": "Review current menu pricing against ingredient costs, competitor pricing, and perceived value. Consider offering value-added options (e.g., combo deals, loyalty programs) or slightly adjusting portion sizes/ingredient quality to better align price with customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value, potentially increasing sales and reducing price-related complaints."
+    },
+    {
+      "priority": 5,
+      "issue": "Excessive wait times for service and food, impacting overall dining experience.",
+      "action": "Analyze peak hour staffing levels and kitchen workflow. Implement a kitchen display system (KDS) for better order management and communication between front-of-house and back-of-house. Cross-train staff to assist during busy periods.",
+      "category": "operations",
+      "expected_impact": "Reduced wait times, leading to a smoother dining experience and improved customer satisfaction, especially during busy periods."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a limited sample size of 34 reviews, which may not fully represent the entire customer base.",
+    "Findings are derived solely from online reviews and might be subject to selection bias, potentially over-representing extreme experiences."
+  ],
+  "status": "success",
+  "error_detail": null
+}

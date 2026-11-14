@@ -1,0 +1,57 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Ghost Party Haunted Tours",
+  "sample_size": 14,
+  "executive_summary": "An analysis of 14 customer reviews for Ghost Party Haunted Tours reveals significant issues primarily related to staff attitude, long wait times, and perceived poor value for money. Customers frequently report rude or unhelpful staff, and recurring complaints about service delays. Recommendations include implementing comprehensive staff training, optimizing operational workflows, and reviewing pricing strategies to enhance customer satisfaction and improve overall business performance.",
+  "key_findings": [
+    "Customers frequently report negative experiences with staff attitude, indicating rudeness, unhelpfulness, or general poor service.",
+    "There are recurring complaints about long wait times, suggesting inefficiency in service delivery.",
+    "Customers occasionally express dissatisfaction with the pricing, finding it too high or not offering good value."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report negative experiences with staff attitude, indicating rudeness, unhelpfulness, or general poor service.",
+      "cause": "Inadequate staff training, lack of motivation, or insufficient staffing leading to burnout.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "There are recurring complaints about long wait times, suggesting inefficiency in service delivery.",
+      "cause": "Understaffing, inefficient operational processes, or poor demand management.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers occasionally express dissatisfaction with the pricing, finding it too high or not offering good value.",
+      "cause": "Perceived poor value for money, pricing not competitive with similar establishments, or lack of transparency in pricing.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Negative staff attitude and poor service.",
+      "action": "Implement a mandatory, comprehensive customer service training program for all front-of-house staff, focusing on communication, conflict resolution, and proactive service. Additionally, review current staffing levels to ensure adequate coverage and prevent burnout.",
+      "category": "service",
+      "expected_impact": "Significantly improve customer satisfaction, reduce negative reviews related to staff interactions, and foster a more positive dining environment."
+    },
+    {
+      "priority": 2,
+      "issue": "Long wait times and inefficient service delivery.",
+      "action": "Conduct an operational audit of kitchen and service workflows during peak hours to identify bottlenecks. Implement process improvements such as optimizing kitchen layout, streamlining order processing, and adjusting staff scheduling to match demand fluctuations.",
+      "category": "operations",
+      "expected_impact": "Reduce average wait times, improve table turnover efficiency, and enhance overall customer experience by providing quicker service."
+    },
+    {
+      "priority": 3,
+      "issue": "Customer dissatisfaction with pricing and perceived poor value.",
+      "action": "Review current menu pricing against competitor offerings and customer perceived value. Consider introducing value-focused promotions, combo deals, or clearly highlighting premium ingredient sourcing and unique selling points to justify pricing and enhance perceived value.",
+      "category": "pricing",
+      "expected_impact": "Address customer concerns about value for money, potentially increase sales by attracting price-sensitive customers, and improve overall price perception."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not fully represent the entire customer base or capture all potential issues.",
+    "The findings are indicative and further investigation with a larger dataset would provide more robust insights."
+  ],
+  "status": "success",
+  "error_detail": null
+}

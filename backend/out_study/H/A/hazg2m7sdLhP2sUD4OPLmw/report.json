@@ -1,0 +1,44 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "The Fantastic Crab Shack",
+  "sample_size": 14,
+  "executive_summary": "The Fantastic Crab Shack is facing challenges primarily related to its dining ambience and a range of unspecified operational issues. Customers frequently report dissatisfaction with the restaurant's environment, likely due to outdated decor or poor maintenance. Additionally, various minor, recurring problems are impacting the overall customer experience. Addressing these issues through a comprehensive decor audit and implementing a structured feedback system for operational improvements are crucial steps to enhance customer satisfaction.",
+  "key_findings": [
+    "Customers frequently express dissatisfaction with the restaurant's ambience, citing it as a negative aspect.",
+    "There are recurring negative mentions in the 'other' category, indicating various unspecified issues that detract from the customer experience."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently express dissatisfaction with the restaurant's ambience, citing it as a negative aspect.",
+      "cause": "Outdated decor, poor maintenance, or issues with lighting/noise levels contributing to an unappealing dining environment.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "There are recurring negative mentions in the 'other' category, indicating various unspecified issues that detract from the customer experience.",
+      "cause": "General operational inefficiencies, minor recurring annoyances, or specific issues not fitting into standard categories that collectively impact customer satisfaction.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Unappealing dining environment due to outdated decor, poor maintenance, or issues with lighting/noise levels.",
+      "action": "Conduct a comprehensive audit of the restaurant's interior design, lighting, soundproofing, and general cleanliness. Develop a phased plan to update decor, address maintenance backlogs, and optimize lighting/music levels to create a more inviting and comfortable atmosphere.",
+      "category": "operations",
+      "expected_impact": "Significantly improved customer satisfaction regarding ambience, leading to higher review scores and a more positive overall dining experience."
+    },
+    {
+      "priority": 2,
+      "issue": "Unspecified recurring issues ('other' category) detracting from the customer experience, indicating general operational inefficiencies or minor annoyances.",
+      "action": "Implement a structured feedback collection system for staff to log all customer complaints, minor annoyances, or observations that don't fit standard categories. Conduct weekly team meetings to review these 'other' issues, identify specific patterns, and brainstorm targeted solutions.",
+      "category": "operations",
+      "expected_impact": "Identification of specific underlying operational issues, enabling targeted fixes that reduce overall customer friction and improve the consistency of service."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not fully represent the entire customer base.",
+    "The 'other' category of issues is broad and lacks specific detail, making precise root cause identification and targeted solutions challenging without further investigation."
+  ],
+  "status": "success",
+  "error_detail": null
+}

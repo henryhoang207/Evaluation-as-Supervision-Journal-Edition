@@ -1,0 +1,79 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report issues with the quality of the food, indicating inconsistency or general dissatisfaction with dishes.",
+      "aspect": "food_quality",
+      "frequency": 0.35,
+      "evidence_review_ids": [
+        "-y-b3BMepdDaOcHmR1vGUQ",
+        "6GgeFtKYR0Vh0XG1GaAZ3w",
+        "7hPMSI6YJJk-l2PxjjDRTA",
+        "Mccm0Uc7cLodE8cmm4KEKw",
+        "Mng4LNgCtWspDMIo-1cJ0Q",
+        "O7oUrBedBghiP6r7L4h9jw",
+        "R1ag2vz_-9Bl4RM95QiPfw",
+        "bHelginHCKHYaA3uOhw7SA",
+        "dQMwFSNGXDdvC9NEsCBkpA",
+        "i4TJVVdpt5PgfbuEclFJHQ",
+        "kgof2sW1508YfQbs65C8OA",
+        "lEwuGYlyMoJ7zMnzlwF4BA"
+      ]
+    },
+    {
+      "description": "A notable number of reviews mention negative or unhelpful interactions with staff members.",
+      "aspect": "staff_attitude",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "-yaYnw38qE-HqBX2iKKU4Q",
+        "6GgeFtKYR0Vh0XG1GaAZ3w",
+        "Mng4LNgCtWspDMIo-1cJ0Q",
+        "R1ag2vz_-9Bl4RM95QiPfw",
+        "YSBynwTMADEFvKuc9yUsGw",
+        "lEwuGYlyMoJ7zMnzlwF4BA",
+        "p0Eb8PYdIM7p37mPSB2_6A"
+      ]
+    },
+    {
+      "description": "Some customers find the restaurant's ambience to be unpleasant or not up to expectations.",
+      "aspect": "ambience",
+      "frequency": 0.06,
+      "evidence_review_ids": [
+        "-yaYnw38qE-HqBX2iKKU4Q",
+        "lEwuGYlyMoJ7zMnzlwF4BA"
+      ]
+    },
+    {
+      "description": "A few reviews indicate that customers perceive the pricing to be too high for the value received.",
+      "aspect": "pricing",
+      "frequency": 0.06,
+      "evidence_review_ids": [
+        "7hPMSI6YJJk-l2PxjjDRTA",
+        "Mng4LNgCtWspDMIo-1cJ0Q"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent or poor food quality",
+      "cause": "Lack of consistent quality control in the kitchen, issues with ingredient sourcing, or inadequate training for kitchen staff.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative or unhelpful staff attitude",
+      "cause": "Insufficient staff training in customer service, low staff morale, or inadequate management oversight of front-of-house operations.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Unpleasant or uninviting ambience",
+      "cause": "Outdated decor, poor maintenance, excessive noise levels, or lack of attention to creating a comfortable dining environment.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Perceived high pricing",
+      "cause": "Pricing strategy not aligned with the perceived value of the food and overall dining experience, or lack of transparency in pricing.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

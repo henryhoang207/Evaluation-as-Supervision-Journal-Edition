@@ -1,0 +1,40 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently mention negative experiences related to aspects not covered by standard categories.",
+      "aspect": "other",
+      "frequency": 0.42857142857142855,
+      "evidence_review_ids": [
+        "1k3Lt3KZ9bRDVvlZTld9nQ",
+        "3EgsDFmcuGYzI67Qpp5S7A",
+        "VJle8-BuUxq_QaLv5GYz5Q",
+        "_AN2RbIMSoDqotGH5rQPew",
+        "e1yQ0-jfDE_PUa-r4ybr_A",
+        "mfLDf3L4ytw0duy9vb9qxQ"
+      ]
+    },
+    {
+      "description": "There are recurring complaints about the quality of the food.",
+      "aspect": "food_quality",
+      "frequency": 0.14285714285714285,
+      "evidence_review_ids": [
+        "7sQGi2SydO6leCExM0XcnQ",
+        "mfLDf3L4ytw0duy9vb9qxQ"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently mention negative experiences related to aspects not covered by standard categories.",
+      "cause": "Unspecified operational issues or minor inconveniences that fall outside common categories, requiring further investigation into specific review texts.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "There are recurring complaints about the quality of the food.",
+      "cause": "Inconsistent food preparation, ingredient quality, or recipe execution leading to customer dissatisfaction.",
+      "confidence": "high"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}
