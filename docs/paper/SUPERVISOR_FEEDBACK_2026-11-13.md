@@ -333,10 +333,10 @@ Align the abstract, `highlights.txt` and §8 with the same wording.
 - [x] **I5 S5 primary test sidedness recorded (2026-11-13):** **Two-sided** ($\alpha = 0.05$ exact McNemar on per-defect majority exact restoration + two-sided 95% defect cluster-bootstrap CI; replicated iff $\text{A1} - \text{A2} > 0$, 95% CI excludes 0, and two-sided McNemar $p < 0.05$)
 - [x] **I6 Option H rules recorded (2026-11-13):** 56 fresh businesses (`--per-stratum 21 --seed 20260803` minus original 28) in two 28-business batches; stop after Batch 1 if pooled `T1 + T1H` reaches $\ge 18$ cells, else run Batch 2 (hard cap 56); report `T1`, `T1H`, `Pooled (T1 + T1H)`, and `A + H` single-pass sensitivity; run formal two-sided cell-cluster bootstrap test on `A2 - A1` acceptance iff pooled cells $\ge 15$
 - [x] **I7 `RUN_QUEUE.md` token/dollar ceiling (2026-11-13):** **No cap** (remove/lift the 75 M / `$150` ceiling; continue logging exact token counts per cell)
-- [ ] Phase 0 executed (`check_draft.py` restored, restructure committed)
-- [ ] 2.5-flash smoke passed
-- [ ] A-S2 filed (number ⟨ ⟩) and committed; S2a 284 + S2b 360 (`644` total) verified
-- [ ] A-S3 filed (number ⟨ ⟩) and committed; Option H harvest + `T1H` replay verified
+- [x] Phase 0 executed (`check_draft.py` restored, restructure committed) *(2026-11-13)*
+- [x] 2.5-flash smoke passed *(2026-11-13, 1-call live smoke served `gemini-2.5-flash`)*
+- [x] A-S2 filed (number **A13**) and committed; S2a 284 + S2b 360 (`644` total) verified *(Q8 2026-11-13, Q9 2026-11-14; `RUN_QUEUE.md`)*
+- [x] A-S3 filed (number **A14**) and committed; Option H harvest + `T1H` replay verified *(Q10 2026-11-15: 56 businesses, 72/72 trials; pooled A2 − A1 test runs at 15 cells and does not reject, p = 0.1656)*
 - [ ] S1 text in §4.8, §7, declarations
 - [ ] S5 bases built (`out_study/FL/A`); `N_FL` and MDE known
 - [ ] A-S5 frozen and tagged before first replication trial
@@ -354,7 +354,8 @@ The supervisor approved the restructure and left new requests on 2026-11-13.
 Read, in order:
   1. docs/paper/SUPERVISOR_FEEDBACK_2026-11-13.md  (feedback verbatim + full plan; §2 & §10 = all locked decisions)
   2. AGENTS.md and CLAUDE.md (working rules & environment traps)
-  3. docs/paper/PREREGISTRATION.md §0.1 (amendments A1–A12; next free = A13)
+  3. docs/paper/PREREGISTRATION.md §0.1 (amendments A1–A14; next free = A15)
+     and docs/paper/RUN_QUEUE.md (rules, queue Q1–Q10, dated log)
   4. backend/scripts/run_injection_study.py (CELLS, _cells_for, _thinking_cells, build_plan, _regenerate)
 
 Path & shell rules: the workspace path contains "Tài liệu" (NFD). Use the 8.3
@@ -369,7 +370,12 @@ Hard rules:
   OPENAI_FALLBACK_MODEL (note llm_config.py reads OPENAI_MODEL, not
   LLM_PRIMARY_MODEL) with LLM_DISABLE_FALLBACK=1.
 - Never truncate p90 bases (MAX_REVIEW_SAMPLE=500, matching out_study/A's 214 reviews).
-- No commit, tag or push without my go-ahead.
+- No commit, tag or push without my go-ahead. A hook enforces this: git writes are
+  denied until I run `python backend/scripts/claude_guard.py --go-ahead` in my own
+  terminal (15 minutes). Stage the files, then ask me to run it.
+- Use backend/scripts/cell.py for every run gate (preflight, launch, status, verify);
+  see CLAUDE.md, "Run gates and the guard hook". Register a new cell in its CELLS
+  table, naming its amendment and model, before anything else.
 
 All decisions are locked in (§2 of docs/paper/SUPERVISOR_FEEDBACK_2026-11-13.md):
   Phase 0: restore docs/paper/journal/check_draft.py (keep CITATION_CHECK.md and RESOLVED_TODOS.md deleted) and commit the approved restructure as its own clean commit before wiring new cells
@@ -381,15 +387,34 @@ All decisions are locked in (§2 of docs/paper/SUPERVISOR_FEEDBACK_2026-11-13.md
   I6 Option H rules: 56 fresh businesses (--per-stratum 21 --seed 20260803 minus original 28) in two 28-business batches; stop after Batch 1 if pooled T1+T1H >= 18 cells, else run Batch 2 (cap 56); report T1, T1H, Pooled (T1+T1H), and A+H single-pass sensitivity; run formal two-sided cell-cluster bootstrap test on A2-A1 acceptance iff pooled cells >= 15
   I7 budget guard in RUN_QUEUE.md: No cap (remove the 75M / $150 cap; log exact token estimates and actuals per cell)
 
+Status at 2026-11-15 (see §10 and RUN_QUEUE.md):
+  Done and pushed: Phase 0; S2 (A13: a0fill 284 trials, thinking_a0 360 trials, both verified);
+  S3 Option H (A14: harvest of 56 businesses, T1H replay 72 trials, pooled analysis).
+  S3 outcome: T1's A2 > A1 acceptance gap (+48.7 pp) does not replicate in T1H (-20.8 pp);
+  pooled +22.2 pp [-10.4, +44.9] over 21 defects in 15 cells; the one A14 test does not
+  reject (p = 0.1656). The RQ3 claims built on T1 need revising.
+  Measured cost: Phase A is about 138 k tokens per business (not 41 k); T1H replay 126 k
+  per defect.
+
+Still to do, in order (§3):
+  1. S1 deprecation text (§4.8, §7, declarations).
+  2. S5 flash-lite replication: wire cell `flashlite`, build bases in out_study/FL/A,
+     compute N_FL and the MDE, file and tag A-S5 (next free number A15) before the first
+     trial, run, verify, analyse.
+  3. Move the S2 and S3 numbers from analysis.json into RESULTS.md and the journal .tex.
+  4. S4 contributions, abstract and highlights.
+  5. latexmk clean; check_draft.py passes.
+
 Task for this session:
-  1. Execute Phase 0: restore docs/paper/journal/check_draft.py, lift the 75M/$150 cap in docs/paper/RUN_QUEUE.md, show `git status --short`, and ask for my go-ahead to commit the restructure baseline.
-  2. Prepare Phase 1 (S2) & Phase 1h (S3 Option H): run a 1-call smoke test on gemini-2.5-flash, wire cells `a0fill` (284 trials: 213 A0 + 71 A1 anchor) and `thinking_a0` (360 trials: 270 A0 + 90 A1 anchor) in `run_injection_study.py` + `repair_analysis.py` with unit tests, run `--plan-only` and `--dry-run`, generate the Option H 56-business list (Batch 1 = 28, Batch 2 = 28), and draft the §0.1 amendments for S2 and S3.
-  3. Stop and report exact plan counts, test results, and amendment drafts for my approval before committing the amendments or launching the live `gemini-2.5-flash` runs.
+  Start with item ⟨ ⟩ above. Report the plan and wait for my approval before any
+  amendment, commit or live run.
 ```
 
 ---
 
 ## 12. Revision log
+
+**2026-11-15 (status update).** §10: Phase 0, the 2.5-flash smoke, A-S2 (filed as A13) and A-S3 (filed as A14) ticked as verified. §11: the next-session prompt now starts from the remaining work (S1, S5, RESULTS/.tex, S4), records the S3 outcome and the measured Phase-A cost, and names the gate command `backend/scripts/cell.py` and the git go-ahead hook `backend/scripts/claude_guard.py`.
 
 **2026-11-13 (decision update 4 — all decisions locked).** Recorded I5 (**two-sided exact McNemar at $\alpha = 0.05$** + two-sided 95% defect cluster-bootstrap CI; replicated iff $\text{A1} - \text{A2} > 0$, 95% CI excludes 0, and two-sided McNemar $p < 0.05$). All open inputs (`Phase 0`, `I1`–`I7`) are now decided and locked in §2, §8, §10, and §11.
 

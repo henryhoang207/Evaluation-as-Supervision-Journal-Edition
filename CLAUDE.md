@@ -136,6 +136,54 @@ venv/Scripts/python.exe -m pytest -m "not integration"
   `scripts/sample_businesses.py --per-stratum N --seed 20260803`, which is a
   strict prefix-stable superset — never by hand-picking businesses.
 
+## Run gates and the guard hook (added 2026-11-15)
+
+Two scripts turn the standing rules into checks. Use them; do not redo the
+gates by hand.
+
+**`backend/scripts/cell.py`** is `RUN_QUEUE.md` Rules 1–6 as a command. It
+works from any directory.
+
+```bash
+backend/venv/Scripts/python.exe backend/scripts/cell.py list
+```
+
+- `preflight <cell>`: amendment committed and pushed, model pins, review cap,
+  frozen checkpoints equal `HEAD`, plan, dry run into a temp directory, fast
+  suite (about 20 minutes; `--skip-suite` once it has passed for the change).
+- `launch <cell> --estimate <tokens>`: refuses unless preflight passes, then
+  starts the detached run with the machine kept awake. `--dry-run --out <dir
+  outside out_study>` exercises the launch path with no LLM call.
+- `status <cell>`: rows done, errors, tokens, last launch, log tail.
+- `verify <cell>`: complete checkpoint, one session per defect, served model,
+  offline re-score, then the analysis. On a repeat it compares against the
+  stored `analysis.json` and does not replace it. It prints a draft
+  `RUN_QUEUE.md` log line.
+- A new cell is one entry in `CELLS` in that file, naming its §0.1 amendment
+  and its model. Without the entry the cell cannot be launched.
+- Each command appends to `backend/out_study/ledger.jsonl`. Pass
+  `--ledger <tmp>` when only testing.
+
+**`backend/scripts/claude_guard.py`** is a PreToolUse hook, wired in
+`.claude/settings.json`. ⚠ `.claude/` is gitignored, so that wiring exists only
+on the author's machine; the settings file calls the script by its 8.3 path.
+
+- It **denies `git commit`, `tag`, `push`, history rewrites and publishing `gh`
+  commands** until the author runs, from the repo root in their own terminal,
+  `python backend/scripts/claude_guard.py --go-ahead`. The grant lasts 15
+  minutes. Tool calls cannot create the grant. When the author says "commit",
+  stage the files, then ask them to run that command. Do not work around it.
+  (A hook "ask" is not used: bypass-permissions mode does not prompt for it,
+  tested 2026-11-15.)
+- It denies writes into `backend/out_study/T2` and `backend/out_study/T2T`
+  (frozen), to `docs/paper/main.tex`, and any path into the NFC shadow copy of
+  the repository.
+- Shell commands are matched by text, so this stops accidents, not a script
+  that opens a frozen file itself. `cell.py` checks the frozen directories
+  exactly.
+
+Tests: `tests/test_cell_gate.py`, `tests/test_claude_guard.py`.
+
 ## What is and is not tracked
 
 **Corrected 2026-08-24 — the previous version of this section was wrong.**
