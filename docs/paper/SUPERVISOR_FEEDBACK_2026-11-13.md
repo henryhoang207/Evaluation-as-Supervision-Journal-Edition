@@ -134,6 +134,77 @@ Engineering rules for every new pass (as for the existing cells):
 
 **Done when:** trial-window table complete including S2 and S3 harvest (`T1H`); notice URL/source archived if available; §4.8, §7 and declarations carry the text; `latexmk` builds clean.
 
+### 4.1 S1 execution-date inventory (audited 2026-11-15)
+
+This is a read-only audit of the existing records, not a new study pass or an
+amendment. The manuscript distinguishes the pipeline collection that began on
+**2026-08-03** from the reported hosted repair/propagation passes, which began
+on **2026-10-05** and were complete **by 2026-11-15**. The last date is a
+completion bound for `T1H`, not an invented timestamp for its final trial.
+
+Dates below are the local calendar dates recorded in the sources. Pipeline
+`started_at` fields have no UTC offset; the cited git commits carry `+07:00`.
+Trial checkpoints have session IDs and elapsed durations, but no absolute
+trial timestamps. A data commit supplies an upper bound on acquisition, not
+its exact time. The inventory covers the reported hosted data, not smoke
+tests or local-model preflights; `T2L` is the separate local-model cell.
+
+All directories are under `backend/out_study/`. Each row refers to that
+directory's `checkpoint.jsonl`; `PR` means `PREREGISTRATION.md` §10 and `RQ`
+means the dated log in `RUN_QUEUE.md`.
+
+| Directory | Records | Documented dates or completion bound | Evidence |
+|---|---|---|---|
+| `A` | 28 pipeline runs | 2026-08-03 and 2026-08-26 | `started_at`: first `2026-08-03T11:20:21`, last `2026-08-26T14:41:40`; PR records collection complete on 2026-08-26 |
+| `B` | 5 pipeline runs | 2026-08-03 | `started_at` from `16:22:57` to `16:56:49` |
+| `R/rep1/A` | 5 pipeline runs | 2026-08-03 | `started_at` from `18:27:12` to `19:05:32` |
+| `R/rep2/A` | 5 pipeline runs | 2026-08-03 | `started_at` from `19:20:49` to `19:54:15` |
+| `R/rep3/A` | 5 pipeline runs | 2026-08-03 | `started_at` from `20:10:29` to `20:43:05` |
+| `R/rep4/A` | 5 pipeline runs | 2026-08-03 | `started_at` from `20:58:29` to `21:32:20` |
+| `R/rep5/A` | 5 pipeline runs | 2026-08-03 | `started_at` from `21:46:13` to `22:22:40` |
+| `T2` | 1,167 trials | 2026-10-05–07 | PR: first core trial and completion; data commit `2515fcf` on 2026-10-07 |
+| `T2D19` | 138 trials | Complete 2026-10-07 | PR; data commit `212d02f` on 2026-10-07 |
+| `T2C1` | 444 trials | Complete 2026-10-07 | PR; data commit `66c0e07` on 2026-10-07 |
+| `T2P` | 540 trials | Complete 2026-10-07 | RQ Q1; data commit `c13f5af` on 2026-10-07 |
+| `T2S` | 144 trials | Complete 2026-10-08; start not timestamped | PR and RQ Q2; data commit `e657b65` at `2026-10-08T00:32:55+07:00` |
+| `T2W` | 675 trials | 2026-10-08 | RQ Q3: launch `00:37`, finish `04:09`; data commit `0f20f66` on 2026-10-08 |
+| `T1` | 117 trials | 2026-10-08 | RQ Q5: launch `04:25`, finish `06:36`; data commit `657bd00` on 2026-10-08 |
+| `T2D` | 447 downstream conditions | 2026-10-08 | RQ Q4: launch `09:00`, finish `12:09`; data commit `0428190` on 2026-10-08 |
+| `T2T` | 1,224 trials | Complete by 2026-11-02; exact start not timestamped | RQ Q7 verified on 2026-11-02; data committed later in `8ff3b4d` on 2026-11-13, which is not the collection date |
+| `T2A0` | 284 trials | Complete 2026-11-13 | RQ Q8 verified on 2026-11-13; data commit `aed6944` on 2026-11-13 |
+| `T2TA0` | 360 trials | 2026-11-13–14 | RQ Q9 launched 2026-11-13 and verified 2026-11-14; data commit `43d4d86` on 2026-11-14 |
+| `H/A` | 56 pipeline runs | 2026-11-14 | `started_at` from `01:54:12` to `06:48:50`; both batches verified in RQ on 2026-11-14; data commit `0b6059b` |
+| `T1H` | 72 trials | Launched 2026-11-14; complete by 2026-11-15 | RQ launch/verification entries; data commit `e3720a1` at `2026-11-15T01:18:14+07:00`; no exact final-trial timestamp |
+
+**Serving-model and record coverage.** Every nonempty `served_models` field
+in these checkpoints contains only `gemini-2.5-flash` (multiple entries mean
+same-model calls within a trial). The first 20 `A` rows, all 5 `B` rows and
+all 25 `R` rows predate serving-model/token accounting, so their missing
+metadata must not be described as verified serving IDs or zero token use.
+The last 8 `A` rows and all 56 `H/A` rows carry serving IDs. The 18 core
+`status_error` trials and the one failed placement trial have no serving ID;
+the remaining hosted trial/condition records do. No claim is made that every
+raw prompt or historical provider runtime is archived: the outputs and
+committed analysis code support offline re-analysis, and the prompt-building
+code is versioned separately from the Yelp review text.
+
+**Drift qualification.** The 76.4–83.3% range in §5/§6 describes the four
+earlier passes that re-ran a core condition. It is not a range over every
+later anchor. `T2A0/analysis.json` reports 43/70 comparable A1 outputs
+byte-identical (61.4%) and 67/70 with the same outcome class. In
+`T2TA0/analysis.json`, the analogous counts are 42/45 (93.3%) at `none` and
+38/45 (84.4%) at `high`. A13's cross-session joins remain labelled as such;
+the in-session anchors do not erase that limitation. S1 leaves the existing
+§5/§6 figures intact, scopes their drift prose to the earlier re-runs, and
+adds the later-anchor qualification in §4.8/§7.
+
+**Notice provenance and tense.** The notice date **2026-11-03** and scheduled
+withdrawal **2026-12-01** are the author's locked I1 inputs. No notice URL or
+email artifact was found in the reviewed repository sources; none is
+invented. As of this edit (2026-11-15), the manuscript uses future tense for
+withdrawal and loss of endpoint access. S5's own-base replication remains
+planned, with no filed A15 or replication trial claimed here.
+
 ---
 
 ## 5. S2 — Complete the `A0` ceiling (amendment A-S2)
@@ -304,6 +375,252 @@ Align the abstract, `highlights.txt` and §8 with the same wording.
 
 **Done when:** A-S5 committed before the first trial; all trials verified; the confirmatory result reported as pre-registered, whatever its direction.
 
+### 8.1 Offline preparation (2026-11-16; snapshot before A15 filing)
+
+`flashlite_bases` and `flashlite` were registered in `backend/scripts/cell.py`
+**before** wiring the runner, naming **A15** and `gemini-3.5-flash-lite`.
+At this preparation snapshot, both entries were **preparation-only** (`preparing=True`): live `launch` and
+its detached wrapper refuse them. This reserves a name; it is not an amendment,
+a commit, a freeze or permission to spend tokens.
+
+| Component | Prepared behaviour |
+|---|---|
+| `scripts/cell.py` | Phase-A base collection in `out_study/FL` using the original `out_study/sample.json`; injection root `out_study/FL`, output `out_study/T2FL`; root forwarded to dry runs and analysis. Both replication wrappers pin `MAX_REVIEW_SAMPLE=500`, `RANDOM_SEED=42` and disabled fallback. Trials require `prereg-fl-freeze`, a filed/pushed amendment, and unchanged tagged sources/bases. |
+| `scripts/run_study.py` | The existing `--model` pins both `OPENAI_*` model variables. S5 refuses Phase B, the wrong cap/seed or truncation overrides. The review seed is now logged in checkpoints and dump summaries. |
+| `scripts/run_injection_study.py` | Full A0/A1/A2 at P1 on every applicable defect; A3 at P0 on the quarter per-operator stride; r = 3, injection seed 0. Agent and environment model pins use `gemini-3.5-flash-lite`; `reasoning_effort=None`. Original-base fallback is refused by provenance checks. |
+| `scripts/flashlite_protocol.py` | Complete fixed-sample coverage, per-run and dump model provenance, Phase-A observe mode, seed 42, full review counts (including 214 at p90), no fallback, correct dump types and a source fingerprint. Missing bases fail explicitly rather than becoming N_FL = 0. |
+| `scripts/analysis/repair_analysis.py` | `--cell flashlite`: unconditional canonical-JSON restoration is primary; strict defect-majority exact two-sided McNemar and two-sided 95% defect-bootstrap CI; replication requires all three I5 conditions. Repair, A0 comparisons, operator/stratum rates and 3-/4-way decomposition are exploratory. Losses and single-call sensitivity use the existing rules. Undefined A0 ratios are JSON null. |
+| `scripts/analysis/power.py` | `--flashlite-defects N_FL`: simulations use marginal probabilities 0.68/0.53 and 0.605/0.53, a null case, r = 3, shared defect/occasion effects and the complete joint replication criterion. MDE targets 80% joint power, not pair-level McNemar. Default seed 20260803; nuisance SDs and Monte Carlo uncertainty are recorded; historical repair calculations keep their defaults. |
+| Offline tests | Synthetic base files/rows cover wrong-model and truncated bases, seed provenance, strict-majority losses, negative significant effects, missing references, zero-denominator JSON, full A0 allocation and the launch/freeze gates. A fixture plan has 1,380 trials on the original 142-defect fixture; **this is not N_FL**. |
+
+**Validation:** **640 passed, 13 integration tests deselected** (`pytest -m "not integration" -q`, 2026-11-16). The base dry run through `cell.py launch --dry-run` loaded all 28 businesses (7 each at 14/34/92/214 reviews) and exited 0; no actual bases/trials were created. Both live preflights correctly fail while A15/release/freeze/bases are pending. The real SDK probe also cannot construct a client in this session because its SOCKS proxy needs the absent `socksio` dependency; the offline accounting test uses a client stub and does not change production transport settings. A pre-existing accounting test was
+isolated from real HTTP-client construction after it encountered the session's
+SOCKS proxy without the optional transport package. Production proxy/network
+settings were not changed. The frozen T2/T2T checkpoints and the core's
+confirmatory result are untouched.
+
+**Proposed filing sequence — author approval required.** The gate requires an
+amendment before base collection, whereas the final S5 freeze needs the bases
+in order to know N_FL and MDE. Keep A15 in two documented stages:
+
+1. File the preparation protocol and already-locked primary design as **A15**
+   before any Flash-Lite collection call. Commit/push with the author's git
+   go-ahead, releasing **only `flashlite_bases`**. The trial cell stays closed.
+2. With explicit live-run approval, collect the original 28 businesses and
+   verify with `cell.py`. The first estimate is **3,863,781 tokens**, half the
+   measured H total (7,727,562 for 56 businesses), not the obsolete 41 k/business
+   estimate. This is a 2.5-Flash usage proxy, not observed Flash-Lite usage.
+3. Compute actual N_FL via the trial cell's plan gate and run the new power
+   analysis. Measure ten real prompt pairs as S5.4 requires; the dedicated
+   collection path for that measurement still needs wiring before those calls.
+   Record the prospective A0-ceiling/dissociation reading. If MDE exceeds
+   about 15 pp, the author decides about more bases **before** the freeze.
+4. Append a dated pre-trial completion note under A15 with N_FL, MDE, the
+   determinism measurement and code/data hashes. Include the `flashlite`
+   release in that final commit; push it, tag that commit `prereg-fl-freeze`
+   and push the tag before any repair trial.
+
+No A15 text has been added to `PREREGISTRATION.md`; no S5 bases, calibration,
+trial, actual N_FL or actual MDE exists yet. No commit, tag, push or live model
+call was made in this preparation session.
+
+
+### 8.2 A15 initial protocol (2026-11-16; snapshot before base launch)
+
+The author approved the two-stage filing with “continue”. The initial A15
+preparation protocol is now written in `PREREGISTRATION.md` §0.1; Q11–Q13 are
+recorded in `RUN_QUEUE.md`. Only `flashlite_bases` is released from
+preparation-only status in the working tree. Amendment-in-HEAD, pushed-source
+and all normal run gates still apply. `flashlite` remains preparation-only
+and needs the separate pushed `prereg-fl-freeze` tag before any repair trial.
+
+After the initial A15/base-only release edit, the focused gate/provenance
+suite passed **60 tests**. `check_draft.py` is clean; the frozen preregistration
+sections 1–11 and T2/T2T checkpoints match HEAD. The author committed and pushed the initial A15/code protocol as `7ccda0d`;
+HEAD equals `origin/main`. The session's own staging attempt was blocked by
+`.git/index.lock` permissions, so the author performed the Git writes in their
+terminal. No replication freeze tag or live collection call has been made.
+The Q11 preflight now passes the amendment/release/sample/cap gates, but SDK
+construction fails on absent `socksio` for this session's proxy, the package
+source offered no installable version, and a keyless provider HEAD probe timed
+out during TLS. Exact spent total before Q11: **81,895,883 tokens**; Q11
+estimate **3,863,781**, actual **0**. The full offline suite passed **641 tests, 13 deselected, 1 existing warning**
+in 1,228.68 s through `cell.py preflight`; the overall preflight still fails
+at SDK construction.
+Actual N_FL/MDE, bases,
+calibration, the conditional dissociation prediction and the final completion
+note remain pending. The dedicated calibration path still needs registration,
+testing and a commit before its calls. The initial base estimate is
+**3,863,781 tokens**, a measured-H proxy; actual Flash-Lite usage is unknown.
+
+### 8.3 Own bases verified; N/MDE and measurement protocol prepared (2026-11-16)
+
+The author launched Q11 from their normal terminal after all preflight gates
+passed. It finished exit 0. `cell.py verify flashlite_bases` and the full
+provenance validator pass: **28/28 businesses, 503 calls, 2,603,688 tokens**;
+all Flash-Lite, no fallback, seed 42, seven each at 14/34/92/214 reviews.
+Base fingerprint: `ebb7147a9397d4a01685f12d8ad6228df1c22c4ec17f7ec54026acad64f90218`.
+
+The cell's plan gate reports **N_FL=157** (168 attempted, 11 inapplicable,
+157 valid and triggering), **Q_FL=36**, **1,521 trials**: A0/A1/A2 471 each,
+A3 108. Original core plan remains 1,167. `FL/power.json` reports an estimated
+**10.65 pp MDE** at 80% joint power under its documented nuisance assumptions;
+15 pp joint power 97.7%, half-size effect 45.45%. No extra-base decision is
+required by the ~15 pp rule. These are planning simulations, not outcomes.
+
+`flashlite_determinism` was registered under A15/model before its collector
+was written. The ten-prompt longest-first operator-round-robin rule,
+raw/canonical readout, request accounting, error/interruption policy,
+conditional exploratory prediction and budget are now prospective A15 text.
+Its 20-request estimate is **520,402 tokens**; repair forecast **21,294,000**.
+The measurement-only release is prepared in the working tree. The committed
+amendment gate still blocks it until this collector/rule is committed/pushed.
+Repair `flashlite` stays `preparing=True`; its freeze now requires all plan,
+power and measurement artifacts and unchanged prompt/runtime sources.
+
+Validation so far: **55 focused tests passed** and the real cell preflight's
+unbilled dry run produced **20/20 request slots**. The first full suite had
+653 passes and one test-harness failure: `test_run_injection_study.py` reloads
+the runner, so the new stub test patched a stale module instance. Reproduced
+with those two files; fixed by importing the current runner inside the test.
+Production model/transport code is unchanged. The combined three-file run passed **135 tests** and the isolated import-order
+case passed. Full-run terminal output was lost after an automatic approval-review
+timeout; the final full run **passed 655 tests, 13 deselected, 1 existing warning**
+(1,331.33 s), with persistent `suite.log`, `junit.xml` and
+`result.json` at `C:/Users/hoanh/AppData/Local/Temp/cos30018_s5_final_1794823749017`. The completed green result and source hashes are recorded in `out_study/ledger.jsonl`.
+No calibration or repair request has run. Do not use this sandbox's external
+PID label to decide whether to restart a worker; use progress and the exit log.
+
+The base data, plan/power reports, code, tests and dated A15 note need the next
+preparation commit. `.git/index.lock` remains unwritable here, so prepare an
+exact staging list for the author's terminal, then grant git go-ahead and
+commit/push there. S1 manuscript edits and this mixed feedback log remain
+separate from that commit. After the commit, launch Q12 via `cell.py` from the
+normal terminal; this session still cannot construct/reach the provider client.
+The final A15 completion/tag is after Q12 and before any Q13 trial.
+
+### 8.4 Measurement verified; final A15 completion prepared (2026-11-16)
+
+The author committed/pushed the preparation batch as `5f12198`, then launched
+`flashlite_determinism` through the gate. It finished exit 0. Verification
+passes: **20/20 responses ok**, all Flash-Lite, ten valid prompt pairs,
+no invalid JSON, no provenance/duplicate/session failure. **Raw and canonical
+identity: 8/10 pairs each.** Actual **409,450 tokens**, estimate **520,402**.
+The measurement does not gate r: **r=3**, the primary design and the conditional
+exploratory prediction remain as filed before calibration. No repair output
+has been scored or collected in `T2FL`.
+
+A15's final pre-trial completion note is written with model/runtime,
+N_FL=157/Q_FL=36/1,521 allocation, power/MDE, measurement, loss/test rules,
+source/data hashes and the unchanged **21,294,000-token** run estimate.
+Recorded checkpoint spend is **84,909,021 tokens**. Full package versions
+are in `FL/determinism/runtime.json`. The trial release flag is prepared;
+`prereg-fl-freeze` is still absent, so launch remains blocked. The freeze
+source list now also pins the content matcher. Core and T2T remain unchanged.
+
+Focused release/provenance suite: **74 passed**. Full release test validation **passed 655 tests, 13 deselected, 1 existing warning**
+(351.21 s); its dry run is 168/168 rows, 1,521/1,521 trials. Repeat measurement
+verification reproduces the stored report. Persistent `preflight.log` and
+`result.json` at `C:/Users/hoanh/AppData/Local/Temp/cos30018_s5_freeze_1794833630031`.
+Its overall preflight is expected to fail until the author commits/tags and
+uses the normal terminal (this session's SDK/proxy limitation persists);
+check `fast_suite_ok` / the fast-suite result for the offline build gate.
+Validation is complete and recorded in the run ledger; the XML was recovered to the same report folder from a drive-relative Windows filename. All 655 results agree; use forward slashes for paths in PYTEST_ADDOPTS because pytest shlex parsing strips unquoted backslashes.
+
+Next: prepare the exact final-freeze staging list, then the author must stage,
+grant Git go-ahead, commit/push the completion and release together, and
+annotate/push `prereg-fl-freeze` on that commit **before** launching the main
+`flashlite` run via `cell.py` in the normal terminal. No tag, main trial or
+new Git write has been made by this session. The S1 manuscript edits and this
+mixed feedback log stay separate from the freeze commit.
+
+### 8.5 Final freeze recorded; main run resumed (2026-11-16; snapshot during collection — superseded by §8.6)
+
+The author committed/pushed the final completion/release as **`edfb406`** and
+created annotated **`prereg-fl-freeze`** before the launch. Tag object
+`47d45b0261ebdb8321e4e1028fe2329a16a7302a` points to
+`edfb406bb0943a7db8b79aaa440a58fc6eb9270b`; its local timestamp precedes the
+ledger's launch. The freeze gate confirms tagged sources, plan/power,
+measurement artifacts and own bases are unchanged; the commit is on the
+upstream branch. Remote-tag listing timed out and the GitHub connector cannot
+access the repository, so remote publication is not independently confirmed.
+
+The author launched **`flashlite`**, PID **32204**, log
+`C:/Users/hoanh/AppData/Local/Temp/cell_flashlite_20261116_201423.log`.
+Plan: **168 rows, 157 runnable defects, 1,521 trials**. Recorded pre-run tokens
+**84,909,021**, estimate **21,294,000** (uncapped). First complete defect:
+`-uzQNt-3jsRK5okUuJiQLA:O1`, nine trials, A0/A1/A2 three each at P1/C0,
+all `status ok`, all Flash-Lite, temperature 0, reasoning omitted, one session
+and one call per trial; **242,987 tokens**. Frozen T2/T2T hashes unchanged.
+Only metadata QC has been checked; the prespecified efficacy analysis waits
+for the complete verified dataset.
+
+**The first worker stopped; the same cell is now resumed and advancing.**
+The author confirmed old PID 32204 absent. The original 15 complete defects /
+135 successful trials (1,945,131 recorded tokens) remain byte-for-byte intact;
+old stop cause and any uncheckpointed usage are unknown. Author-terminal
+preflight passed and launched PID **42428** at **21:31:05**, log
+`C:/Users/hoanh/AppData/Local/Temp/cell_flashlite_20261116_213101.log`.
+Pre-resume recorded total: 86,854,152 tokens; remaining forecast: 19,404,000
+(1,386 trials at the frozen 14,000/trial rate). The first resumed defect
+`2qVZiMB22YPC2HCM62Gnbw:O5` has nine successful trials, three per A0/A1/A2,
+one session, P1/C0, all Flash-Lite, temperature 0, reasoning omitted, one call
+per trial; 37,776 tokens. Its metadata QC passes. Tagged sources and
+preparation data remain unchanged. Monitor with `cell.py status flashlite`;
+only after complete collection run `cell.py verify flashlite` and the frozen
+analysis. Do not duplicate the worker based on this sandbox's unreliable PID
+label; no interim efficacy testing.
+The S2/S3 write-up can be prepared from its committed JSON; manuscript
+integration follows the S5 analysis in the §3 dependency order.
+
+*(Status note, 2026-11-17: the paragraph above describes the run while it was
+active. Collection finished at 2026-11-16T23:06:57 with exit 0; see §8.6.)*
+
+### 8.6 Collection complete, verified and analysed (2026-11-17)
+
+**Collection.** PID 42428 finished at **2026-11-16T23:06:57**, exit 0
+(ledger `exit` event); final progress `[153/153] xjZHp1slZNUBJvQLuHSTTA:O7`.
+`cell.py status flashlite`: 168/168 rows, 1,521 trials, 1 not ok.
+
+**Verification** (`cell.py verify flashlite`, offline, `MAX_REVIEW_SAMPLE=500`):
+**VERIFY PASS.** 168/168 rows (157 runnable + 11 inapplicable), 1,521/1,521
+trials recorded and matching the plan, **1,520 usable**, one session per
+defect, every usable trial served by `gemini-3.5-flash-lite` only, offline
+re-score and post-facts **1,520/1,520**, 114 multi-attempt trials, frozen
+T2/T2T unchanged. No tagged source, preparation artifact or the A15 text
+differs from `prereg-fl-freeze`; the analysis script hash (`2ee00479…`) equals
+the frozen one. The original 135-trial prefix hash is unchanged. `git
+ls-remote` confirms `refs/tags/prereg-fl-freeze` on the remote.
+
+**Exclusion classification.** One trial: `PbqJmjSijS7aXr0qkjbuxA:O1`, A1 rep 2,
+`status_error` / `api_error` "Connection error.", zero attempts, no served
+model, no tokens → **provider failure, pre-registered exclusion**. Not re-run.
+The defect keeps two usable A1 repetitions, so no defect is dropped (N = 157).
+
+**Tokens.** Exact recorded **11,671,123** (1,945,131 before the interruption +
+9,725,992 after resume) against the 21,294,000 estimate. Any usage of the
+interrupted, uncheckpointed defect is unknown. Recorded total across all
+checkpoints: **96,580,144**.
+
+**Primary result (A15 / I5) — replicated.** Unconditional canonical-JSON exact
+restoration A1 60.3 % vs A2 49.3 %: **A1 − A2 = +11.0 pp, 95 % defect-cluster
+bootstrap CI [+5.1, +17.0]**; defect-majority discordant 23 vs 7, two-sided
+exact McNemar **p = 0.0052**. Positive, CI excludes 0, p < .05. Sensitivity
+without multi-attempt trials: +11.4 pp [+5.5, +17.5], p = 0.0081.
+
+**Exploratory.** Repair A1 − A2 **−3.2 pp [−6.4, −0.2]** (p = 0.45), a reverse
+direction reported signed. A1/A0 repair 0.972 [0.936, 1.004] contains 1, so
+the A15 conditional rule predicted **restoration-type**; the observed label is
+restoration-type. A0 restoration 51.2 %; A1 − A0 +9.1 pp [+2.1, +15.9]; A0 − A2
++1.9 pp [−3.8, +7.6]; A3 (P0) 0/108 identical to clean. Source:
+`out_study/T2FL/analysis.json`. Model and bases changed together, so this is a
+replication of the restoration contrast on a second model with its own bases,
+not an attribution to either factor.
+
+**Not done here:** no commit, tag or push (data, analysis and these docs await
+the author's go-ahead); manuscript integration (S2/S3/S5), S4 text and the
+build remain.
+
 ---
 
 ## 9. Manuscript change map
@@ -337,10 +654,10 @@ Align the abstract, `highlights.txt` and §8 with the same wording.
 - [x] 2.5-flash smoke passed *(2026-11-13, 1-call live smoke served `gemini-2.5-flash`)*
 - [x] A-S2 filed (number **A13**) and committed; S2a 284 + S2b 360 (`644` total) verified *(Q8 2026-11-13, Q9 2026-11-14; `RUN_QUEUE.md`)*
 - [x] A-S3 filed (number **A14**) and committed; Option H harvest + `T1H` replay verified *(Q10 2026-11-15: 56 businesses, 72/72 trials; pooled A2 − A1 test runs at 15 cells and does not reject, p = 0.1656)*
-- [ ] S1 text in §4.8, §7, declarations
-- [ ] S5 bases built (`out_study/FL/A`); `N_FL` and MDE known
-- [ ] A-S5 frozen and tagged before first replication trial
-- [ ] S5 trials verified and analysed
+- [x] S1 text in §4.8, §7, declarations *(2026-11-15: text and date inventory implemented; draft checks clean. The author accepted the PDF and asked to proceed. Automated CLI compilation remains unverified in this restricted session; the separate Perl-free build sequence is documented below.)*
+- [x] S5 bases built (`out_study/FL/A`); `N_FL` and MDE known *(Q11 2026-11-16: 28/28; N_FL = 157, Q_FL = 36, MDE ≈ 10.65 pp)*
+- [x] A-S5 frozen and tagged before first replication trial *(A15; `edfb406` / `prereg-fl-freeze`, remote tag confirmed 2026-11-17)*
+- [x] S5 trials verified and analysed *(2026-11-17: 1,520/1,521 usable, 1 provider-failure exclusion; replicated, +11.0 pp [+5.1, +17.0], p = 0.0052; §8.6)*
 - [ ] S4 contributions, abstract, highlights aligned
 - [ ] `latexmk` clean; draft checks pass (`check_draft.py`)
 
@@ -354,8 +671,8 @@ The supervisor approved the restructure and left new requests on 2026-11-13.
 Read, in order:
   1. docs/paper/SUPERVISOR_FEEDBACK_2026-11-13.md  (feedback verbatim + full plan; §2 & §10 = all locked decisions)
   2. AGENTS.md and CLAUDE.md (working rules & environment traps)
-  3. docs/paper/PREREGISTRATION.md §0.1 (amendments A1–A14; next free = A15)
-     and docs/paper/RUN_QUEUE.md (rules, queue Q1–Q10, dated log)
+  3. docs/paper/PREREGISTRATION.md §0.1 (A15 frozen at prereg-fl-freeze; next free = A16)
+     and docs/paper/RUN_QUEUE.md (rules, queue Q1–Q13, dated log)
   4. backend/scripts/run_injection_study.py (CELLS, _cells_for, _thinking_cells, build_plan, _regenerate)
 
 Path & shell rules: the workspace path contains "Tài liệu" (NFD). Use the 8.3
@@ -397,22 +714,92 @@ Status at 2026-11-15 (see §10 and RUN_QUEUE.md):
   per defect.
 
 Still to do, in order (§3):
-  1. S1 deprecation text (§4.8, §7, declarations).
-  2. S5 flash-lite replication: wire cell `flashlite`, build bases in out_study/FL/A,
-     compute N_FL and the MDE, file and tag A-S5 (next free number A15) before the first
-     trial, run, verify, analyse.
-  3. Move the S2 and S3 numbers from analysis.json into RESULTS.md and the journal .tex.
+  1. DONE 2026-11-17: main flashlite collection finished (exit 0, 2026-11-16
+     23:06:57) and cell.py verify flashlite PASSED: 168/168 rows, 1,520/1,521
+     usable, one status_error = provider failure (pre-registered exclusion,
+     not re-run, no defect dropped), all gemini-3.5-flash-lite, re-score
+     1,520/1,520, 11,671,123 recorded tokens. Frozen analysis written to
+     backend/out_study/T2FL/analysis.json: REPLICATED, A1 - A2 exact
+     restoration +11.0 pp [+5.1, +17.0], McNemar p = 0.0052 (23 vs 7).
+     Repair A1 - A2 -3.2 pp [-6.4, -0.2] (exploratory). See §8.6.
+  2. T2FL data + analysis and the handoff docs are uncommitted: commit only
+     with my go-ahead (claude_guard.py grant from my terminal).
+  3. Move the verified S2, S3 and S5 numbers from analysis.json into RESULTS.md
+     and the journal .tex (S5: new §4 subsection; RQ2 leads with the
+     replication; §7 "post hoc"/"one model" sentences; RQ3 revised for S3).
   4. S4 contributions, abstract and highlights.
-  5. latexmk clean; check_draft.py passes.
+  5. Build (Perl-free pdflatex/bibtex sequence if latexmk lacks Perl);
+     check_draft.py passes.
 
 Task for this session:
-  Start with item ⟨ ⟩ above. Report the plan and wait for my approval before any
-  amendment, commit or live run.
+  Integrate the verified S2/S3/S5 results into RESULTS.md and the .tex,
+  then S4 text and the build. Do not alter T2, T2T, T2FL or FL artifacts.
+  Commit/tag/push still need the author's own terminal go-ahead.
 ```
 
 ---
 
 ## 12. Revision log
+
+**2026-11-17 (S5 collection complete, verified, analysed).** Collection exit 0 at 2026-11-16 23:06:57. `cell.py verify flashlite` passed (1,520/1,521 usable; one provider-failure `status_error` kept as a pre-registered exclusion; 11,671,123 recorded tokens). Frozen analysis: replicated, +11.0 pp [+5.1, +17.0], p = 0.0052. Remote `prereg-fl-freeze` confirmed. §8.5 marked as a collection-time snapshot; §8.6 added; §10 S5 items ticked; §11 status/to-do updated. No commit, tag, push or model call.
+
+**2026-11-16 (resume confirmed).** Author-terminal preflight passed; new main PID 42428 advances after skipping the original 15 complete defects / 135 trials. Original checkpoint prefix hash is unchanged. First resumed nine-trial defect passes model/settings/session QC. Remaining forecast 19,404,000 tokens; no tagged source/preparation file changed and no efficacy analysis performed.
+
+**2026-11-16 (main worker interruption confirmed).** Author-terminal process check confirms PID 32204 stopped. Fifteen complete defects / 135 successful trials are preserved (1,945,131 recorded tokens); freeze gate passes, no interim efficacy test. Same-cell resume prepared for the remaining 1,386 trials with estimate 19,404,000 tokens. Cause and uncheckpointed usage are unknown; no tagged file changed.
+
+**2026-11-16 (main replication launched).** Freeze commit edfb406/local tag
+verified before launch. Main PID 32204 progresses; first nine-trial defect
+passes model/parameter/session QC. The run and final result remain pending;
+only non-protected execution logs updated (§8.5), no tagged file changed.
+
+**2026-11-16 (final A15 release validation complete).** Full 655 and focused
+74 tests pass; dry run 168 rows / 1,521 trials, original core still 1,167.
+Repeat measurement verification reproduces its report; all completion hashes
+and frozen sentinels match. Ready for author-terminal commit/tag/push before
+main launch; no tag or main trial created by this session.
+
+**2026-11-16 (Q12 verified; final freeze prepared).** `5f12198` is pushed.
+The 20-request measurement verified: raw/canonical identity 8/10 each,
+409,450 actual tokens, r=3 unchanged. Final A15 completion and release flag
+are prepared with runtime/dependency and source/data hashes. Focused tests
+74 pass; full release validation passes 655 tests (§8.4). No main trial or tag yet.
+
+**2026-11-16 (preparation validation green).** Final full suite: 655 passed,
+13 integration tests deselected, 1 existing warning, 1,331.33 s; combined suite
+135 passed. Raw-response collector and the prospective A15 rule are ready for
+the author's preparation commit together with the verified bases and N/power
+reports. No calibration or repair call has run; trial freeze remains pending.
+
+**2026-11-16 (Q11 verified; Q12 prepared).** Own-base collection and validation
+complete; N_FL=157, Q_FL=36, 1,521 planned trials, estimated MDE 10.65 pp.
+Prepared the measurement-only collector/rule and conditional reading before
+any calibration/repair result; details in §8.3 and A15. The first full-suite
+import-instance stub failure is reproduced/fixed; combined 135 tests pass,
+final full suite passes **655 tests, 13 deselected** with persistent reports (§8.3). No calibration
+or repair calls, final freeze tag or new commit made by this session.
+
+**2026-11-16 (author's A15 commit confirmed).** Verified `7ccda0d` on HEAD and
+`origin/main`. The base preflight recognizes the committed/pushed A15. Live
+collection has not started: this session cannot build the SDK client without
+`socksio`, package installation found no available version, and a keyless
+provider TLS probe timed out. Exact spent total before Q11 is 81,895,883 tokens;
+its estimate is 3,863,781 tokens and its actual remains 0. The full offline
+suite passed **641 tests, 13 deselected, 1 existing warning** in 1,228.68 s
+through the cell gate. Overall preflight still fails at SDK construction;
+frozen data is unchanged.
+
+**2026-11-16 (A15 preparation filing approved).** Added the initial prospective
+S5 protocol and Q11–Q13 after the author's “continue”. Only base collection is
+released in the registry; repair trials remain closed pending actual N_FL,
+power/MDE, determinism and the completion/tag. The protocol/code commit is
+prepared separately from S1 manuscript changes, pending the author's terminal
+git go-ahead. No model call, commit, tag or push was made.
+
+**2026-11-16 (Perl and S5 offline preparation).** The author reported `latexmk` could not find Perl. Git has a bundled Perl executable, but it did not start in this restricted session; the normal-permissions build request was automatically rejected because sandbox escalation is disabled. Direct `pdflatex` also hit the session's MiKTeX registry restriction, and the app compiler returned its connection error again. In a normal user terminal, build without Perl from `docs/paper/journal/`: `pdflatex -interaction=nonstopmode -halt-on-error main.tex`, `bibtex main`, then the same `pdflatex` command twice. S5 code, gates and tests were prepared offline as recorded in §8.1; A15 and all model calls remain pending approval.
+
+**2026-11-15 (S1 compilation recheck).** The author explicitly authorized execution. The terminal build was retried and again exited 1 at MiKTeX registry access (`RegOpenKeyExW`, error 5), before TeX ran. The app's `compile_latex_document` tool was also discovered and tried with both the project directory and explicit `main.tex`; both returned MCP `-32000` (`Codex app tool request failed`). `read_thread_terminal` returned the same app-connection error. No successful compilation or new PDF is claimed. S1 PDF validation remains pending; no additional permission request, amendment or git publication was made.
+
+**2026-11-15 (S1 text and provenance).** Added the per-directory date/serving-ID inventory (§4.1), the model-availability paragraph in §4.8, reproducibility text in §7 and data availability, and the A13 cross-session exception with in-session anchors. The 76.4–83.3% range is explicitly the earlier re-runs; the later T2A0 anchor is 43/70 (61.4%). Existing §5/§6 numbers are unchanged. Dates remain the locked I1 inputs, with future tense before the scheduled 2026-12-01 withdrawal; S5 remains planned and A15 unfiled. `check_draft.py` is clean (198-word abstract, 5 highlights within limits, 0 placeholders, no missing citations or dangling references). T2 and T2T checkpoint hashes are unchanged. **PDF validation pending:** `latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex` exited 1 before TeX ran because MiKTeX could not read `Software\MiKTeX.org\MiKTeX\2.9` registry configuration (`RegOpenKeyExW`, access denied / error 5); no alternative TeX installation is on PATH. The existing `main.pdf` is still dated 2026-11-13 and is not a validated S1 PDF. Run the same build in the normal user terminal from `docs/paper/journal/`. These S1 edits are uncommitted; no amendment, tag, push or model call was made.
 
 **2026-11-15 (status update).** §10: Phase 0, the 2.5-flash smoke, A-S2 (filed as A13) and A-S3 (filed as A14) ticked as verified. §11: the next-session prompt now starts from the remaining work (S1, S5, RESULTS/.tex, S4), records the S3 outcome and the measured Phase-A cost, and names the gate command `backend/scripts/cell.py` and the git go-ahead hook `backend/scripts/claude_guard.py`.
 

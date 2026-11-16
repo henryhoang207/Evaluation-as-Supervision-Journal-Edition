@@ -1,0 +1,1851 @@
+{
+  "provenance": {
+    "cell": "flashlite",
+    "model": "gemini-3.5-flash-lite",
+    "reasoning_effort": null,
+    "script_sha256": "2ee0047911b5b200243308f0d8a619b06832744056db0cc0706469e4519484bf",
+    "seed": 20260803,
+    "n_boot": 10000,
+    "bases": {
+      "model": "gemini-3.5-flash-lite",
+      "businesses": 28,
+      "reviews_by_stratum": {
+        "p90=214": 7,
+        "p50=34": 7,
+        "p25=14": 7,
+        "p75=92": 7
+      },
+      "bases_sha256": "ebb7147a9397d4a01685f12d8ad6228df1c22c4ec17f7ec54026acad64f90218"
+    },
+    "trials_total": 1521,
+    "trials_usable": 1520,
+    "exclusions": {
+      "provider_failure": 1
+    },
+    "total_tokens": 11671123
+  },
+  "confirmatory": {
+    "outcome": "unconditional canonical-JSON exact restoration",
+    "unit": "defect; strictly more than half of usable repetitions for McNemar",
+    "test": "two-sided exact McNemar",
+    "alpha": 0.05,
+    "primary_A1_minus_A2": {
+      "arms": "A1-A2",
+      "n_defects": 157,
+      "dropped": 0,
+      "rate_A1": 0.6029723991507432,
+      "rate_A2": 0.4925690021231423,
+      "estimate": 0.11040339702760087,
+      "ci95": [
+        0.05095541401273886,
+        0.16985138004246286
+      ],
+      "majority_A1": 93,
+      "majority_A2": 77,
+      "discordant": {
+        "A1_only": 23,
+        "A2_only": 7
+      },
+      "mcnemar_p": 0.005222879350185395,
+      "reps_per_cell": {
+        "2/3": 1,
+        "3/3": 156
+      }
+    },
+    "criterion": {
+      "positive_estimate": true,
+      "two_sided_ci_excludes_zero": true,
+      "two_sided_mcnemar_rejects": true
+    },
+    "replicated": true,
+    "without_multi_attempt_trials": {
+      "exclusions": {
+        "multi_attempt": 114,
+        "provider_failure": 1
+      },
+      "arms": "A1-A2",
+      "n_defects": 152,
+      "dropped": 5,
+      "rate_A1": 0.5986842105263158,
+      "rate_A2": 0.4846491228070175,
+      "estimate": 0.11403508771929827,
+      "ci95": [
+        0.054824561403508776,
+        0.17543859649122806
+      ],
+      "majority_A1": 89,
+      "majority_A2": 74,
+      "discordant": {
+        "A1_only": 22,
+        "A2_only": 7
+      },
+      "mcnemar_p": 0.008130058646202087,
+      "reps_per_cell": {
+        "2/3": 1,
+        "3/1": 4,
+        "3/2": 3,
+        "3/3": 144
+      }
+    }
+  },
+  "secondary_exploratory": {
+    "repair_A1_minus_A2": {
+      "arms": "A1-A2",
+      "n_defects": 157,
+      "dropped": 0,
+      "rate_A1": 0.9426751592356688,
+      "rate_A2": 0.9745222929936306,
+      "estimate": -0.03184713375796178,
+      "ci95": [
+        -0.06369426751592357,
+        -0.002123142250530788
+      ],
+      "majority_A1": 149,
+      "majority_A2": 152,
+      "discordant": {
+        "A1_only": 2,
+        "A2_only": 5
+      },
+      "mcnemar_p": 0.453125,
+      "reps_per_cell": {
+        "2/3": 1,
+        "3/3": 156
+      }
+    },
+    "repair_A1_over_A0": {
+      "arms": "A1/A0",
+      "n_defects": 157,
+      "dropped": 0,
+      "estimate": 0.9715536105032824,
+      "ci95": [
+        0.9361211171956455,
+        1.0043859649122806
+      ]
+    },
+    "restoration_A1_over_A0": {
+      "arms": "A1/A0",
+      "n_defects": 157,
+      "dropped": 0,
+      "estimate": 1.1784232365145233,
+      "ci95": [
+        1.0383137686475912,
+        1.3407079646017697
+      ]
+    },
+    "restoration_A1_minus_A0": {
+      "arms": "A1-A0",
+      "n_defects": 157,
+      "dropped": 0,
+      "rate_A1": 0.6029723991507432,
+      "rate_A0": 0.5116772823779192,
+      "estimate": 0.09129511677282379,
+      "ci95": [
+        0.021231422505307858,
+        0.1592356687898089
+      ],
+      "majority_A1": 93,
+      "majority_A0": 80,
+      "discordant": {
+        "A1_only": 27,
+        "A0_only": 14
+      },
+      "mcnemar_p": 0.05958388801809633,
+      "reps_per_cell": {
+        "2/3": 1,
+        "3/3": 156
+      }
+    },
+    "restoration_A0_minus_A2": {
+      "arms": "A0-A2",
+      "n_defects": 157,
+      "dropped": 0,
+      "rate_A0": 0.5116772823779192,
+      "rate_A2": 0.4925690021231423,
+      "estimate": 0.019108280254777073,
+      "ci95": [
+        -0.03821656050955414,
+        0.07643312101910828
+      ],
+      "majority_A0": 80,
+      "majority_A2": 77,
+      "discordant": {
+        "A0_only": 16,
+        "A2_only": 13
+      },
+      "mcnemar_p": 0.711071103811264,
+      "reps_per_cell": {
+        "3/3": 157
+      }
+    },
+    "restoration_by_arm": {
+      "A0": {
+        "arm": "A0",
+        "n_defects": 157,
+        "rate": 0.5116772823779192,
+        "ci95": [
+          0.4394904458598726,
+          0.5817409766454353
+        ]
+      },
+      "A1": {
+        "arm": "A1",
+        "n_defects": 157,
+        "rate": 0.6029723991507432,
+        "ci95": [
+          0.5286624203821656,
+          0.6772823779193206
+        ]
+      },
+      "A2": {
+        "arm": "A2",
+        "n_defects": 157,
+        "rate": 0.4925690021231423,
+        "ci95": [
+          0.4182590233545648,
+          0.564755838641189
+        ]
+      },
+      "A3": {
+        "arm": "A3",
+        "n_defects": 36,
+        "rate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "exact_ci95_defects": [
+          0.0,
+          0.09739375591449193
+        ]
+      }
+    },
+    "repair_by_operator": {
+      "O1|A0": {
+        "rate": 0.9358974358974359,
+        "n_defects": 26
+      },
+      "O1|A1": {
+        "rate": 0.7179487179487178,
+        "n_defects": 26
+      },
+      "O1|A2": {
+        "rate": 0.9358974358974359,
+        "n_defects": 26
+      },
+      "O1|A3": {
+        "rate": 0.7222222222222222,
+        "n_defects": 6
+      },
+      "O2|A0": {
+        "rate": 0.9743589743589745,
+        "n_defects": 26
+      },
+      "O2|A1": {
+        "rate": 0.9871794871794871,
+        "n_defects": 26
+      },
+      "O2|A2": {
+        "rate": 1.0,
+        "n_defects": 26
+      },
+      "O2|A3": {
+        "rate": 0.8333333333333334,
+        "n_defects": 6
+      },
+      "O3|A0": {
+        "rate": 0.9866666666666666,
+        "n_defects": 25
+      },
+      "O3|A1": {
+        "rate": 1.0,
+        "n_defects": 25
+      },
+      "O3|A2": {
+        "rate": 0.96,
+        "n_defects": 25
+      },
+      "O3|A3": {
+        "rate": 0.5,
+        "n_defects": 6
+      },
+      "O5|A0": {
+        "rate": 0.9230769230769231,
+        "n_defects": 26
+      },
+      "O5|A1": {
+        "rate": 0.9487179487179487,
+        "n_defects": 26
+      },
+      "O5|A2": {
+        "rate": 0.9487179487179487,
+        "n_defects": 26
+      },
+      "O5|A3": {
+        "rate": 0.7222222222222222,
+        "n_defects": 6
+      },
+      "O6|A0": {
+        "rate": 1.0,
+        "n_defects": 27
+      },
+      "O6|A1": {
+        "rate": 1.0,
+        "n_defects": 27
+      },
+      "O6|A2": {
+        "rate": 1.0,
+        "n_defects": 27
+      },
+      "O6|A3": {
+        "rate": 1.0,
+        "n_defects": 6
+      },
+      "O7|A0": {
+        "rate": 1.0,
+        "n_defects": 27
+      },
+      "O7|A1": {
+        "rate": 1.0,
+        "n_defects": 27
+      },
+      "O7|A2": {
+        "rate": 1.0,
+        "n_defects": 27
+      },
+      "O7|A3": {
+        "rate": 1.0,
+        "n_defects": 6
+      }
+    },
+    "restoration_by_operator": {
+      "O1|A0": {
+        "rate": 0.5256410256410257,
+        "n_defects": 26
+      },
+      "O1|A1": {
+        "rate": 0.423076923076923,
+        "n_defects": 26
+      },
+      "O1|A2": {
+        "rate": 0.3589743589743589,
+        "n_defects": 26
+      },
+      "O1|A3": {
+        "rate": 0.0,
+        "n_defects": 6
+      },
+      "O2|A0": {
+        "rate": 0.19230769230769232,
+        "n_defects": 26
+      },
+      "O2|A1": {
+        "rate": 0.43589743589743585,
+        "n_defects": 26
+      },
+      "O2|A2": {
+        "rate": 0.20512820512820512,
+        "n_defects": 26
+      },
+      "O2|A3": {
+        "rate": 0.0,
+        "n_defects": 6
+      },
+      "O3|A0": {
+        "rate": 0.5466666666666666,
+        "n_defects": 25
+      },
+      "O3|A1": {
+        "rate": 0.6133333333333334,
+        "n_defects": 25
+      },
+      "O3|A2": {
+        "rate": 0.36,
+        "n_defects": 25
+      },
+      "O3|A3": {
+        "rate": 0.0,
+        "n_defects": 6
+      },
+      "O5|A0": {
+        "rate": 0.17948717948717946,
+        "n_defects": 26
+      },
+      "O5|A1": {
+        "rate": 0.21794871794871795,
+        "n_defects": 26
+      },
+      "O5|A2": {
+        "rate": 0.16666666666666666,
+        "n_defects": 26
+      },
+      "O5|A3": {
+        "rate": 0.0,
+        "n_defects": 6
+      },
+      "O6|A0": {
+        "rate": 0.7407407407407407,
+        "n_defects": 27
+      },
+      "O6|A1": {
+        "rate": 0.9629629629629629,
+        "n_defects": 27
+      },
+      "O6|A2": {
+        "rate": 0.8765432098765431,
+        "n_defects": 27
+      },
+      "O6|A3": {
+        "rate": 0.0,
+        "n_defects": 6
+      },
+      "O7|A0": {
+        "rate": 0.8641975308641975,
+        "n_defects": 27
+      },
+      "O7|A1": {
+        "rate": 0.9382716049382716,
+        "n_defects": 27
+      },
+      "O7|A2": {
+        "rate": 0.9506172839506172,
+        "n_defects": 27
+      },
+      "O7|A3": {
+        "rate": 0.0,
+        "n_defects": 6
+      }
+    },
+    "repair_by_review_stratum": {
+      "p25|A0": {
+        "rate": 1.0,
+        "n_defects": 42
+      },
+      "p25|A1": {
+        "rate": 0.9761904761904762,
+        "n_defects": 42
+      },
+      "p25|A2": {
+        "rate": 1.0,
+        "n_defects": 42
+      },
+      "p25|A3": {
+        "rate": 0.925925925925926,
+        "n_defects": 9
+      },
+      "p50|A0": {
+        "rate": 0.9537037037037036,
+        "n_defects": 36
+      },
+      "p50|A1": {
+        "rate": 0.9444444444444444,
+        "n_defects": 36
+      },
+      "p50|A2": {
+        "rate": 0.9814814814814815,
+        "n_defects": 36
+      },
+      "p50|A3": {
+        "rate": 0.8888888888888888,
+        "n_defects": 12
+      },
+      "p75|A0": {
+        "rate": 1.0,
+        "n_defects": 42
+      },
+      "p75|A1": {
+        "rate": 0.9682539682539681,
+        "n_defects": 42
+      },
+      "p75|A2": {
+        "rate": 1.0,
+        "n_defects": 42
+      },
+      "p75|A3": {
+        "rate": 0.75,
+        "n_defects": 8
+      },
+      "p90|A0": {
+        "rate": 0.918918918918919,
+        "n_defects": 37
+      },
+      "p90|A1": {
+        "rate": 0.8738738738738737,
+        "n_defects": 37
+      },
+      "p90|A2": {
+        "rate": 0.9099099099099098,
+        "n_defects": 37
+      },
+      "p90|A3": {
+        "rate": 0.5238095238095238,
+        "n_defects": 7
+      }
+    },
+    "restoration_by_review_stratum": {
+      "p25|A0": {
+        "rate": 0.5476190476190477,
+        "n_defects": 42
+      },
+      "p25|A1": {
+        "rate": 0.6190476190476191,
+        "n_defects": 42
+      },
+      "p25|A2": {
+        "rate": 0.5714285714285714,
+        "n_defects": 42
+      },
+      "p25|A3": {
+        "rate": 0.0,
+        "n_defects": 9
+      },
+      "p50|A0": {
+        "rate": 0.31481481481481477,
+        "n_defects": 36
+      },
+      "p50|A1": {
+        "rate": 0.5277777777777777,
+        "n_defects": 36
+      },
+      "p50|A2": {
+        "rate": 0.3333333333333333,
+        "n_defects": 36
+      },
+      "p50|A3": {
+        "rate": 0.0,
+        "n_defects": 12
+      },
+      "p75|A0": {
+        "rate": 0.47619047619047616,
+        "n_defects": 42
+      },
+      "p75|A1": {
+        "rate": 0.5476190476190477,
+        "n_defects": 42
+      },
+      "p75|A2": {
+        "rate": 0.42857142857142855,
+        "n_defects": 42
+      },
+      "p75|A3": {
+        "rate": 0.0,
+        "n_defects": 8
+      },
+      "p90|A0": {
+        "rate": 0.7027027027027027,
+        "n_defects": 37
+      },
+      "p90|A1": {
+        "rate": 0.7207207207207208,
+        "n_defects": 37
+      },
+      "p90|A2": {
+        "rate": 0.6306306306306306,
+        "n_defects": 37
+      },
+      "p90|A3": {
+        "rate": 0.0,
+        "n_defects": 7
+      }
+    },
+    "identity_to_clean": {
+      "A0": {
+        "identical": 241,
+        "trials": 471,
+        "share": 0.5116772823779193
+      },
+      "A1": {
+        "identical": 283,
+        "trials": 470,
+        "share": 0.6021276595744681
+      },
+      "A2": {
+        "identical": 232,
+        "trials": 471,
+        "share": 0.49256900212314225
+      },
+      "A3": {
+        "identical": 0,
+        "trials": 108,
+        "share": 0.0
+      }
+    },
+    "repair_decomposition": {
+      "overall": {
+        "A0": {
+          "trials": 471,
+          "3_way": {
+            "repaired_copy": {
+              "count": 241,
+              "share": 0.5116772823779193
+            },
+            "repaired_rewrite": {
+              "count": 216,
+              "share": 0.4585987261146497
+            },
+            "not_repaired": {
+              "count": 14,
+              "share": 0.029723991507430998
+            }
+          },
+          "4_way": {
+            "repaired_copy": {
+              "count": 241,
+              "share": 0.5116772823779193
+            },
+            "repaired_rewrite": {
+              "count": 216,
+              "share": 0.4585987261146497
+            },
+            "replaced_or_deleted": {
+              "count": 8,
+              "share": 0.016985138004246284
+            },
+            "unrepaired": {
+              "count": 6,
+              "share": 0.012738853503184714
+            }
+          },
+          "total_repaired": {
+            "count": 457,
+            "share": 0.970276008492569
+          },
+          "within_rewrite": {
+            "note": "descriptive only; non-identical subset subject to composition artefact",
+            "repaired": 216,
+            "trials": 230,
+            "rate": 0.9391304347826087
+          }
+        },
+        "A1": {
+          "trials": 470,
+          "3_way": {
+            "repaired_copy": {
+              "count": 283,
+              "share": 0.6021276595744681
+            },
+            "repaired_rewrite": {
+              "count": 160,
+              "share": 0.3404255319148936
+            },
+            "not_repaired": {
+              "count": 27,
+              "share": 0.0574468085106383
+            }
+          },
+          "4_way": {
+            "repaired_copy": {
+              "count": 283,
+              "share": 0.6021276595744681
+            },
+            "repaired_rewrite": {
+              "count": 160,
+              "share": 0.3404255319148936
+            },
+            "replaced_or_deleted": {
+              "count": 27,
+              "share": 0.0574468085106383
+            },
+            "unrepaired": {
+              "count": 0,
+              "share": 0.0
+            }
+          },
+          "total_repaired": {
+            "count": 443,
+            "share": 0.9425531914893617
+          },
+          "within_rewrite": {
+            "note": "descriptive only; non-identical subset subject to composition artefact",
+            "repaired": 160,
+            "trials": 187,
+            "rate": 0.8556149732620321
+          }
+        },
+        "A2": {
+          "trials": 471,
+          "3_way": {
+            "repaired_copy": {
+              "count": 232,
+              "share": 0.49256900212314225
+            },
+            "repaired_rewrite": {
+              "count": 227,
+              "share": 0.4819532908704883
+            },
+            "not_repaired": {
+              "count": 12,
+              "share": 0.025477707006369428
+            }
+          },
+          "4_way": {
+            "repaired_copy": {
+              "count": 232,
+              "share": 0.49256900212314225
+            },
+            "repaired_rewrite": {
+              "count": 227,
+              "share": 0.4819532908704883
+            },
+            "replaced_or_deleted": {
+              "count": 9,
+              "share": 0.01910828025477707
+            },
+            "unrepaired": {
+              "count": 3,
+              "share": 0.006369426751592357
+            }
+          },
+          "total_repaired": {
+            "count": 459,
+            "share": 0.9745222929936306
+          },
+          "within_rewrite": {
+            "note": "descriptive only; non-identical subset subject to composition artefact",
+            "repaired": 227,
+            "trials": 239,
+            "rate": 0.9497907949790795
+          }
+        },
+        "A3": {
+          "trials": 108,
+          "3_way": {
+            "repaired_copy": {
+              "count": 0,
+              "share": 0.0
+            },
+            "repaired_rewrite": {
+              "count": 86,
+              "share": 0.7962962962962963
+            },
+            "not_repaired": {
+              "count": 22,
+              "share": 0.2037037037037037
+            }
+          },
+          "4_way": {
+            "repaired_copy": {
+              "count": 0,
+              "share": 0.0
+            },
+            "repaired_rewrite": {
+              "count": 86,
+              "share": 0.7962962962962963
+            },
+            "replaced_or_deleted": {
+              "count": 20,
+              "share": 0.18518518518518517
+            },
+            "unrepaired": {
+              "count": 2,
+              "share": 0.018518518518518517
+            }
+          },
+          "total_repaired": {
+            "count": 86,
+            "share": 0.7962962962962963
+          },
+          "within_rewrite": {
+            "note": "descriptive only; non-identical subset subject to composition artefact",
+            "repaired": 86,
+            "trials": 108,
+            "rate": 0.7962962962962963
+          }
+        }
+      },
+      "by_operator": {
+        "O1": {
+          "A0": {
+            "trials": 78,
+            "3_way": {
+              "repaired_copy": {
+                "count": 41,
+                "share": 0.5256410256410257
+              },
+              "repaired_rewrite": {
+                "count": 32,
+                "share": 0.41025641025641024
+              },
+              "not_repaired": {
+                "count": 5,
+                "share": 0.0641025641025641
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 41,
+                "share": 0.5256410256410257
+              },
+              "repaired_rewrite": {
+                "count": 32,
+                "share": 0.41025641025641024
+              },
+              "replaced_or_deleted": {
+                "count": 2,
+                "share": 0.02564102564102564
+              },
+              "unrepaired": {
+                "count": 3,
+                "share": 0.038461538461538464
+              }
+            },
+            "total_repaired": {
+              "count": 73,
+              "share": 0.9358974358974359
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 32,
+              "trials": 37,
+              "rate": 0.8648648648648649
+            }
+          },
+          "A1": {
+            "trials": 77,
+            "3_way": {
+              "repaired_copy": {
+                "count": 32,
+                "share": 0.4155844155844156
+              },
+              "repaired_rewrite": {
+                "count": 23,
+                "share": 0.2987012987012987
+              },
+              "not_repaired": {
+                "count": 22,
+                "share": 0.2857142857142857
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 32,
+                "share": 0.4155844155844156
+              },
+              "repaired_rewrite": {
+                "count": 23,
+                "share": 0.2987012987012987
+              },
+              "replaced_or_deleted": {
+                "count": 22,
+                "share": 0.2857142857142857
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 55,
+              "share": 0.7142857142857143
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 23,
+              "trials": 45,
+              "rate": 0.5111111111111111
+            }
+          },
+          "A2": {
+            "trials": 78,
+            "3_way": {
+              "repaired_copy": {
+                "count": 28,
+                "share": 0.358974358974359
+              },
+              "repaired_rewrite": {
+                "count": 45,
+                "share": 0.5769230769230769
+              },
+              "not_repaired": {
+                "count": 5,
+                "share": 0.0641025641025641
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 28,
+                "share": 0.358974358974359
+              },
+              "repaired_rewrite": {
+                "count": 45,
+                "share": 0.5769230769230769
+              },
+              "replaced_or_deleted": {
+                "count": 2,
+                "share": 0.02564102564102564
+              },
+              "unrepaired": {
+                "count": 3,
+                "share": 0.038461538461538464
+              }
+            },
+            "total_repaired": {
+              "count": 73,
+              "share": 0.9358974358974359
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 45,
+              "trials": 50,
+              "rate": 0.9
+            }
+          },
+          "A3": {
+            "trials": 18,
+            "3_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 13,
+                "share": 0.7222222222222222
+              },
+              "not_repaired": {
+                "count": 5,
+                "share": 0.2777777777777778
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 13,
+                "share": 0.7222222222222222
+              },
+              "replaced_or_deleted": {
+                "count": 4,
+                "share": 0.2222222222222222
+              },
+              "unrepaired": {
+                "count": 1,
+                "share": 0.05555555555555555
+              }
+            },
+            "total_repaired": {
+              "count": 13,
+              "share": 0.7222222222222222
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 13,
+              "trials": 18,
+              "rate": 0.7222222222222222
+            }
+          }
+        },
+        "O2": {
+          "A0": {
+            "trials": 78,
+            "3_way": {
+              "repaired_copy": {
+                "count": 15,
+                "share": 0.19230769230769232
+              },
+              "repaired_rewrite": {
+                "count": 61,
+                "share": 0.782051282051282
+              },
+              "not_repaired": {
+                "count": 2,
+                "share": 0.02564102564102564
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 15,
+                "share": 0.19230769230769232
+              },
+              "repaired_rewrite": {
+                "count": 61,
+                "share": 0.782051282051282
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 2,
+                "share": 0.02564102564102564
+              }
+            },
+            "total_repaired": {
+              "count": 76,
+              "share": 0.9743589743589743
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 61,
+              "trials": 63,
+              "rate": 0.9682539682539683
+            }
+          },
+          "A1": {
+            "trials": 78,
+            "3_way": {
+              "repaired_copy": {
+                "count": 34,
+                "share": 0.4358974358974359
+              },
+              "repaired_rewrite": {
+                "count": 43,
+                "share": 0.5512820512820513
+              },
+              "not_repaired": {
+                "count": 1,
+                "share": 0.01282051282051282
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 34,
+                "share": 0.4358974358974359
+              },
+              "repaired_rewrite": {
+                "count": 43,
+                "share": 0.5512820512820513
+              },
+              "replaced_or_deleted": {
+                "count": 1,
+                "share": 0.01282051282051282
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 77,
+              "share": 0.9871794871794872
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 43,
+              "trials": 44,
+              "rate": 0.9772727272727273
+            }
+          },
+          "A2": {
+            "trials": 78,
+            "3_way": {
+              "repaired_copy": {
+                "count": 16,
+                "share": 0.20512820512820512
+              },
+              "repaired_rewrite": {
+                "count": 62,
+                "share": 0.7948717948717948
+              },
+              "not_repaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 16,
+                "share": 0.20512820512820512
+              },
+              "repaired_rewrite": {
+                "count": 62,
+                "share": 0.7948717948717948
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 78,
+              "share": 1.0
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 62,
+              "trials": 62,
+              "rate": 1.0
+            }
+          },
+          "A3": {
+            "trials": 18,
+            "3_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 15,
+                "share": 0.8333333333333334
+              },
+              "not_repaired": {
+                "count": 3,
+                "share": 0.16666666666666666
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 15,
+                "share": 0.8333333333333334
+              },
+              "replaced_or_deleted": {
+                "count": 2,
+                "share": 0.1111111111111111
+              },
+              "unrepaired": {
+                "count": 1,
+                "share": 0.05555555555555555
+              }
+            },
+            "total_repaired": {
+              "count": 15,
+              "share": 0.8333333333333334
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 15,
+              "trials": 18,
+              "rate": 0.8333333333333334
+            }
+          }
+        },
+        "O3": {
+          "A0": {
+            "trials": 75,
+            "3_way": {
+              "repaired_copy": {
+                "count": 41,
+                "share": 0.5466666666666666
+              },
+              "repaired_rewrite": {
+                "count": 33,
+                "share": 0.44
+              },
+              "not_repaired": {
+                "count": 1,
+                "share": 0.013333333333333334
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 41,
+                "share": 0.5466666666666666
+              },
+              "repaired_rewrite": {
+                "count": 33,
+                "share": 0.44
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 1,
+                "share": 0.013333333333333334
+              }
+            },
+            "total_repaired": {
+              "count": 74,
+              "share": 0.9866666666666667
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 33,
+              "trials": 34,
+              "rate": 0.9705882352941176
+            }
+          },
+          "A1": {
+            "trials": 75,
+            "3_way": {
+              "repaired_copy": {
+                "count": 46,
+                "share": 0.6133333333333333
+              },
+              "repaired_rewrite": {
+                "count": 29,
+                "share": 0.38666666666666666
+              },
+              "not_repaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 46,
+                "share": 0.6133333333333333
+              },
+              "repaired_rewrite": {
+                "count": 29,
+                "share": 0.38666666666666666
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 75,
+              "share": 1.0
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 29,
+              "trials": 29,
+              "rate": 1.0
+            }
+          },
+          "A2": {
+            "trials": 75,
+            "3_way": {
+              "repaired_copy": {
+                "count": 27,
+                "share": 0.36
+              },
+              "repaired_rewrite": {
+                "count": 45,
+                "share": 0.6
+              },
+              "not_repaired": {
+                "count": 3,
+                "share": 0.04
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 27,
+                "share": 0.36
+              },
+              "repaired_rewrite": {
+                "count": 45,
+                "share": 0.6
+              },
+              "replaced_or_deleted": {
+                "count": 3,
+                "share": 0.04
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 72,
+              "share": 0.96
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 45,
+              "trials": 48,
+              "rate": 0.9375
+            }
+          },
+          "A3": {
+            "trials": 18,
+            "3_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 9,
+                "share": 0.5
+              },
+              "not_repaired": {
+                "count": 9,
+                "share": 0.5
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 9,
+                "share": 0.5
+              },
+              "replaced_or_deleted": {
+                "count": 9,
+                "share": 0.5
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 9,
+              "share": 0.5
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 9,
+              "trials": 18,
+              "rate": 0.5
+            }
+          }
+        },
+        "O5": {
+          "A0": {
+            "trials": 78,
+            "3_way": {
+              "repaired_copy": {
+                "count": 14,
+                "share": 0.1794871794871795
+              },
+              "repaired_rewrite": {
+                "count": 58,
+                "share": 0.7435897435897436
+              },
+              "not_repaired": {
+                "count": 6,
+                "share": 0.07692307692307693
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 14,
+                "share": 0.1794871794871795
+              },
+              "repaired_rewrite": {
+                "count": 58,
+                "share": 0.7435897435897436
+              },
+              "replaced_or_deleted": {
+                "count": 6,
+                "share": 0.07692307692307693
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 72,
+              "share": 0.9230769230769231
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 58,
+              "trials": 64,
+              "rate": 0.90625
+            }
+          },
+          "A1": {
+            "trials": 78,
+            "3_way": {
+              "repaired_copy": {
+                "count": 17,
+                "share": 0.21794871794871795
+              },
+              "repaired_rewrite": {
+                "count": 57,
+                "share": 0.7307692307692307
+              },
+              "not_repaired": {
+                "count": 4,
+                "share": 0.05128205128205128
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 17,
+                "share": 0.21794871794871795
+              },
+              "repaired_rewrite": {
+                "count": 57,
+                "share": 0.7307692307692307
+              },
+              "replaced_or_deleted": {
+                "count": 4,
+                "share": 0.05128205128205128
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 74,
+              "share": 0.9487179487179487
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 57,
+              "trials": 61,
+              "rate": 0.9344262295081968
+            }
+          },
+          "A2": {
+            "trials": 78,
+            "3_way": {
+              "repaired_copy": {
+                "count": 13,
+                "share": 0.16666666666666666
+              },
+              "repaired_rewrite": {
+                "count": 61,
+                "share": 0.782051282051282
+              },
+              "not_repaired": {
+                "count": 4,
+                "share": 0.05128205128205128
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 13,
+                "share": 0.16666666666666666
+              },
+              "repaired_rewrite": {
+                "count": 61,
+                "share": 0.782051282051282
+              },
+              "replaced_or_deleted": {
+                "count": 4,
+                "share": 0.05128205128205128
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 74,
+              "share": 0.9487179487179487
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 61,
+              "trials": 65,
+              "rate": 0.9384615384615385
+            }
+          },
+          "A3": {
+            "trials": 18,
+            "3_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 13,
+                "share": 0.7222222222222222
+              },
+              "not_repaired": {
+                "count": 5,
+                "share": 0.2777777777777778
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 13,
+                "share": 0.7222222222222222
+              },
+              "replaced_or_deleted": {
+                "count": 5,
+                "share": 0.2777777777777778
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 13,
+              "share": 0.7222222222222222
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 13,
+              "trials": 18,
+              "rate": 0.7222222222222222
+            }
+          }
+        },
+        "O6": {
+          "A0": {
+            "trials": 81,
+            "3_way": {
+              "repaired_copy": {
+                "count": 60,
+                "share": 0.7407407407407407
+              },
+              "repaired_rewrite": {
+                "count": 21,
+                "share": 0.25925925925925924
+              },
+              "not_repaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 60,
+                "share": 0.7407407407407407
+              },
+              "repaired_rewrite": {
+                "count": 21,
+                "share": 0.25925925925925924
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 81,
+              "share": 1.0
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 21,
+              "trials": 21,
+              "rate": 1.0
+            }
+          },
+          "A1": {
+            "trials": 81,
+            "3_way": {
+              "repaired_copy": {
+                "count": 78,
+                "share": 0.9629629629629629
+              },
+              "repaired_rewrite": {
+                "count": 3,
+                "share": 0.037037037037037035
+              },
+              "not_repaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 78,
+                "share": 0.9629629629629629
+              },
+              "repaired_rewrite": {
+                "count": 3,
+                "share": 0.037037037037037035
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 81,
+              "share": 1.0
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 3,
+              "trials": 3,
+              "rate": 1.0
+            }
+          },
+          "A2": {
+            "trials": 81,
+            "3_way": {
+              "repaired_copy": {
+                "count": 71,
+                "share": 0.8765432098765432
+              },
+              "repaired_rewrite": {
+                "count": 10,
+                "share": 0.12345679012345678
+              },
+              "not_repaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 71,
+                "share": 0.8765432098765432
+              },
+              "repaired_rewrite": {
+                "count": 10,
+                "share": 0.12345679012345678
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 81,
+              "share": 1.0
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 10,
+              "trials": 10,
+              "rate": 1.0
+            }
+          },
+          "A3": {
+            "trials": 18,
+            "3_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 18,
+                "share": 1.0
+              },
+              "not_repaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 18,
+                "share": 1.0
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 18,
+              "share": 1.0
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 18,
+              "trials": 18,
+              "rate": 1.0
+            }
+          }
+        },
+        "O7": {
+          "A0": {
+            "trials": 81,
+            "3_way": {
+              "repaired_copy": {
+                "count": 70,
+                "share": 0.8641975308641975
+              },
+              "repaired_rewrite": {
+                "count": 11,
+                "share": 0.13580246913580246
+              },
+              "not_repaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 70,
+                "share": 0.8641975308641975
+              },
+              "repaired_rewrite": {
+                "count": 11,
+                "share": 0.13580246913580246
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 81,
+              "share": 1.0
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 11,
+              "trials": 11,
+              "rate": 1.0
+            }
+          },
+          "A1": {
+            "trials": 81,
+            "3_way": {
+              "repaired_copy": {
+                "count": 76,
+                "share": 0.9382716049382716
+              },
+              "repaired_rewrite": {
+                "count": 5,
+                "share": 0.06172839506172839
+              },
+              "not_repaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 76,
+                "share": 0.9382716049382716
+              },
+              "repaired_rewrite": {
+                "count": 5,
+                "share": 0.06172839506172839
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 81,
+              "share": 1.0
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 5,
+              "trials": 5,
+              "rate": 1.0
+            }
+          },
+          "A2": {
+            "trials": 81,
+            "3_way": {
+              "repaired_copy": {
+                "count": 77,
+                "share": 0.9506172839506173
+              },
+              "repaired_rewrite": {
+                "count": 4,
+                "share": 0.04938271604938271
+              },
+              "not_repaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 77,
+                "share": 0.9506172839506173
+              },
+              "repaired_rewrite": {
+                "count": 4,
+                "share": 0.04938271604938271
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 81,
+              "share": 1.0
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 4,
+              "trials": 4,
+              "rate": 1.0
+            }
+          },
+          "A3": {
+            "trials": 18,
+            "3_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 18,
+                "share": 1.0
+              },
+              "not_repaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "4_way": {
+              "repaired_copy": {
+                "count": 0,
+                "share": 0.0
+              },
+              "repaired_rewrite": {
+                "count": 18,
+                "share": 1.0
+              },
+              "replaced_or_deleted": {
+                "count": 0,
+                "share": 0.0
+              },
+              "unrepaired": {
+                "count": 0,
+                "share": 0.0
+              }
+            },
+            "total_repaired": {
+              "count": 18,
+              "share": 1.0
+            },
+            "within_rewrite": {
+              "note": "descriptive only; non-identical subset subject to composition artefact",
+              "repaired": 18,
+              "trials": 18,
+              "rate": 1.0
+            }
+          }
+        }
+      }
+    }
+  }
+}

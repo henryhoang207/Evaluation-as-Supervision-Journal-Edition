@@ -1,5 +1,26 @@
 # START HERE — next session
 
+> **Update, 2026-11-17 — current handoff.** The 2026-11-13 supervisor round is
+> tracked in **[`SUPERVISOR_FEEDBACK_2026-11-13.md`](SUPERVISOR_FEEDBACK_2026-11-13.md)**
+> (locked decisions §2/§10; next-session prompt §11; S5 result §8.6). Status:
+> - **Done and pushed:** Phase 0; S2 (A13: `T2A0` 284, `T2TA0` 360, verified);
+>   S3 Option H (A14: 56-business harvest, `T1H` 72 trials; pooled A2 − A1
+>   +22.2 pp [−10.4, +44.9], p = 0.1656, does not reject — the T1 gap did not
+>   reproduce, RQ3 claims need revising); A15 frozen at `edfb406` /
+>   `prereg-fl-freeze` (remote tag confirmed 2026-11-17).
+> - **S5 collected and verified, uncommitted:** `cell.py verify flashlite`
+>   PASS — 168/168 rows, 1,520/1,521 usable (one `status_error`, a provider
+>   failure kept as the pre-registered exclusion), all `gemini-3.5-flash-lite`,
+>   re-score 1,520/1,520, **11,671,123** recorded tokens. Frozen primary:
+>   **replicated**, A1 − A2 exact restoration **+11.0 pp [+5.1, +17.0]**,
+>   McNemar **p = 0.0052**. Details in `RUN_QUEUE.md` (log 2026-11-17).
+> - **S1** deprecation text is in the working tree (uncommitted).
+> - **Next:** S2/S3/S5 into `RESULTS.md` and `journal/*.tex`; S4
+>   contributions, abstract, highlights; build; `check_draft.py`. No commit,
+>   tag or push without the author's `claude_guard.py --go-ahead` grant.
+>
+> The 2026-11-02 and earlier updates below are history.
+
 > **Update, 2026-11-02:** All phases of
 > **[`SUPERVISOR_FEEDBACK_2026-10-30.md`](SUPERVISOR_FEEDBACK_2026-10-30.md)**
 > are **100% complete and verified**:
