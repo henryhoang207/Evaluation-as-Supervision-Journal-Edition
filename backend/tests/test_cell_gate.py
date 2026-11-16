@@ -339,12 +339,12 @@ def test_preparing_cells_cannot_launch_even_when_other_checks_are_stubbed(tmp_pa
     assert not (tmp_path / "ledger.jsonl").exists()
 
 
-def test_a15_repair_trials_stay_closed_while_preparatory_cells_release():
+def test_a15_repair_release_retains_the_separate_freeze_requirement():
     bases, trials = cell.CELLS["flashlite_bases"], cell.CELLS["flashlite"]
     assert bases.amendment == trials.amendment == "A15"
     assert not bases.preparing and bases.freeze_tag is None
     assert not cell.CELLS["flashlite_determinism"].preparing
-    assert trials.preparing and trials.freeze_tag == "prereg-fl-freeze"
+    assert not trials.preparing and trials.freeze_tag == "prereg-fl-freeze"
     ok, _ = cell.check_amendment_text(bases, "")
     assert not ok  # releasing the flag does not replace the filed-amendment gate
 

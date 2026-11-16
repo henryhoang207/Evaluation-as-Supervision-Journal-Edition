@@ -75,9 +75,9 @@ class Spec:
 
 
 CELLS = {s.name: s for s in (
-    # S5: A15 preparation protocol releases bases only. Amendment-in-HEAD and
-    # upstream gates still apply; trials stay preparing until the separate
-    # prereg-fl-freeze completion. Registration alone never authorizes a run.
+    # S5: final A15 release still requires the pushed amendment and separate
+    # prereg-fl-freeze commit with all pre-trial artifacts. Registration alone
+    # never authorizes a run.
     # Measurement registered before its collector; its committed protocol gates launch.
     Spec("flashlite_determinism", "determinism", "out_study/FL/determinism", "A15",
          REPLICATION_MODEL, root="out_study/FL"),
@@ -85,7 +85,7 @@ CELLS = {s.name: s for s in (
          samples=("out_study/sample.json",), marker="out_study/FL/A"),
     Spec("flashlite", "injection", "out_study/T2FL", "A15", REPLICATION_MODEL,
          runner_cell="flashlite", root="out_study/FL", analysis="flashlite",
-         preparing=True, freeze_tag="prereg-fl-freeze"),
+         freeze_tag="prereg-fl-freeze"),
     Spec("core", "injection", "out_study/T2", None, None, frozen=True,
          runner_cell="core", analysis="core"),
     Spec("thinking", "injection", "out_study/T2T", "A12", FLASH, frozen=True,
@@ -255,6 +255,7 @@ def check_replication_freeze(spec: Spec) -> tuple[bool, str]:
              "backend/scripts/flashlite_protocol.py", "backend/scripts/analysis/repair_analysis.py",
              "backend/scripts/analysis/power.py", "backend/scripts/inject_defects.py",
              "backend/scripts/arms.py", "backend/scripts/analysis/score_repair.py",
+             "backend/scripts/analysis/content_match.py",
              "backend/scripts/cell.py", "backend/scripts/flashlite_determinism.py", PREREG,
              "backend/app/agents", "backend/app/core/nodes.py", "backend/app/core/supervision.py",
              "backend/app/core/llm_config.py", "backend/app/schemas/contracts.py",

@@ -1017,6 +1017,119 @@ the tagged plan, power report, measurement checkpoint/manifest/analysis and
 unchanged runtime/prompt sources. The final A15 freeze note and
 `prereg-fl-freeze` remain pending the measurement; this note is not that tag.
 
+**A15 pre-trial completion — ready for the freeze (2026-11-16).**
+
+The original preparation protocol preceded all own-base collection
+(`7ccda0d`). The author committed/pushed the bases, plan/power and prospective
+measurement/prediction rule as `5f12198` before the first calibration request.
+No main repair trial exists when this completion note is written; the
+`out_study/T2FL/checkpoint.jsonl` file is absent.
+
+*Determinism measurement, completed and verified.* Ten preselected real A1@P1,
+C0 prompts, two requests each, **20/20 successful responses** exclusively from
+`gemini-3.5-flash-lite`, temperature 0 and reasoning effort omitted. SDK
+transport retries were disabled for this measurement. `cell.py verify
+flashlite_determinism` passes: all prompt/base/runtime provenance agrees,
+no pair spans sessions, no duplicate request completion and no invalid JSON.
+**Raw identity is 8/10 pairs; canonical JSON identity is 8/10 pairs** (both
+have ten valid-pair denominators). These compare the two responses to one
+another, without scoring repair or restoration against clean references.
+The measurement is descriptive; **r = 3 remains fixed** as specified before
+these requests. There is no outcome-selected replacement or new test.
+
+Actual calibration usage: **409,450 tokens**, versus the prospective estimate
+520,402. The report is `out_study/FL/determinism/analysis.json`; raw responses
+and receipts are retained in its checkpoint, with the fixed prompt/source
+manifest. The stage-runtime package snapshot is `runtime.json` in that same
+directory: Python **3.14.3**, OpenAI **2.41.0**, httpx **0.28.1**, and all
+installed package versions. Primary repair runs retain the production SDK /
+schema-retry handling, record every returned call and `attempts_made`, and
+apply the already specified losses and sensitivity; the calibration's raw
+single-call path does not redefine a repair trial.
+
+*Frozen design.* The planning completion above is unchanged: original 28
+businesses, all 2,478 sampled reviews retained, cap 500 and review seed 42;
+all own bases from Flash-Lite only, no fallback. Base fingerprint
+`ebb7147a9397d4a01685f12d8ad6228df1c22c4ec17f7ec54026acad64f90218`.
+**N_FL=157**, **Q_FL=36**, **1,521 planned trials**: A0/A1/A2 at P1,
+471 each; A3 at P0 on the fixed quarter stride, 108. C0, injection seed 0,
+one session per defect, defect-outer execution, r=3; no new bases. Model and
+both fallback names remain `gemini-3.5-flash-lite`, fallback disabled,
+temperature 0, `reasoning_effort=None` (omitted, never the string `none`).
+The documented power assumptions and estimated **10.65 pp** MDE stand.
+
+The one primary outcome remains unconditional canonical-JSON exact
+restoration to each model-owned clean output. Point estimate and the
+10,000-resample, two-sided 95% defect-cluster percentile CI use paired
+defect-level repetition means, seed 20260803. The two-sided **exact McNemar**
+test at alpha 0.05 uses strict majority of usable repetitions per defect,
+with the recorded loss/tie rules. Replicated iff A1−A2 > 0, its CI excludes 0
+and exact McNemar p < 0.05; otherwise report not replicated with the estimate.
+The single-call sensitivity and all secondary/conditional readings above
+remain exploratory and unchanged from `5f12198`, before calibration. No
+calibration response is used to choose that prediction or alter this design.
+
+*Budget and release.* Exact total spent across checkpoints before the main
+run is **84,909,021 tokens**. Main-run estimate remains **21,294,000 tokens**
+(1,521 × 14,000; a planning proxy, no cap). The pre-launch cell gate logs this
+estimate and the exact spent total; verified actual usage is logged afterward.
+Core T2 (1,167) and T2T (1,224) remain unchanged.
+
+Include this note, the measurement data/runtime snapshot and the `flashlite`
+release flag in **one commit**, push it, then create/push the annotated
+**`prereg-fl-freeze` tag on that commit** before the first main trial. The
+working-tree release is still blocked by the missing tag and uncommitted
+protocol. The gate requires tagged plan/power/measurement artifacts and
+unchanged sources/bases, including the content matcher. Run only through
+`cell.py` preflight/launch/status/verify. Final release validation is recorded
+in `RUN_QUEUE.md` and the run ledger before the author's commit/tag.
+
+*SHA256s at completion (paths relative to `backend/`).* The tag itself pins
+this document; no self-referential document hash is embedded. The base
+fingerprint above covers the full fixed sample and every base dump.
+
+| File | SHA256 |
+|---|---|
+| `scripts/cell.py` | `6f0b9f47bb2ad875200bbb680406fbf0586b62597c363d4f13bf4845db175b36` |
+| `scripts/run_injection_study.py` | `5f132144c6a2b180ff6724d55c3d103b34b77075ec37fe8d2fec354f1d5de58f` |
+| `scripts/run_study.py` | `0a146d047297f1076428803969d36aaa1a8728fdad7c11b2370b2c61eac023d5` |
+| `scripts/flashlite_protocol.py` | `04e3562f1a38e1417aac4144439043cadefb1d6e3d3e613b122d76d7c85bedb6` |
+| `scripts/flashlite_determinism.py` | `4aa21a3ee0b6272c10a7c5362d39d3c3902c702c32350403c819e8a7aad894a0` |
+| `scripts/analysis/repair_analysis.py` | `2ee0047911b5b200243308f0d8a619b06832744056db0cc0706469e4519484bf` |
+| `scripts/analysis/power.py` | `195f41f867d20073c273757748e8b8c359fbe072cdfee6d4275fa27ad6aeee1c` |
+| `scripts/analysis/score_repair.py` | `e8dab89ad29663089724f228a502d0e7c61c4122ceab320fbda4bfd71c101303` |
+| `scripts/analysis/content_match.py` | `e6570a147701a406735aeb537b18270fb9d505f6fee3c9912a5dfe0c62927dcf` |
+| `scripts/arms.py` | `41e2468d016f4e5d19050c987723a32de5c391187c06ced1861d36d54a8aef7f` |
+| `scripts/inject_defects.py` | `52159f714a5849795a8ce613c0fd04ed531b5d735deab9748759b03a294e2213` |
+| `app/agents/base_agent.py` | `d6bdfdc4ef2c95884dd021eff43953f94f3b3691412fb1951c7cd6d6ea073a19` |
+| `app/agents/reasoning_agent.py` | `7ec3186aa22c230a32f90739d9752d96ef96fbb92bc5cc6ed3a02eaad97e9b39` |
+| `app/agents/strategy_agent.py` | `1de73754c71f1b01d44d9456a1874eb8ae5c4d5192539f8e615fa4affa7852be` |
+| `app/agents/report_agent.py` | `740070b35cf96e97f2abbf42b359af547833c241be8e5ef3eaa35fb5dfb031ab` |
+| `app/core/nodes.py` | `dc7463e783295d3d7430f4ead6c66960533c8249529c3e13d7843de5a859d925` |
+| `app/core/supervision.py` | `858f736ef6d8c13aa0869adc33cf086a1b4c24042f17b4122cd77e9f65027452` |
+| `app/core/llm_config.py` | `c5a6593fa3cbf8dbe8aa410d65e066babf85f7ce95058b861e04d5f662ccc608` |
+| `app/schemas/contracts.py` | `b63e651918ccdfe6cfa576a4e7d310abc0fa774c953f909260e1f258142205be` |
+| `app/data/loader.py` | `8564c0c2d2d2f201a5fc3c0d31fd92d654421363ffaeedb87c95e9c8d4c0512b` |
+| `out_study/sample.json` | `495787eac5b2df00ecf75dd48fb9d2c1f17424605013f7c0dd8f1833f5b85410` |
+| `out_study/FL/A/checkpoint.jsonl` | `02f4b2adb30a1e0375875135eb7cb45e58ee18e8ec9a50324ce4b94b5eaad54c` |
+| `out_study/FL/plan.json` | `7a20b5513ae45c16d869f7855ed6fda6184ddb17efd205165f481be118f8745f` |
+| `out_study/FL/power.json` | `9e0ea8ecd5c4f4d1005736a65106ed66842f9c44916fefb10b9aa5e646d48c96` |
+| `out_study/FL/determinism/checkpoint.jsonl` | `b468e79f5c926354b85ef90254c0793d855ade305e1809e7b8879f27172945f3` |
+| `out_study/FL/determinism/manifest.json` | `bbf29f28cf9f2a73eda35ba5f3abc9043db3b24ace4b49b51aeca80fe1171e9d` |
+| `out_study/FL/determinism/analysis.json` | `9b42975480bcc33a1de6f8aebe94790b0f4c5879b89e47473c2b9bc4ecd50099` |
+| `out_study/FL/determinism/runtime.json` | `36e4cb2c38bf744bc84860f28682ecaebd2d9da3511289b46d3cb54b4b6cd2f2` |
+
+*Final release validation (2026-11-16, before the commit/tag).* Focused
+release/provenance suite: **74 passed**. The full cell-preflight test gate:
+**655 passed, 13 integration tests deselected, 1 existing warning** (351.21 s).
+Its own-model dry run passed **168/168 rows, 1,521/1,521 trials**, one session
+per defect; the original core plan remains 1,167. Repeat measurement
+verification reproduces its stored analysis. All hashes above and the frozen
+checkpoint hashes were checked again. The full preflight remains held on the
+missing tag, pending protocol commit and this session's SDK/proxy limitation;
+launch from the normal terminal after the author's commit/tag/push. No main
+trial has run.
+
 ---
 
 ## 1. The estimand, stated in one sentence
