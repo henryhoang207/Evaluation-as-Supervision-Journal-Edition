@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Negative staff attitude reported by customers",
+      "action": "Implement a mandatory customer service refresher training program and evaluate peak-hour staffing levels to reduce employee burnout.",
+      "category": "service",
+      "expected_impact": "Improve customer satisfaction scores and create a more welcoming, positive dining experience."
+    },
+    {
+      "priority": 2,
+      "issue": "Complaints regarding the ambience or environment of the restaurant",
+      "action": "Conduct a comprehensive walkthrough to identify maintenance issues, optimize seating layouts, and establish a weekly facility inspection checklist.",
+      "category": "operations",
+      "expected_impact": "Enhance the physical environment and overall comfort for guests, reducing negative feedback about the venue."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

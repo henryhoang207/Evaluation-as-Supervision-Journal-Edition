@@ -1,0 +1,27 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and taste due to lack of standardized recipes and kitchen execution issues.",
+      "action": "Implement strict standardized recipes, step-by-step plating guides, and comprehensive kitchen training during off-peak hours to ensure consistency.",
+      "category": "food",
+      "expected_impact": "Significantly reduce food complaints and improve overall dish consistency, leading to higher customer satisfaction scores."
+    },
+    {
+      "priority": 2,
+      "issue": "High prices and poor value perception due to menu pricing misalignment with portions or experience.",
+      "action": "Conduct a menu engineering audit to review portion sizes, ingredient costs, and perceived value, adjusting prices or enhancing presentation accordingly.",
+      "category": "pricing",
+      "expected_impact": "Align customer expectations with pricing, reducing value-related complaints and encouraging repeat visits."
+    },
+    {
+      "priority": 3,
+      "issue": "Unhelpful or rude staff attitudes caused by insufficient service training and high stress during peak shifts.",
+      "action": "Roll out mandatory hospitality and de-escalation training workshops for all front-of-house staff, alongside optimized shift scheduling to manage stress.",
+      "category": "service",
+      "expected_impact": "Improve staff morale and attentiveness, resulting in warmer guest interactions and fewer negative service reviews."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

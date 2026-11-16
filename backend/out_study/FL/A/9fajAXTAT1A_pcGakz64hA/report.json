@@ -1,0 +1,30 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Honey Baked Ham Company",
+  "sample_size": 14,
+  "executive_summary": "An analysis of 14 customer reviews identified pricing and perceived value as the primary area of concern. Customers frequently feel that menu prices are too high relative to the offerings, indicating an opportunity to enhance perceived value.",
+  "key_findings": [
+    "Approximately 28.5% of analyzed reviews highlight concerns regarding high pricing or poor value."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about high pricing or poor value.",
+      "cause": "Menu prices are set higher than the perceived value of the offerings by a subset of customers.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Menu prices are set higher than the perceived value of the offerings by a subset of customers.",
+      "action": "Introduce value-driven bundling options such as prix fixe lunch menus or weeknight special combos to increase perceived value without cutting standalone item prices.",
+      "category": "pricing",
+      "expected_impact": "Improve perceived value for price-sensitive customers, leading to higher conversion rates and reduced negative reviews regarding cost."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a small sample size of 14 reviews, which may not fully represent the entire customer base."
+  ],
+  "status": "success",
+  "error_detail": null
+}

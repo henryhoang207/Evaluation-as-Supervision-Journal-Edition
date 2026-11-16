@@ -1,0 +1,70 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Nora Lee's",
+  "sample_size": 214,
+  "executive_summary": "An analysis of 214 customer reviews for Nora Lee's reveals prominent pain points surrounding food consistency, staff demeanor, wait times, and perceived value for money. Addressing these issues through standardized kitchen operations, improved front-and-back-of-house coordination, staff training, and value realignment will significantly enhance customer satisfaction and drive repeat business.",
+  "key_findings": [
+    "28% of reviews mention poor food quality or inconsistent dishes.",
+    "23% of reviews cite negative experiences regarding unhelpful, rude, or unprofessional staff attitude.",
+    "19% of reviews highlight long waiting times for seating, service, or food delivery.",
+    "17% of reviews complain that prices are too high relative to the quality or portion sizes provided."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about poor food quality or inconsistent dishes.",
+      "cause": "Kitchen understaffing or lack of standardized recipes leading to inconsistency during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding unhelpful, rude, or unprofessional staff attitude.",
+      "cause": "Inadequate staff training, poor morale due to high turnover, or being overworked during busy periods.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Patrons experience long waiting times for seating, service, or food delivery.",
+      "cause": "Front-of-house and back-of-house coordination issues, or insufficient staffing levels to handle high customer volume.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints that the prices are too high relative to the quality or portion sizes provided.",
+      "cause": "Menu pricing increases that outpace the perceived value or quality of the ingredients delivered.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and poor dishes during peak hours due to a lack of standardization and kitchen understaffing.",
+      "action": "Implement strict standardized recipes with photo guides for plating, and hire an additional line cook to cover peak service hours.",
+      "category": "food",
+      "expected_impact": "Improved dish consistency, reduced ticket times, and higher customer satisfaction regarding food quality."
+    },
+    {
+      "priority": 2,
+      "issue": "Long waiting times for seating, service, and food caused by poor front-and-back-of-house coordination and staffing shortages.",
+      "action": "Introduce a digital kitchen display system (KDS) to streamline communication between servers and the kitchen, and adjust scheduling to ensure proper staffing during peak volume.",
+      "category": "operations",
+      "expected_impact": "Significantly reduced wait and delivery times, smoother table turnover, and decreased customer frustration."
+    },
+    {
+      "priority": 3,
+      "issue": "Unhelpful or rude staff attitude resulting from high turnover, poor morale, and being overworked.",
+      "action": "Launch a mandatory customer service and conflict resolution training program, and introduce a staff incentive bonus for positive reviews.",
+      "category": "service",
+      "expected_impact": "Higher staff morale, more professional and welcoming guest interactions, and better overall hospitality."
+    },
+    {
+      "priority": 4,
+      "issue": "Prices perceived as too high relative to the quality or portion sizes provided.",
+      "action": "Review current portion sizes and ingredient costs, offering either slight portion increases on signature dishes or adjusting menu descriptions to better highlight ingredient quality and value.",
+      "category": "pricing",
+      "expected_impact": "Enhanced perceived value for money, reduced complaints about pricing, and increased repeat visits."
+    }
+  ],
+  "limitations": [
+    "Analysis is based strictly on a sample of 214 online reviews, which may overrepresent extreme positive or negative experiences.",
+    "Sentiment and root causes are derived from text patterns and may not capture every nuance of individual customer visits."
+  ],
+  "status": "success",
+  "error_detail": null
+}

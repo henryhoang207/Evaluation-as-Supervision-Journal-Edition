@@ -1,0 +1,41 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Slow wait times caused by kitchen bottlenecks and understaffing during peak dining periods",
+      "action": "Restructure kitchen station workflows and add an additional prep cook during peak hours to streamline ticket times.",
+      "category": "operations",
+      "expected_impact": "Significant reduction in wait times, higher table turnover, and improved customer satisfaction scores."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent food quality and taste due to lack of quality control during high-volume hours",
+      "action": "Implement strict plating checklists and require the head chef to perform quality checks on 100% of outgoing dishes during peak rushes.",
+      "category": "food",
+      "expected_impact": "More consistent food presentation and flavor, reducing negative reviews regarding culinary quality."
+    },
+    {
+      "priority": 3,
+      "issue": "High pricing perception misaligned with customer value expectations and portion sizes",
+      "action": "Review menu mix to introduce affordable entry-level items and audit portion sizes to ensure perceived value matches pricing.",
+      "category": "pricing",
+      "expected_impact": "Lower resistance to menu prices and improved value-for-money ratings among budget-conscious diners."
+    },
+    {
+      "priority": 4,
+      "issue": "Staff attitude issues driven by high stress and lack of structured customer service training",
+      "action": "Conduct bi-weekly customer service workshops focusing on de-escalation, positivity, and stress management during rushes.",
+      "category": "service",
+      "expected_impact": "Friendlier staff interactions, better morale, and improved customer service ratings."
+    },
+    {
+      "priority": 5,
+      "issue": "Ambience and environment complaints related to overcrowding, noise, and poor seating layout",
+      "action": "Optimize the dining room floor plan to improve traffic flow and add sound-absorbing panels to mitigate excessive noise levels.",
+      "category": "operations",
+      "expected_impact": "A more comfortable, pleasant dining atmosphere that enhances overall guest comfort."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

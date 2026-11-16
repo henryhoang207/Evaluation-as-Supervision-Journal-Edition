@@ -1,0 +1,71 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Steak ’n Shake",
+  "sample_size": 14,
+  "executive_summary": "Based on an analysis of recent customer reviews, Steak ’n Shake faces significant operational and service challenges. The primary pain points identified are inconsistent food quality, long wait times, negative staff attitudes, and cleanliness issues, all largely driven by understaffing, insufficient training, and a lack of standardized operational procedures.",
+  "key_findings": [
+    "43% of reviews highlight poor food quality and inconsistent dishes.",
+    "43% of reviews report long wait times and slow service.",
+    "43% of reviews mention negative staff attitudes and poor customer service.",
+    "29% of reviews cite cleanliness issues within the establishment."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report poor food quality and inconsistent dishes.",
+      "cause": "Lack of standardized recipes and inadequate kitchen quality control.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Long wait times and slow service reported by multiple customers.",
+      "cause": "Understaffing during peak hours and inefficient kitchen or front-of-house workflow.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative staff attitude and poor customer service interactions.",
+      "cause": "Poor staff training, low morale, and high employee stress due to understaffing.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints regarding cleanliness issues in the establishment.",
+      "cause": "Inadequate closing/opening checklists and lack of dedicated staff for maintenance.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Lack of standardized recipes and inadequate kitchen quality control leading to inconsistent food quality.",
+      "action": "Implement strict standardized recipe cards, conduct mandatory culinary training for all kitchen staff, and institute a chef-led quality check before any plate leaves the pass.",
+      "category": "food",
+      "expected_impact": "Reduction in food-related complaints and improvement in dish consistency."
+    },
+    {
+      "priority": 2,
+      "issue": "Understaffing and inefficient workflow causing long wait times and slow service.",
+      "action": "Review peak-hour scheduling data to adjust labor levels, hire additional front-of-house and kitchen staff, and streamline the order-to-table workflow.",
+      "category": "operations",
+      "expected_impact": "Significantly faster table turn times and reduced customer wait durations."
+    },
+    {
+      "priority": 3,
+      "issue": "Poor staff training, low morale, and high employee stress resulting in negative staff attitude.",
+      "action": "Launch a customer service refresher training program, introduce incentive programs for positive customer feedback, and address understaffing to alleviate employee burnout.",
+      "category": "service",
+      "expected_impact": "Improved staff morale, friendlier guest interactions, and better overall hospitality."
+    },
+    {
+      "priority": 4,
+      "issue": "Inadequate closing/opening checklists and lack of dedicated staff for facility maintenance leading to cleanliness issues.",
+      "action": "Implement mandatory digital opening and closing cleaning checklists, assign specific sanitation duties to designated shift workers, and conduct weekly manager audits.",
+      "category": "operations",
+      "expected_impact": "Consistent restaurant hygiene and elimination of cleanliness-related negative reviews."
+    }
+  ],
+  "limitations": [
+    "Analysis is based on a small sample size of 14 reviews.",
+    "Customer reviews tend to skew toward extreme experiences, either very positive or very negative.",
+    "Lack of contextual financial and volume data to fully measure the impact of operational bottlenecks."
+  ],
+  "status": "success",
+  "error_detail": null
+}

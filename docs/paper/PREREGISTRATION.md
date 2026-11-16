@@ -84,7 +84,7 @@ section records every divergence from it.
 | **A12** | **2026-11-01** | **Thinking-budget sweep on Gemini 2.5 Flash** (`--cell thinking` → `out_study/T2T`): 45 defects, 1,224 trials across `reasoning_effort` ∈ {`none`, `low`, `medium`, `high`}, dose-response trend test, exact copy contrast, repair decomposition. | Exploratory; core remains frozen |
 | **A13** | **2026-11-13** | **S2 — the A0 ceiling is completed on `gemini-2.5-flash` before its withdrawal (1 Dec 2026).** `--cell a0fill` → `out_study/T2A0`: A0@P1 r = 3 on the 71 core defects the frozen A0 stride skipped, plus an in-session A1@P1 r = 1 anchor — 284 trials. `--cell thinking_a0` → `out_study/T2TA0`: on the 45 T2T defects, A0@P1 r = 3 and the A1@P1 r = 1 anchor at `reasoning_effort` `none` and `high` — 360 trials. Readings, including the case A1 ≥ A0 in restoration, fixed below. *Note 2026-11-14, after the data:* the share of the gap closed is not applicable when A0 − A2 lies wholly below 0 (S2b `none`); see the note at the end of A13. | Exploratory; cross-session joins to T2 and T2T are labelled as such; core and T2T untouched |
 | **A14** | **2026-11-13** | **S3 — the real-defect bank is enlarged by harvest (Option H).** Phase A (observe) on 56 fresh businesses in two stratified batches of 28 into `out_study/H/A`; stop after Batch 1 if the pooled bank (T1 + T1H) reaches ≥ 18 business × stage cells; replay into `out_study/T1H` with the A8 design. T1, T1H and pooled reported side by side; one two-sided cell-cluster bootstrap test on A2 − A1 acceptance iff the pooled bank has ≥ 15 cells. | Descriptive, plus at most one test fixed here; T1 (A8) untouched |
-| **A15** | **2026-11-16** | **S5 — prospective Flash-Lite replication, preparation protocol.** `flashlite_bases` collects the original 28 businesses into `out_study/FL/A` on `gemini-3.5-flash-lite`; `flashlite` → `out_study/T2FL` remains blocked until actual N_FL, power/MDE, determinism measurement, prospective readings and source/data hashes are recorded and tagged `prereg-fl-freeze`. Full A0/A1/A2@P1, r = 3; A3@P0 on the quarter stride. | Separate prospective exact-restoration test under I5; no repair trial before final freeze; core and T2T unchanged |
+| **A15** | **2026-11-16** | **S5 — prospective Flash-Lite replication, preparation protocol.** `flashlite_bases` collects the original 28 businesses into `out_study/FL/A` on `gemini-3.5-flash-lite`; `flashlite` → `out_study/T2FL` remains blocked until actual N_FL, power/MDE, determinism measurement, prospective readings and source/data hashes are recorded and tagged `prereg-fl-freeze`. Full A0/A1/A2@P1, r = 3; A3@P0 on the quarter stride. `flashlite_determinism` → `out_study/FL/determinism` measures ten prompt pairs before the final freeze; its dated rule is below. | Separate prospective exact-restoration test under I5; no repair trial before final freeze; core and T2T unchanged |
 
 **A1 — the C1 cell, in full.**
 
@@ -888,6 +888,134 @@ are still unknown. The initial repair forecast is
 `(9 * N_FL + 3 * Q_FL) * 14,000` tokens and must be replaced by a numerical
 estimate once the plan exists. No token cap or obsolete 41 k/business
 assumption is introduced.
+
+**A15 preparation note — fixed determinism selection and collector
+(2026-11-16, before any calibration call).**
+
+The author launched own-base collection under committed/pushed `7ccda0d`.
+No Flash-Lite determinism response or repair-trial outcome exists when this
+rule is written. `flashlite_determinism` was registered in `cell.py` under
+A15 / `gemini-3.5-flash-lite` before its collector was written. Live collection remains
+blocked until the code, this rule and the numerical estimate are
+committed/pushed. Use `cell.py` for its preflight, launch, status and verify.
+
+- Render the real **A1@P1, C0** retry prompt for every runnable defect in the
+  verified own-base plan, with injection seed 0. Call the production stage's
+  stateless `build_prompt` and `arms.build_messages`; planning opens no HTTP
+  client. There is no calibration subset based on repair outcomes.
+- As in C7, use an operator round-robin. Sort each operator's candidates by
+  decreasing **UTF-8 byte length of the canonical serialized message list**
+  (JSON sorted keys, compact separators, Unicode preserved), then by defect ID
+  ascending. Visit operators in ascending name order, taking the first
+  remaining candidate with an unseen message SHA256. Continue until exactly
+  **ten distinct real prompts** are chosen. Below ten, the plan fails rather
+  than substituting another design. This uses byte length rather than C7's
+  local-runtime token counter; the hosted provider has no such local counter.
+- Send each chosen message list **twice**, contiguously within a prompt pair:
+  **20 logical requests** in total. Pin both environment and agent primary /
+  fallback names to `gemini-3.5-flash-lite`, fallback disabled, temperature 0,
+  reasoning effort omitted (`None`). Disable SDK transport retries for this
+  measurement (`max_retries=0`); do not issue schema-correction calls or
+  postprocess the returned text.
+- Preserve the manifest (base fingerprint, prompt IDs/hashes/lengths, source
+  hashes, Python/OpenAI/httpx versions), raw text, requested/served model,
+  session ID, status and token usage for every request. Compare the two raw
+  texts, and separately their canonical JSON-object identities. Report the
+  successful-pair and JSON-valid-pair denominators, errors and invalid JSON.
+  Do not compare these responses with the clean output, score repair, or use
+  them to choose hypotheses, arms, defects or the conditional prediction.
+- Identity and JSON validity are **reported, not gated**; r = 3 regardless.
+  A request error is retained and never automatically replaced. A wrong
+  served model, changed prompt/base/runtime manifest, duplicate completion,
+  a dry-run receipt or a pair split across sessions fails provenance. An
+  interrupted request/pair is preserved for inspection rather than silently
+  reissued. Each slot is durably marked started before it is sent, then its
+  receipt is appended; started rows carry no tokens and the complete receipt
+  contributes its usage once. The shared checkpoint's `trials` field contains
+  measurement receipts only, never repair-trial observations.
+- `cell.py verify flashlite_determinism` writes an identity-only
+  `analysis.json`; a repeat verification reproduces it. The final A15
+  completion note records this report, N_FL/power/MDE, the prospective
+  dissociation reading and final hashes before `prereg-fl-freeze`. The repair
+  cell remains closed until then. No new confirmatory test is added here.
+
+**A15 planning completion — verified bases, N and power (2026-11-16;
+before calibration or repair outcomes).**
+
+Own bases completed under `7ccda0d`: **28/28 businesses**, all Phase-A observe,
+seed 42, seven each at 14/34/92/214 reviews, `gemini-3.5-flash-lite` only,
+zero fallback. `cell.py verify flashlite_bases` passed; the full provenance
+validator passed (base SHA256 `ebb7147a9397d4a01685f12d8ad6228df1c22c4ec17f7ec54026acad64f90218`).
+Actual usage: **2,603,688 tokens, 503 calls**, against the prospectively logged
+3,863,781-token estimate. Three businesses carry a would-be retry. This is
+base-incidence metadata, not an injected repair result.
+
+The own-base plan gate (`cell.check_plan`) passes. Across six operators there
+are **168 attempted defect slots**, **157 applicable**, **157 valid injections**,
+**157 triggering** and **157 runnable**; the eleven inapplicable slots are
+retained and counted. Validity is over applicable defects; triggering is over
+valid injections. No operator gate or applicability rule changed.
+
+| Operator | Attempted | Applicable / valid / triggering / runnable | Trials |
+|---|---:|---:|---:|
+| O1 | 28 | 26 / 26 / 26 / 26 | 252 |
+| O2 | 28 | 26 / 26 / 26 / 26 | 252 |
+| O3 | 28 | 25 / 25 / 25 / 25 | 243 |
+| O5 | 28 | 26 / 26 / 26 / 26 | 252 |
+| O6 | 28 | 27 / 27 / 27 / 27 | 261 |
+| O7 | 28 | 27 / 27 / 27 / 27 | 261 |
+
+Thus **N_FL = 157**, Q_FL = 36 quarter-stride A3 defects, and
+**1,521 planned trials**: A0/A1/A2 471 each, A3 108. The original core plan
+still prints **1,167**. Full denominators, allocation, base fingerprint and
+prompt-selection manifest are in `out_study/FL/plan.json`.
+
+`power.json` uses seed 20260803, r = 3, 2,000 simulations and 1,000 bootstrap
+resamples per simulated dataset, defect SD 1 and shared-occasion SD 0. These
+are planning assumptions. At historical marginal rates 0.68/0.53, joint power
+is **0.977** (MC SE 0.00335); at 0.605/0.53 it is **0.4545** (MC SE 0.01113).
+Under 0.53/0.53 the directional joint false-positive rate is 0.013 (MC SE
+0.00253). The estimated **80%-joint-power MDE is 10.65 pp**, below the about
+15 pp decision threshold, so the fixed original 28-business sample proceeds.
+The final analysis still uses **10,000**, not 1,000, bootstrap resamples.
+These are simulated power figures, not observed replication results.
+
+*Prospective exploratory prediction and reading, fixed before calibration.*
+Treat A0 as an empirical regeneration benchmark. Use the existing two-sided
+95% defect-bootstrap CI for the **A1/A0 repair ratio** to condition the
+prediction: if it contains 1 (no established separation from the benchmark),
+predict a **restoration-type** pattern; if its upper endpoint is below 1
+(A1 leaves measurable headroom below A0), predict **repair-type or both**.
+If the ratio is undefined or its CI lies wholly above 1, the ceiling premise
+has no support for this prediction; report that explicitly. A CI containing
+1 does not establish equivalence or a ceiling. Report absolute arm rates and
+all ratio intervals alongside this heuristic.
+
+For the descriptive pattern label, a positive repair effect means the A1 − A2
+repair CI has a lower endpoint above 0; a positive restoration effect means
+the corresponding unconditional-restoration CI does. Label restoration-type,
+repair-type, both or neither by those two indicators; report reverse effects
+with their signed estimates. These labels are exploratory, add no confirmatory
+test and never substitute for I5's three-part replication criterion. A failed
+prediction is reported. No causal or double-dissociation claim follows from
+the label, and no prediction is chosen from the calibration responses.
+
+*Remaining collection and budget.* The fixed ten-prompt measurement has
+20 requests, prospectively estimated at **520,402 tokens**. Rule:
+`max(20*14000, ceil(1.25*sum(prompt_UTF8_bytes + own_clean_output_UTF8_bytes
+across the 20 requests)/3))`. This is a byte-to-token heuristic and output-size
+proxy, with a margin, not measured calibration usage or a spending cap.
+The initial repair forecast is **21,294,000 tokens** = 1,521 × 14,000.
+Actual spent total after bases is **84,499,571 tokens**. Log actual measurement
+usage after verification and the numerical repair estimate before launch.
+
+No calibration request or repair trial has run. The raw-response collector and
+this completed selection/budget specification must be committed/pushed before
+the measurement. Its working-tree release is for measurement only. The
+repair cell stays preparation-only. Its final freeze gate now also requires
+the tagged plan, power report, measurement checkpoint/manifest/analysis and
+unchanged runtime/prompt sources. The final A15 freeze note and
+`prereg-fl-freeze` remain pending the measurement; this note is not that tag.
 
 ---
 

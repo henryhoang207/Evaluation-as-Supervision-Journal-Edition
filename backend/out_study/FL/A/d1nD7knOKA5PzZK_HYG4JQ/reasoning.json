@@ -1,0 +1,69 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently complain about poor food quality or inconsistent dishes.",
+      "aspect": "food_quality",
+      "frequency": 0.29,
+      "evidence_review_ids": [
+        "0t2mpXAAwzfFpLYh4zEGlQ",
+        "2QWOe7RIOExFOi34XkP5Eg",
+        "8e3bdehCGeHwLHWK0MlCeA",
+        "ATKF6d5gHf34Y8PGIb7xIA",
+        "BLLVkGl_D8VlZ9f0BBeE9A",
+        "IXHUzjo_TPycPk9U1Ety7g",
+        "Ma3-dPp-sn-IOby6qz8rTA",
+        "_DKpGYl2_CCOhRg9PNYxpg",
+        "cwGpeTu34D7wC7Z7PdO6Ng",
+        "kxj9Csql1pZdSuNqGFVGeg",
+        "s0HMJKwa-iAUqFQFRvSOSg",
+        "yTTkIDJFVl6dNr1t7AvIOA"
+      ]
+    },
+    {
+      "description": "Patrons express dissatisfaction with high prices or poor value for money.",
+      "aspect": "pricing",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "8e3bdehCGeHwLHWK0MlCeA",
+        "ATKF6d5gHf34Y8PGIb7xIA",
+        "BrfmZKCjX_X0p2o4b8e_rQ",
+        "Vs3UtV8DdpTjPWjJe58WAg",
+        "_DKpGYl2_CCOhRg9PNYxpg",
+        "cwGpeTu34D7wC7Z7PdO6Ng",
+        "oYD6uJSVAmaTAQ_wkq3hrg"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding rude or unhelpful staff behavior and poor service attitude.",
+      "aspect": "staff_attitude",
+      "frequency": 0.21,
+      "evidence_review_ids": [
+        "2QWOe7RIOExFOi34XkP5Eg",
+        "BLLVkGl_D8VlZ9f0BBeE9A",
+        "Gd785XI9M1mt_hfIDj20MQ",
+        "cwGpeTu34D7wC7Z7PdO6Ng",
+        "kxj9Csql1pZdSuNqGFVGeg",
+        "oYD6uJSVAmaTAQ_wkq3hrg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about poor food quality or inconsistent dishes.",
+      "cause": "Lack of standardized kitchen processes, high employee turnover in the kitchen, or inconsistent sourcing of ingredients.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Patrons express dissatisfaction with high prices or poor value for money.",
+      "cause": "Menu pricing increases that outpace perceived portion sizes or food quality value.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative feedback regarding rude or unhelpful staff behavior and poor service attitude.",
+      "cause": "Inadequate staff training, poor morale among front-of-house employees, or stressful working conditions.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

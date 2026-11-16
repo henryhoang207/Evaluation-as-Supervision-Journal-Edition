@@ -1,0 +1,117 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently experience long wait times and delays for service or food.",
+      "aspect": "wait_time",
+      "frequency": 0.22,
+      "evidence_review_ids": [
+        "0ZV6-UwAvH8kZgOY3qURNA",
+        "1CFItpB7fn4nY84hLjipAQ",
+        "6s1CKrly-zXojn7ynB6Tew",
+        "8R5bdiNuNd3Ra0bWb_2KUA",
+        "93nCo2IlmkcOJPwnwNZI3Q",
+        "EMlrJGYaiTUVfA-9TGiTjg",
+        "KNVY6eQeE6dN6o8HSbYpKQ",
+        "QInbGiGIhfQdYtbFDaXyIw",
+        "VlvT4S8qj3Fy_er9KRnoSQ",
+        "WEBlfGSvEoCwhhfB8vmxLA",
+        "WMl5vUp9Lon2QqSUtNNd_g",
+        "WxE85IkigVakSW1vO8GFjw",
+        "Xq6kVNE850gaUhTmsN0Jpw",
+        "ZriK_3nVYyezJrEGUIpk2w",
+        "_gYVfpWZe60LslkcKAVx2g",
+        "a7_b1RaTI_muWVlUxn1r8w",
+        "bJl99uorAnrh6XFpegqkuA",
+        "k4jKYYQpKQmqXuzg8DJroA",
+        "obN2w3Z4g8e9PtJoSJbTkg",
+        "tPwhCG_A7hNUv9Pb30_jDQ",
+        "zzQlM2BBRqspQfuBV_S2wA"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding staff attitude and customer service issues.",
+      "aspect": "staff_attitude",
+      "frequency": 0.15,
+      "evidence_review_ids": [
+        "6s1CKrly-zXojn7ynB6Tew",
+        "BDF5yKVAnsiuhv_NQYjF5g",
+        "Ck3JsdZ0GngTGQ-5KsLj8A",
+        "FODAyrOFnCiS8wipQPg4xQ",
+        "GxNF4aUTvokRoJL40XxTzQ",
+        "QInbGiGIhfQdYtbFDaXyIw",
+        "WEBlfGSvEoCwhhfB8vmxLA",
+        "WMl5vUp9Lon2QqSUtNNd_g",
+        "WeU4aVtV8HVtiGPXjjQeUA",
+        "YaZhCfYNcqmxEjM7p7h0lA",
+        "ZriK_3nVYyezJrEGUIpk2w",
+        "bJl99uorAnrh6XFpegqkuA",
+        "iwBMFr6i0ZnYE1kgoXW1tQ",
+        "obN2w3Z4g8e9PtJoSJbTkg",
+        "thqKEG90QGPnpM3SpRJzUQ"
+      ]
+    },
+    {
+      "description": "Dissatisfaction with the quality, taste, or preparation of the food.",
+      "aspect": "food_quality",
+      "frequency": 0.17,
+      "evidence_review_ids": [
+        "1to9fd3BBOz-Tc1np3LDbA",
+        "6s1CKrly-zXojn7ynB6Tew",
+        "75eDjOTFu2Z0rLkyOzWpbg",
+        "GxNF4aUTvokRoJL40XxTzQ",
+        "MeyDGvmAKz7c0OOEvCGKsg",
+        "Owc_PpYH0CbCQ6Wu9vOMZg",
+        "TCB-H8INkIxV7DCj8fTTjw",
+        "VkMwvlBuUv-XBPHdqMhTOQ",
+        "WMl5vUp9Lon2QqSUtNNd_g",
+        "WeU4aVtV8HVtiGPXjjQeUA",
+        "X09CQtPB31IjpK3NMLe-zQ",
+        "ZriK_3nVYyezJrEGUIpk2w",
+        "bJl99uorAnrh6XFpegqkuA",
+        "pM8qu4CUPBm_vJauxtJBew",
+        "pY-d_Eua6weRwFnl_xYizw",
+        "thqKEG90QGPnpM3SpRJzUQ"
+      ]
+    },
+    {
+      "description": "Complaints about high prices or poor value for money.",
+      "aspect": "pricing",
+      "frequency": 0.12,
+      "evidence_review_ids": [
+        "1to9fd3BBOz-Tc1np3LDbA",
+        "75eDjOTFu2Z0rLkyOzWpbg",
+        "MeyDGvmAKz7c0OOEvCGKsg",
+        "QInbGiGIhfQdYtbFDaXyIw",
+        "TCB-H8INkIxV7DCj8fTTjw",
+        "X09CQtPB31IjpK3NMLe-zQ",
+        "bJl99uorAnrh6XFpegqkuA",
+        "maqU0o33hcKYGDFAC-cNJw",
+        "pM8qu4CUPBm_vJauxtJBew"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently experience long wait times and delays for service or food.",
+      "cause": "Understaffing in the kitchen and front-of-house during peak hours, leading to operational bottlenecks.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding staff attitude and customer service issues.",
+      "cause": "Staff burnout and stress resulting from understaffing and high customer volume.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Dissatisfaction with the quality, taste, or preparation of the food.",
+      "cause": "Kitchen rushing orders to compensate for long wait times, leading to inconsistent food preparation.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints about high prices or poor value for money.",
+      "cause": "Menu pricing increases that do not align with customer perception of food quality and portion sizes.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

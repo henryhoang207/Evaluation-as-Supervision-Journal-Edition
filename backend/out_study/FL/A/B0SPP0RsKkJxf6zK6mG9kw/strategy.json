@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen preparation or declining freshness of ingredients leading to poor food quality.",
+      "action": "Implement strict kitchen standard operating procedures (SOPs), mandate daily freshness checks for all ingredients, and conduct mandatory retraining for line cooks.",
+      "category": "food",
+      "expected_impact": "Significant reduction in negative food quality reviews and improved dish consistency."
+    },
+    {
+      "priority": 2,
+      "issue": "Menu items priced higher than the perceived value delivered by food quality.",
+      "action": "Audit current menu item costs and perceived value, and either improve portion sizes/ingredient quality or adjust pricing downwards to match customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value and a decrease in pricing-related complaints."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

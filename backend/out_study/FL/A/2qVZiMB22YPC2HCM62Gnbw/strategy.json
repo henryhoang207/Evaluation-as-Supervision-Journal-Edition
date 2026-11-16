@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "High pricing and poor perceived value",
+      "action": "Review menu pricing against portion sizes and competitor benchmarks; introduce value-focused bundles or adjust portion specs to match price points.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value and reduced pricing complaints."
+    },
+    {
+      "priority": 2,
+      "issue": "Poor staff attitude and unprofessional service",
+      "action": "Implement a mandatory customer service training program, establish clear behavioral standards, and institute daily shift huddles to boost morale and alignment.",
+      "category": "service",
+      "expected_impact": "More professional staff interactions, higher customer satisfaction scores, and reduced friction."
+    },
+    {
+      "priority": 3,
+      "issue": "Inconsistent food quality",
+      "action": "Standardize all kitchen recipes with detailed plating guides, and institute quality control checks by the head chef before dishes leave the pass.",
+      "category": "food",
+      "expected_impact": "Consistent culinary execution and elimination of substandard dishes reaching guests."
+    },
+    {
+      "priority": 4,
+      "issue": "Slow service and long wait times",
+      "action": "Audit kitchen and front-of-house workflow to identify bottlenecks, and optimize staffing schedules to ensure adequate coverage during peak rush hours.",
+      "category": "operations",
+      "expected_impact": "Faster table turn times, reduced wait durations, and improved guest flow."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

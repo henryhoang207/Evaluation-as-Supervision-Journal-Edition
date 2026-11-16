@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor staff attitude and unfriendly service stemming from lack of training and high-stress conditions",
+      "action": "Implement a mandatory customer service and empathy training program for all front-of-house staff, accompanied by bi-weekly check-ins to manage workplace stress and burnout.",
+      "category": "service",
+      "expected_impact": "Reduction in negative reviews regarding staff interactions, leading to improved customer satisfaction and higher tip averages."
+    },
+    {
+      "priority": 2,
+      "issue": "Slow service and long wait times caused by kitchen bottlenecks and understaffed shifts",
+      "action": "Redesign kitchen workflows to eliminate bottlenecks and introduce dynamic scheduling software to ensure peak hours are fully staffed.",
+      "category": "operations",
+      "expected_impact": "Decreased table turn times, faster food delivery, and an increase in positive reviews regarding service speed."
+    },
+    {
+      "priority": 3,
+      "issue": "Poor restaurant cleanliness and hygiene issues resulting from understaffing and absent protocols",
+      "action": "Establish strict, daily opening and closing cleaning checklists and assign dedicated cleaning shifts or roles during off-peak hours.",
+      "category": "operations",
+      "expected_impact": "Noticeable improvement in dining room and restroom cleanliness, eliminating hygiene-related complaints."
+    },
+    {
+      "priority": 4,
+      "issue": "Dissatisfaction with high pricing relative to perceived value and portion size",
+      "action": "Review current menu pricing against portion sizes and ingredient quality, and introduce value-driven bundles or daily specials to enhance perceived customer value.",
+      "category": "pricing",
+      "expected_impact": "Better alignment between price and customer expectations, reducing pushback on bill amounts and boosting repeat visits."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

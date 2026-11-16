@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Understaffing in the kitchen and front-of-house during peak dining hours leading to long wait times.",
+      "action": "Audit peak-hour scheduling and implement dynamic staffing models to ensure adequate floor and kitchen coverage during busy shifts.",
+      "category": "operations",
+      "expected_impact": "Significant reduction in wait times, faster table turnover, and improved overall service flow."
+    },
+    {
+      "priority": 2,
+      "issue": "Staff burnout, high turnover, and negative remarks regarding staff attitude and unfriendliness.",
+      "action": "Develop a mandatory customer service training program and introduce a staff recognition/incentive scheme to boost morale and professionalism.",
+      "category": "service",
+      "expected_impact": "Higher staff engagement, friendlier customer interactions, and improved review sentiment regarding hospitality."
+    },
+    {
+      "priority": 3,
+      "issue": "Kitchen inconsistency during rushes or supply chain variations leading to poor food quality.",
+      "action": "Establish standardized recipe cards, prep checklists, and quality control checkpoints for line cooks prior to plating.",
+      "category": "food",
+      "expected_impact": "Consistent dish presentation and flavor profiles, reducing food-related complaints and building reliability."
+    },
+    {
+      "priority": 4,
+      "issue": "Menu pricing misaligned with local customer expectations or perceived portion sizes and quality.",
+      "action": "Conduct a menu engineering analysis to evaluate item profitability versus perceived value, adjusting portions or introducing value-driven combo options.",
+      "category": "pricing",
+      "expected_impact": "Better alignment with customer expectations on value, leading to increased satisfaction and repeat visits."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,100 @@
+{
+  "patterns": [
+    {
+      "description": "Inconsistent food quality reported across multiple visits",
+      "aspect": "food_quality",
+      "frequency": 0.12,
+      "evidence_review_ids": [
+        "-azFqlZYvXCV8EKWW-8EvA",
+        "1n9GZGxlfu3aaRC1va-IHw",
+        "2jUfABmMXRnTPfj98ijMXQ",
+        "2rGppYBOnuEO9voSA34jFw",
+        "3-uiAYh22bUv5oYcglm_qA",
+        "3aFtqeB2Z3-v5QxkePl2Xg",
+        "5HpEhIGRl77eBx3Jh0l6Dg",
+        "GbD-3WeBDzV22Uo3cDKxPg",
+        "HekEXPKnZJgXzXHLA6WKGQ",
+        "K-UY1GUgRc5VZEeWn7QXaQ",
+        "KW0ifI68YJBC9M5DPic_cA",
+        "MQCivQvUELrolD6zW5cQhg",
+        "MTI1yOxGUAsDSXQD41rKvQ",
+        "biSmLtXlcY-H2gIseFopxg",
+        "cIkE_yD2zgInziOOSqCIwA",
+        "gelqxOQt6wxWfBdwasPohQ",
+        "nmFWSbq0zfr8l6xi1TJffA",
+        "qDfheUv5yMOIs1gAD7KwvQ",
+        "sH_X7A8o8088JnfcMNHH8g",
+        "v2QedOxQRkElq0KidjKfwA",
+        "YFk6R4rhlRPgzBXxPpDNtg"
+      ]
+    },
+    {
+      "description": "Negative staff attitude or poor customer service experiences",
+      "aspect": "staff_attitude",
+      "frequency": 0.07,
+      "evidence_review_ids": [
+        "2F3nWYBEow-YOJQRHm8cBA",
+        "3aFtqeB2Z3-v5QxkePl2Xg",
+        "AoH9C2bnhN39iSYsPj4r3Q",
+        "BrpTXmPaH73mk0ovQ6vNXQ",
+        "GbD-3WeBDzV22Uo3cDKxPg",
+        "MQCivQvUELrolD6zW5cQhg",
+        "NY4L-0DaPbC4G2oY4QaKYQ",
+        "_HSTib2iyAu_lI73By5ACQ",
+        "cIkE_yD2zgInziOOSqCIwA",
+        "sH_X7A8o8088JnfcMNHH8g",
+        "WzREOWv55Y_-DAUTnlpLYg"
+      ]
+    },
+    {
+      "description": "Complaints regarding high pricing or poor value for money",
+      "aspect": "pricing",
+      "frequency": 0.05,
+      "evidence_review_ids": [
+        "2rGppYBOnuEO9voSA34jFw",
+        "B0tSSE0Ck1lHmTpVH6VhXg",
+        "K-UY1GUgRc5VZEeWn7QXaQ",
+        "KW0ifI68YJBC9M5DPic_cA",
+        "MTI1yOxGUAsDSXQD41rKvQ",
+        "WzREOWv55Y_-DAUTnlpLYg"
+      ]
+    },
+    {
+      "description": "Unfavorable dining environment or negative ambience feedback",
+      "aspect": "ambience",
+      "frequency": 0.04,
+      "evidence_review_ids": [
+        "-azFqlZYvXCV8EKWW-8EvA",
+        "fZ12w9mE20c5UQuT9MrDOQ",
+        "nDgeFZcrjXemyFtZYP4ldA",
+        "v2QedOxQRkElq0KidjKfwA",
+        "YFk6R4rhlRPgzBXxPpDNtg",
+        "ZxFbkMNKVNaNomix1ki7cg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent food quality reported across multiple visits",
+      "cause": "Possible lack of standardized recipes, high kitchen turnover, or poor quality control during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative staff attitude or poor customer service experiences",
+      "cause": "Understaffing, inadequate training, or staff burnout leading to poor guest interactions.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints regarding high pricing or poor value for money",
+      "cause": "Menu pricing misalignment with customer expectations or perceived portion sizes and food quality.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Unfavorable dining environment or negative ambience feedback",
+      "cause": "Issues with lighting, noise levels, seating layout, or lack of maintenance in the dining area.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

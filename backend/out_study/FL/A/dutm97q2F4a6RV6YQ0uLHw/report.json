@@ -1,0 +1,39 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Crush Bar and Tap",
+  "sample_size": 34,
+  "executive_summary": "A review analysis of 34 customer reviews for Crush Bar and Tap has been completed to identify key operational patterns, root causes, and actionable recommendations for business improvement.",
+  "key_findings": [
+    "Analyzed a total of 34 customer reviews.",
+    "Identified general customer sentiment and experience patterns."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Limited review feedback",
+      "cause": "Insufficient review volume and context",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Low review volume and limited data",
+      "action": "Increase the volume of collected reviews to improve statistical significance.",
+      "category": "Data Collection",
+      "expected_impact": "Better insights and more accurate customer feedback analysis"
+    },
+    {
+      "priority": 2,
+      "issue": "Lack of real-time monitoring",
+      "action": "Monitor customer feedback regularly to catch emerging operational issues early.",
+      "category": "Operations",
+      "expected_impact": "Faster response times to operational issues"
+    }
+  ],
+  "limitations": [
+    "The sample size of 34 reviews is relatively small and may not represent the entire customer base.",
+    "Lack of granular categorical breakdown in upstream data."
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,70 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Greek Cafe Grill",
+  "sample_size": 214,
+  "executive_summary": "An analysis of 214 customer reviews for Greek Cafe Grill highlights key areas for operational improvement. The primary concerns center on food quality consistency, staff attitude and customer service, pricing perceptions, and occasional issues with the dining ambience. Addressing these items through structured kitchen processes, staff training, and menu audits can significantly boost customer satisfaction.",
+  "key_findings": [
+    "Inconsistent food quality reported across multiple visits (12.0% frequency)",
+    "Negative staff attitude or poor customer service experiences (7.0% frequency)",
+    "Complaints regarding high pricing or poor value for money (5.0% frequency)",
+    "Unfavorable dining environment or negative ambience feedback (4.0% frequency)"
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent food quality reported across multiple visits",
+      "cause": "Possible lack of standardized recipes, high kitchen turnover, or poor quality control during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative staff attitude or poor customer service experiences",
+      "cause": "Understaffing, inadequate training, or staff burnout leading to poor guest interactions.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints regarding high pricing or poor value for money",
+      "cause": "Menu pricing misalignment with customer expectations or perceived portion sizes and food quality.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Unfavorable dining environment or negative ambience feedback",
+      "cause": "Issues with lighting, noise levels, seating layout, or lack of maintenance in the dining area.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality reported across multiple visits",
+      "action": "Implement strict kitchen standard operating procedures (SOPs), mandate recipe cards at all stations, and establish a mandatory plating check by the head chef before dishes leave the kitchen.",
+      "category": "food",
+      "expected_impact": "Reduction in food variability, higher customer satisfaction, and improved review scores regarding taste and presentation."
+    },
+    {
+      "priority": 2,
+      "issue": "Negative staff attitude or poor customer service experiences",
+      "action": "Launch a bi-weekly hospitality training program focusing on guest engagement, de-escalation, and positive communication, while reviewing shift schedules to mitigate staff burnout and understaffing.",
+      "category": "service",
+      "expected_impact": "Improvement in front-of-house morale, friendlier guest interactions, and a decrease in service-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Complaints regarding high pricing or poor value for money",
+      "action": "Conduct a comprehensive menu engineering audit to review portion sizes, ingredient costs, and perceived value, adjusting recipes or pricing to better align with customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Better alignment between price point and customer value perception, reducing complaints about cost."
+    },
+    {
+      "priority": 4,
+      "issue": "Unfavorable dining environment or negative ambience feedback",
+      "action": "Perform a walkthrough inspection of the dining room to assess lighting levels, acoustics, and seating comfort, followed by targeted repairs or aesthetic updates.",
+      "category": "operations",
+      "expected_impact": "An enhanced and more comfortable physical atmosphere that complements the dining experience."
+    }
+  ],
+  "limitations": [
+    "Analysis is based strictly on volunteered online reviews, which may overrepresent highly positive or extremely negative experiences.",
+    "Review text lacks contextual data regarding specific dates, times, or specific server identities for every complaint."
+  ],
+  "status": "success",
+  "error_detail": null
+}

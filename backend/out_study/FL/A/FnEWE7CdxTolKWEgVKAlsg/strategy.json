@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and lack of standardized recipes during peak hours",
+      "action": "Implement strict standardized recipe cards, conduct mandatory prep training for kitchen staff, and introduce a mandatory expediter quality check before any plate leaves the kitchen.",
+      "category": "food",
+      "expected_impact": "Reduction in food-related complaints and improved dish consistency across all shifts."
+    },
+    {
+      "priority": 2,
+      "issue": "Inefficient front-of-house management, table turnover delays, and long wait times",
+      "action": "Adopt a digital table management and reservation system to optimize seating flow, and redesign the floor plan to streamline server pathways and reduce bottlenecks.",
+      "category": "operations",
+      "expected_impact": "Shorter wait times for guests and faster, more predictable table turnover."
+    },
+    {
+      "priority": 3,
+      "issue": "Employee burnout and inadequate customer service training due to understaffing",
+      "action": "Revise the scheduling matrix to ensure adequate staffing during peak hours, introduce a monthly customer service refresher workshop, and implement an incentive program for positive staff mentions.",
+      "category": "service",
+      "expected_impact": "Improved staff morale, friendlier guest interactions, and a more attentive service style."
+    },
+    {
+      "priority": 4,
+      "issue": "Pricing strategy misalignment with portion sizes and overall dining experience",
+      "action": "Audit current menu item costs against portion sizes and perceived value, introducing either portion adjustments or value-focused combos to better match customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Decreased complaints regarding value for money and increased guest satisfaction with the bill."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

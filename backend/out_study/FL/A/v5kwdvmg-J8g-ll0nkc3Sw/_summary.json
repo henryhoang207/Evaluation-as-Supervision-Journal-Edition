@@ -1,0 +1,116 @@
+{
+  "business_name": "The Libertine Liquor Bar",
+  "business_id": "v5kwdvmg-J8g-ll0nkc3Sw",
+  "run_config": {
+    "provider": "google-gemini (openai-compatible)",
+    "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "primary_model": "gemini-3.5-flash-lite",
+    "fallback_model": "gemini-3.5-flash-lite"
+  },
+  "pipeline_status": "complete",
+  "skipped_agents": [],
+  "failed_agent": null,
+  "errors": {},
+  "retry_counts": {},
+  "flags": [
+    "frequency_corrected:wait_time:0.051->0.11"
+  ],
+  "last_verdict": "proceed",
+  "observations": [
+    {
+      "stage": "analysis_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "n_loaded": 214,
+        "n_success": 214,
+        "failure_ratio": 0.0,
+        "failure_details": [],
+        "contradiction_rate": 0.0,
+        "contradictions": []
+      }
+    },
+    {
+      "stage": "reasoning_agent",
+      "would_be_verdict": "proceed_with_warning",
+      "flags": [
+        "frequency_corrected:wait_time:0.051->0.11"
+      ],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 214,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "pricing",
+            "description": "Complaints regarding high pricing or poor value for money.",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.089,
+            "recomputed_frequency": 0.102803738317757
+          },
+          {
+            "index": 1,
+            "aspect": "wait_time",
+            "description": "Negative feedback regarding long wait times and slow service",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.051,
+            "recomputed_frequency": 0.10747663551401869
+          },
+          {
+            "index": 2,
+            "aspect": "staff_attitude",
+            "description": "Negative remarks about staff attitude and unfriendliness.",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.065,
+            "recomputed_frequency": 0.10747663551401869
+          },
+          {
+            "index": 3,
+            "aspect": "food_quality",
+            "description": "Inconsistent or poor food quality reported by customers.",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.056,
+            "recomputed_frequency": 0.0514018691588785
+          }
+        ]
+      }
+    },
+    {
+      "stage": "strategy_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": []
+      }
+    },
+    {
+      "stage": "report_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [],
+        "invented_recommendations": [],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    }
+  ],
+  "phase": "A",
+  "mode": "observe",
+  "wall_clock_s": 170.91,
+  "stratum": "p90",
+  "review_sample_seed": 42
+}

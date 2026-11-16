@@ -1,0 +1,129 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently complain about poor food quality, receiving poorly prepared or bad-tasting dishes.",
+      "aspect": "food_quality",
+      "frequency": 0.22,
+      "evidence_review_ids": [
+        "6AuHa0mXr80k7gpg911i_g",
+        "B1LsDfWA0n1FsRAhn2viwg",
+        "DMRAfmzyXD5HL6DsSbau4Q",
+        "EQVFLZxQw5XmQ0BQMkSYyw",
+        "GzZPnuXPmiYzC5WeghSEcQ",
+        "Jw__dD-D-AZ1uVgT1vlWZg",
+        "Kudt66Zf1tY3U-eWHbh5RA",
+        "PSW26pBid1ycnu9D0eykWA",
+        "WACoulIgi_s5odoegS8T6Q",
+        "WHcY7czs5XeR2_IBcSeIeA",
+        "_ZFm_2QV8OsIM8PG2bh_uw",
+        "avScybe0wG_XHo16R_p7SA",
+        "dgnz1ZagnNnvmF9aQm_64g",
+        "f6AWdoEIPkm3AyByrsHNTQ",
+        "mZUVaLQDqm9B55IfBg4_QQ",
+        "mr-npy6FpQGzyx-ERsPQ5Q",
+        "qyli-xxRohWwj0zHJf0gjg",
+        "xRYNJav_3nifdNMBtTNbYw",
+        "yghcikfAFXu5m4ENuuZKlw"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding rude, inattentive, or unprofessional staff attitude.",
+      "aspect": "staff_attitude",
+      "frequency": 0.2,
+      "evidence_review_ids": [
+        "9G7kSPPdLYqwWpuz9qOKMA",
+        "B1LsDfWA0n1FsRAhn2viwg",
+        "D8wsEcbExsu9AaZvqtd2ig",
+        "EQVFLZxQw5XmQ0BQMkSYyw",
+        "PNgFv_gXHQUUZQLwSQoYIQ",
+        "PSW26pBid1ycnu9D0eykWA",
+        "WHcY7czs5XeR2_IBcSeIeA",
+        "_X0k6LhOPYmIAyXuElDRdg",
+        "c-hIxY83CGk9bItju9nioQ",
+        "dbuiEmQfqHBS9aq1WV0uKA",
+        "dgnz1ZagnNnvmF9aQm_64g",
+        "eV0cvhnZQKXgVyV4mdUvTg",
+        "f6AWdoEIPkm3AyByrsHNTQ",
+        "i-9CKNEzPEtAiU010meFlg",
+        "qyli-xxRohWwj0zHJf0gjg",
+        "sqEOtCo-lwqsrO0VKuD0Jg"
+      ]
+    },
+    {
+      "description": "Complaints about long wait times for seating, service, or food delivery.",
+      "aspect": "wait_time",
+      "frequency": 0.13,
+      "evidence_review_ids": [
+        "9G7kSPPdLYqwWpuz9qOKMA",
+        "B1LsDfWA0n1FsRAhn2viwg",
+        "D8wsEcbExsu9AaZvqtd2ig",
+        "GzZPnuXPmiYzC5WeghSEcQ",
+        "Kudt66Zf1tY3U-eWHbh5RA",
+        "PNgFv_gXHQUUZQLwSQoYIQ",
+        "VB2GAKt1-7_4E9dMPi3dIg",
+        "_X0k6LhOPYmIAyXuElDRdg",
+        "c-hIxY83CGk9bItju9nioQ",
+        "dX-PKOHZbWHt4XVoDLCowg",
+        "eV0cvhnZQKXgVyV4mdUvTg",
+        "f6AWdoEIPkm3AyByrsHNTQ",
+        "sqEOtCo-lwqsrO0VKuD0Jg",
+        "tAbwXldEZZ2cSw94nJC6bA"
+      ]
+    },
+    {
+      "description": "Customer dissatisfaction with high prices relative to the portion size or quality.",
+      "aspect": "pricing",
+      "frequency": 0.09,
+      "evidence_review_ids": [
+        "DMRAfmzyXD5HL6DsSbau4Q",
+        "PNgFv_gXHQUUZQLwSQoYIQ",
+        "_ZFm_2QV8OsIM8PG2bh_uw",
+        "c-hIxY83CGk9bItju9nioQ",
+        "cpV5dEh6myVQ4xueEltn1w",
+        "dbuiEmQfqHBS9aq1WV0uKA"
+      ]
+    },
+    {
+      "description": "Issues related to restaurant cleanliness and hygiene.",
+      "aspect": "cleanliness",
+      "frequency": 0.06,
+      "evidence_review_ids": [
+        "B1LsDfWA0n1FsRAhn2viwg",
+        "Sg-I35oXzJRV4q69lqtokg",
+        "f6AWdoEIPkm3AyByrsHNTQ",
+        "i-9CKNEzPEtAiU010meFlg",
+        "iCiNqGiLBYgjCJAntwmzmA",
+        "qyli-xxRohWwj0zHJf0gjg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about poor food quality, receiving poorly prepared or bad-tasting dishes.",
+      "cause": "Inconsistent kitchen execution, lack of standardized recipes, or rushed food preparation during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding rude, inattentive, or unprofessional staff attitude.",
+      "cause": "Understaffing leading to high stress levels among employees, inadequate customer service training, or poor management oversight.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints about long wait times for seating, service, or food delivery.",
+      "cause": "Kitchen and front-of-house bottlenecking, poor table management, or insufficient staffing levels during busy periods.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customer dissatisfaction with high prices relative to the portion size or quality.",
+      "cause": "Menu pricing misalignment with customer perceived value, potentially due to recent price increases or shrinking portions.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Issues related to restaurant cleanliness and hygiene.",
+      "cause": "Lack of structured cleaning schedules and inadequate accountability for front-and-back-of-house sanitation tasks during shifts.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

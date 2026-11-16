@@ -1,0 +1,55 @@
+{
+  "patterns": [
+    {
+      "description": "Negative experiences with food quality",
+      "aspect": "food_quality",
+      "frequency": 0.357,
+      "evidence_review_ids": [
+        "G0jj0BTXoDhFnRisqK5BBg",
+        "QT7HmP8cjq22Fd7a7ZFndA",
+        "SCsUpawaTvlZVFsEpAvT1A",
+        "j_AFoIOG91DcujHpWjzUSQ"
+      ]
+    },
+    {
+      "description": "Poor staff attitude and customer service issues",
+      "aspect": "staff_attitude",
+      "frequency": 0.357,
+      "evidence_review_ids": [
+        "G0jj0BTXoDhFnRisqK5BBg",
+        "QT7HmP8cjq22Fd7a7ZFndA",
+        "SCsUpawaTvlZVFsEpAvT1A",
+        "k1NoUYzSoEGxUBw5kvsuOg",
+        "muCrEuuyEawse5jXyfGW0Q"
+      ]
+    },
+    {
+      "description": "Long wait times experienced by customers",
+      "aspect": "wait_time",
+      "frequency": 0.143,
+      "evidence_review_ids": [
+        "G0jj0BTXoDhFnRisqK5BBg",
+        "k1NoUYzSoEGxUBw5kvsuOg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Poor staff attitude and customer service issues",
+      "cause": "Understaffing, lack of employee training, or poor management oversight leading to stressed service workers.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative experiences with food quality",
+      "cause": "Inconsistent kitchen preparation, possibly exacerbated during peak hours when staff are rushed.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Long wait times experienced by customers",
+      "cause": "Kitchen and front-of-house bottlenecking during busy periods due to inadequate staffing levels.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

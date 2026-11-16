@@ -1,0 +1,89 @@
+{
+  "patterns": [
+    {
+      "description": "Complaints regarding slow service and long wait times",
+      "aspect": "wait_time",
+      "frequency": 0.235,
+      "evidence_review_ids": [
+        "-jWXlABOW9RW8J4INRHfCw",
+        "-o3x_L4USOvTb6j5_zJw8Q",
+        "DqqbiqKso4Lwuvo_2Ud8Mw",
+        "MD0YDtKerP3l-lNxDv7ZYQ",
+        "MuzuEi6zgmGp21ahBosx8Q",
+        "bGXj-RGJOltPTsZmGkT5dg",
+        "mc6XnhYLi9Ux7DtjKAe9SA",
+        "xbnPb3Gg-ldQor-h-KdWBg"
+      ]
+    },
+    {
+      "description": "Dissatisfaction with high pricing relative to value or portion size",
+      "aspect": "pricing",
+      "frequency": 0.294,
+      "evidence_review_ids": [
+        "-jWXlABOW9RW8J4INRHfCw",
+        "-o3x_L4USOvTb6j5_zJw8Q",
+        "73lZVLNgy-ltVKk38m9AYQ",
+        "CnbMqS33Dj4SM0FoXf2SYw",
+        "F72QQBu_MPdcZ8zQ3Qb0-g",
+        "GZZ384oCmGZNcVxORtzTHA",
+        "KfZBQx61UBY5XDq7hLwnyw",
+        "xPCmhoXyy6-5YgefYndV2g",
+        "y7GNfIwWGi0ztry6Yj9q8g"
+      ]
+    },
+    {
+      "description": "Negative experiences regarding staff attitude and customer service",
+      "aspect": "staff_attitude",
+      "frequency": 0.265,
+      "evidence_review_ids": [
+        "-jWXlABOW9RW8J4INRHfCw",
+        "-o3x_L4USOvTb6j5_zJw8Q",
+        "62UN1SnWkto0US3wBoWjoA",
+        "73lZVLNgy-ltVKk38m9AYQ",
+        "mc6XnhYLi9Ux7DtjKAe9SA",
+        "xPCmhoXyy6-5YgefYndV2g",
+        "xbnPb3Gg-ldQor-h-KdWBg",
+        "xsfYk6d_A4uDShjdGzM48w"
+      ]
+    },
+    {
+      "description": "Inconsistent food quality or poor taste",
+      "aspect": "food_quality",
+      "frequency": 0.235,
+      "evidence_review_ids": [
+        "-jWXlABOW9RW8J4INRHfCw",
+        "-o3x_L4USOvTb6j5_zJw8Q",
+        "62UN1SnWkto0US3wBoWjoA",
+        "CnbMqS33Dj4SM0FoXf2SYw",
+        "KfZBQx61UBY5XDq7hLwnyw",
+        "MuzuEi6zgmGp21ahBosx8Q",
+        "xPCmhoXyy6-5YgefYndV2g",
+        "y7GNfIwWGi0ztry6Yj9q8g"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Complaints regarding slow service and long wait times",
+      "cause": "Understaffing during peak hours or inefficient kitchen and front-of-house coordination.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Dissatisfaction with high pricing relative to value or portion size",
+      "cause": "Menu pricing may be set higher than the perceived quality or portion sizes offered by the restaurant.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative experiences regarding staff attitude and customer service",
+      "cause": "Lack of proper customer service training or high employee stress due to understaffing.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Inconsistent food quality or poor taste",
+      "cause": "Lack of standardized recipes, high kitchen turnover, or rushing orders during busy periods.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

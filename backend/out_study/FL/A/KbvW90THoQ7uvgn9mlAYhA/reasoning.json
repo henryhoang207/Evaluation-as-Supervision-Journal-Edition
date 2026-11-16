@@ -1,0 +1,76 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently complain about long wait times.",
+      "aspect": "wait_time",
+      "frequency": 0.176,
+      "evidence_review_ids": [
+        "BmxL6O3U4LSDzM2QixIreA",
+        "Tq2QkBQcQWd0W6HbgYcXwA",
+        "X95OSjmVoci9WbmY1y4FLQ",
+        "nraJ9AEgoSIdzK1xgi9P2A",
+        "oJSwzYZjDHhGLFW16Dc18Q",
+        "qhvX5i_YK3_0xSvT6Pj4mg",
+        "vG2CWshAuEsnS84Tw2ZQWQ"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding food quality and taste consistency.",
+      "aspect": "food_quality",
+      "frequency": 0.176,
+      "evidence_review_ids": [
+        "AwYvzz4X2yTOjgnI4Os3Yg",
+        "dlFDBMgAyiE0EqsdGo8s0Q",
+        "lSuQuRL5ShLZ65vE9qkETA",
+        "nraJ9AEgoSIdzK1xgi9P2A",
+        "vG2CWshAuEsnS84Tw2ZQWQ"
+      ]
+    },
+    {
+      "description": "Staff attitude issues reported by customers.",
+      "aspect": "staff_attitude",
+      "frequency": 0.118,
+      "evidence_review_ids": [
+        "AwYvzz4X2yTOjgnI4Os3Yg",
+        "X95OSjmVoci9WbmY1y4FLQ",
+        "nraJ9AEgoSIdzK1xgi9P2A",
+        "oJSwzYZjDHhGLFW16Dc18Q"
+      ]
+    },
+    {
+      "description": "Discontent regarding high pricing or poor value.",
+      "aspect": "pricing",
+      "frequency": 0.118,
+      "evidence_review_ids": [
+        "AwYvzz4X2yTOjgnI4Os3Yg",
+        "dlFDBMgAyiE0EqsdGo8s0Q",
+        "lSuQuRL5ShLZ65vE9qkETA",
+        "oJSwzYZjDHhGLFW16Dc18Q"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about long wait times.",
+      "cause": "Understaffing during peak hours or kitchen bottlenecks causing delays in service and food delivery.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding food quality and taste consistency.",
+      "cause": "Inconsistent kitchen execution or rushed food preparation during busy service hours.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Staff attitude issues reported by customers.",
+      "cause": "Employee burnout and stress resulting from high workloads and slow service times.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Discontent regarding high pricing or poor value.",
+      "cause": "Perceived mismatch between food quality/portion sizes and the prices charged.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

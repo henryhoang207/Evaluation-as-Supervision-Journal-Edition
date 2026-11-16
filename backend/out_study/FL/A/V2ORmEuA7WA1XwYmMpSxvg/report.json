@@ -1,0 +1,83 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Famous Dave's Bar-B-Que",
+  "sample_size": 92,
+  "executive_summary": "An analysis of 92 customer reviews for Famous Dave's Bar-B-Que reveals critical operational challenges centered around food quality consistency, staff professionalism, and wait times. Addressing these core areas through standardized kitchen workflows, staff training, and improved scheduling will significantly enhance the guest experience.",
+  "key_findings": [
+    "Food quality is the leading complaint (22% frequency), with guests citing poorly prepared or bad-tasting dishes.",
+    "Staff attitude and professionalism represent 20% of negative feedback, indicating service delivery issues.",
+    "Long wait times for seating, service, and food delivery affect 13% of reviewers.",
+    "Pricing and value alignment account for 9% of complaints regarding portion sizes versus costs.",
+    "Cleanliness and hygiene issues represent 6% of negative feedback across dining and service areas."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about poor food quality, receiving poorly prepared or bad-tasting dishes.",
+      "cause": "Inconsistent kitchen execution, lack of standardized recipes, or rushed food preparation during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding rude, inattentive, or unprofessional staff attitude.",
+      "cause": "Understaffing leading to high stress levels among employees, inadequate customer service training, or poor management oversight.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints about long wait times for seating, service, or food delivery.",
+      "cause": "Kitchen and front-of-house bottlenecking, poor table management, or insufficient staffing levels during busy periods.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customer dissatisfaction with high prices relative to the portion size or quality.",
+      "cause": "Menu pricing misalignment with customer perceived value, potentially due to recent price increases or shrinking portions.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Issues related to restaurant cleanliness and hygiene.",
+      "cause": "Lack of structured cleaning schedules and inadequate accountability for front-and-back-of-house sanitation tasks during shifts.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen execution and poorly prepared dishes during peak hours",
+      "action": "Implement standardized recipe cards at every kitchen station, conduct mandatory retraining on core menu items, and institute a strict expediter quality-check protocol before any plate leaves the kitchen.",
+      "category": "food",
+      "expected_impact": "Reduction in food quality complaints and higher consistency across all service shifts."
+    },
+    {
+      "priority": 2,
+      "issue": "Rude, inattentive, or unprofessional staff attitude driven by high stress and understaffing",
+      "action": "Launch a bi-weekly hospitality training workshop focused on de-escalation and customer service, adjust shift scheduling to ensure adequate floor coverage, and introduce a staff incentive program for positive customer mentions.",
+      "category": "service",
+      "expected_impact": "Improved staff morale, more attentive customer interactions, and a noticeable drop in negative reviews regarding service attitude."
+    },
+    {
+      "priority": 3,
+      "issue": "Long wait times for seating, service, and food delivery caused by operational bottlenecks",
+      "action": "Adopt a digital table management system to streamline host-stand seating flows and re-evaluate kitchen station workflows to eliminate bottlenecks between prep and line cook roles.",
+      "category": "operations",
+      "expected_impact": "Decreased table turnover times, faster overall ticket times, and improved customer satisfaction with wait management."
+    },
+    {
+      "priority": 4,
+      "issue": "Customer dissatisfaction with high prices relative to perceived portion size or quality",
+      "action": "Audit top-tier menu items to ensure portion sizes align with current price points, or introduce bundled value combos to enhance the customer's perceived value.",
+      "category": "pricing",
+      "expected_impact": "Better alignment between guest expectations and pricing, leading to fewer value-related complaints."
+    },
+    {
+      "priority": 5,
+      "issue": "Lapses in restaurant cleanliness and hygiene due to a lack of structured schedules",
+      "action": "Create mandatory opening, mid-shift, and closing cleaning checklists with mandatory manager sign-offs for both front-of-house and back-of-house areas.",
+      "category": "operations",
+      "expected_impact": "Consistently spotless dining and restroom areas, ensuring full health compliance and elevated customer trust."
+    }
+  ],
+  "limitations": [
+    "Analysis is based on a limited sample of 92 reviews, which may skew toward extreme positive or negative experiences.",
+    "Review text reflects self-reported customer perceptions and may not capture the full operational context of each visit."
+  ],
+  "status": "success",
+  "error_detail": null
+}

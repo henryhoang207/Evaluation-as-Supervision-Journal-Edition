@@ -1,0 +1,30 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Johnny's Jamaican Grill",
+  "sample_size": 34,
+  "executive_summary": "An analysis of 34 customer reviews for Johnny's Jamaican Grill reveals high overall satisfaction with minor, occasional concerns regarding food quality consistency during peak hours.",
+  "key_findings": [
+    "Occasional complaints noted regarding food quality inconsistency, affecting approximately 8.8% of the analyzed reviews."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Occasional complaints about food quality inconsistency.",
+      "cause": "Inconsistent kitchen preparation or ingredient variance during peak hours.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen preparation and ingredient variance during peak hours leading to food quality complaints.",
+      "action": "Implement standardized recipe cards at every kitchen station, establish mandatory pre-shift line checks, and designate a quality control expediter during peak service hours to inspect all dishes before they leave the pass.",
+      "category": "food",
+      "expected_impact": "Reduction in food quality variance, higher consistency across shifts, and improved customer satisfaction scores."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 34 reviews, which may not capture all customer sentiments or seasonal variations."
+  ],
+  "status": "success",
+  "error_detail": null
+}

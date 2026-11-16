@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Understaffing in the kitchen and front-of-house during peak hours causing severe wait times.",
+      "action": "Adjust scheduling software to increase staffing levels by at least 20% during identified peak rush hours, specifically targeting host, server, and line cook positions.",
+      "category": "operations",
+      "expected_impact": "Significant reduction in table turn times, decreased order backlog, and lowered customer wait times."
+    },
+    {
+      "priority": 2,
+      "issue": "Staff burnout and stress leading to negative customer service attitudes.",
+      "action": "Implement mandatory mid-shift breaks, rotate demanding stations to prevent fatigue, and introduce a weekly staff appreciation incentive program to boost morale.",
+      "category": "service",
+      "expected_impact": "Improved staff demeanor, friendlier guest interactions, and a reduction in service-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Kitchen rushing orders leading to inconsistent food quality and preparation.",
+      "action": "Conduct refresher training on standardized recipes and plating checklists, and establish a dedicated quality-control checkpoint at the pass before dishes leave the kitchen.",
+      "category": "food",
+      "expected_impact": "Higher consistency in dish presentation and taste, directly addressing food quality dissatisfaction."
+    },
+    {
+      "priority": 4,
+      "issue": "Menu pricing misalignment with customer perception of value and portion size.",
+      "action": "Audit current menu items for perceived value, adjust portion sizes on underperforming high-priced items, or introduce bundled combo options to increase perceived value.",
+      "category": "pricing",
+      "expected_impact": "Reduced price-point friction and improved customer sentiment regarding overall value for money."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

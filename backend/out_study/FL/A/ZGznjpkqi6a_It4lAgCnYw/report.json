@@ -1,0 +1,83 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Izzo's Illegal Burrito",
+  "sample_size": 92,
+  "executive_summary": "An analysis of 92 customer reviews for Izzo's Illegal Burrito reveals significant operational challenges impacting guest satisfaction. The primary areas of concern are food quality and staff attitude, alongside issues with cleanliness, pricing value, and long wait times. Targeted interventions in kitchen execution, staff training, and workflow optimization are required to reverse negative sentiment.",
+  "key_findings": [
+    "54% of analyzed reviews highlight poor food quality and consistency.",
+    "38% of reviews mention negative feedback regarding staff attitude and customer service.",
+    "17% of reviews cite poor cleanliness standards within the establishment.",
+    "16% of patrons express dissatisfaction with pricing relative to the perceived value.",
+    "14% of reviews report long wait times and slow service during peak hours."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about poor food quality.",
+      "cause": "Inconsistent kitchen execution, lack of standardized recipes, or use of substandard ingredients.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding staff attitude and customer service.",
+      "cause": "Understaffing, lack of proper customer service training, and high employee burnout or turnover.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints about poor cleanliness standards in the establishment.",
+      "cause": "Neglect of routine cleaning schedules and lack of management oversight on front-of-house and back-of-house hygiene.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Dissatisfaction with pricing relative to value or quality.",
+      "cause": "Menu pricing increases that are not matched by perceived improvements in food quality or portion sizes.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Long wait times and slow service reported by patrons.",
+      "cause": "Poor operational workflow during peak hours, combined with kitchen bottlenecks and insufficient front-of-house staffing.",
+      "confidence": "high"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen execution and poor food quality",
+      "action": "Implement standardized recipe cards, conduct daily pre-shift taste tests, and audit ingredient quality from suppliers.",
+      "category": "food",
+      "expected_impact": "Reduction in food-related complaints and improved flavor consistency across all shifts."
+    },
+    {
+      "priority": 2,
+      "issue": "Poor staff attitude, understaffing, and lack of customer service training",
+      "action": "Launch a mandatory customer service training workshop and institute an employee appreciation program to reduce burnout and turnover.",
+      "category": "service",
+      "expected_impact": "Boosted staff morale, friendlier guest interactions, and a noticeable drop in service-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Long wait times and operational bottlenecks during peak hours",
+      "action": "Redesign kitchen and service workflows, optimize scheduling for peak hours, and implement a digital POS-to-kitchen routing system.",
+      "category": "operations",
+      "expected_impact": "Faster ticket times, reduced table turnaround friction, and improved overall throughput."
+    },
+    {
+      "priority": 4,
+      "issue": "Poor cleanliness standards in the establishment",
+      "action": "Establish strict, checklist-based opening, mid-shift, and closing cleaning routines with mandatory manager sign-offs.",
+      "category": "operations",
+      "expected_impact": "Elevated hygiene standards and immediate removal of cleanliness-related negative reviews."
+    },
+    {
+      "priority": 5,
+      "issue": "Dissatisfaction with pricing relative to perceived value",
+      "action": "Conduct a comprehensive menu engineering audit to review portion sizes, presentation, and ingredient value, adjusting prices or enhancing plating where necessary.",
+      "category": "pricing",
+      "expected_impact": "Better alignment between guest expectations and menu pricing, leading to increased perceived value."
+    }
+  ],
+  "limitations": [
+    "Analysis is based on a limited sample of 92 online reviews, which may not represent the entire customer base.",
+    "Online reviews often lean toward extremes (very positive or very negative), potentially skewing the perception of overall sentiment."
+  ],
+  "status": "success",
+  "error_detail": null
+}

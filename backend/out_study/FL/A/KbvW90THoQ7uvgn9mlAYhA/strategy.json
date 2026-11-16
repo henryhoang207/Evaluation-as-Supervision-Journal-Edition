@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Long wait times and service delays caused by understaffing and kitchen bottlenecks during peak hours.",
+      "action": "Adjust staff scheduling to increase front-of-house and back-of-house coverage during peak hours, and implement a kitchen display system (KDS) to streamline order flow and track preparation bottlenecks.",
+      "category": "operations",
+      "expected_impact": "Reduction in customer wait times, faster table turnover, and decreased staff stress."
+    },
+    {
+      "priority": 2,
+      "issue": "Inconsistent food quality and taste due to rushed preparation during busy services.",
+      "action": "Standardize recipe cards and portion guides at all prep and cooking stations, and designate a dedicated expediter during peak shifts to ensure every dish meets quality standards before leaving the kitchen.",
+      "category": "food",
+      "expected_impact": "Improved food consistency, fewer remakes, and higher customer satisfaction regarding taste."
+    },
+    {
+      "priority": 3,
+      "issue": "Staff attitude and service quality issues driven by high stress and employee burnout.",
+      "action": "Introduce a monthly staff training program focusing on guest communication and de-escalation, and implement regular shift check-ins to monitor workload and improve morale.",
+      "category": "service",
+      "expected_impact": "Friendlier customer service interactions, lower employee turnover, and a more positive working environment."
+    },
+    {
+      "priority": 4,
+      "issue": "Customer discontent regarding high pricing and perceived poor value relative to portion size and quality.",
+      "action": "Conduct a menu engineering review to audit portion sizes and ingredient costs, offering targeted value bundles or tweaking descriptions to better align perceived value with menu prices.",
+      "category": "pricing",
+      "expected_impact": "Better alignment between price and customer expectations, leading to reduced complaints about value."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

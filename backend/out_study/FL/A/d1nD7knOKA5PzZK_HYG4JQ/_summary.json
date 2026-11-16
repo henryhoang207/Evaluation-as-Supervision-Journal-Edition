@@ -1,0 +1,107 @@
+{
+  "business_name": "Tailgate Barbecue",
+  "business_id": "d1nD7knOKA5PzZK_HYG4JQ",
+  "run_config": {
+    "provider": "google-gemini (openai-compatible)",
+    "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "primary_model": "gemini-3.5-flash-lite",
+    "fallback_model": "gemini-3.5-flash-lite"
+  },
+  "pipeline_status": "complete",
+  "skipped_agents": [],
+  "failed_agent": null,
+  "errors": {},
+  "retry_counts": {},
+  "flags": [
+    "frequency_corrected:food_quality:0.29->0.35"
+  ],
+  "last_verdict": "proceed",
+  "observations": [
+    {
+      "stage": "analysis_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "n_loaded": 34,
+        "n_success": 34,
+        "failure_ratio": 0.0,
+        "failure_details": [],
+        "contradiction_rate": 0.0,
+        "contradictions": []
+      }
+    },
+    {
+      "stage": "reasoning_agent",
+      "would_be_verdict": "proceed_with_warning",
+      "flags": [
+        "frequency_corrected:food_quality:0.29->0.35"
+      ],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 34,
+        "patterns": [
+          {
+            "index": 0,
+            "aspect": "food_quality",
+            "description": "Customers frequently complain about poor food quality or inc",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.29,
+            "recomputed_frequency": 0.35294117647058826
+          },
+          {
+            "index": 1,
+            "aspect": "pricing",
+            "description": "Patrons express dissatisfaction with high prices or poor val",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.21,
+            "recomputed_frequency": 0.20588235294117646
+          },
+          {
+            "index": 2,
+            "aspect": "staff_attitude",
+            "description": "Negative feedback regarding rude or unhelpful staff behavior",
+            "missing_evidence_ids": [],
+            "misaligned_evidence_ids": [],
+            "claimed_frequency": 0.21,
+            "recomputed_frequency": 0.17647058823529413
+          }
+        ]
+      }
+    },
+    {
+      "stage": "strategy_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": []
+      }
+    },
+    {
+      "stage": "report_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [],
+        "invented_recommendations": [],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    }
+  ],
+  "phase": "A",
+  "mode": "observe",
+  "wall_clock_s": 36.04,
+  "stratum": "p50",
+  "review_sample_seed": 42
+}

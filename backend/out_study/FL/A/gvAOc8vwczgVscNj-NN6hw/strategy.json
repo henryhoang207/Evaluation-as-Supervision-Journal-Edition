@@ -1,0 +1,27 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor staff attitude and customer service issues due to understaffing, lack of training, and stress",
+      "action": "Implement a mandatory customer service and de-escalation training program for all front-of-house staff, and review scheduling to ensure adequate coverage during peak hours to reduce employee burnout.",
+      "category": "service",
+      "expected_impact": "Improved staff morale, more welcoming guest interactions, and a reduction in negative reviews related to rude service."
+    },
+    {
+      "priority": 2,
+      "issue": "Negative experiences with food quality caused by inconsistent kitchen preparation during peak rush hours",
+      "action": "Standardize recipe cards, institute strict plating checklists, and establish a dedicated expeditor role in the kitchen during peak hours to ensure consistency before dishes leave the pass.",
+      "category": "food",
+      "expected_impact": "Consistent dish quality across all operating hours, leading to higher customer satisfaction and fewer food-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Long wait times caused by front-of-house and kitchen bottlenecks during busy periods",
+      "action": "Optimize kitchen workflow and re-evaluate staffing levels on weekends and peak periods, introducing a streamlined menu for high-volume shifts to speed up ticket times.",
+      "category": "operations",
+      "expected_impact": "Faster table turnover, reduced customer wait times, and improved overall throughput during peak dining hours."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

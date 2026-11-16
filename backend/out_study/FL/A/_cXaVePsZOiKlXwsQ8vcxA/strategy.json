@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen execution and poor food quality during peak hours",
+      "action": "Implement standardized recipe cards, conduct mandatory culinary refresher training for all line cooks, and institute strict chef-driven quality checks before any dish leaves the pass.",
+      "category": "food",
+      "expected_impact": "Significant reduction in food quality complaints and higher consistency across all shifts."
+    },
+    {
+      "priority": 2,
+      "issue": "Kitchen bottlenecks and front-of-house understaffing causing long wait times",
+      "action": "Re-engineer kitchen station layouts to streamline ticket flow, optimize scheduling using peak-hour sales forecasting, and implement a digital kitchen display system (KDS) to track order times.",
+      "category": "operations",
+      "expected_impact": "Decreased table turn times, faster service, and improved overall throughput during rushes."
+    },
+    {
+      "priority": 3,
+      "issue": "Staff burnout, understaffing, and inadequate training leading to poor guest service",
+      "action": "Launch a comprehensive customer service training program focusing on de-escalation and hospitality, and review staffing levels to ensure adequate shift coverage and reduce employee fatigue.",
+      "category": "service",
+      "expected_impact": "Improved staff morale, friendlier guest interactions, and a noticeable drop in negative service reviews."
+    },
+    {
+      "priority": 4,
+      "issue": "Menu pricing misalignment with customer expectations on food quality and portions",
+      "action": "Conduct a comprehensive menu engineering audit to either enhance perceived value through portion and presentation adjustments or recalibrate price points to match customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Better alignment between cost and perceived value, leading to increased customer satisfaction and repeat visits."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

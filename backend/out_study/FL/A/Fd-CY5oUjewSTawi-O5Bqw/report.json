@@ -1,0 +1,70 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "No. 1 Chinese",
+  "sample_size": 92,
+  "executive_summary": "An analysis of 92 customer reviews for No. 1 Chinese highlights significant areas for operational improvement, primarily centered around food quality consistency, staff attitude, value perception, and wait times. Addressing these core challenges through standardized kitchen processes, service training, and workflow optimization will markedly improve guest satisfaction.",
+  "key_findings": [
+    "33% of reviews highlight poor or inconsistent food quality.",
+    "22% of reviews mention rude or unhelpful staff behavior.",
+    "12% of reviews express dissatisfaction with pricing relative to value.",
+    "8% of reviews complain about long wait times for service and food."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about poor or inconsistent food quality.",
+      "cause": "Lack of standardized recipes, inconsistent kitchen execution, or poor quality control on ingredients.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding rude or unhelpful staff attitude.",
+      "cause": "Understaffing, poor staff training, or high employee stress due to operational inefficiencies.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints about high pricing relative to value or expectations.",
+      "cause": "Disconnection between menu pricing and perceived portion sizes or overall food/service quality.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Customers experience long wait times for service or food delivery.",
+      "cause": "Kitchen bottlenecks, front-of-house understaffing, or poor table management during peak hours.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor or inconsistent food quality driven by lack of standardized recipes and kitchen execution.",
+      "action": "Implement strict standardized recipe cards, conduct daily pre-shift quality checks, and establish a mandatory plating guide for line cooks.",
+      "category": "food",
+      "expected_impact": "Significantly reduce food inconsistency complaints and improve overall dish quality perception."
+    },
+    {
+      "priority": 2,
+      "issue": "Rude or unhelpful staff attitude caused by understaffing, stress, and lack of service training.",
+      "action": "Launch a mandatory customer service training workshop focusing on de-escalation and hospitality, and review scheduling to prevent staff burnout during peak hours.",
+      "category": "service",
+      "expected_impact": "Lower negative staff attitude feedback and enhance guest satisfaction through a more welcoming front-of-house environment."
+    },
+    {
+      "priority": 3,
+      "issue": "Long wait times for service and food delivery due to kitchen bottlenecks and poor table management.",
+      "action": "Implement a digital POS-integrated kitchen display system (KDS) to streamline ticket times and reorganize station workflows to eliminate bottlenecks.",
+      "category": "operations",
+      "expected_impact": "Decrease table turnover times and reduce customer wait durations during peak dining hours."
+    },
+    {
+      "priority": 4,
+      "issue": "High pricing complaints due to a mismatch between menu costs and perceived value.",
+      "action": "Conduct a menu engineering audit to either enhance perceived portion sizes/presentation or slightly adjust price points on lower-value items to better align with customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Improve value-for-money perception and reduce pricing-related negative reviews."
+    }
+  ],
+  "limitations": [
+    "Analysis is based on a limited sample of 92 public reviews which may not fully represent all customer experiences.",
+    "Online reviews often lean toward extremes (very positive or very negative), potentially skewing overall sentiment."
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,27 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and lack of standardized kitchen processes.",
+      "action": "Implement strict recipe cards, portion control guides, and daily quality-control checklists for all kitchen stations, alongside mandatory refresher training for line cooks.",
+      "category": "food",
+      "expected_impact": "Significantly reduce dish inconsistency, lower food waste, and improve overall customer satisfaction with culinary offerings."
+    },
+    {
+      "priority": 2,
+      "issue": "Poor front-of-house staff attitude, inadequate training, and low morale.",
+      "action": "Conduct compulsory customer service workshops focusing on de-escalation and hospitality, and establish a bi-weekly feedback meeting to address staff stressors and boost morale.",
+      "category": "service",
+      "expected_impact": "Improve staff demeanor, foster a more welcoming environment, and reduce negative reviews regarding unhelpful service."
+    },
+    {
+      "priority": 3,
+      "issue": "Customer perception of high prices and poor value for money.",
+      "action": "Review current menu pricing against portion sizes and ingredient costs, introducing mid-tier combo options or value specials to better align with customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Enhance perceived value, attract price-conscious diners, and mitigate complaints regarding expensive menu items."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

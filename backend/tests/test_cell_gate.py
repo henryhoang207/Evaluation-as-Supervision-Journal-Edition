@@ -331,7 +331,7 @@ def test_preparing_cells_cannot_launch_even_when_other_checks_are_stubbed(tmp_pa
     def forbidden(*args, **kwargs):
         raise AssertionError("a preparation-only cell must not spawn a process")
     monkeypatch.setattr(cell, "spawn_detached", forbidden)
-    for name in ("flashlite", "flashlite_bases"):
+    for name in ("flashlite", "flashlite_bases", "flashlite_determinism"):
         spec = replace(cell.CELLS[name], preparing=True)
         assert spec.amendment == "A15"
         assert cell.launch(spec, 100, str(tmp_path / "ledger.jsonl")) == 1
@@ -339,10 +339,11 @@ def test_preparing_cells_cannot_launch_even_when_other_checks_are_stubbed(tmp_pa
     assert not (tmp_path / "ledger.jsonl").exists()
 
 
-def test_a15_initial_release_is_bases_only():
+def test_a15_repair_trials_stay_closed_while_preparatory_cells_release():
     bases, trials = cell.CELLS["flashlite_bases"], cell.CELLS["flashlite"]
     assert bases.amendment == trials.amendment == "A15"
     assert not bases.preparing and bases.freeze_tag is None
+    assert not cell.CELLS["flashlite_determinism"].preparing
     assert trials.preparing and trials.freeze_tag == "prereg-fl-freeze"
     ok, _ = cell.check_amendment_text(bases, "")
     assert not ok  # releasing the flag does not replace the filed-amendment gate
@@ -392,7 +393,7 @@ def test_missing_bases_make_preflight_fail_cleanly(monkeypatch):
     assert any("FL/A is not built" in c["detail"] for c in result["checks"])
 
 
-@pytest.mark.parametrize("name", ["flashlite_bases", "flashlite"])
+@pytest.mark.parametrize("name", ["flashlite_bases", "flashlite", "flashlite_determinism"])
 def test_flashlite_wrapper_pins_the_review_seed_before_import(tmp_path, monkeypatch, name):
     seen = {}
     monkeypatch.setenv("RANDOM_SEED", "999")
@@ -405,3 +406,32 @@ def test_flashlite_wrapper_pins_the_review_seed_before_import(tmp_path, monkeypa
     assert seen["RANDOM_SEED"] == "42"
     assert seen["MAX_REVIEW_SAMPLE"] == "500"
     assert seen["LLM_DISABLE_FALLBACK"] == "1"
+
+
+def test_replication_freeze_requires_power_and_measurement_artifacts(monkeypatch):
+    def git(*args):
+        if args[0] == "rev-parse":
+            return 0, "abc123"
+        if args[0] == "show":
+            return 0, '| **A15** | **2026-11-16** | S5 out_study/T2FL | Replication |'
+        if args[0] == "cat-file" and args[-1].endswith('/power.json'):
+            return 1, ""
+        return 0, ""
+    monkeypatch.setattr(cell, "_git", git)
+    ok, detail = cell.check_replication_freeze(cell.CELLS["flashlite"])
+    assert not ok and "power.json" in detail
+
+
+def test_measurement_launch_dispatches_only_its_collector(tmp_path, monkeypatch):
+    spec = cell.CELLS["flashlite_determinism"]
+    seen = []
+    monkeypatch.setattr(cell, "preflight", lambda *a, **kw: {"passed": True, "pending":20})
+    monkeypatch.setattr(cell, "tokens_spent", lambda *a: {"total":100})
+    monkeypatch.setattr(cell, "spawn_detached", lambda argv, log: seen.append(argv) or (123,True))
+    ledger = str(tmp_path / "ledger.jsonl")
+    assert cell.launch(spec, 520402, ledger, skip_suite=True) == 0
+    assert "scripts/flashlite_determinism.py" in seen[0]
+    assert cell.runner_argv(spec)[2:] == ["scripts/flashlite_determinism.py", "--root", "out_study/FL",
+        "--out", "out_study/FL/determinism", "--model", cell.REPLICATION_MODEL]
+    row = cell.read_rows(ledger)[0]
+    assert row["cell"] == "flashlite_determinism" and row["estimate_tokens"] == 520402

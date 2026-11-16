@@ -1,0 +1,53 @@
+{
+  "patterns": [
+    {
+      "description": "Negative feedback regarding food quality",
+      "aspect": "food_quality",
+      "frequency": 0.1176,
+      "evidence_review_ids": [
+        "-iX6eMNKSf_a1kiKYTO5CQ",
+        "2WTdNqCAH62FGiR768gOVg",
+        "WDlSwMxLtPhMX8qQEygqFg"
+      ]
+    },
+    {
+      "description": "Complaints about poor staff attitude or service",
+      "aspect": "staff_attitude",
+      "frequency": 0.1176,
+      "evidence_review_ids": [
+        "-iX6eMNKSf_a1kiKYTO5CQ",
+        "TK7vZ_xKqC7lfsCQnu1FDQ",
+        "XCJdOsVy_X2b9LLbgQMK-A",
+        "yn6frK3ToYItW-Xn6UgQTA"
+      ]
+    },
+    {
+      "description": "Slow wait times or delays experienced by customers",
+      "aspect": "wait_time",
+      "frequency": 0.0882,
+      "evidence_review_ids": [
+        "TK7vZ_xKqC7lfsCQnu1FDQ",
+        "yn6frK3ToYItW-Xn6UgQTA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Negative feedback regarding food quality",
+      "cause": "Inconsistent kitchen preparation standards or supply chain issues affecting ingredient freshness.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints about poor staff attitude or service",
+      "cause": "Understaffing or lack of proper customer service training leading to employee burnout and poor interactions.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Slow wait times or delays experienced by customers",
+      "cause": "Kitchen and front-of-house bottlenecking during peak hours due to poor coordination or insufficient staffing.",
+      "confidence": "high"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

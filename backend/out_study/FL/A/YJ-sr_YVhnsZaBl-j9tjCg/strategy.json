@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen execution and poor food quality during peak hours",
+      "action": "Implement strict standardization recipes, station checklists, and a mandatory head-chef quality control check before any plate leaves the kitchen.",
+      "category": "food",
+      "expected_impact": "Reduction in food-related complaints and improved consistency across all services."
+    },
+    {
+      "priority": 2,
+      "issue": "Staff burnout, poor morale, and negative customer service attitude due to understaffing",
+      "action": "Revise staff scheduling to ensure adequate coverage during peak hours, and introduce a mandatory customer service training workshop alongside an incentive program for positive reviews.",
+      "category": "service",
+      "expected_impact": "Improved staff morale, friendlier guest interactions, and a noticeable drop in service complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Kitchen and front-of-house bottlenecks causing long wait times",
+      "action": "Optimize the floor plan and adopt a digital table management and POS-integrated kitchen display system (KDS) to streamline communication between servers and line cooks.",
+      "category": "operations",
+      "expected_impact": "Faster table turns, reduced wait times, and improved overall throughput during rushes."
+    },
+    {
+      "priority": 4,
+      "issue": "Perceived mismatch between portion sizes, quality, and menu prices",
+      "action": "Conduct a menu engineering audit to either slightly increase portion sizes on underperforming items or refine menu descriptions to better set customer expectations regarding value.",
+      "category": "pricing",
+      "expected_impact": "Enhanced perceived value for money, leading to better customer satisfaction scores on pricing."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

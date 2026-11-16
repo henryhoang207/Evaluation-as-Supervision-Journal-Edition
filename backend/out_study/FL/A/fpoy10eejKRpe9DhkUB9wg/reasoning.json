@@ -1,0 +1,40 @@
+{
+  "patterns": [
+    {
+      "description": "Customers reporting poor food quality in multiple reviews",
+      "aspect": "food_quality",
+      "frequency": 0.2857,
+      "evidence_review_ids": [
+        "7Hd56iQEnpWBIxZJ8iQg4g",
+        "G9fYtyMol4Ibo7BxX34eew",
+        "N222fO6XYF0LqhAr0kDOYA",
+        "SwSP5XbVWTx1z4e_N1kNYA"
+      ]
+    },
+    {
+      "description": "Customers complaining about high or unfair pricing",
+      "aspect": "pricing",
+      "frequency": 0.2857,
+      "evidence_review_ids": [
+        "7Hd56iQEnpWBIxZJ8iQg4g",
+        "G9fYtyMol4Ibo7BxX34eew",
+        "N222fO6XYF0LqhAr0kDOYA",
+        "SwSP5XbVWTx1z4e_N1kNYA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers reporting poor food quality in multiple reviews",
+      "cause": "Inconsistent kitchen preparation or declining ingredient standards during peak hours",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Customers complaining about high or unfair pricing",
+      "cause": "Discrepancy between customer expectations and menu pricing, potentially exacerbated by drops in perceived food quality",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

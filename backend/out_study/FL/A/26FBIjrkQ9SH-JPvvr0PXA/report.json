@@ -1,0 +1,70 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Shagor Indian Cuisine",
+  "sample_size": 34,
+  "executive_summary": "An analysis of 34 customer reviews for Shagor Indian Cuisine reveals key areas of dissatisfaction centred around pricing, staff attitude, wait times, and food consistency. Addressing these through operational adjustments, staff training, and menu engineering will significantly improve the overall guest experience.",
+  "key_findings": [
+    "Dissatisfaction with high pricing relative to value or portion size affects 29.4% of reviews.",
+    "Negative experiences regarding staff attitude and customer service appear in 26.5% of reviews.",
+    "Slow service and long wait times are mentioned in 23.5% of reviews.",
+    "Inconsistent food quality or poor taste is noted in 23.5% of reviews."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Complaints regarding slow service and long wait times",
+      "cause": "Understaffing during peak hours or inefficient kitchen and front-of-house coordination.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Dissatisfaction with high pricing relative to value or portion size",
+      "cause": "Menu pricing may be set higher than the perceived quality or portion sizes offered by the restaurant.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative experiences regarding staff attitude and customer service",
+      "cause": "Lack of proper customer service training or high employee stress due to understaffing.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Inconsistent food quality or poor taste",
+      "cause": "Lack of standardized recipes, high kitchen turnover, or rushing orders during busy periods.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Slow service, long wait times, and high staff stress leading to poor attitudes",
+      "action": "Adjust staff scheduling to ensure adequate coverage during peak hours, and implement a streamlined POS-to-kitchen communication system to improve front-and-back-of-house coordination.",
+      "category": "operations",
+      "expected_impact": "Reduced table turnover times, faster service, and lower employee stress resulting in friendlier customer interactions."
+    },
+    {
+      "priority": 2,
+      "issue": "Negative experiences regarding staff attitude and customer service",
+      "action": "Develop and mandate a customer service training program focusing on hospitality standards, conflict resolution, and stress management for all front-of-house employees.",
+      "category": "service",
+      "expected_impact": "Improved guest perception of hospitality, higher tip averages, and a more welcoming restaurant environment."
+    },
+    {
+      "priority": 3,
+      "issue": "Inconsistent food quality and poor taste due to rushed preparation or lack of standards",
+      "action": "Implement strict standardized recipe cards, conduct mandatory kitchen training on food preparation, and institute quality check gates before dishes leave the pass.",
+      "category": "food",
+      "expected_impact": "Consistent flavor profiles across all shifts and a significant reduction in food-related complaints or remakes."
+    },
+    {
+      "priority": 4,
+      "issue": "Dissatisfaction with high pricing relative to value or portion size",
+      "action": "Review menu engineering metrics to either adjust portion sizes for perceived value, re-price specific underperforming items, or introduce bundled combo deals to enhance value perception.",
+      "category": "pricing",
+      "expected_impact": "Higher perceived value from customers, increased repeat visits, and better alignment with customer expectations."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 34 reviews, which may not fully represent the entire customer base.",
+    "Online reviews often skew toward extreme experiences (either very positive or very negative)."
+  ],
+  "status": "success",
+  "error_detail": null
+}

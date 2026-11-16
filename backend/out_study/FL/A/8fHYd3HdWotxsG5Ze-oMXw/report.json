@@ -1,0 +1,31 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Suncoast Family Restaurant",
+  "sample_size": 14,
+  "executive_summary": "An analysis of 14 customer reviews identified inconsistencies in food quality as a primary driver of negative experiences, stemming from operational variance during peak service hours.",
+  "key_findings": [
+    "Inconsistent food quality was noted in 21.4% of the analyzed reviews, leading to negative customer experiences."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent food quality leading to negative experiences for some customers",
+      "cause": "Variability in kitchen preparation and lack of standardized quality control during peak hours",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality during peak hours due to lack of standardized preparation and quality control.",
+      "action": "Implement strict kitchen standard operating procedures (SOPs), including mandatory recipe cards at every station, plating reference photos on the pass, and assigning a dedicated expeditor during peak hours to perform quality checks before dishes leave the kitchen.",
+      "category": "operations",
+      "expected_impact": "Reduction in food variance across shifts, lower rates of returned dishes, and improved overall customer satisfaction scores."
+    }
+  ],
+  "limitations": [
+    "Small sample size of 14 reviews may not fully represent the sentiment of all customers.",
+    "Analysis relies on unsolicited online reviews which may be skewed toward extreme experiences."
+  ],
+  "status": "success",
+  "error_detail": null
+}

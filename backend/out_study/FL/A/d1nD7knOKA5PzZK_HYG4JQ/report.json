@@ -1,0 +1,57 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Tailgate Barbecue",
+  "sample_size": 34,
+  "executive_summary": "An analysis of 34 customer reviews for Tailgate Barbecue reveals three primary areas of concern: inconsistent food quality, poor staff attitude, and perceived high pricing relative to value. Addressing these issues through standardized kitchen processes, service training, and value realignment will significantly improve customer satisfaction.",
+  "key_findings": [
+    "29% of reviews highlight poor food quality or inconsistent dishes.",
+    "21% of patrons express dissatisfaction with high prices and poor value for money.",
+    "21% of feedback mentions rude or unhelpful staff behavior and poor service attitude."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about poor food quality or inconsistent dishes.",
+      "cause": "Lack of standardized kitchen processes, high employee turnover in the kitchen, or inconsistent sourcing of ingredients.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Patrons express dissatisfaction with high prices or poor value for money.",
+      "cause": "Menu pricing increases that outpace perceived portion sizes or food quality value.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative feedback regarding rude or unhelpful staff behavior and poor service attitude.",
+      "cause": "Inadequate staff training, poor morale among front-of-house employees, or stressful working conditions.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and lack of standardized kitchen processes.",
+      "action": "Implement strict recipe cards, portion control guides, and daily quality-control checklists for all kitchen stations, alongside mandatory refresher training for line cooks.",
+      "category": "food",
+      "expected_impact": "Significantly reduce dish inconsistency, lower food waste, and improve overall customer satisfaction with culinary offerings."
+    },
+    {
+      "priority": 2,
+      "issue": "Poor front-of-house staff attitude, inadequate training, and low morale.",
+      "action": "Conduct compulsory customer service workshops focusing on de-escalation and hospitality, and establish a bi-weekly feedback meeting to address staff stressors and boost morale.",
+      "category": "service",
+      "expected_impact": "Improve staff demeanor, foster a more welcoming environment, and reduce negative reviews regarding unhelpful service."
+    },
+    {
+      "priority": 3,
+      "issue": "Customer perception of high prices and poor value for money.",
+      "action": "Review current menu pricing against portion sizes and ingredient costs, introducing mid-tier combo options or value specials to better align with customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Enhance perceived value, attract price-conscious diners, and mitigate complaints regarding expensive menu items."
+    }
+  ],
+  "limitations": [
+    "Analysis is based on a relatively small sample size of 34 reviews.",
+    "Online reviews may be skewed towards extreme experiences (very positive or very negative)."
+  ],
+  "status": "success",
+  "error_detail": null
+}

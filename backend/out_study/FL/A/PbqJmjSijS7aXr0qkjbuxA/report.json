@@ -1,0 +1,70 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "The Keg Steakhouse And Bar",
+  "sample_size": 92,
+  "executive_summary": "An analysis of 92 customer reviews for The Keg Steakhouse And Bar highlights key operational challenges, primarily centered around long wait times, inconsistent food quality, and staff attitude issues. These challenges are largely driven by peak-hour understaffing, leading to kitchen bottlenecks and staff burnout. Implementing targeted scheduling adjustments, staff morale programs, and kitchen quality checks will significantly improve guest satisfaction.",
+  "key_findings": [
+    "Long wait times and service delays affect 22% of reviewed customer experiences.",
+    "Dissatisfaction with food quality, taste, or preparation is present in 17% of reviews.",
+    "Negative feedback regarding staff attitude and customer service appears in 15% of reviews.",
+    "High prices and poor value for money are noted in 12% of reviews."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently experience long wait times and delays for service or food.",
+      "cause": "Understaffing in the kitchen and front-of-house during peak hours, leading to operational bottlenecks.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding staff attitude and customer service issues.",
+      "cause": "Staff burnout and stress resulting from understaffing and high customer volume.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Dissatisfaction with the quality, taste, or preparation of the food.",
+      "cause": "Kitchen rushing orders to compensate for long wait times, leading to inconsistent food preparation.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints about high prices or poor value for money.",
+      "cause": "Menu pricing increases that do not align with customer perception of food quality and portion sizes.",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Understaffing in the kitchen and front-of-house during peak hours causing severe wait times.",
+      "action": "Adjust scheduling software to increase staffing levels by at least 20% during identified peak rush hours, specifically targeting host, server, and line cook positions.",
+      "category": "operations",
+      "expected_impact": "Significant reduction in table turn times, decreased order backlog, and lowered customer wait times."
+    },
+    {
+      "priority": 2,
+      "issue": "Staff burnout and stress leading to negative customer service attitudes.",
+      "action": "Implement mandatory mid-shift breaks, rotate demanding stations to prevent fatigue, and introduce a weekly staff appreciation incentive program to boost morale.",
+      "category": "service",
+      "expected_impact": "Improved staff demeanor, friendlier guest interactions, and a reduction in service-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Kitchen rushing orders leading to inconsistent food quality and preparation.",
+      "action": "Conduct refresher training on standardized recipes and plating checklists, and establish a dedicated quality-control checkpoint at the pass before dishes leave the kitchen.",
+      "category": "food",
+      "expected_impact": "Higher consistency in dish presentation and taste, directly addressing food quality dissatisfaction."
+    },
+    {
+      "priority": 4,
+      "issue": "Menu pricing misalignment with customer perception of value and portion size.",
+      "action": "Audit current menu items for perceived value, adjust portion sizes on underperforming high-priced items, or introduce bundled combo options to increase perceived value.",
+      "category": "pricing",
+      "expected_impact": "Reduced price-point friction and improved customer sentiment regarding overall value for money."
+    }
+  ],
+  "limitations": [
+    "Analysis is based on a limited sample size of 92 reviews.",
+    "Online reviews often lean toward extreme dissatisfaction or high praise, potentially skewing overall sentiment."
+  ],
+  "status": "success",
+  "error_detail": null
+}

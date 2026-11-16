@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen preparation and declining ingredient standards during peak hours leading to poor food quality.",
+      "action": "Implement strict kitchen standard operating procedures (SOPs), introduce a mandatory plating and quality check by the head chef before dishes leave the pass, and audit key supplier ingredients.",
+      "category": "food",
+      "expected_impact": "Significant reduction in food quality complaints and improved consistency across all service times."
+    },
+    {
+      "priority": 2,
+      "issue": "Customer perception of high or unfair pricing exacerbated by drops in food quality.",
+      "action": "Conduct a comprehensive menu engineering review to ensure portion sizes and ingredient values justify current prices, and temporarily run promotional value-add offers while food quality stabilizes.",
+      "category": "pricing",
+      "expected_impact": "Alignment of customer price-to-value expectations, leading to fewer negative reviews regarding cost."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

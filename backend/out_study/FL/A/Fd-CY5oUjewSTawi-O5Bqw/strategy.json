@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor or inconsistent food quality driven by lack of standardized recipes and kitchen execution.",
+      "action": "Implement strict standardized recipe cards, conduct daily pre-shift quality checks, and establish a mandatory plating guide for line cooks.",
+      "category": "food",
+      "expected_impact": "Significantly reduce food inconsistency complaints and improve overall dish quality perception."
+    },
+    {
+      "priority": 2,
+      "issue": "Rude or unhelpful staff attitude caused by understaffing, stress, and lack of service training.",
+      "action": "Launch a mandatory customer service training workshop focusing on de-escalation and hospitality, and review scheduling to prevent staff burnout during peak hours.",
+      "category": "service",
+      "expected_impact": "Lower negative staff attitude feedback and enhance guest satisfaction through a more welcoming front-of-house environment."
+    },
+    {
+      "priority": 3,
+      "issue": "Long wait times for service and food delivery due to kitchen bottlenecks and poor table management.",
+      "action": "Implement a digital POS-integrated kitchen display system (KDS) to streamline ticket times and reorganize station workflows to eliminate bottlenecks.",
+      "category": "operations",
+      "expected_impact": "Decrease table turnover times and reduce customer wait durations during peak dining hours."
+    },
+    {
+      "priority": 4,
+      "issue": "High pricing complaints due to a mismatch between menu costs and perceived value.",
+      "action": "Conduct a menu engineering audit to either enhance perceived portion sizes/presentation or slightly adjust price points on lower-value items to better align with customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Improve value-for-money perception and reduce pricing-related negative reviews."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

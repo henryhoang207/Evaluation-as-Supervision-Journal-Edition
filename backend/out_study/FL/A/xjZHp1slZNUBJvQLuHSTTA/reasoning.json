@@ -1,0 +1,38 @@
+{
+  "patterns": [
+    {
+      "description": "Negative staff attitude reported by customers",
+      "aspect": "staff_attitude",
+      "frequency": 0.286,
+      "evidence_review_ids": [
+        "7-zP-OmgB1xKjpGf-BvlFA",
+        "Q0cmXdynIedpVUa3g_bAFw",
+        "X2ewMXHnN35mmP4tMypBbg",
+        "yq2Pst8l8nsSVjuA6_o_dA"
+      ]
+    },
+    {
+      "description": "Complaints regarding the ambience or environment of the restaurant",
+      "aspect": "ambience",
+      "frequency": 0.214,
+      "evidence_review_ids": [
+        "E_-_ZkPX2Ig7NolVtFbJ2Q",
+        "Q0cmXdynIedpVUa3g_bAFw"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Negative staff attitude reported by customers",
+      "cause": "Lack of customer service training or staff burnout during peak hours",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints regarding the ambience or environment of the restaurant",
+      "cause": "Inconsistent maintenance of physical facilities or seating arrangement issues",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

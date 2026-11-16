@@ -1,0 +1,41 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen execution and poor food quality",
+      "action": "Implement standardized recipe cards, conduct daily pre-shift taste tests, and audit ingredient quality from suppliers.",
+      "category": "food",
+      "expected_impact": "Reduction in food-related complaints and improved flavor consistency across all shifts."
+    },
+    {
+      "priority": 2,
+      "issue": "Poor staff attitude, understaffing, and lack of customer service training",
+      "action": "Launch a mandatory customer service training workshop and institute an employee appreciation program to reduce burnout and turnover.",
+      "category": "service",
+      "expected_impact": "Boosted staff morale, friendlier guest interactions, and a noticeable drop in service-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Long wait times and operational bottlenecks during peak hours",
+      "action": "Redesign kitchen and service workflows, optimize scheduling for peak hours, and implement a digital POS-to-kitchen routing system.",
+      "category": "operations",
+      "expected_impact": "Faster ticket times, reduced table turnaround friction, and improved overall throughput."
+    },
+    {
+      "priority": 4,
+      "issue": "Poor cleanliness standards in the establishment",
+      "action": "Establish strict, checklist-based opening, mid-shift, and closing cleaning routines with mandatory manager sign-offs.",
+      "category": "operations",
+      "expected_impact": "Elevated hygiene standards and immediate removal of cleanliness-related negative reviews."
+    },
+    {
+      "priority": 5,
+      "issue": "Dissatisfaction with pricing relative to perceived value",
+      "action": "Conduct a comprehensive menu engineering audit to review portion sizes, presentation, and ingredient value, adjusting prices or enhancing plating where necessary.",
+      "category": "pricing",
+      "expected_impact": "Better alignment between guest expectations and menu pricing, leading to increased perceived value."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

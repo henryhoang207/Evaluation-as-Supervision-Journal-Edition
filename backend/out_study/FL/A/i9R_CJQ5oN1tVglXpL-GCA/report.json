@@ -1,0 +1,70 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Indy Asian Cuisine",
+  "sample_size": 92,
+  "executive_summary": "An analysis of 92 customer reviews for Indy Asian Cuisine reveals primary areas of concern around food quality consistency, pricing perception, wait times, and ambience. Addressing these through standardized kitchen training, menu audits, and optimized scheduling will significantly improve guest satisfaction.",
+  "key_findings": [
+    "Food quality is the most frequent complaint, appearing in 14% of reviews regarding poor taste or improper preparation.",
+    "Pricing and value concerns represent 11% of complaints, indicating a mismatch between customer expectations and costs.",
+    "Ambience and noise issues account for 5% of negative remarks.",
+    "Long wait times for seating and service affect 5% of customers, typically during peak operational hours."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers expressing dissatisfaction with food quality issues such as poor taste or improperly prepared dishes.",
+      "cause": "Inconsistent kitchen execution, lack of standardized recipes, or rushed food preparation during peak hours.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints regarding high pricing or poor value for money.",
+      "cause": "Menu pricing mismatched with customer perception of portion sizes or overall dining experience.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative remarks about the restaurant's ambience, including noise, layout, or atmosphere issues.",
+      "cause": "Poor acoustic management or tight seating arrangements that amplify noise levels.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Long wait times reported by customers for seating, service, or food delivery.",
+      "cause": "Understaffing in the front of house or kitchen bottlenecks during rush periods.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen execution and improperly prepared dishes leading to poor taste and quality.",
+      "action": "Implement standardized recipe cards, conduct mandatory line-cook training, and establish strict quality control checkpoints before dishes leave the pass.",
+      "category": "food",
+      "expected_impact": "Reduction in food quality complaints and higher consistency in flavor and presentation across all shifts."
+    },
+    {
+      "priority": 2,
+      "issue": "Menu pricing mismatched with customer perception of portion sizes and dining value.",
+      "action": "Conduct a menu engineering audit to review portion sizes, ingredient costs, and perceived value, adjusting prices or portioning accordingly to better align with customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Decrease in value-related complaints and improved customer satisfaction regarding spending."
+    },
+    {
+      "priority": 3,
+      "issue": "Long wait times for seating, service, and food delivery caused by bottlenecks and understaffing.",
+      "action": "Optimize front-of-house and kitchen scheduling using predictive peak-hour forecasting, and introduce streamlined expediting protocols to speed up service flow.",
+      "category": "operations",
+      "expected_impact": "Faster table turns, reduced wait times, and improved overall throughput during peak hours."
+    },
+    {
+      "priority": 4,
+      "issue": "Negative remarks about restaurant ambience, noise levels, and tight layout.",
+      "action": "Install basic acoustic dampening materials (such as wall panels or table padding) and review the dining room layout to optimize spacing and reduce crowding noise.",
+      "category": "service",
+      "expected_impact": "A more comfortable, quieter dining environment that enhances overall guest comfort."
+    }
+  ],
+  "limitations": [
+    "Analysis is based on a limited sample of 92 reviews which may not fully represent all customer experiences.",
+    "Online reviews often skew toward polarized opinions (very positive or very negative), potentially underrepresenting neutral diners."
+  ],
+  "status": "success",
+  "error_detail": null
+}

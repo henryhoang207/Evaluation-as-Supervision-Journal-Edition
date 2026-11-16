@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Slow service, long wait times, and high staff stress leading to poor attitudes",
+      "action": "Adjust staff scheduling to ensure adequate coverage during peak hours, and implement a streamlined POS-to-kitchen communication system to improve front-and-back-of-house coordination.",
+      "category": "operations",
+      "expected_impact": "Reduced table turnover times, faster service, and lower employee stress resulting in friendlier customer interactions."
+    },
+    {
+      "priority": 2,
+      "issue": "Negative experiences regarding staff attitude and customer service",
+      "action": "Develop and mandate a customer service training program focusing on hospitality standards, conflict resolution, and stress management for all front-of-house employees.",
+      "category": "service",
+      "expected_impact": "Improved guest perception of hospitality, higher tip averages, and a more welcoming restaurant environment."
+    },
+    {
+      "priority": 3,
+      "issue": "Inconsistent food quality and poor taste due to rushed preparation or lack of standards",
+      "action": "Implement strict standardized recipe cards, conduct mandatory kitchen training on food preparation, and institute quality check gates before dishes leave the pass.",
+      "category": "food",
+      "expected_impact": "Consistent flavor profiles across all shifts and a significant reduction in food-related complaints or remakes."
+    },
+    {
+      "priority": 4,
+      "issue": "Dissatisfaction with high pricing relative to value or portion size",
+      "action": "Review menu engineering metrics to either adjust portion sizes for perceived value, re-price specific underperforming items, or introduce bundled combo deals to enhance value perception.",
+      "category": "pricing",
+      "expected_impact": "Higher perceived value from customers, increased repeat visits, and better alignment with customer expectations."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

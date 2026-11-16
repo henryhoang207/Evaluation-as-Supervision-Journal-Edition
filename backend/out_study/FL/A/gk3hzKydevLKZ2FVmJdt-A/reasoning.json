@@ -1,0 +1,76 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently complain about poor food quality or inconsistent dishes.",
+      "aspect": "food_quality",
+      "frequency": 0.28,
+      "evidence_review_ids": [
+        "-_qwoFynJkN-T0qWivFskQ",
+        "-ubKEh-F0SUfFyaqqEfJig",
+        "-xWzIWqEclu32Xf9M8m4Wg",
+        "0UBbNcbNXEXBhgMnG8xGOQ",
+        "1syUb9ZUGqPUeao5eE8Jkg"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding unhelpful, rude, or unprofessional staff attitude.",
+      "aspect": "staff_attitude",
+      "frequency": 0.23,
+      "evidence_review_ids": [
+        "2m3Gd7Bdj4O9PX4FZ9IowQ",
+        "2pcywBDO_Imbu2XzsKoHLQ",
+        "5bO7exIuJtGs57ZG3kZbNQ",
+        "73JDTqjh3lOlnLKh-Xq_hA",
+        "7USjoCrFC8Pt-ug53YV25g"
+      ]
+    },
+    {
+      "description": "Patrons experience long waiting times for seating, service, or food delivery.",
+      "aspect": "wait_time",
+      "frequency": 0.19,
+      "evidence_review_ids": [
+        "-LmkBWGyA-TVRtUGiu6zjQ",
+        "-_qwoFynJkN-T0qWivFskQ",
+        "0UBbNcbNXEXBhgMnG8xGOQ",
+        "1bf074AdizqFwMS0arCzjQ",
+        "27XH3IovqnZhs-OfzvADsQ"
+      ]
+    },
+    {
+      "description": "Complaints that the prices are too high relative to the quality or portion sizes provided.",
+      "aspect": "pricing",
+      "frequency": 0.17,
+      "evidence_review_ids": [
+        "-LmkBWGyA-TVRtUGiu6zjQ",
+        "0UBbNcbNXEXBhgMnG8xGOQ",
+        "2m3Gd7Bdj4O9PX4FZ9IowQ",
+        "733vDR6h-zVZruOM8YQzsA",
+        "73JDTqjh3lOlnLKh-Xq_hA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about poor food quality or inconsistent dishes.",
+      "cause": "Kitchen understaffing or lack of standardized recipes leading to inconsistency during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding unhelpful, rude, or unprofessional staff attitude.",
+      "cause": "Inadequate staff training, poor morale due to high turnover, or being overworked during busy periods.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Patrons experience long waiting times for seating, service, or food delivery.",
+      "cause": "Front-of-house and back-of-house coordination issues, or insufficient staffing levels to handle high customer volume.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints that the prices are too high relative to the quality or portion sizes provided.",
+      "cause": "Menu pricing increases that outpace the perceived value or quality of the ingredients delivered.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

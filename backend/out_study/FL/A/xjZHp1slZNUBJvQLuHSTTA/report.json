@@ -1,0 +1,44 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Wawa",
+  "sample_size": 14,
+  "executive_summary": "An analysis of 14 recent customer reviews for Wawa highlights key areas of concern regarding staff attitude and restaurant ambience. Addressing these issues through targeted training and facility maintenance will significantly improve guest satisfaction.",
+  "key_findings": [
+    "Negative staff attitude was reported in 28.6% of the analyzed reviews.",
+    "Complaints regarding the ambience or environment accounted for 21.4% of the feedback."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Negative staff attitude reported by customers",
+      "cause": "Lack of customer service training or staff burnout during peak hours",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints regarding the ambience or environment of the restaurant",
+      "cause": "Inconsistent maintenance of physical facilities or seating arrangement issues",
+      "confidence": "low"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Negative staff attitude reported by customers",
+      "action": "Implement a mandatory customer service refresher training program and evaluate peak-hour staffing levels to reduce employee burnout.",
+      "category": "service",
+      "expected_impact": "Improve customer satisfaction scores and create a more welcoming, positive dining experience."
+    },
+    {
+      "priority": 2,
+      "issue": "Complaints regarding the ambience or environment of the restaurant",
+      "action": "Conduct a comprehensive walkthrough to identify maintenance issues, optimize seating layouts, and establish a weekly facility inspection checklist.",
+      "category": "operations",
+      "expected_impact": "Enhance the physical environment and overall comfort for guests, reducing negative feedback about the venue."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 14 reviews, which may not fully represent the entire customer base.",
+    "Review sentiments can be subjective and may disproportionately reflect extreme experiences rather than average visits."
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,135 @@
+{
+  "patterns": [
+    {
+      "description": "Complaints regarding high pricing or poor value for money.",
+      "aspect": "pricing",
+      "frequency": 0.089,
+      "evidence_review_ids": [
+        "1YIQxmaURmgZzvcLGO8KPA",
+        "2zYH0KKvwQgD_Mo8HH4aEg",
+        "EyfS0mZGAP6yIGe-jVHdfQ",
+        "FyCXsiv4wowLXPujrlpahA",
+        "I1w1724I6TjJY_-gMKvpOQ",
+        "Ogj2VsJQ68Vf6OegWBaMIg",
+        "PLDAkiRIFIbVqovEKBus2w",
+        "POD2UnFNywQ4G_pZcfSC8Q",
+        "S2bfGh2fCcc7aR6Vc9H8Yw",
+        "dprLjlajuTAbWJil1jBB-A",
+        "eFcTZsugxilTuTT1AlSJ6A",
+        "gXgZqker1EBoT8px20_eWA",
+        "ja7lqjWmuDOBQOjDl5DBrA",
+        "jskN6SfTBMu6N--9U4Ssdw",
+        "ml8K7RoMLXrcpOjr1Kp0Jw",
+        "mwRh4ruUvL65FLNWqrjJ9Q",
+        "qvxHJGpp4V6-FEaPANgvpA",
+        "t8_OtCvIPEUAbCmW0lfh1g",
+        "uG0bNT9gSVEcAksnfLmJuQ",
+        "xMKUD9ZbAjKh3hB4kCOoDg",
+        "yDSkn8T5o976r6knrxeJYQ",
+        "ymRxEtrVXRPAd5khDxptUg"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding long wait times and slow service.",
+      "aspect": "wait_time",
+      "frequency": 0.051,
+      "evidence_review_ids": [
+        "Bq3PLXuKhxC1H2C79Wx_gw",
+        "C4F-Kw0q0r6pTFjIRh1_AA",
+        "GwbCXtyalJYWhKGgWSe4fg",
+        "H5wvM8zRotGChwpw-f6OSg",
+        "Jrw4Q8Ny0TZBZ1xU6ering",
+        "PRq2MTBpWx8rjWsuJ_LRMg",
+        "SKRlS4XyHua9cTnNvR_q0A",
+        "U_5R9UAfDmNLq2Mlvxcn0Q",
+        "W8plj-Utrqskl8lkeV2NjQ",
+        "ZRL1yL6-2__4x6C5Dsq6hQ",
+        "dEjQLVudslNIH0zjh60h9w",
+        "hTklFznrfIJ7VXkDQfR5VA",
+        "iAigHAsgaDaOlvbK_VSORQ",
+        "ja7lqjWmuDOBQOjDl5DBrA",
+        "kRWZGnWe1gQaBas7SszI6Q",
+        "l9FVEB3yuB3EKQuzmaAmZA",
+        "lf03exWCCCNzGdyoe_kJGA",
+        "nVMN5UYNI1Y_XNVRMJWLrQ",
+        "o8kLb1rcwy8_Hqm_Pz_iDw",
+        "qvxHJGpp4V6-FEaPANgvpA",
+        "rf8OhwosxyVN77ih4E7PgQ",
+        "zDA4NQq7HoAKcJynLAaTsA"
+      ]
+    },
+    {
+      "description": "Negative remarks about staff attitude and unfriendliness.",
+      "aspect": "staff_attitude",
+      "frequency": 0.065,
+      "evidence_review_ids": [
+        "4gV-SuOWM-K4eyX2w9zmfw",
+        "7rwcYq73fzim0g2DUdZ4lg",
+        "AmwqbXr0dmtiMn9jVlN3ag",
+        "Bq3PLXuKhxC1H2C79Wx_gw",
+        "JYUOmxksHdzF3YYj3KgaWg",
+        "POD2UnFNywQ4G_pZcfSC8Q",
+        "REFjRVUJtRYgGnTf8BdkGQ",
+        "S2bfGh2fCcc7aR6Vc9H8Yw",
+        "SKRlS4XyHua9cTnNvR_q0A",
+        "U_5R9UAfDmNLq2Mlvxcn0Q",
+        "W8plj-Utrqskl8lkeV2NjQ",
+        "aKx_9dfK0lNfXXZUkLwcCQ",
+        "agCTgp6OOT0_OlIW1lxBIg",
+        "alwr7-8fYoOu5SOGaouZfg",
+        "ftXDDQG6zi3mXs0Kt5LSQg",
+        "kRWZGnWe1gQaBas7SszI6Q",
+        "ml8K7RoMLXrcpOjr1Kp0Jw",
+        "o8kLb1rcwy8_Hqm_Pz_iDw",
+        "q8olhF3pHcbTM0dql5wGeA",
+        "qvxHJGpp4V6-FEaPANgvpA",
+        "rf8OhwosxyVN77ih4E7PgQ",
+        "xXrjhf2UPXCbJk-0kL_7qw",
+        "xjtqW3itKurcHxJMW-wFSg",
+        "zDA4NQq7HoAKcJynLAaTsA"
+      ]
+    },
+    {
+      "description": "Inconsistent or poor food quality reported by customers.",
+      "aspect": "food_quality",
+      "frequency": 0.056,
+      "evidence_review_ids": [
+        "7rwcYq73fzim0g2DUdZ4lg",
+        "HQcrRdxd0rga4E9ZiOwC4g",
+        "NqKqzidh1kZtba8D_-pzlg",
+        "S2bfGh2fCcc7aR6Vc9H8Yw",
+        "W8plj-Utrqskl8lkeV2NjQ",
+        "a7F8cQx8LEixfdey5nsYlw",
+        "nVMN5UYNI1Y_XNVRMJWLrQ",
+        "o8kLb1rcwy8_Hqm_Pz_iDw",
+        "qvxHJGpp4V6-FEaPANgvpA",
+        "t8_OtCvIPEUAbCmW0lfh1g",
+        "uG0bNT9gSVEcAksnfLmJuQ"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Complaints regarding high pricing or poor value for money.",
+      "cause": "Menu pricing may be misaligned with local customer expectations or perceived portion sizes and quality.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative feedback regarding long wait times and slow service.",
+      "cause": "Understaffing in the kitchen and front-of-house during peak dining hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative remarks about staff attitude and unfriendliness.",
+      "cause": "Staff burnout, high employee turnover, or lack of customer service training.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Inconsistent or poor food quality reported by customers.",
+      "cause": "Kitchen inconsistency during rushes or supply chain variations in ingredients.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

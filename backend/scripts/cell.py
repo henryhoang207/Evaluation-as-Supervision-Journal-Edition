@@ -55,7 +55,7 @@ for _stream in (sys.stdout, sys.stderr):
 @dataclass(frozen=True)
 class Spec:
     name: str
-    kind: str                       # "injection" | "tier1" | "harvest"
+    kind: str                       # "injection" | "tier1" | "harvest" | "determinism"
     out: str                        # result directory, relative to backend/
     amendment: str | None           # section 0.1 id; None = filed at prereg-freeze
     model: str | None               # the one model every call must be served by
@@ -78,6 +78,9 @@ CELLS = {s.name: s for s in (
     # S5: A15 preparation protocol releases bases only. Amendment-in-HEAD and
     # upstream gates still apply; trials stay preparing until the separate
     # prereg-fl-freeze completion. Registration alone never authorizes a run.
+    # Measurement registered before its collector; its committed protocol gates launch.
+    Spec("flashlite_determinism", "determinism", "out_study/FL/determinism", "A15",
+         REPLICATION_MODEL, root="out_study/FL"),
     Spec("flashlite_bases", "harvest", "out_study/FL", "A15", REPLICATION_MODEL,
          samples=("out_study/sample.json",), marker="out_study/FL/A"),
     Spec("flashlite", "injection", "out_study/T2FL", "A15", REPLICATION_MODEL,
@@ -251,9 +254,17 @@ def check_replication_freeze(spec: Spec) -> tuple[bool, str]:
              "backend/scripts/run_injection_study.py", "backend/scripts/run_study.py",
              "backend/scripts/flashlite_protocol.py", "backend/scripts/analysis/repair_analysis.py",
              "backend/scripts/analysis/power.py", "backend/scripts/inject_defects.py",
-             "backend/scripts/arms.py", "backend/scripts/analysis/score_repair.py"]
-    if _git("cat-file", "-e", f"{tag}:backend/{spec.root}/A/checkpoint.jsonl")[0]:
-        return False, f"{tag} has no model-specific base checkpoint"
+             "backend/scripts/arms.py", "backend/scripts/analysis/score_repair.py",
+             "backend/scripts/cell.py", "backend/scripts/flashlite_determinism.py", PREREG,
+             "backend/app/agents", "backend/app/core/nodes.py", "backend/app/core/supervision.py",
+             "backend/app/core/llm_config.py", "backend/app/schemas/contracts.py",
+             "backend/app/data/loader.py", "backend/" + spec.root + "/determinism",
+             "backend/" + spec.root + "/plan.json", "backend/" + spec.root + "/power.json"]
+    artifacts = ("A/checkpoint.jsonl", "plan.json", "power.json", "determinism/checkpoint.jsonl",
+                 "determinism/manifest.json", "determinism/analysis.json")
+    for artifact in artifacts:
+        if _git("cat-file", "-e", f"{tag}:backend/{spec.root}/{artifact}")[0]:
+            return False, f"{tag} is missing required pre-trial artifact {artifact}"
     if _git("diff", "--quiet", tag, "--", *paths)[0] or _git("status", "--porcelain", "--", *paths)[1]:
         return False, f"replication sources or bases differ from {tag}"
     return True, f"{tag} contains the amendment, sources and own-model bases"
@@ -356,6 +367,8 @@ def build_plan(spec: Spec) -> list[dict]:
             _PLANS[spec.name] = injection_runner().build_plan(spec.root, cell=spec.runner_cell)
         elif spec.kind == "tier1":
             _PLANS[spec.name] = tier1_runner().build_plan(spec.root)
+        elif spec.kind == "determinism":
+            _PLANS[spec.name] = _load("flashlite_determinism", "flashlite_determinism.py").build_plan(spec.root)
         else:
             raise ValueError(f"{spec.kind} cells have no trial plan")
     return _PLANS[spec.name]
@@ -380,6 +393,12 @@ def check_plan(spec: Spec) -> tuple[bool, str, dict]:
     plan = build_plan(spec)
     info = {"rows": len(expected_rows(spec, plan)), "trials": planned_trials(plan),
             "runnable": sum(1 for d in plan if d["runnable"])}
+    if spec.kind == "determinism":
+        pairs = {d["pair_id"] for d in plan}
+        slots = {(d["pair_id"], d["slot"]) for d in plan}
+        ok = len(pairs) == 10 and len(plan) == len(slots) == 20
+        info["pairs"] = len(pairs)
+        return ok, f"{len(pairs)} fixed real prompts, {len(plan)} measurement requests; no repair scoring", info
     if spec.kind == "injection":
         runner = injection_runner()
         problems = runner.verify_order(plan)
@@ -410,6 +429,9 @@ def runner_argv(spec: Spec, out: str | None = None, dry_run: bool = False,
             argv += ["--root", spec.root]
         if out:
             argv += ["--out", out]
+    elif spec.kind == "determinism":
+        argv = py + ["scripts/flashlite_determinism.py", "--root", spec.root,
+                     "--out", out or spec.out, "--model", spec.model]
     elif spec.kind == "tier1":
         argv = py + ["scripts/run_tier1_replay.py", "--root", spec.root, "--out", out or spec.out]
         if spec.model:
@@ -451,7 +473,15 @@ def check_dry_run(spec: Spec, plan_info: dict) -> tuple[bool, str]:
 def check_suite() -> tuple[bool, str]:
     proc = subprocess.run([sys.executable, "-m", "pytest", "-m", "not integration", "-q"],
                           cwd=BACKEND, capture_output=True)
-    tail = proc.stdout.decode("utf-8", "replace").strip().splitlines()[-1:] or ["no output"]
+    output = proc.stdout.decode("utf-8", "replace").strip()
+    if proc.returncode:
+        # Preserve the failed assertion in the gate output; a private per-exec
+        # pytest cache may disappear before a later diagnostic command.
+        print(output[-16000:], flush=True)
+        errors = proc.stderr.decode("utf-8", "replace").strip()
+        if errors:
+            print(errors[-2000:], flush=True)
+    tail = output.splitlines()[-1:] or ["no output"]
     return proc.returncode == 0, tail[0]
 
 
@@ -486,7 +516,7 @@ def preflight(spec: Spec, skip_suite: bool = False) -> dict:
     print(f"preflight {spec.name} -> {spec.out}")
     add("not frozen", (not spec.frozen, "this cell is frozen and is never run again"
                        if spec.frozen else "cell may be run"))
-    add("released", (not spec.preparing, "preparation-only: A15 approval is pending"
+    add("released", (not spec.preparing, "preparation-only: protocol completion/release is pending"
                      if spec.preparing else "cell is released"))
     add("replication freeze", check_replication_freeze(spec))
     add("frozen checkpoints", check_frozen())
@@ -549,7 +579,7 @@ def spawn_detached(argv: list[str], log: str) -> tuple[int, bool]:
 def launch(spec: Spec, estimate: int | None, ledger: str, dry_run: bool = False,
            out: str | None = None, sample: str | None = None, skip_suite: bool = False) -> int:
     if spec.preparing and not dry_run:
-        print("REFUSED: this cell is preparation-only; A15 approval and release are pending.")
+        print("REFUSED: this cell is preparation-only; protocol completion and release are pending.")
         return 1
     if spec.frozen:
         print(f"REFUSED: {spec.name} is frozen ({spec.out} is never altered).")
@@ -777,6 +807,19 @@ def run_verify(spec: Spec, checkpoint: str | None = None) -> dict:
         return verify_injection(spec, rows)
     if spec.kind == "tier1":
         return verify_tier1(spec, rows)
+    if spec.kind == "determinism":
+        module = _load("flashlite_determinism", "flashlite_determinism.py")
+        plan = build_plan(spec)
+        result = module.verify_measurements(rows, plan)
+        result["provenance"] = module.manifest(plan)
+        path = os.path.join(os.path.dirname(checkpoint or os.path.join(BACKEND, spec.checkpoint)), "manifest.json")
+        if not os.path.exists(path):
+            result["problems"].append("calibration manifest is missing")
+        else:
+            with open(path, encoding="utf-8") as fh:
+                if json.load(fh) != result["provenance"]:
+                    result["problems"].append("calibration sources/prompts/runtime differ from manifest")
+        return result
     return verify_harvest(spec, rows, harvest_expected(spec))
 
 
@@ -787,6 +830,19 @@ def write_analysis(spec: Spec, rewrite: bool = False) -> tuple[bool, str]:
     temporary file and reports whether it reproduces the stored one, so
     re-verifying never changes a committed result unless ``rewrite`` is given.
     """
+    if spec.kind == "determinism":
+        result = run_verify(spec)
+        if result["problems"]:
+            return False, "measurement checkpoint did not verify"
+        target = os.path.join(BACKEND, spec.out, "analysis.json")
+        if os.path.exists(target) and not rewrite:
+            with open(target, encoding="utf-8") as fh:
+                same = json.load(fh) == result
+            return same, "reproduces measurement analysis" if same else "measurement analysis differs"
+        with open(target, "w", encoding="utf-8") as fh:
+            json.dump(result, fh, ensure_ascii=False, indent=2, sort_keys=True)
+            fh.write("\n")
+        return True, f"written to {spec.out}/analysis.json (identity is measured, not gated)"
     if not spec.analysis or spec.frozen:
         return True, "not written (frozen cell)" if spec.frozen else "no analysis for this cell"
     target = os.path.join(BACKEND, spec.out, "analysis.json")
@@ -813,7 +869,13 @@ def log_line(spec: Spec, v: dict, analysis: str) -> str:
     """A draft RUN_QUEUE log entry: the mechanical facts only."""
     today = dt.date.today().isoformat()
     models = "; ".join(f"{k or 'none'} x{n}" for k, n in v["served_models"].items())
-    if spec.kind == "harvest":
+    if spec.kind == "determinism":
+        body = (f"{v['trials']}/{v['trials_planned']} request slots, {v['pairs']}/{v['pairs_planned']} pairs; "
+                f"raw identity {v['raw_identical_pairs']}/{v['valid_raw_pairs']} valid pairs; "
+                f"canonical identity {v['canonical_identical_pairs']}/{v['valid_json_pairs']} JSON-valid pairs; "
+                f"{v['invalid_json_calls']} invalid-JSON responses; served by {models}; "
+                f"**{v['tokens']:,} tokens**. Identity is reported, not gated. Analysis: {analysis}.")
+    elif spec.kind == "harvest":
         body = (f"{v['rows']}/{v['rows_expected']} businesses `status ok`, `pipeline complete`; "
                 f"served by {models}; loaded reviews by stratum {v['loaded_by_stratum']}; "
                 f"{v['calls']} calls, **{_m(v['tokens'])} tokens**; "
@@ -848,7 +910,10 @@ def verify(spec: Spec, ledger: str, checkpoint: str | None = None, rewrite: bool
         v["problems"].append(f"{v['trials']} trials recorded, {v['trials_planned']} planned")
     not_ok = {k: n for k, n in (v.get("status") or {}).items() if k != "ok"}
     if not_ok:
-        print(f"  WARNING: trials not ok {not_ok}: they are exclusions, and resume does not re-run them")
+        if spec.kind == "determinism":
+            print(f"  measurement errors {not_ok}: reported; no automatic replacements")
+        else:
+            print(f"  WARNING: trials not ok {not_ok}: they are exclusions, and resume does not re-run them")
     analysis = "not run"
     if v["problems"]:
         analysis = "skipped: the checkpoint did not verify"

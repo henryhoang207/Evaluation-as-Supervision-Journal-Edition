@@ -1,0 +1,57 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Herban Quality Eats",
+  "sample_size": 92,
+  "executive_summary": "An analysis of 92 customer reviews for Herban Quality Eats highlights key areas of concern regarding food quality consistency, pricing value perception, and staff attentiveness. Addressing these issues through standardized kitchen execution, menu engineering, and targeted service training will significantly improve customer satisfaction.",
+  "key_findings": [
+    "Pricing and value for money is the most frequently mentioned issue, appearing in approximately 16.3% of reviews.",
+    "Food quality and taste consistency affects 14.1% of reviews, with customers citing poor execution and variable dish quality.",
+    "Staff attitude and service concerns are present in 6.5% of reviews, highlighting instances of unhelpful or inattentive behavior."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with food quality, citing inconsistent dishes or poor taste.",
+      "cause": "Lack of standardized recipes and inconsistent kitchen execution during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Multiple complaints regarding high prices or poor value for money.",
+      "cause": "Menu pricing is misaligned with customer expectations for the portion sizes or overall dining experience.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative feedback concerning unhelpful, rude, or inattentive staff attitudes.",
+      "cause": "Insufficient staff training in customer service and high employee stress during busy periods.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality and taste due to lack of standardized recipes and kitchen execution issues.",
+      "action": "Implement strict standardized recipes, step-by-step plating guides, and comprehensive kitchen training during off-peak hours to ensure consistency.",
+      "category": "food",
+      "expected_impact": "Significantly reduce food complaints and improve overall dish consistency, leading to higher customer satisfaction scores."
+    },
+    {
+      "priority": 2,
+      "issue": "High prices and poor value perception due to menu pricing misalignment with portions or experience.",
+      "action": "Conduct a menu engineering audit to review portion sizes, ingredient costs, and perceived value, adjusting prices or enhancing presentation accordingly.",
+      "category": "pricing",
+      "expected_impact": "Align customer expectations with pricing, reducing value-related complaints and encouraging repeat visits."
+    },
+    {
+      "priority": 3,
+      "issue": "Unhelpful or rude staff attitudes caused by insufficient service training and high stress during peak shifts.",
+      "action": "Roll out mandatory hospitality and de-escalation training workshops for all front-of-house staff, alongside optimized shift scheduling to manage stress.",
+      "category": "service",
+      "expected_impact": "Improve staff morale and attentiveness, resulting in warmer guest interactions and fewer negative service reviews."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a sample of 92 reviews, which may not capture the full sentiment of all patrons.",
+    "Online reviews often lean toward extreme dissatisfaction or high praise, potentially skewing the perception of average customer sentiment."
+  ],
+  "status": "success",
+  "error_detail": null
+}

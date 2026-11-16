@@ -1,0 +1,77 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report poor food quality and inconsistent dishes.",
+      "aspect": "food_quality",
+      "frequency": 0.43,
+      "evidence_review_ids": [
+        "A38mc6EYPtOZV3tvw4RRIg",
+        "CAZf3PrTr_znrVGA_IsX5Q",
+        "CFXvAYDgVQTrdPOz_Ml55A",
+        "FA1_MoF_ej4eWvTfCKrj-g",
+        "FnD5aJUFkwZd2wavUoEKew",
+        "cTC9o39IsXaSF0g7dwvSAg"
+      ]
+    },
+    {
+      "description": "Long wait times and slow service reported by multiple customers.",
+      "aspect": "wait_time",
+      "frequency": 0.43,
+      "evidence_review_ids": [
+        "A38mc6EYPtOZV3tvw4RRIg",
+        "CAZf3PrTr_znrVGA_IsX5Q",
+        "WP7TgweMfZFEHY-UO4UhAg",
+        "_LhIdVLnGPYOylx-Mpfn4w",
+        "b8ybJbpzuRheEjYHFpI_Gg"
+      ]
+    },
+    {
+      "description": "Negative staff attitude and poor customer service interactions.",
+      "aspect": "staff_attitude",
+      "frequency": 0.43,
+      "evidence_review_ids": [
+        "CAZf3PrTr_znrVGA_IsX5Q",
+        "FnD5aJUFkwZd2wavUoEKew",
+        "WP7TgweMfZFEHY-UO4UhAg",
+        "XiaIHfHKuqC9J5RcSTYEsw",
+        "_LhIdVLnGPYOylx-Mpfn4w",
+        "b8ybJbpzuRheEjYHFpI_Gg"
+      ]
+    },
+    {
+      "description": "Complaints regarding cleanliness issues in the establishment.",
+      "aspect": "cleanliness",
+      "frequency": 0.29,
+      "evidence_review_ids": [
+        "CAZf3PrTr_znrVGA_IsX5Q",
+        "FnD5aJUFkwZd2wavUoEKew",
+        "XiaIHfHKuqC9J5RcSTYEsw",
+        "_LhIdVLnGPYOylx-Mpfn4w"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report poor food quality and inconsistent dishes.",
+      "cause": "Lack of standardized recipes and inadequate kitchen quality control.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Long wait times and slow service reported by multiple customers.",
+      "cause": "Understaffing during peak hours and inefficient kitchen or front-of-house workflow.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative staff attitude and poor customer service interactions.",
+      "cause": "Poor staff training, low morale, and high employee stress due to understaffing.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints regarding cleanliness issues in the establishment.",
+      "cause": "Inadequate closing/opening checklists and lack of dedicated staff for maintenance.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,57 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "El Folklor Restaurant",
+  "sample_size": 34,
+  "executive_summary": "An analysis of 34 customer reviews for El Folklor Restaurant highlights critical areas for improvement regarding staff attitude, wait times, and food quality consistency. While the sample size is modest, clear patterns indicate that service bottlenecks and staff burnout are negatively impacting the customer experience. Implementing structured staff training, optimizing operational flow, and standardizing kitchen processes will significantly enhance customer satisfaction.",
+  "key_findings": [
+    "11.76% of reviews highlighted negative feedback regarding food quality.",
+    "11.76% of reviews contained complaints about poor staff attitude or service.",
+    "8.82% of reviews reported slow wait times or delays during visits."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Negative feedback regarding food quality",
+      "cause": "Inconsistent kitchen preparation standards or supply chain issues affecting ingredient freshness.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints about poor staff attitude or service",
+      "cause": "Understaffing or lack of proper customer service training leading to employee burnout and poor interactions.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Slow wait times or delays experienced by customers",
+      "cause": "Kitchen and front-of-house bottlenecking during peak hours due to poor coordination or insufficient staffing.",
+      "confidence": "high"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor staff attitude and service driven by burnout or lack of training",
+      "action": "Implement a mandatory customer service training program and review staff scheduling to reduce fatigue and burnout.",
+      "category": "service",
+      "expected_impact": "Improved customer interactions, higher staff morale, and a reduction in negative attitude complaints."
+    },
+    {
+      "priority": 2,
+      "issue": "Slow wait times and bottlenecks during peak hours",
+      "action": "Redistribute front-of-house and kitchen responsibilities, and introduce a streamlined order-routing system to eliminate peak-hour bottlenecks.",
+      "category": "operations",
+      "expected_impact": "Faster table turnover, reduced customer wait times, and improved overall dining flow."
+    },
+    {
+      "priority": 3,
+      "issue": "Inconsistent food quality and freshness",
+      "action": "Establish standardized recipe cards, conduct daily quality-control checks before service, and audit ingredient suppliers.",
+      "category": "food",
+      "expected_impact": "Consistent dish preparation, guaranteed ingredient freshness, and a drop in food-related complaints."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 34 reviews, which may not capture the full sentiment of all patrons.",
+    "Review platforms often skew toward extreme experiences (very positive or very negative), potentially overrepresenting certain issues."
+  ],
+  "status": "success",
+  "error_detail": null
+}

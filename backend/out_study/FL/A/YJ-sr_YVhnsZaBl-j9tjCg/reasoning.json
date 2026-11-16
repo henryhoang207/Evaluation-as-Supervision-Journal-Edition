@@ -1,0 +1,144 @@
+{
+  "patterns": [
+    {
+      "description": "Negative reviews regarding food quality",
+      "aspect": "food_quality",
+      "frequency": 0.177,
+      "evidence_review_ids": [
+        "-Tx9s_ZnTx-bGVwcRhHNfg",
+        "-yL8leiMbQUSEUg2LxpqEg",
+        "0E48d7dkiQKt0nSz77wKOw",
+        "2gSbXQtdlUxFLIk-VSRQ-g",
+        "2uWvnJqXSxFqzxpw5S08hQ",
+        "7Z16yonyY9r8SHH8lDqakw",
+        "8KCvPbF41pnQ92R3ziQSEQ",
+        "9aIvv9Mv91CFYRsWGJp6qQ",
+        "HVdecXIC92mUN4ikazRYtg",
+        "Hw9t8UyXXvdtan3Ol57DWA",
+        "P7SRjQlU4uUFZiDYxMNZQw",
+        "QcLqE2iaWIUYidvNYLuWtw",
+        "R21VULNbBxglFjjkPpzHaw",
+        "rL5P7rAgN7JJpBNKEljcoA",
+        "rQvNCXFv-YHrEZ6Ek9ddog",
+        "swIWZxeKcgYpiBYUOL9aPA",
+        "tutoJeof3y-TLyG4RjMkNg",
+        "uSCWS7kxo_FMNzUlZQFg7w",
+        "_be_bvVyRR-Xvfwx4V_C4Q",
+        "f-MolJngyGk3gzWFVPLP7w",
+        "gHVK33L1gTmvRDSgXGULdQ",
+        "hpjhb5Plbb8vT5s-85TDeA",
+        "jKNGpn2rjtNRHoXfVYkzQg",
+        "kTc4zwlwY1RFHarpI_AGeA",
+        "mS7KZWTfAXlUMC7RbvaICg",
+        "mbPom78lY_byYUHqy8wZ4A",
+        "q7JXAJgq-Zt7qoWuBYV-EQ",
+        "xcqGeuPvMckB5biWDTL2bw",
+        "ysck835siS99pURk1YTDAg",
+        "YAMTvdWZL21en9JIAuLBCg"
+      ]
+    },
+    {
+      "description": "Negative feedback on staff attitude and customer service",
+      "aspect": "staff_attitude",
+      "frequency": 0.145,
+      "evidence_review_ids": [
+        "-Tx9s_ZnTx-bGVwcRhHNfg",
+        "2Fg7P-DYkf3abh6BnwfQiw",
+        "8QAZdwPqvEoS93fgVvbgLw",
+        "8aqS-2QVIsOUlmzccMc03Q",
+        "9aIvv9Mv91CFYRsWGJp6qQ",
+        "ANqi7FcqK_88t0IwIjqpVA",
+        "FsSGw90cfe07kRQVaP5M9A",
+        "G1bn5f9EMDVwr6XKeWh75A",
+        "HrX3jbwnS9FdiYVFe--5OQ",
+        "I-Y_OaRA-b3eAkM6cO2hXw",
+        "NLaF4ZC9RFVSVyTHANlNAw",
+        "QcLqE2iaWIUYidvNYLuWtw",
+        "Qvy4EsZJvOqGNIXYgfaWcw",
+        "R21VULNbBxglFjjkPpzHaw",
+        "TRGyh3Ww0TbJPdQ8nK0ViQ",
+        "UpJkwz5lyCGb1rUti6W5og",
+        "YAMTvdWZL21en9JIAuLBCg",
+        "dGIMuvMgSZ4doeFHBkY0qQ",
+        "gHVK33L1gTmvRDSgXGULdQ",
+        "hpjhb5Plbb8vT5s-85TDeA",
+        "jKNGpn2rjtNRHoXfVYkzQg",
+        "lsR0W0RjDNUKkv-ElHK7iQ",
+        "mT5w-bY8T4bpDowOwrKLAw",
+        "oOkh4URFmfHB5pnPRcK4vw",
+        "rL5P7rAgN7JJpBNKEljcoA",
+        "tutoJeof3y-TLyG4RjMkNg",
+        "u6NSzingZRtxnPvcb3H66w",
+        "wVrxUkj7b8aXWFC5no5zYg",
+        "xcqGeuPvMckB5biWDTL2bw",
+        "xyVWpOVCEvNEqVPCf8vKTA"
+      ]
+    },
+    {
+      "description": "Dissatisfaction with pricing and value for money",
+      "aspect": "pricing",
+      "frequency": 0.088,
+      "evidence_review_ids": [
+        "-Tx9s_ZnTx-bGVwcRhHNfg",
+        "0E48d7dkiQKt0nSz77wKOw",
+        "2-bEawscu83baZ8hSGd7rA",
+        "P7SRjQlU4uUFZiDYxMNZQw",
+        "Qvy4EsZJvOqGNIXYgfaWcw",
+        "_be_bvVyRR-Xvfwx4V_C4Q",
+        "f-MolJngyGk3gzWFVPLP7w",
+        "g93c1vnpW2jVJfDalFdduw",
+        "hpjhb5Plbb8vT5s-85TDeA",
+        "jKNGpn2rjtNRHoXfVYkzQg",
+        "mT5w-bY8T4bpDowOwrKLAw",
+        "rQvNCXFv-YHrEZ6Ek9ddog",
+        "ysck835siS99pURk1YTDAg"
+      ]
+    },
+    {
+      "description": "Complaints regarding long wait times",
+      "aspect": "wait_time",
+      "frequency": 0.065,
+      "evidence_review_ids": [
+        "2uWvnJqXSxFqzxpw5S08hQ",
+        "7IE92qm6bgFbH3RWf6lpOA",
+        "8qTTzidzzHhlZgB9jknLRg",
+        "9aIvv9Mv91CFYRsWGJp6qQ",
+        "ANqi7FcqK_88t0IwIjqpVA",
+        "AdPJybaezufepF5PEdZQRQ",
+        "B1H_OOr2rmvPCzxYEbdMKQ",
+        "FsSGw90cfe07kRQVaP5M9A",
+        "G1bn5f9EMDVwr6XKeWh75A",
+        "HrX3jbwnS9FdiYVFe--5OQ",
+        "Hw9t8UyXXvdtan3Ol57DWA",
+        "QcLqE2iaWIUYidvNYLuWtw",
+        "UpJkwz5lyCGb1rUti6W5og",
+        "jKNGpn2rjtNRHoXfVYkzQg",
+        "vit-CdUpb5uiP3E21XRxgA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Negative reviews regarding food quality",
+      "cause": "Inconsistent kitchen execution, potentially due to high turnover or lack of strict quality control during peak hours.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative feedback on staff attitude and customer service",
+      "cause": "Understaffing leading to employee burnout, poor morale, and lack of adequate customer service training.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Dissatisfaction with pricing and value for money",
+      "cause": "Perceived mismatch between portion sizes or food quality and the price points set by the establishment.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints regarding long wait times",
+      "cause": "Kitchen and front-of-house bottlenecking during busy periods, pointing to operational inefficiency or poor table management.",
+      "confidence": "high"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

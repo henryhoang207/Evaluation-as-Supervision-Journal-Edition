@@ -1,0 +1,83 @@
+{
+  "patterns": [
+    {
+      "description": "Customers expressing dissatisfaction with food quality issues such as poor taste or improperly prepared dishes.",
+      "aspect": "food_quality",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "3GkG-g-IkKW0poV5dY311A",
+        "3THDbACgFXq3XzuagOoMdQ",
+        "UEyDXSes5p0FAhu2EtdhNw",
+        "VaVS5ezME6yRw0T7wBwWSA",
+        "i8bf1tp8z64lMoY9VRixxQ",
+        "iuIvMqNZCv2BMKEVEaFjUQ",
+        "lSmRsRrjzvWhrdiutF4saA",
+        "lkdV6Pb1uEDuopmL8EClnQ",
+        "qnuJgYleISGdEEtCalafIw",
+        "rVEMoXbk811bbNcLelhWRA",
+        "tgyCrhzUfoL7F_bWfuLDDA"
+      ]
+    },
+    {
+      "description": "Complaints regarding high pricing or poor value for money.",
+      "aspect": "pricing",
+      "frequency": 0.11,
+      "evidence_review_ids": [
+        "1ygwR1VhUwlPoGlgyVWSdQ",
+        "Oc_ae4ZUdceYR9lw5Zdq5w",
+        "VaVS5ezME6yRw0T7wBwWSA",
+        "bzKnBLX7OoYpo7nT91gR1g",
+        "iHnIXeiv9oZniBoRkePDug",
+        "lSmRsRrjzvWhrdiutF4saA",
+        "si_ufdYKcN76LkQbZz3ZhA",
+        "tgyCrhzUfoL7F_bWfuLDDA"
+      ]
+    },
+    {
+      "description": "Negative remarks about the restaurant's ambience, including noise, layout, or atmosphere issues.",
+      "aspect": "ambience",
+      "frequency": 0.05,
+      "evidence_review_ids": [
+        "1ygwR1VhUwlPoGlgyVWSdQ",
+        "7_dhmRTkm3zgcWJFFXYa_g",
+        "8fbYxaK5u6_VGtr42-DDLw",
+        "Oc_ae4ZUdceYR9lw5Zdq5w"
+      ]
+    },
+    {
+      "description": "Long wait times reported by customers for seating, service, or food delivery.",
+      "aspect": "wait_time",
+      "frequency": 0.05,
+      "evidence_review_ids": [
+        "VaVS5ezME6yRw0T7wBwWSA",
+        "fL2sXPlZR7YjA19pnqQkEg",
+        "iHnIXeiv9oZniBoRkePDug",
+        "lkdV6Pb1uEDuopmL8EClnQ"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers expressing dissatisfaction with food quality issues such as poor taste or improperly prepared dishes.",
+      "cause": "Inconsistent kitchen execution, lack of standardized recipes, or rushed food preparation during peak hours.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints regarding high pricing or poor value for money.",
+      "cause": "Menu pricing mismatched with customer perception of portion sizes or overall dining experience.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative remarks about the restaurant's ambience, including noise, layout, or atmosphere issues.",
+      "cause": "Poor acoustic management or tight seating arrangements that amplify noise levels.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "Long wait times reported by customers for seating, service, or food delivery.",
+      "cause": "Understaffing in the front of house or kitchen bottlenecks during rush periods.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

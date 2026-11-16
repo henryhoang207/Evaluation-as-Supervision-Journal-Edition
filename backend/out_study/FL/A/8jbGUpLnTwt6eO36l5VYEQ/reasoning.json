@@ -1,0 +1,120 @@
+{
+  "patterns": [
+    {
+      "description": "Negative feedback regarding high pricing",
+      "aspect": "pricing",
+      "frequency": 0.163,
+      "evidence_review_ids": [
+        "5BotqPFlxbOmcsKKgUFxNg",
+        "BJ9u16qUuLnK3mVmsOKjuw",
+        "Bj-PenhgQLCdDjnz21lxAw",
+        "IRRd4GVitTS6zyMJpfdYoQ",
+        "IvSEJWa8hTc0Dd37jTiASQ",
+        "LH5ZNtnCZIuvZxdUCahhxA",
+        "MiPG_VeozZfmGqvcfgiTkg",
+        "ODjbbpDzNpkCg5L8YlPhAA",
+        "P6vF9k1d8CSh2b9XUp_wQA",
+        "T7bvdHJ4YWfFWxJCQLnhDw",
+        "a5vKV0c1pUoKqxVGC-NuJw",
+        "cMGDA2ZqoHvRNn9dzxoOJg",
+        "jY5oUcTNBxxRnQrfxGCZ_Q",
+        "mArZd5mjDhkzfMLncr0XwA",
+        "xpB33KKUqXKNgsxP1jm8fA"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding food quality and taste",
+      "aspect": "food_quality",
+      "frequency": 0.13,
+      "evidence_review_ids": [
+        "5BotqPFlxbOmcsKKgUFxNg",
+        "BJ9u16qUuLnK3mVmsOKjuw",
+        "Bj-PenhgQLCdDjnz21lxAw",
+        "Dk1nOKwIF5QeiFokamUEIw",
+        "IvSEJWa8hTc0Dd37jTiASQ",
+        "P6vF9k1d8CSh2b9XUp_wQA",
+        "T7bvdHJ4YWfFWxJCQLnhDw",
+        "a5vKV0c1pUoKqxVGC-NuJw",
+        "cMGDA2ZqoHvRNn9dzxoOJg",
+        "obDpvm71a_6fIsj9tIRDGQ",
+        "xpB33KKUqXKNgsxP1jm8fA",
+        "zBA4v07vzcI4GLDEYh6THQ"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding slow wait times",
+      "aspect": "wait_time",
+      "frequency": 0.13,
+      "evidence_review_ids": [
+        "5BotqPFlxbOmcsKKgUFxNg",
+        "AsBW2pNYVPIFuPQOkPxQbg",
+        "IvSEJWa8hTc0Dd37jTiASQ",
+        "Jf2MWK0KEiGZRspRwF_8oA",
+        "MZTTewtzAcan4WqFM3XvZQ",
+        "OZQPSIPwA5ef7_bE5haQMw",
+        "U8S67K0tq4MwMSH5-FOXug",
+        "UK_pa9w0G6Z-GmWI17_c4Q",
+        "a5vKV0c1pUoKqxVGC-NuJw",
+        "cMGDA2ZqoHvRNn9dzxoOJg",
+        "dJ3Sbl2fLxSFFFZtOiMNXQ",
+        "qQX6so0hayIa6lyEQeaMqA"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding staff attitude or service",
+      "aspect": "staff_attitude",
+      "frequency": 0.098,
+      "evidence_review_ids": [
+        "Dk1nOKwIF5QeiFokamUEIw",
+        "IRRd4GVitTS6zyMJpfdYoQ",
+        "IvSEJWa8hTc0Dd37jTiASQ",
+        "MZTTewtzAcan4WqFM3XvZQ",
+        "OZQPSIPwA5ef7_bE5haQMw",
+        "U8S67K0tq4MwMSH5-FOXug",
+        "a5vKV0c1pUoKqxVGC-NuJw"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding the restaurant ambience or environment",
+      "aspect": "ambience",
+      "frequency": 0.087,
+      "evidence_review_ids": [
+        "5BotqPFlxbOmcsKKgUFxNg",
+        "IvSEJWa8hTc0Dd37jTiASQ",
+        "JtnDp3uu-oZXPyz07Ec_Gg",
+        "cMGDA2ZqoHvRNn9dzxoOJg",
+        "g8kG7V0O7fb_iq6ZzJgfwA",
+        "zBA4v07vzcI4GLDEYh6THQ"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Negative feedback regarding high pricing",
+      "cause": "Menu pricing may be misaligned with perceived portion sizes or overall customer expectations.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative feedback regarding food quality and taste",
+      "cause": "Inconsistent kitchen preparation or quality control issues during peak service hours.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative feedback regarding slow wait times",
+      "cause": "Kitchen bottlenecks or understaffing during peak dining periods leading to service delays.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding staff attitude or service",
+      "cause": "Employee fatigue, high stress from understaffing, or lack of comprehensive customer service training.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative feedback regarding the restaurant ambience or environment",
+      "cause": "Issues with seating arrangements, noise levels, or restaurant layout during crowded hours.",
+      "confidence": "low"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

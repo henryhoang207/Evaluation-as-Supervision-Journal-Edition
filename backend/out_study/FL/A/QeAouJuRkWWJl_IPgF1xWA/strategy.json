@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Lack of standardized recipes and inadequate kitchen quality control leading to inconsistent food quality.",
+      "action": "Implement strict standardized recipe cards, conduct mandatory culinary training for all kitchen staff, and institute a chef-led quality check before any plate leaves the pass.",
+      "category": "food",
+      "expected_impact": "Reduction in food-related complaints and improvement in dish consistency."
+    },
+    {
+      "priority": 2,
+      "issue": "Understaffing and inefficient workflow causing long wait times and slow service.",
+      "action": "Review peak-hour scheduling data to adjust labor levels, hire additional front-of-house and kitchen staff, and streamline the order-to-table workflow.",
+      "category": "operations",
+      "expected_impact": "Significantly faster table turn times and reduced customer wait durations."
+    },
+    {
+      "priority": 3,
+      "issue": "Poor staff training, low morale, and high employee stress resulting in negative staff attitude.",
+      "action": "Launch a customer service refresher training program, introduce incentive programs for positive customer feedback, and address understaffing to alleviate employee burnout.",
+      "category": "service",
+      "expected_impact": "Improved staff morale, friendlier guest interactions, and better overall hospitality."
+    },
+    {
+      "priority": 4,
+      "issue": "Inadequate closing/opening checklists and lack of dedicated staff for facility maintenance leading to cleanliness issues.",
+      "action": "Implement mandatory digital opening and closing cleaning checklists, assign specific sanitation duties to designated shift workers, and conduct weekly manager audits.",
+      "category": "operations",
+      "expected_impact": "Consistent restaurant hygiene and elimination of cleanliness-related negative reviews."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

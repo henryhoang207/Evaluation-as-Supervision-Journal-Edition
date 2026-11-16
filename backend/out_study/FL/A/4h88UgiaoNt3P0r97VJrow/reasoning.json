@@ -1,0 +1,23 @@
+{
+  "patterns": [
+    {
+      "description": "Occasional complaints about food quality inconsistency.",
+      "aspect": "food_quality",
+      "frequency": 0.088,
+      "evidence_review_ids": [
+        "DgMYc3p2DvD7BQ8gL-1WeQ",
+        "QdIeZFLHybTKnLel5mnNFA",
+        "lCk3kRsyDvzSm5Ba8FBoOA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Occasional complaints about food quality inconsistency.",
+      "cause": "Inconsistent kitchen preparation or ingredient variance during peak hours.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

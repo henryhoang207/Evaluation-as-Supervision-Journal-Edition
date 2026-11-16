@@ -1,0 +1,86 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently complain about poor food quality or inconsistent dishes.",
+      "aspect": "food_quality",
+      "frequency": 0.22,
+      "evidence_review_ids": [
+        "-wz2SL1UiinAkn47JccXOA",
+        "32yUMNYqOhMJTLswuSL97A",
+        "4GVsFda1_1pjdFEjmxvVbA",
+        "Hg6ryUnQKmhAYt2yLySXZQ",
+        "Hy9xMTP2QgQwnFMaSYIzjg",
+        "oh5szSaynkGKdZcca9Nbhg",
+        "xdhf6fOVWlaWxJ65sSeEfQ",
+        "cKi2IgCbdnxggmJA5MqCDw"
+      ]
+    },
+    {
+      "description": "Negative feedback regarding unhelpful, rude, or inattentive staff attitude.",
+      "aspect": "staff_attitude",
+      "frequency": 0.17,
+      "evidence_review_ids": [
+        "53Qnv0IYQw-KORMibtQUMw",
+        "Wi20tcC1H5f9UAa_vJkCHQ",
+        "WvokFMuONLGxXPmJCuP0Og",
+        "xhcXsbhcZXBrcq5I6yzvTA",
+        "SBZa6wHpvaodpLXTB7eZlA",
+        "uorM1lXtIgMdX5jqHA3diA"
+      ]
+    },
+    {
+      "description": "Dissatisfaction with high prices or perceived poor value for money.",
+      "aspect": "pricing",
+      "frequency": 0.19,
+      "evidence_review_ids": [
+        "ABXUWma6am4omEMRb25K_g",
+        "AoVgjrb_kJ-wWAaHxaVIvA",
+        "e_ZDMkrVkeIsFcvQRQ91Iw",
+        "fMzJ4Vw7-1jfHahwVKpFTQ",
+        "grbQ1V3zwan5VHsTHMiHTA",
+        "vEiVW56fDbFIo1x5ng-ZAQ",
+        "zGz3em2EuFviT5L5MRjlCg"
+      ]
+    },
+    {
+      "description": "Complaints regarding long waiting times for tables or service.",
+      "aspect": "wait_time",
+      "frequency": 0.14,
+      "evidence_review_ids": [
+        "3fR2WERX_r3UPLBwvuMYgg",
+        "4z5iikEN4xpW4j8URNb8jw",
+        "6QHXBFb2kvPa5LvUcW0z9g",
+        "FrliQNTSfxnWU4Tez0YTuA",
+        "JzAi90JfAzUFf18AvLO93g",
+        "lqtPXLw6TDD6tn8jnPTvyQ",
+        "OF8RxwmfihmOKEtSeE4pqA",
+        "wso1A6rAfrBcY-yDjBHDeA",
+        "yclxkTsymBcNE1BfCi5cXA"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about poor food quality or inconsistent dishes.",
+      "cause": "Lack of standardized recipes and quality control in the kitchen during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Negative feedback regarding unhelpful, rude, or inattentive staff attitude.",
+      "cause": "Understaffing leading to employee burnout and inadequate customer service training.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Dissatisfaction with high prices or perceived poor value for money.",
+      "cause": "Pricing strategy does not align with portion sizes or overall dining experience.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Complaints regarding long waiting times for tables or service.",
+      "cause": "Inefficient front-of-house management, table turnover delays, and kitchen bottlenecks.",
+      "confidence": "high"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

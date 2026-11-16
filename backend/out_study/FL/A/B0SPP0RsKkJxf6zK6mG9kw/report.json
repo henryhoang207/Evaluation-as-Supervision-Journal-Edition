@@ -1,0 +1,44 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Dragon City Chinese Restaurant",
+  "sample_size": 14,
+  "executive_summary": "An analysis of 14 recent customer reviews for Dragon City Chinese Restaurant reveals key areas of concern regarding food quality consistency and pricing value. Addressing inconsistent kitchen preparation and aligning menu pricing with perceived food value will be critical to improving customer satisfaction.",
+  "key_findings": [
+    "Customers reporting poor food quality in multiple reviews (43% frequency).",
+    "Complaints regarding pricing value (14% frequency)."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers reporting poor food quality in multiple reviews",
+      "cause": "Inconsistent kitchen preparation or declining freshness of ingredients.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Complaints regarding pricing value",
+      "cause": "Menu items priced higher than the perceived value delivered by food quality.",
+      "confidence": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen preparation or declining freshness of ingredients leading to poor food quality.",
+      "action": "Implement strict kitchen standard operating procedures (SOPs), mandate daily freshness checks for all ingredients, and conduct mandatory retraining for line cooks.",
+      "category": "food",
+      "expected_impact": "Significant reduction in negative food quality reviews and improved dish consistency."
+    },
+    {
+      "priority": 2,
+      "issue": "Menu items priced higher than the perceived value delivered by food quality.",
+      "action": "Audit current menu item costs and perceived value, and either improve portion sizes/ingredient quality or adjust pricing downwards to match customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value and a decrease in pricing-related complaints."
+    }
+  ],
+  "limitations": [
+    "The analysis is based on a relatively small sample size of 14 reviews, which may not capture the full sentiment of all patrons.",
+    "Reviews are subjective and may overrepresent extreme negative or positive experiences."
+  ],
+  "status": "success",
+  "error_detail": null
+}

@@ -1,0 +1,23 @@
+{
+  "patterns": [
+    {
+      "description": "Inconsistent food quality leading to negative experiences for some customers",
+      "aspect": "food_quality",
+      "frequency": 0.214,
+      "evidence_review_ids": [
+        "3P5Q3yCNUOWopGRcv8JS2g",
+        "SN1sFjVe_cH6bKN0laBm7g",
+        "bA-BzLeqeaNaK09CVuO1Qg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Inconsistent food quality leading to negative experiences for some customers",
+      "cause": "Variability in kitchen preparation and lack of standardized quality control during peak hours",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

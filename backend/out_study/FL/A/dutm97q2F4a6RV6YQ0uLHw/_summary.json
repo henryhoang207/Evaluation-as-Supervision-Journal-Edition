@@ -1,0 +1,80 @@
+{
+  "business_name": "Crush Bar and Tap",
+  "business_id": "dutm97q2F4a6RV6YQ0uLHw",
+  "run_config": {
+    "provider": "google-gemini (openai-compatible)",
+    "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "primary_model": "gemini-3.5-flash-lite",
+    "fallback_model": "gemini-3.5-flash-lite"
+  },
+  "pipeline_status": "complete",
+  "skipped_agents": [],
+  "failed_agent": null,
+  "errors": {},
+  "retry_counts": {},
+  "flags": [],
+  "last_verdict": "proceed",
+  "observations": [
+    {
+      "stage": "analysis_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "n_loaded": 34,
+        "n_success": 34,
+        "failure_ratio": 0.0,
+        "failure_details": [],
+        "contradiction_rate": 0.0,
+        "contradictions": []
+      }
+    },
+    {
+      "stage": "reasoning_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "n_success": 34,
+        "patterns": []
+      }
+    },
+    {
+      "stage": "strategy_agent",
+      "would_be_verdict": "proceed",
+      "flags": [],
+      "retry_feedback": null,
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "untraceable_issues": []
+      }
+    },
+    {
+      "stage": "report_agent",
+      "would_be_verdict": "retry",
+      "flags": [],
+      "retry_feedback": "the report must only restate upstream outputs. root causes not produced upstream: ['Insufficient review volume and context'] | recommendations not produced upstream: ['Low review volume and limited data', 'Lack of real-time monitoring']",
+      "facts": {
+        "status_error": false,
+        "error_detail": null,
+        "invented_root_causes": [
+          "Insufficient review volume and context"
+        ],
+        "invented_recommendations": [
+          "Low review volume and limited data",
+          "Lack of real-time monitoring"
+        ],
+        "name_mismatch": false,
+        "size_mismatch": false
+      }
+    }
+  ],
+  "phase": "A",
+  "mode": "observe",
+  "wall_clock_s": 23.37,
+  "stratum": "p50",
+  "review_sample_seed": 42
+}

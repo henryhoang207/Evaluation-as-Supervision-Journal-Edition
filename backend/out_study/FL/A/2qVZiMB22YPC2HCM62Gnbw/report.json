@@ -1,0 +1,70 @@
+{
+  "title": "Restaurant Review Analysis Report",
+  "business_name": "Scarpetta",
+  "sample_size": 214,
+  "executive_summary": "An analysis of 214 customer reviews for Scarpetta highlights primary areas of customer friction related to pricing, staff attitude, food consistency, and slow service. Addressing these operational and service concerns will significantly improve guest satisfaction and perceived value.",
+  "key_findings": [
+    "28% of reviews cite negative feedback regarding high pricing and poor value.",
+    "23% of reviews mention poor staff attitude and unprofessional service.",
+    "20% of reviews report inconsistent food quality or negative culinary experiences.",
+    "15% of reviews highlight slow service and long wait times."
+  ],
+  "root_causes": [
+    {
+      "pattern": "Negative feedback regarding high pricing and poor value",
+      "cause": "Menu items are priced higher than customer expectations relative to portion sizes or overall experience.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Poor staff attitude and unprofessional service",
+      "cause": "Understaffing, lack of proper customer service training, and high employee stress leading to poor interactions.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Inconsistent food quality or negative culinary experiences",
+      "cause": "Kitchen inconsistency, possibly due to high turnover, lack of standard recipes, or rushing orders during peak hours.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Slow service and long wait times",
+      "cause": "Operational bottlenecks during peak hours, insufficient front-of-house or kitchen staff.",
+      "confidence": "high"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "High pricing and poor perceived value",
+      "action": "Review menu pricing against portion sizes and competitor benchmarks; introduce value-focused bundles or adjust portion specs to match price points.",
+      "category": "pricing",
+      "expected_impact": "Improved customer perception of value and reduced pricing complaints."
+    },
+    {
+      "priority": 2,
+      "issue": "Poor staff attitude and unprofessional service",
+      "action": "Implement a mandatory customer service training program, establish clear behavioral standards, and institute daily shift huddles to boost morale and alignment.",
+      "category": "service",
+      "expected_impact": "More professional staff interactions, higher customer satisfaction scores, and reduced friction."
+    },
+    {
+      "priority": 3,
+      "issue": "Inconsistent food quality",
+      "action": "Standardize all kitchen recipes with detailed plating guides, and institute quality control checks by the head chef before dishes leave the pass.",
+      "category": "food",
+      "expected_impact": "Consistent culinary execution and elimination of substandard dishes reaching guests."
+    },
+    {
+      "priority": 4,
+      "issue": "Slow service and long wait times",
+      "action": "Audit kitchen and front-of-house workflow to identify bottlenecks, and optimize staffing schedules to ensure adequate coverage during peak rush hours.",
+      "category": "operations",
+      "expected_impact": "Faster table turn times, reduced wait durations, and improved guest flow."
+    }
+  ],
+  "limitations": [
+    "Analysis is based solely on a sample of 214 reviews, which may not capture the full sentiment of all diners.",
+    "Online reviews often skew toward extreme dissatisfaction, potentially overrepresenting negative experiences."
+  ],
+  "status": "success",
+  "error_detail": null
+}

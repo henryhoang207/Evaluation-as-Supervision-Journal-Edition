@@ -1,0 +1,73 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently report dissatisfaction with food quality, citing inconsistent dishes or poor taste.",
+      "aspect": "food_quality",
+      "frequency": 0.141,
+      "evidence_review_ids": [
+        "-omLRKry2lV_LkspEt2CIQ",
+        "9emcHKvao95ffW7M1-Vmtw",
+        "D_PfU7DMlhAEcTWyNC6jUQ",
+        "I6Xfy1BDWhMuoe2B4IlUYA",
+        "KBn5zCV5C0Gi9Bj15m1sCw",
+        "mL5LME6rUcW8A1P_VDNnJg",
+        "mgk5i2TWvCODE3x-hQk-VA",
+        "mnxqawMMeFXDamXZ8y5bYA",
+        "ppkUsKhX_KGJMzNWHLLALw",
+        "SyaSfI-P91p_SxJiv24rQg",
+        "sLwI0U1sS5hNp4xmcFxUtQ"
+      ]
+    },
+    {
+      "description": "Multiple complaints regarding high prices or poor value for money.",
+      "aspect": "pricing",
+      "frequency": 0.163,
+      "evidence_review_ids": [
+        "0d3av4kfBIZE_mXTLd_-3A",
+        "D_PfU7DMlhAEcTWyNC6jUQ",
+        "NFoOrE2YxqepWI1JSUjDLg",
+        "O8Bf_wGeMhori5fgzsqsjw",
+        "VvNTvAClqb__PnegGaWPfQ",
+        "evykd9P2bKOdGxZObRB4Rg",
+        "mL5LME6rUcW8A1P_VDNnJg",
+        "nsTPV7dHcx7vqZGVS-B--Q",
+        "tmmkdeRUw9kF1TWmY5cSfw",
+        "x_eL3FKznlCScolnH4MdqQ",
+        "zJQMMOglRINjEgggmjiveQ",
+        "0d3av4kfBIZE_mXTLd_-3A",
+        "NFoOrE2YxqepWI1JSUjDLg",
+        "VvNTvAClqb__PnegGaWPfQ"
+      ]
+    },
+    {
+      "description": "Negative feedback concerning unhelpful, rude, or inattentive staff attitudes.",
+      "aspect": "staff_attitude",
+      "frequency": 0.065,
+      "evidence_review_ids": [
+        "-D8yLKTjfR-tk2vxeXxcBw",
+        "KBn5zCV5C0Gi9Bj15m1sCw",
+        "d0dmc6U-YRuZ8zHu86b6yg",
+        "yNXvPym2kQH7GfWBk5Pvrg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently report dissatisfaction with food quality, citing inconsistent dishes or poor taste.",
+      "cause": "Lack of standardized recipes and inconsistent kitchen execution during peak hours.",
+      "confidence": "high"
+    },
+    {
+      "pattern": "Multiple complaints regarding high prices or poor value for money.",
+      "cause": "Menu pricing is misaligned with customer expectations for the portion sizes or overall dining experience.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "Negative feedback concerning unhelpful, rude, or inattentive staff attitudes.",
+      "cause": "Insufficient staff training in customer service and high employee stress during busy periods.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

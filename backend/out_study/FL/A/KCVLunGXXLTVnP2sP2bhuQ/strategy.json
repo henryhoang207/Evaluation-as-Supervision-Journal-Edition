@@ -1,0 +1,27 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Poor staff attitude and service driven by burnout or lack of training",
+      "action": "Implement a mandatory customer service training program and review staff scheduling to reduce fatigue and burnout.",
+      "category": "service",
+      "expected_impact": "Improved customer interactions, higher staff morale, and a reduction in negative attitude complaints."
+    },
+    {
+      "priority": 2,
+      "issue": "Slow wait times and bottlenecks during peak hours",
+      "action": "Redistribute front-of-house and kitchen responsibilities, and introduce a streamlined order-routing system to eliminate peak-hour bottlenecks.",
+      "category": "operations",
+      "expected_impact": "Faster table turnover, reduced customer wait times, and improved overall dining flow."
+    },
+    {
+      "priority": 3,
+      "issue": "Inconsistent food quality and freshness",
+      "action": "Establish standardized recipe cards, conduct daily quality-control checks before service, and audit ingredient suppliers.",
+      "category": "food",
+      "expected_impact": "Consistent dish preparation, guaranteed ingredient freshness, and a drop in food-related complaints."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

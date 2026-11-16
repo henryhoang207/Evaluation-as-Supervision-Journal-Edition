@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Menu prices are set higher than the perceived value of the offerings by a subset of customers.",
+      "action": "Introduce value-driven bundling options such as prix fixe lunch menus or weeknight special combos to increase perceived value without cutting standalone item prices.",
+      "category": "pricing",
+      "expected_impact": "Improve perceived value for price-sensitive customers, leading to higher conversion rates and reduced negative reviews regarding cost."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

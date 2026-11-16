@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent food quality reported across multiple visits",
+      "action": "Implement strict kitchen standard operating procedures (SOPs), mandate recipe cards at all stations, and establish a mandatory plating check by the head chef before dishes leave the kitchen.",
+      "category": "food",
+      "expected_impact": "Reduction in food variability, higher customer satisfaction, and improved review scores regarding taste and presentation."
+    },
+    {
+      "priority": 2,
+      "issue": "Negative staff attitude or poor customer service experiences",
+      "action": "Launch a bi-weekly hospitality training program focusing on guest engagement, de-escalation, and positive communication, while reviewing shift schedules to mitigate staff burnout and understaffing.",
+      "category": "service",
+      "expected_impact": "Improvement in front-of-house morale, friendlier guest interactions, and a decrease in service-related complaints."
+    },
+    {
+      "priority": 3,
+      "issue": "Complaints regarding high pricing or poor value for money",
+      "action": "Conduct a comprehensive menu engineering audit to review portion sizes, ingredient costs, and perceived value, adjusting recipes or pricing to better align with customer expectations.",
+      "category": "pricing",
+      "expected_impact": "Better alignment between price point and customer value perception, reducing complaints about cost."
+    },
+    {
+      "priority": 4,
+      "issue": "Unfavorable dining environment or negative ambience feedback",
+      "action": "Perform a walkthrough inspection of the dining room to assess lighting levels, acoustics, and seating comfort, followed by targeted repairs or aesthetic updates.",
+      "category": "operations",
+      "expected_impact": "An enhanced and more comfortable physical atmosphere that complements the dining experience."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

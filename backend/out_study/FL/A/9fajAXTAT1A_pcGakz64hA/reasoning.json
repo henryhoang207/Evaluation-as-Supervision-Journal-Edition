@@ -1,0 +1,23 @@
+{
+  "patterns": [
+    {
+      "description": "Customers frequently complain about high pricing or poor value.",
+      "aspect": "pricing",
+      "frequency": 0.2857,
+      "evidence_review_ids": [
+        "CcGl181WxuGEkfeFC6aa9w",
+        "EtdLYMccF_hRl_cdtzrAjw",
+        "cR9lthZCwuP0gcACsk4pLg"
+      ]
+    }
+  ],
+  "root_causes": [
+    {
+      "pattern": "Customers frequently complain about high pricing or poor value.",
+      "cause": "Menu prices are set higher than the perceived value of the offerings by a subset of customers.",
+      "confidence": "medium"
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}

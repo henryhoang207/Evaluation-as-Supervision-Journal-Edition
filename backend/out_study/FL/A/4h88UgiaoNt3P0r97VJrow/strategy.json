@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    {
+      "priority": 1,
+      "issue": "Inconsistent kitchen preparation and ingredient variance during peak hours leading to food quality complaints.",
+      "action": "Implement standardized recipe cards at every kitchen station, establish mandatory pre-shift line checks, and designate a quality control expediter during peak service hours to inspect all dishes before they leave the pass.",
+      "category": "food",
+      "expected_impact": "Reduction in food quality variance, higher consistency across shifts, and improved customer satisfaction scores."
+    }
+  ],
+  "status": "success",
+  "error_detail": null
+}
