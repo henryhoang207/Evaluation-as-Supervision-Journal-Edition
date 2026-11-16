@@ -8,9 +8,11 @@ result it touches is reported as exploratory. No trial ran before the tag.
 regeneration baseline, and the confirmatory set is now the single A1-vs-A2
 test** (§2, §2.1).
 
-**Twelve amendments have been filed since the freeze (§0.1 A1–A12).** None adds a
-confirmatory claim or moves the core. **The core ran 2026-10-05 → 07** (1,167
-trials, 1,149 usable).
+**Amendments A1–A15 are recorded in §0.1.** A1–A14 do not move the
+core's confirmatory test. A15 specifies a separate prospective replication on
+new model-specific bases; its repair trials require the pre-trial completion
+note and the separate `prereg-fl-freeze` tag. **The core ran 2026-10-05 → 07**
+(1,167 trials, 1,149 usable).
 
 Why a tag, and not "the commit that adds it" (this header's wording until
 2026-09-14): the file had to be committed and pushed while the `PHASE0_MEMO.md`
@@ -82,6 +84,7 @@ section records every divergence from it.
 | **A12** | **2026-11-01** | **Thinking-budget sweep on Gemini 2.5 Flash** (`--cell thinking` → `out_study/T2T`): 45 defects, 1,224 trials across `reasoning_effort` ∈ {`none`, `low`, `medium`, `high`}, dose-response trend test, exact copy contrast, repair decomposition. | Exploratory; core remains frozen |
 | **A13** | **2026-11-13** | **S2 — the A0 ceiling is completed on `gemini-2.5-flash` before its withdrawal (1 Dec 2026).** `--cell a0fill` → `out_study/T2A0`: A0@P1 r = 3 on the 71 core defects the frozen A0 stride skipped, plus an in-session A1@P1 r = 1 anchor — 284 trials. `--cell thinking_a0` → `out_study/T2TA0`: on the 45 T2T defects, A0@P1 r = 3 and the A1@P1 r = 1 anchor at `reasoning_effort` `none` and `high` — 360 trials. Readings, including the case A1 ≥ A0 in restoration, fixed below. *Note 2026-11-14, after the data:* the share of the gap closed is not applicable when A0 − A2 lies wholly below 0 (S2b `none`); see the note at the end of A13. | Exploratory; cross-session joins to T2 and T2T are labelled as such; core and T2T untouched |
 | **A14** | **2026-11-13** | **S3 — the real-defect bank is enlarged by harvest (Option H).** Phase A (observe) on 56 fresh businesses in two stratified batches of 28 into `out_study/H/A`; stop after Batch 1 if the pooled bank (T1 + T1H) reaches ≥ 18 business × stage cells; replay into `out_study/T1H` with the A8 design. T1, T1H and pooled reported side by side; one two-sided cell-cluster bootstrap test on A2 − A1 acceptance iff the pooled bank has ≥ 15 cells. | Descriptive, plus at most one test fixed here; T1 (A8) untouched |
+| **A15** | **2026-11-16** | **S5 — prospective Flash-Lite replication, preparation protocol.** `flashlite_bases` collects the original 28 businesses into `out_study/FL/A` on `gemini-3.5-flash-lite`; `flashlite` → `out_study/T2FL` remains blocked until actual N_FL, power/MDE, determinism measurement, prospective readings and source/data hashes are recorded and tagged `prereg-fl-freeze`. Full A0/A1/A2@P1, r = 3; A3@P0 on the quarter stride. | Separate prospective exact-restoration test under I5; no repair trial before final freeze; core and T2T unchanged |
 
 **A1 — the C1 cell, in full.**
 
@@ -744,6 +747,147 @@ the text above left open, fixed here before any T1H outcome exists:
   is the same count as the bank's cells unless a cell's trials all error. The
   analysis refuses to run if a defect appears in both T1 and T1H, or if one
   business × stage pair appears under two cell labels.
+
+**A15 — S5 Flash-Lite replication: preparation protocol (2026-11-16).**
+
+*Scope and prior knowledge.* The author approved this two-stage filing on
+2026-11-16. The Gemini 2.5 Flash core, exploratory restoration results, C7,
+A12, A13 and A14 outcomes already exist. In particular, the restoration rates
+used for planning (about 0.68 for A1 and 0.53 for A2) are historical core
+observations. S5.0's model-availability smoke calls also already exist
+(`SUPERVISOR_FEEDBACK_2026-11-13.md` §8). No S5 own bases, determinism pairs or
+repair trials exist when this entry is written. N_FL and its MDE are unknown;
+the 142-defect fixture is not this study's denominator.
+
+This is an independently prospective replication on fresh, model-specific
+outputs, as approved in I4/I5. Its single primary test is the limited exception
+to §0's exploratory status for post-core amendments: it does not reclassify a
+historical result or change the original core test. All other S5 contrasts are
+exploratory. The core (1,167 trials) and T2T (1,224) stay frozen.
+
+*Stage 1: bases, before any collection call.* Commit and push this preparation
+protocol and tested runner before collection, using the author's git go-ahead.
+Only `flashlite_bases` is released from preparation-only status; all normal
+`cell.py` gates still apply. A live launch requires the author's run approval.
+The trial cell `flashlite` stays `preparing=True`. Use `cell.py` for preflight,
+launch, status and verification, never a direct live runner command.
+
+- **Model:** `gemini-3.5-flash-lite`; temperature 0;
+  `reasoning_effort=None` (omit the argument, never the string `none`). Pin
+  `agent._model`, `agent._fallback_model`, `OPENAI_MODEL` and
+  `OPENAI_FALLBACK_MODEL` to that model, and `LLM_DISABLE_FALLBACK=1`.
+  Verify every served-model record, including the base dumps; no mixed-model
+  or fallback base is admitted.
+- **Bases:** Phase A, observe mode, on exactly the original 28 businesses in
+  `out_study/sample.json`, into `out_study/FL/A`. `MAX_REVIEW_SAMPLE=500`,
+  `RANDOM_SEED=42`, seven businesses each at 14/34/92/214 loaded reviews.
+  No `--sample-size 100`, `--allow-cap`, replacement businesses, original-model
+  dump substitution or outcome-selected removal. Preserve all raw rows/dumps,
+  errors, token accounting, model IDs and review-seed metadata.
+- **Base check:** complete fixed-sample coverage; correct dump types and
+  primary/fallback provenance; observe-mode summaries and checkpoint rows;
+  full review counts and seed 42. An absent or incomplete base collection is
+  a failed gate, not N_FL = 0.
+
+*Stage 2: pre-trial completion and freeze.* After base verification, build the
+new model's injection plan using the unchanged applicability, injection-validity
+and trigger gates (D20). Record attempted/applicable/valid/triggering and
+runnable denominators by operator and the exact N_FL. Injection seed is 0;
+report the A3 stride count Q_FL and total `9 * N_FL + 3 * Q_FL` trials.
+
+Measure ten real prompts twice as in C7 G2, retaining both raw responses,
+prompt identifiers/hashes, model IDs, usage and errors. Identity is a measured
+outcome, not a gate; r = 3 regardless. The dedicated collector, its deterministic
+prompt-selection rule and `cell.py` registration must be implemented, tested
+and committed before those calibration calls; calibration responses never
+enter repair-trial denominators or choose later defects/arms. Report incomplete
+or invalid pairs explicitly rather than silently replacing them.
+
+Run `analysis/power.py --flashlite-defects N_FL` on the actual gated N_FL.
+Simulate r = 3 and the complete joint replication criterion below, including
+strict defect-majority exact McNemar and the defect-mean bootstrap CI. Planning
+uses marginal A1/A2 probabilities 0.68/0.53, the half-size effect 0.605/0.53,
+and the null 0.53/0.53. Record the logistic-normal defect SD (default 1),
+shared-occasion SD (default 0), seed 20260803, simulation/bootstrap counts,
+Monte Carlo uncertainty, joint power and the 80%-joint-power MDE. These are
+assumptions, not Flash-Lite observations. If the MDE exceeds about 15 pp or
+cannot reach the target, the author decides whether to add bases **before**
+freezing; extra repetitions do not replace that decision. Any sample expansion
+requires a dated prospective specification and an updated base validator.
+
+Append a dated completion note here with the plan/denominators, N_FL, power
+JSON and MDE, determinism report, the prospective conditional A0-ceiling /
+dissociation prediction, runtime/dependency versions, and final code/data
+SHA256s. Record that prediction without inspecting repair-trial A0/A1/A2
+outcomes. Include the completion note and trial-cell release in one final
+commit, push it, then tag that commit `prereg-fl-freeze` and push the tag before
+the first repair trial. `cell.py` checks the tag's commit is on the upstream
+branch and that tagged sources/bases are unchanged. This initial entry is
+**not** that freeze.
+
+*Repair design, fixed now.* One session per defect, defect-outer execution,
+C0 prompts, temperature 0, no reasoning-effort override. A0, A1 and A2 at P1
+on **every** runnable own-base defect, each r = 3. A3 at P0, r = 3, on the
+existing quarter per-operator stride (no outcome-selected subset). Operators
+and checks retain their existing definitions; O1/O2/O3 stay separate and O5–O7
+are flat controls. Output goes only to `out_study/T2FL`.
+
+*Primary outcome and one test.* Exact restoration is canonical-JSON identity
+(sorted keys, invariant whitespace) of the retried stage output to the model's
+own clean pre-injection output, unconditioned on repair success. Retain the
+frozen per-trial losses (§2.4): exclude `status_error` and mixed-model trials;
+count losses; a contrast needs at least one usable repetition in each arm.
+A successful S5 trial with the wrong model is a provenance failure. For the
+McNemar dichotomy, restoration requires strictly more than half of that arm's
+usable repetitions (a 1–1 tie scores 0; one usable repetition scores itself).
+Never treat the repetitions as independent McNemar pairs.
+
+For each paired defect, average usable restoration repetitions per arm, then
+average the A1 − A2 differences over defects. Report its two-sided percentile
+95% **defect-cluster** bootstrap CI (10,000 resamples, seed 20260803), plus
+**two-sided exact McNemar**, α = 0.05, on the defect-majority discordances.
+Report dropped defects and the observed repetition counts. **Replicated iff**
+A1 − A2 > 0, that two-sided CI excludes 0, **and** McNemar p < 0.05; otherwise
+report **not replicated** with the estimate and interval. Multi-attempt trials
+remain included, with the same contrast reported after excluding them as a
+sensitivity. There is no interim outcome-based stopping or extra confirmatory
+test, and no modification to the core's RQ1 test.
+
+*Exploratory reporting.* A1 − A2 repair; A1/A0 repair and restoration with
+intervals (undefined denominators are reported, not assigned a number);
+restoration A1 − A0 and A0 − A2; three-/four-way decomposition; results by
+operator and review-count stratum; A3 regeneration and identity summaries.
+The restoration-type, repair-type, both or neither reading and conditional
+ceiling-based prediction are fixed in the pre-trial completion note. They
+remain exploratory and cannot change the primary criterion. Model and bases
+change together, so an observed difference cannot be attributed to either
+alone.
+
+*Initial analysis/provenance code, tested before collection.* These are the
+preparation hashes; the final freeze records all relevant sources and bases.
+
+| File (relative to `backend/`) | SHA256 |
+|---|---|
+| `scripts/analysis/repair_analysis.py` | `2ee0047911b5b200243308f0d8a619b06832744056db0cc0706469e4519484bf` |
+| `scripts/analysis/power.py` | `195f41f867d20073c273757748e8b8c359fbe072cdfee6d4275fa27ad6aeee1c` |
+| `scripts/flashlite_protocol.py` | `04e3562f1a38e1417aac4144439043cadefb1d6e3d3e613b122d76d7c85bedb6` |
+
+The complete offline suite passed 640 tests (13 integration tests deselected)
+on 2026-11-16; synthetic rows cover wrong-model/truncated bases, loss rules,
+reverse-direction effects and full-A0 allocation. The 28-business dry run made
+no model calls. After the initial A15/base-only release edit, the focused
+gate/provenance suite passed **60 tests** (2026-11-16). The final protocol
+release remains subject to its gates.
+
+*Budget.* No cap (I7). Initial base estimate **3,863,781 tokens** = half of
+H's measured 7,727,562 tokens for 56 businesses. This is a 2.5-Flash usage
+proxy, not measured Flash-Lite cost. Before each live cell, sum actual usage
+over all checkpoints and log that cell's exact numerical estimate in
+`RUN_QUEUE.md`; log actuals after verification. Calibration and repair totals
+are still unknown. The initial repair forecast is
+`(9 * N_FL + 3 * Q_FL) * 14,000` tokens and must be replaced by a numerical
+estimate once the plan exists. No token cap or obsolete 41 k/business
+assumption is introduced.
 
 ---
 

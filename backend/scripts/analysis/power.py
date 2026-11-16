@@ -46,7 +46,7 @@ import argparse
 import sys
 
 import numpy as np
-from scipy import stats
+from scipy import optimize, stats
 
 for _stream in (sys.stdout, sys.stderr):
     try:
@@ -200,6 +200,95 @@ def mde(rng, n_sims, n_defects, reps, sigma, target=0.80, cluster_sizes=None,
     return hi
 
 
+# S5 is a separate prospective restoration analysis. The historical repair
+# calculations above and below retain their original defaults and estimators.
+def _marginal_intercept(probability: float, sigma: float) -> float:
+    """Calibrate a logistic-normal draw to the stated marginal success rate."""
+    if not 0 <= probability <= 1 or sigma < 0:
+        raise ValueError("Invalid probability or random-effect SD")
+    if probability in (0, 1):
+        return -np.inf if probability == 0 else np.inf
+    if sigma == 0:
+        return float(_logit(probability))
+    nodes, weights = np.polynomial.hermite.hermgauss(40)
+    def error(intercept):
+        rates = _expit(intercept + np.sqrt(2) * sigma * nodes)
+        return float(weights @ rates / np.sqrt(np.pi) - probability)
+    return float(optimize.brentq(error, -40, 40))
+
+
+def simulate_restoration(rng, n_sims, n_defects, p_a=0.68, p_b=0.53,
+                         sigma=SIGMA_DEFAULT, sigma_occasion=0.0):
+    """Three draws per arm with marginal rates and shared defect/occasion effects."""
+    if n_sims < 1 or n_defects < 1 or sigma < 0 or sigma_occasion < 0:
+        raise ValueError("Positive simulation/defect counts and nonnegative SDs are required")
+    u = rng.normal(0, sigma, size=(n_sims, n_defects, 1))
+    occasion = rng.normal(0, sigma_occasion, size=(n_sims, n_defects, 3))
+    total_sd = float(np.hypot(sigma, sigma_occasion))
+    pa = _expit(_marginal_intercept(p_a, total_sd) + u + occasion)
+    pb = _expit(_marginal_intercept(p_b, total_sd) + u + occasion)
+    return (rng.random((n_sims, n_defects, 3)) < pa,
+            rng.random((n_sims, n_defects, 3)) < pb)
+
+
+def restoration_decisions(rng, a, b, n_boot=1000):
+    """The locked rule: positive mean gap, two-sided CI, defect-majority exact test."""
+    if a.shape != b.shape or a.ndim != 3 or a.shape[2] != 3 or n_boot < 1:
+        raise ValueError("Expected matching (simulations, defects, 3) arrays and positive bootstrap count")
+    # A single majority per defect: repetitions never become independent pairs.
+    ma, mb = a.mean(axis=2) > 0.5, b.mean(axis=2) > 0.5
+    p, discordant = mcnemar_naive(ma[:, :, None], mb[:, :, None])
+    diff = a.mean(axis=2) - b.mean(axis=2)
+    idx = rng.integers(0, a.shape[1], size=(n_boot, a.shape[1]))
+    boot = bootstrap_means(diff, idx)
+    lo, hi = np.percentile(boot, [2.5, 97.5], axis=0)
+    ci_excludes = (lo > 0) | (hi < 0)
+    return {"p": p, "ci_lo": lo, "ci_hi": hi,
+            "replicated": (diff.mean(axis=1) > 0) & ci_excludes & (p < ALPHA),
+            "discordant": discordant, "mean_gap": diff.mean(axis=1)}
+
+
+def flashlite_power(n_defects, n_sims=2000, p_a=0.68, p_b=0.53,
+                    sigma=SIGMA_DEFAULT, sigma_occasion=0.0, seed=20260803, n_boot=1000):
+    rng = np.random.default_rng(seed)
+    a, b = simulate_restoration(rng, n_sims, n_defects, p_a, p_b, sigma, sigma_occasion)
+    decisions = restoration_decisions(rng, a, b, n_boot)
+    joint = float(decisions["replicated"].mean())
+    return {"n_defects": n_defects, "sims": n_sims, "reps": 3,
+            "marginal_p_A1": p_a, "marginal_p_A2": p_b,
+            "sigma": sigma, "sigma_occasion": sigma_occasion, "seed": seed,
+            "n_boot": n_boot, "mean_simulated_gap": float(decisions["mean_gap"].mean()),
+            "two_sided_mcnemar_power": float((decisions["p"] < ALPHA).mean()),
+            "two_sided_ci_power": float(((decisions["ci_lo"] > 0) | (decisions["ci_hi"] < 0)).mean()),
+            "joint_replication_power": joint,
+            "joint_power_mc_se": float(np.sqrt(joint * (1 - joint) / n_sims)),
+            "median_discordant_defects": float(np.median(decisions["discordant"]))}
+
+
+def flashlite_mde(n_defects, n_sims=2000, sigma=SIGMA_DEFAULT,
+                  sigma_occasion=0.0, seed=20260803, n_boot=1000, target=0.80):
+    """80% power for the complete replication criterion, anchored at A2=0.53.
+
+    Common random numbers keep comparisons across effects stable. The returned
+    resolution is numerical; Monte Carlo uncertainty is reported with power.
+    """
+    if not 0 < target < 1:
+        raise ValueError("Target power must lie strictly between zero and one")
+    def power_at(effect):
+        return flashlite_power(n_defects, n_sims, 0.53 + effect, 0.53,
+                               sigma, sigma_occasion, seed, n_boot)["joint_replication_power"]
+    lo, hi = 0.0, 0.47 - 1e-6
+    if power_at(hi) < target:
+        return None
+    for _ in range(10):
+        mid = (lo + hi) / 2
+        if power_at(mid) >= target:
+            hi = mid
+        else:
+            lo = mid
+    return float(hi)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--sims", type=int, default=2000)
@@ -207,8 +296,39 @@ def main() -> int:
                     help="Comma-separated defect counts for section 9. Default is the "
                          "computed Tier-2 ceiling and the +8-dump projection.")
     ap.add_argument("--sigma", type=float, default=SIGMA_DEFAULT)
-    ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--seed", type=int, default=None)
+    ap.add_argument("--flashlite-defects", type=int, default=None,
+                    help="S5: actual N_FL from the cell gate; run the restoration protocol only")
+    ap.add_argument("--boot", type=int, default=1000, help="S5 bootstrap resamples per simulation")
+    ap.add_argument("--sigma-occasion", type=float, default=0.0, help="S5 shared occasion SD")
+    ap.add_argument("--json", default=None, help="S5: optional power report destination")
     args = ap.parse_args()
+    if args.seed is None:
+        args.seed = 20260803 if args.flashlite_defects is not None else 42
+    if args.flashlite_defects is not None:
+        import hashlib
+        import json
+        from pathlib import Path
+        n = args.flashlite_defects
+        if n < 1 or args.sims < 1 or args.boot < 1:
+            ap.error("S5 needs positive defects, simulations and bootstrap counts")
+        opts = dict(n_defects=n, n_sims=args.sims, sigma=args.sigma,
+                    sigma_occasion=args.sigma_occasion, seed=args.seed, n_boot=args.boot)
+        report = {"script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                  "outcome": "exact restoration", "test": "two-sided defect-majority exact McNemar",
+                  "ci": "two-sided 95% defect-cluster bootstrap of mean repetition differences",
+                  "rate_assumptions": "core-based marginal probabilities; not flash-lite observations",
+                  "N_FL_source": "supplied from cell.py; this script does not collect bases",
+                  "null": flashlite_power(p_a=0.53, p_b=0.53, **opts),
+                  "core_size_effect": flashlite_power(p_a=0.68, p_b=0.53, **opts),
+                  "half_size_effect": flashlite_power(p_a=0.605, p_b=0.53, **opts),
+                  "mde_at_80_percent_joint_power": flashlite_mde(**opts)}
+        mde_value = report["mde_at_80_percent_joint_power"]
+        report["author_decision_before_freeze"] = mde_value is None or mde_value > 0.15
+        print(json.dumps(report, indent=2))
+        if args.json:
+            Path(args.json).write_text(json.dumps(report, indent=2), encoding="utf-8")
+        return 0
 
     rng = np.random.default_rng(args.seed)
     s, sig = args.sims, args.sigma

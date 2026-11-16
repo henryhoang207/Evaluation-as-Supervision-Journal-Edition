@@ -5,6 +5,7 @@ mutated in memory, and the ledger and every dry-run target live in tmp_path.
 """
 
 import copy
+from dataclasses import replace
 import importlib.util
 import json
 import os
@@ -73,7 +74,7 @@ def test_amendment_must_exist_and_name_the_cell():
     assert not wrong[0] and "does not mention" in wrong[1]
 
 
-def test_every_registered_cell_is_filed_in_the_preregistration():
+def test_every_launchable_cell_is_filed_in_the_preregistration():
     path = os.path.join(cell.REPO, cell.PREREG)
     if not os.path.exists(path):
         pytest.skip("PREREGISTRATION.md is not in this checkout")
@@ -81,7 +82,10 @@ def test_every_registered_cell_is_filed_in_the_preregistration():
         text = fh.read()
     for s in cell.CELLS.values():
         ok, detail = cell.check_amendment_text(s, text)
-        assert ok, f"{s.name}: {detail}"
+        if s.preparing:
+            assert s.amendment is not None  # launch is separately pinned closed below
+        else:
+            assert ok, f"{s.name}: {detail}"
 
 
 @pytest.mark.skipif(not HAS_GIT, reason="needs the git checkout")
@@ -319,3 +323,85 @@ def test_log_line_states_the_gate_facts():
     for fact in ("tier1h verified", "8/8 rows", "72/72 trials ok", "re-score 72/72",
                  "1.01 M tokens", cell.FLASH):
         assert fact in line
+
+
+# A preparation-only entry cannot launch, even if other gates are bypassed.
+def test_preparing_cells_cannot_launch_even_when_other_checks_are_stubbed(tmp_path, monkeypatch):
+    monkeypatch.setattr(cell, "preflight", lambda *a, **kw: {"passed": True, "pending": 1})
+    def forbidden(*args, **kwargs):
+        raise AssertionError("a preparation-only cell must not spawn a process")
+    monkeypatch.setattr(cell, "spawn_detached", forbidden)
+    for name in ("flashlite", "flashlite_bases"):
+        spec = replace(cell.CELLS[name], preparing=True)
+        assert spec.amendment == "A15"
+        assert cell.launch(spec, 100, str(tmp_path / "ledger.jsonl")) == 1
+        assert cell._exec(spec, str(tmp_path / "ledger.jsonl"), "unused", ["unused"]) == 1
+    assert not (tmp_path / "ledger.jsonl").exists()
+
+
+def test_a15_initial_release_is_bases_only():
+    bases, trials = cell.CELLS["flashlite_bases"], cell.CELLS["flashlite"]
+    assert bases.amendment == trials.amendment == "A15"
+    assert not bases.preparing and bases.freeze_tag is None
+    assert trials.preparing and trials.freeze_tag == "prereg-fl-freeze"
+    ok, _ = cell.check_amendment_text(bases, "")
+    assert not ok  # releasing the flag does not replace the filed-amendment gate
+
+
+def test_flashlite_commands_use_their_own_root_and_fixed_sample():
+    argv = cell.runner_argv(cell.CELLS["flashlite"])
+    assert argv[2:] == ["scripts/run_injection_study.py", "--cell", "flashlite",
+                        "--root", "out_study/FL"]
+    bases = cell.runner_argv(cell.CELLS["flashlite_bases"])
+    assert bases[2:] == ["scripts/run_study.py", "--phase", "A", "--sample", "out_study/sample.json",
+                         "--out", "out_study/FL", "--model", "gemini-3.5-flash-lite"]
+    with pytest.raises(ValueError):
+        cell.runner_argv(cell.CELLS["flashlite_bases"], sample="out_study/H/sample_batch1.json")
+
+
+def test_replication_trials_need_their_separate_freeze_tag(monkeypatch):
+    monkeypatch.setattr(cell, "_git", lambda *args: (1, "missing"))
+    ok, detail = cell.check_replication_freeze(cell.CELLS["flashlite"])
+    assert not ok and "missing replication freeze tag" in detail
+
+
+def test_replication_freeze_rejects_changed_sources(monkeypatch):
+    def git(*args):
+        if args[0] == "rev-parse":
+            return 0, "abc123"
+        if args[0] == "show":
+            return 0, '| **A15** | **2026-11-16** | S5 out_study/T2FL | Replication |'
+        if args[0] == "diff":
+            return 1, ""
+        return 0, ""
+    monkeypatch.setattr(cell, "_git", git)
+    ok, detail = cell.check_replication_freeze(cell.CELLS["flashlite"])
+    assert not ok and "differ" in detail
+
+
+def test_missing_bases_make_preflight_fail_cleanly(monkeypatch):
+    monkeypatch.setattr(cell, "probe_environment", lambda spec: {"configured": True})
+    monkeypatch.setattr(cell, "check_pins", lambda *a: (True, "synthetic"))
+    monkeypatch.setattr(cell, "check_review_cap", lambda *a: (True, "synthetic"))
+    monkeypatch.setattr(cell, "tokens_spent", lambda *a: {"total": 0})
+    def absent(spec):
+        raise FileNotFoundError("FL/A is not built")
+    monkeypatch.setattr(cell, "check_plan", absent)
+    result = cell.preflight(cell.CELLS["flashlite"], skip_suite=True)
+    assert not result["passed"]
+    assert any("FL/A is not built" in c["detail"] for c in result["checks"])
+
+
+@pytest.mark.parametrize("name", ["flashlite_bases", "flashlite"])
+def test_flashlite_wrapper_pins_the_review_seed_before_import(tmp_path, monkeypatch, name):
+    seen = {}
+    monkeypatch.setenv("RANDOM_SEED", "999")
+    def run(argv, cwd, env):
+        seen.update(env)
+        return 0
+    monkeypatch.setattr(cell.subprocess, "call", run)
+    spec = cell.CELLS[name]
+    assert cell._exec(spec, str(tmp_path / "ledger.jsonl"), "unused", ["unused", "--dry-run"]) == 0
+    assert seen["RANDOM_SEED"] == "42"
+    assert seen["MAX_REVIEW_SAMPLE"] == "500"
+    assert seen["LLM_DISABLE_FALLBACK"] == "1"

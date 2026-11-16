@@ -1040,9 +1040,14 @@ def test_thinking_model_and_reasoning_effort_pinning(monkeypatch):
 
 
 def test_base_agent_reasoning_effort_and_thinking_tokens_logging(monkeypatch):
+    from types import SimpleNamespace
     from app.agents.base_agent import BaseAgent
     from app.agents.reasoning_agent import ReasoningAgent
 
+    # This is an offline accounting test, so constructing it must not create
+    # an HTTP transport or depend on the host's proxy packages.
+    client = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=lambda **kw: None)))
+    monkeypatch.setattr("app.agents.base_agent.OpenAI", lambda **kw: client)
     agent = ReasoningAgent()
     agent.reasoning_effort = "medium"
 
@@ -1243,3 +1248,47 @@ def test_an_s2_dry_run_pins_the_env_and_writes_only_runnable_defects(tmp_path, m
         assert {t["cell"] for t in r["trials"]} == {"thinking_a0"}
         assert {t["reasoning_effort"] for t in r["trials"]} == {"none", "high"}
         assert len({t["session_id"] for t in r["trials"]}) == 1
+
+
+# S5: fixture plans below are not N_FL; actual bases do not exist yet.
+def test_flashlite_cells_have_full_a0_and_default_reasoning():
+    first = runner._flashlite_cells(0)
+    assert [(c["arm"], c["rep"]) for c in first] == [
+        (a, r) for a in ("A0", "A1", "A2") for r in range(3)]
+    assert all(c["placement"] == "P1" and c["reasoning_effort"] is None for c in first)
+    fourth = runner._flashlite_cells(3)
+    assert [c["placement"] for c in fourth[-3:]] == ["P0"] * 3
+    assert [c["arm"] for c in fourth[-3:]] == ["A3"] * 3
+    with pytest.raises(ValueError):
+        runner._flashlite_cells(0, reps=2)
+
+
+@needs_study
+def test_flashlite_fixture_allocation_preserves_frozen_plans(monkeypatch):
+    monkeypatch.setattr(runner, "validate_flashlite_bases", lambda root: {"fixture_only": True})
+    plan = runner.build_plan(str(STUDY_ROOT), cell="flashlite")
+    summary = runner.plan_summary(plan)
+    assert summary["defects_runnable"] == 142  # original fixture, not N_FL
+    assert summary["trials"] == 1380
+    assert summary["trials_by_arm"] == {"A0": 426, "A1": 426, "A2": 426, "A3": 102}
+    assert runner.verify_order(plan) == []
+    assert runner.plan_summary(runner.build_plan(str(STUDY_ROOT)))['trials'] == 1167
+    assert runner.plan_summary(runner.build_plan(str(STUDY_ROOT), cell="thinking"))['trials'] == 1224
+
+
+@needs_study
+def test_flashlite_seam_pins_model_without_sending_none_string(monkeypatch):
+    from app.agents.reasoning_agent import ReasoningAgent
+    seen = []
+    def make(stage):
+        agent = _capturing_agent(ReasoningAgent, {})
+        agent._model = agent._fallback_model = "wrong-env-default"
+        agent.reasoning_effort = "high"
+        seen.append(agent)
+        return agent
+    monkeypatch.setattr(runner, "_agent_for", make)
+    _, base, injected, descriptor, decision = _reasoning_defect()
+    runner._regenerate({"arm": "A0", "placement": "P1", "rep": 0},
+                       base, injected, descriptor, decision, defect_cell="flashlite")
+    assert seen[0]._model == seen[0]._fallback_model == "gemini-3.5-flash-lite"
+    assert seen[0].reasoning_effort is None

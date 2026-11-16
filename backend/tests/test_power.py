@@ -176,3 +176,42 @@ def test_only_one_bootstrap_expression_exists_in_the_source():
     assert "diff[:, idx].mean(axis=2)" in source, (
         "the helper docstring should still explain what it replaced"
     )
+
+
+# S5's primary is defect-majority exact restoration, not a repetition-level test.
+def test_restoration_power_counts_discordant_defects_not_repetitions():
+    a = np.zeros((1, 8, 3), dtype=bool)
+    b = np.zeros_like(a)
+    a[:, :, 0] = True  # 8 successful repetitions, no successful majorities
+    result = power.restoration_decisions(np.random.default_rng(1), a, b, n_boot=100)
+    assert result["p"][0] == 1 and result["discordant"][0] == 0
+    assert not result["replicated"][0]
+    a[:, :, 1] = True
+    result = power.restoration_decisions(np.random.default_rng(1), a, b, n_boot=100)
+    assert result["p"][0] == pytest.approx(1 / 128)  # exact binomial on eight defects
+    assert result["replicated"][0]
+    reversed_result = power.restoration_decisions(np.random.default_rng(1), b, a, n_boot=100)
+    assert reversed_result["p"][0] == result["p"][0]
+    assert not reversed_result["replicated"][0]
+
+
+def test_restoration_simulation_uses_the_stated_marginal_rates():
+    a, b = power.simulate_restoration(np.random.default_rng(7), 1000, 40,
+                                      p_a=0.68, p_b=0.53, sigma=2.0, sigma_occasion=1.0)
+    assert a.mean() == pytest.approx(0.68, abs=0.012)
+    assert b.mean() == pytest.approx(0.53, abs=0.012)
+
+
+def test_replication_power_is_seeded_and_requires_both_tests():
+    kwargs = dict(n_defects=40, n_sims=200, n_boot=100, seed=17)
+    a = power.flashlite_power(**kwargs)
+    assert a == power.flashlite_power(**kwargs)
+    assert a["joint_replication_power"] <= a["two_sided_mcnemar_power"]
+    assert a["joint_replication_power"] <= a["two_sided_ci_power"]
+
+
+def test_restoration_mde_improves_with_more_defects():
+    kwargs = dict(n_sims=200, n_boot=100, seed=19)
+    small = power.flashlite_mde(30, **kwargs)
+    large = power.flashlite_mde(100, **kwargs)
+    assert small is not None and large is not None and large < small

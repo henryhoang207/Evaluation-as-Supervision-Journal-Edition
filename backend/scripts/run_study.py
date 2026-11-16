@@ -132,6 +132,7 @@ def run_one(business: dict, phase: str, out_dir: str, sample_size: int | None, d
         "phase": phase,
         "mode": mode,
         "started_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "review_sample_seed": loader.RANDOM_SEED,
     }
 
     try:
@@ -190,6 +191,7 @@ def run_one(business: dict, phase: str, out_dir: str, sample_size: int | None, d
         dump_state(state, os.path.join(out_dir, phase, bid), {
             "phase": phase, "mode": mode, "wall_clock_s": elapsed,
             "stratum": business.get("stratum"),
+            "review_sample_seed": loader.RANDOM_SEED,
         })
     except Exception as exc:  # one bad business must not kill a 2-hour batch
         row.update(
@@ -255,6 +257,11 @@ def main() -> int:
         os.environ["OPENAI_FALLBACK_MODEL"] = args.model
         os.environ["LLM_DISABLE_FALLBACK"] = "1"
         print(f"pinned model {args.model} (LLM_DISABLE_FALLBACK=1)")
+    if args.model == "gemini-3.5-flash-lite":
+        if (args.phase != "A" or loader.MAX_REVIEWS != 500 or loader.RANDOM_SEED != 42
+                or args.allow_cap or (args.sample_size is not None and args.sample_size < 214)):
+            ap.error("S5 bases require Phase A, MAX_REVIEW_SAMPLE=500, RANDOM_SEED=42, "
+                     "and no truncation override")
 
     if not os.path.exists(args.sample):
         print(f"Sample not found: {args.sample}\nRun scripts/sample_businesses.py first.")

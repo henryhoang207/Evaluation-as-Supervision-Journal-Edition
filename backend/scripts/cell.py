@@ -11,8 +11,10 @@ run (Rule 5) and refuses unless preflight passes, ``verify`` is the verify gate
 (Rule 4). Each appends a row to ``out_study/ledger.jsonl`` and ``verify`` prints
 a draft RUN_QUEUE log line. The command works from any directory.
 
-A new cell is one entry in ``CELLS`` below. The entry must name the section 0.1
-amendment that files the cell, so the amendment has to exist first.
+A new cell is one entry in ``CELLS`` below, naming its section 0.1 amendment.
+A preparation-only entry may reserve an unfiled amendment; it cannot launch
+live. Release requires the approved amendment to be committed and pushed.
+The S5 trial cell additionally requires its separate freeze tag.
 
 Nothing here commits, pushes or edits a document.
 """
@@ -41,6 +43,7 @@ LEDGER = "out_study/ledger.jsonl"
 CORE_TRIALS = 1167            # PREREGISTRATION section 6; RUN_QUEUE Rule 2
 REVIEW_CAP = 500              # loader.MAX_REVIEW_HARD_CEILING; never truncate a p90 base
 FLASH = "gemini-2.5-flash"
+REPLICATION_MODEL = "gemini-3.5-flash-lite"
 
 for _stream in (sys.stdout, sys.stderr):
     try:
@@ -62,6 +65,8 @@ class Spec:
     analysis: str | None = None     # repair_analysis.py --cell
     samples: tuple[str, ...] = ()   # harvest: the sample lists, in batch order
     marker: str | None = None       # text the amendment row must contain (default: out)
+    preparing: bool = False         # offline preparation only; live launch is forbidden
+    freeze_tag: str | None = None   # a separately frozen replication protocol
 
     @property
     def checkpoint(self) -> str:
@@ -70,6 +75,14 @@ class Spec:
 
 
 CELLS = {s.name: s for s in (
+    # S5: A15 preparation protocol releases bases only. Amendment-in-HEAD and
+    # upstream gates still apply; trials stay preparing until the separate
+    # prereg-fl-freeze completion. Registration alone never authorizes a run.
+    Spec("flashlite_bases", "harvest", "out_study/FL", "A15", REPLICATION_MODEL,
+         samples=("out_study/sample.json",), marker="out_study/FL/A"),
+    Spec("flashlite", "injection", "out_study/T2FL", "A15", REPLICATION_MODEL,
+         runner_cell="flashlite", root="out_study/FL", analysis="flashlite",
+         preparing=True, freeze_tag="prereg-fl-freeze"),
     Spec("core", "injection", "out_study/T2", None, None, frozen=True,
          runner_cell="core", analysis="core"),
     Spec("thinking", "injection", "out_study/T2T", "A12", FLASH, frozen=True,
@@ -219,6 +232,33 @@ def check_amendment(spec: Spec) -> tuple[bool, str]:
     return True, f"{detail}; committed in {last[:7]} and pushed"
 
 
+def check_replication_freeze(spec: Spec) -> tuple[bool, str]:
+    """S5 trials require the separate freeze tag, with sources and bases pinned."""
+    if not spec.freeze_tag:
+        return True, "no separate replication freeze required"
+    tag = spec.freeze_tag
+    rc, commit = _git("rev-parse", "--verify", f"refs/tags/{tag}^{{commit}}")
+    if rc:
+        return False, f"missing replication freeze tag {tag}"
+    if _git("merge-base", "--is-ancestor", commit, "HEAD")[0]:
+        return False, f"{tag} is not an ancestor of HEAD"
+    if _git("merge-base", "--is-ancestor", commit, "@{upstream}")[0]:
+        return False, f"{tag}'s commit is not on the upstream branch"
+    rc, text = _git("show", f"{tag}:{PREREG}")
+    if rc or not check_amendment_text(spec, text)[0]:
+        return False, f"{tag} does not contain the replication amendment"
+    paths = ["backend/" + spec.root + "/A", "backend/out_study/sample.json",
+             "backend/scripts/run_injection_study.py", "backend/scripts/run_study.py",
+             "backend/scripts/flashlite_protocol.py", "backend/scripts/analysis/repair_analysis.py",
+             "backend/scripts/analysis/power.py", "backend/scripts/inject_defects.py",
+             "backend/scripts/arms.py", "backend/scripts/analysis/score_repair.py"]
+    if _git("cat-file", "-e", f"{tag}:backend/{spec.root}/A/checkpoint.jsonl")[0]:
+        return False, f"{tag} has no model-specific base checkpoint"
+    if _git("diff", "--quiet", tag, "--", *paths)[0] or _git("status", "--porcelain", "--", *paths)[1]:
+        return False, f"replication sources or bases differ from {tag}"
+    return True, f"{tag} contains the amendment, sources and own-model bases"
+
+
 def check_frozen() -> tuple[bool, str]:
     """Exact: the frozen checkpoints equal HEAD, with no stray files beside them."""
     dirty = _git("status", "--porcelain", "--", *FROZEN_DIRS)[1]
@@ -366,6 +406,8 @@ def runner_argv(spec: Spec, out: str | None = None, dry_run: bool = False,
     py = [sys.executable, "-u"]
     if spec.kind == "injection":
         argv = py + ["scripts/run_injection_study.py", "--cell", spec.runner_cell]
+        if spec.root != "out_study":
+            argv += ["--root", spec.root]
         if out:
             argv += ["--out", out]
     elif spec.kind == "tier1":
@@ -373,8 +415,12 @@ def runner_argv(spec: Spec, out: str | None = None, dry_run: bool = False,
         if spec.model:
             argv += ["--model", spec.model]
     else:
+        if not sample and len(spec.samples) == 1:
+            sample = spec.samples[0]
         if not sample:
             raise ValueError("a harvest run needs --sample (one batch list)")
+        if sample not in spec.samples:
+            raise ValueError("harvest sample must be one of the registered sample lists")
         argv = py + ["scripts/run_study.py", "--phase", "A", "--sample", sample,
                      "--out", out or spec.out]
         if spec.model:
@@ -440,6 +486,9 @@ def preflight(spec: Spec, skip_suite: bool = False) -> dict:
     print(f"preflight {spec.name} -> {spec.out}")
     add("not frozen", (not spec.frozen, "this cell is frozen and is never run again"
                        if spec.frozen else "cell may be run"))
+    add("released", (not spec.preparing, "preparation-only: A15 approval is pending"
+                     if spec.preparing else "cell is released"))
+    add("replication freeze", check_replication_freeze(spec))
     add("frozen checkpoints", check_frozen())
     add("amendment (Rule 1)", check_amendment(spec))
     probe = probe_environment(spec)
@@ -447,11 +496,19 @@ def preflight(spec: Spec, skip_suite: bool = False) -> dict:
     add("review cap", check_review_cap(spec, probe))
     add("LLM configured", (bool(probe.get("configured")), "OPENAI_API_KEY is set"
                            if probe.get("configured") else "no API key in the environment"))
-    plan = add("plan (Rules 2-3)", check_plan(spec))
+    try:
+        plan_result = check_plan(spec)
+    except (ValueError, FileNotFoundError) as exc:
+        plan_result = (False, str(exc), {})
+    plan = add("plan (Rules 2-3)", plan_result)
     add("dry run", check_dry_run(spec, plan[2]) if plan[0] else (False, "skipped: plan failed"))
-    state = progress(spec)
-    pending = state["expected"] - state["done"]
-    add("checkpoint", (True, f"{state['done']}/{state['expected']} rows done, {pending} pending"))
+    if plan[0]:
+        state = progress(spec)
+        pending = state["expected"] - state["done"]
+        add("checkpoint", (True, f"{state['done']}/{state['expected']} rows done, {pending} pending"))
+    else:
+        pending = None
+        add("checkpoint", (False, "unavailable: plan failed; no denominator is inferred"))
     add("fast suite", (True, "skipped by --skip-suite") if skip_suite else check_suite())
     spent = tokens_spent(os.path.join(BACKEND, "out_study"))
     print(f"  tokens in every checkpoint: {_m(spent['total'])} (Rule 6: log the estimate before launch)")
@@ -491,6 +548,9 @@ def spawn_detached(argv: list[str], log: str) -> tuple[int, bool]:
 
 def launch(spec: Spec, estimate: int | None, ledger: str, dry_run: bool = False,
            out: str | None = None, sample: str | None = None, skip_suite: bool = False) -> int:
+    if spec.preparing and not dry_run:
+        print("REFUSED: this cell is preparation-only; A15 approval and release are pending.")
+        return 1
     if spec.frozen:
         print(f"REFUSED: {spec.name} is frozen ({spec.out} is never altered).")
         return 1
@@ -533,11 +593,17 @@ def launch(spec: Spec, estimate: int | None, ledger: str, dry_run: bool = False,
 
 def _exec(spec: Spec, ledger: str, log: str, argv: list[str]) -> int:
     """The detached wrapper: keep the machine awake, run, record the exit."""
+    if spec.preparing and "--dry-run" not in argv:
+        print("REFUSED: this cell is preparation-only.")
+        return 1
     if os.name == "nt":
         ctypes.windll.kernel32.SetThreadExecutionState(_ES_CONTINUOUS | _ES_SYSTEM_REQUIRED)
     env = dict(os.environ, LLM_DISABLE_FALLBACK="1", PYTHONUNBUFFERED="1", PYTHONIOENCODING="utf-8")
     if spec.kind == "harvest":
         env["MAX_REVIEW_SAMPLE"] = str(REVIEW_CAP)
+    if spec.model == REPLICATION_MODEL:
+        env["MAX_REVIEW_SAMPLE"] = str(REVIEW_CAP)
+        env["RANDOM_SEED"] = "42"  # set before loader.py is imported
     try:
         rc = subprocess.call(argv, cwd=BACKEND, env=env)
     finally:
@@ -727,8 +793,11 @@ def write_analysis(spec: Spec, rewrite: bool = False) -> tuple[bool, str]:
     exists = os.path.exists(target)
     with tempfile.TemporaryDirectory(prefix="cell_analysis_") as tmp:
         dest = target if (rewrite or not exists) else os.path.join(tmp, "analysis.json")
-        proc = subprocess.run([sys.executable, "scripts/analysis/repair_analysis.py",
-                               "--cell", spec.analysis, "--json", dest],
+        argv = [sys.executable, "scripts/analysis/repair_analysis.py",
+                "--cell", spec.analysis, "--json", dest]
+        if spec.root != "out_study":
+            argv += ["--root", spec.root]
+        proc = subprocess.run(argv,
                               cwd=BACKEND, capture_output=True)
         if proc.returncode:
             return False, "analysis failed: " + proc.stderr.decode("utf-8", "replace")[-300:]
@@ -815,7 +884,11 @@ def _alive(pid: int) -> bool:
 
 
 def status(spec: Spec, ledger: str) -> int:
-    state = progress(spec)
+    try:
+        state = progress(spec)
+    except (ValueError, FileNotFoundError) as exc:
+        print(f"{spec.name}: not ready: {exc}")
+        return 1
     line = f"{spec.name}: {state['done']}/{state['expected']} rows done"
     if "trials" in state:
         line += f", {state['trials']} trials"
@@ -862,7 +935,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "list":
         for s in CELLS.values():
             print(f"{s.name:12} {s.kind:9} {s.out:18} {s.amendment or 'prereg':7} "
-                  f"{s.model or '-':17} {'frozen' if s.frozen else ''}")
+                  f"{s.model or '-':17} {'frozen' if s.frozen else 'preparing' if s.preparing else ''}")
         return 0
     spec = CELLS[args.cell]
     if args.command == "preflight":

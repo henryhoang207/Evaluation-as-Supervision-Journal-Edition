@@ -149,11 +149,12 @@ DEFAULT_PLACEMENT = "P1"  # D10: the Tier-2 core runs at P1, not the production 
 #   thinking_a0 -- S2b (§5.2). On the 45 T2T defects: A0@P1 (r = 3) and the
 #          A1@P1 anchor (r = 1) at reasoning_effort none and high.
 CELLS = ("core", "c1", "d19", "placement", "severity", "warm", "c7", "thinking",
-         "a0fill", "thinking_a0")
+         "a0fill", "thinking_a0", "flashlite")
 CELL_OUT = {"core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
             "placement": "out_study/T2P", "severity": "out_study/T2S",
             "warm": "out_study/T2W", "c7": "out_study/T2L", "thinking": "out_study/T2T",
-            "a0fill": "out_study/T2A0", "thinking_a0": "out_study/T2TA0"}
+            "a0fill": "out_study/T2A0", "thinking_a0": "out_study/T2TA0",
+            "flashlite": "out_study/T2FL"}
 C7_REPS = 3  # A11: G2 returned 8/10 identical; determinism is measured, not assumed
 # D2 cites Tyen section 4(d), which needed temperature 1 to force a different
 # step; it is also the provider's default sampling temperature.
@@ -175,14 +176,17 @@ THINKING_BUDGETS = {"none": 0, "low": 1024, "medium": 8192, "high": 24576}
 # at full repetitions and carry an r = 1 in-session A1 anchor (author decision
 # I3) that measures cross-session drift against T2 / T2T directly.
 S2_MODEL = "gemini-2.5-flash"
+REPLICATION_MODEL = "gemini-3.5-flash-lite"
 S2_ANCHOR_REPS = 1
 THINKING_A0_EFFORTS = ("none", "high")
 # Cells whose model is pinned in code so a .env default cannot serve them.
-PINNED_MODEL = {"thinking": THINKING_MODEL, "a0fill": S2_MODEL, "thinking_a0": S2_MODEL}
+PINNED_MODEL = {"thinking": THINKING_MODEL, "a0fill": S2_MODEL, "thinking_a0": S2_MODEL,
+                "flashlite": REPLICATION_MODEL}
 # Arms the order check requires each pass's defects to hold.
 REQUIRED_ARMS = {"d19": ("A1", "A3"), "placement": ("A1",), "severity": ("A1",),
                  "warm": ("A1", "A2", "A3"), "thinking": ("A1", "A2"),
-                 "a0fill": ("A0", "A1"), "thinking_a0": ("A0", "A1")}
+                 "a0fill": ("A0", "A1"), "thinking_a0": ("A0", "A1"),
+                 "flashlite": ("A0", "A1", "A2")}
 
 
 # ── checkpointing ─────────────────────────────────────────────────────────────
@@ -260,6 +264,24 @@ def _cells_for(index: int, reps: int, placement: str,
                           "condition": "C1", "rep": r}
                          for r in range(reps))
     return cells
+
+
+def _flashlite_cells(index: int, reps: int = DEFAULT_REPS) -> list[dict]:
+    """S5: full A0/A1/A2 at P1, A3 at P0 on the frozen quarter stride."""
+    if reps != 3:
+        raise ValueError("S5 fixes three repetitions per arm")
+    specs = [("A0", "P1"), ("A1", "P1"), ("A2", "P1")]
+    if _in_subset(index, ARM_FRACTION["A3"]):
+        specs.append(("A3", "P0"))
+    return [{"arm": arm, "placement": placement, "condition": "C0", "rep": r,
+             "reasoning_effort": None}
+            for arm, placement in specs for r in range(reps)]
+
+
+def validate_flashlite_bases(root: str) -> dict:
+    protocol = sys.modules.get("flashlite_protocol") or _load_by_path(
+        "flashlite_protocol", "flashlite_protocol.py")
+    return protocol.validate_bases(root)
 
 
 def _c1_cells(index: int, reps: int, placement: str) -> list[dict]:
@@ -422,6 +444,10 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
         raise ValueError(f"unknown cell {cell!r}; expected one of {CELLS}")
     if cell != "core" and with_c1:
         raise ValueError("--c1 extends the core plan; the c1 and d19 passes are separate")
+    if cell == "flashlite":
+        if reps != 3 or placement != "P1" or seed != 0:
+            raise ValueError("S5 fixes r=3, placement P1 and injection seed 0")
+        validate_flashlite_bases(root)
     operators = operators or {"d19": D19_OPERATORS, "severity": SEVERITY_OPERATORS}.get(
         cell, inject_defects.REPAIR_OPERATORS)
     # D19 inverts the trigger gate: O4 must reach the warn-level verdict that
@@ -504,6 +530,8 @@ def build_plan(root: str, reps: int = DEFAULT_REPS, placement: str = DEFAULT_PLA
                 arms = _c7_cells(op_index[op])
             elif cell == "thinking":
                 arms = _thinking_cells(op_index[op], reps)
+            elif cell == "flashlite":
+                arms = _flashlite_cells(op_index[op], reps)
             elif cell == "a0fill":
                 arms = _a0fill_cells(op_index[op], reps, placement)
             elif cell == "thinking_a0":
@@ -918,7 +946,7 @@ def run(root: str, out_dir: str, reps: int, placement: str, seed: int,
         os.environ[base_agent.FALLBACK_DISABLED_ENV] = "1"
         print(f"Cell thinking: pinned model {THINKING_MODEL}")
 
-    if cell in ("a0fill", "thinking_a0"):
+    if cell in ("a0fill", "thinking_a0", "flashlite"):
         # llm_config reads OPENAI_MODEL / OPENAI_FALLBACK_MODEL (not
         # LLM_PRIMARY_MODEL); load_dotenv() never overrides a set variable, so
         # this wins over .env. _regenerate also pins the agent itself.
@@ -1061,6 +1089,8 @@ def main() -> int:
     args = ap.parse_args()
     if args.c1 and args.cell != "core":
         ap.error("--c1 extends the core plan; use --cell c1 for the C1 pass")
+    if args.cell == "flashlite" and args.root == "out_study":
+        args.root = "out_study/FL"
     out_dir = args.out or CELL_OUT[args.cell]
     gates = None
     if args.c7_gates:

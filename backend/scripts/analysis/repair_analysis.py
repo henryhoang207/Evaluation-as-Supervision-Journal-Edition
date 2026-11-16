@@ -371,6 +371,92 @@ def analyse(rows: list[dict], seed: int = DEFAULT_SEED, root: str | None = None)
     return out
 
 
+def analyse_flashlite(rows: list[dict], seed: int = DEFAULT_SEED,
+                      root: str = "out_study/FL") -> dict:
+    """S5: one primary restoration test; repair remains exploratory.
+
+    Unconditional means not conditioned on successful repair. Provider losses
+    follow the frozen per-trial exclusions and strict-majority tie rule.
+    """
+    protocol = sys.modules.get("flashlite_protocol")
+    if protocol is None:
+        spec = importlib.util.spec_from_file_location(
+            "flashlite_protocol", Path(__file__).resolve().parents[1] / "flashlite_protocol.py")
+        protocol = importlib.util.module_from_spec(spec)
+        sys.modules["flashlite_protocol"] = protocol
+        spec.loader.exec_module(protocol)
+    bases = protocol.validate_bases(root)
+    model = "gemini-3.5-flash-lite"
+    for row in rows:
+        for trial in row.get("trials", []):
+            if trial.get("reasoning_effort") is not None:
+                raise ValueError("S5 reasoning_effort must be omitted (None), not 'none'")
+            if trial.get("status") == "ok" and set(trial.get("served_models") or []) != {model}:
+                raise ValueError("S5 successful trials must be served exclusively by " + model)
+    trials, excluded = usable_trials(rows)
+    single, excluded_single = usable_trials(rows, drop_multi_attempt=True)
+    clean = _clean_outputs(rows, root)
+    missing = {t["defect_id"] for t in trials if not isinstance(clean.get(t["defect_id"]), dict)}
+    if missing:
+        raise ValueError("Missing own-model clean reference for " + ", ".join(sorted(missing)))
+    planned = planned_cells(rows)
+    copy_map = copy_cells(trials, clean, planned=planned)
+    repair_map = cells(trials, planned=planned)
+    primary = contrast(copy_map, "A1", "A2", seed)
+    lo, hi = primary.get("ci95", (None, None))
+    positive = primary.get("estimate", 0.0) > 0
+    excludes_zero = lo is not None and (lo > 0 or hi < 0)
+    rejects = primary.get("mcnemar_p", 1.0) < ALPHA
+    copied_trials = _copy_trials(trials, clean)
+    strata = _strata(root)
+    def over_a0(cellmap):
+        result = ratio(cellmap, "A1", "A0", seed)
+        if result.get("estimate") is None:
+            result["ci95"] = [None, None]
+            result["note"] = "undefined: no paired data or a zero A0 denominator"
+        return result
+    report = {
+        "provenance": {
+            "cell": "flashlite", "model": model, "reasoning_effort": None,
+            "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "seed": seed, "n_boot": N_BOOT, "bases": bases,
+            "trials_total": sum(len(r.get("trials", [])) for r in rows),
+            "trials_usable": len(trials), "exclusions": dict(excluded),
+            "total_tokens": sum(t.get("total_tokens") or 0 for r in rows for t in r.get("trials", [])),
+        },
+        "confirmatory": {
+            "outcome": "unconditional canonical-JSON exact restoration",
+            "unit": "defect; strictly more than half of usable repetitions for McNemar",
+            "test": "two-sided exact McNemar", "alpha": ALPHA,
+            "primary_A1_minus_A2": primary,
+            "criterion": {"positive_estimate": bool(positive),
+                          "two_sided_ci_excludes_zero": bool(excludes_zero),
+                          "two_sided_mcnemar_rejects": bool(rejects)},
+            "replicated": bool(positive and excludes_zero and rejects),
+            "without_multi_attempt_trials": {
+                "exclusions": dict(excluded_single),
+                **contrast(copy_cells(single, clean, planned=planned), "A1", "A2", seed)},
+        },
+        "secondary_exploratory": {
+            "repair_A1_minus_A2": contrast(repair_map, "A1", "A2", seed),
+            "repair_A1_over_A0": over_a0(repair_map),
+            "restoration_A1_over_A0": over_a0(copy_map),
+            "restoration_A1_minus_A0": contrast(copy_map, "A1", "A0", seed),
+            "restoration_A0_minus_A2": contrast(copy_map, "A0", "A2", seed),
+            "restoration_by_arm": {a: _rate_ci(copy_map, a, seed) for a in ("A0", "A1", "A2", "A3")},
+            "repair_by_operator": rates_by(trials, lambda t: t["operator"]),
+            "restoration_by_operator": rates_by(copied_trials, lambda t: t["operator"]),
+            "repair_by_review_stratum": rates_by(
+                trials, lambda t: strata[t["defect_id"].rsplit(":", 1)[0]]),
+            "restoration_by_review_stratum": rates_by(
+                copied_trials, lambda t: strata[t["defect_id"].rsplit(":", 1)[0]]),
+            "identity_to_clean": identity_to_clean(trials, clean),
+            "repair_decomposition": compute_repair_decomposition(trials, clean),
+        },
+    }
+    return report
+
+
 # ── the post-core passes (PREREGISTRATION.md section 0.1 A2, A3) ─────────────
 
 
@@ -2109,7 +2195,7 @@ def main() -> int:
                     choices=("core", "c1", "d19", "placement", "severity", "warm", "tier1",
                              "tier1_pooled",
                              "downstream", "o5sens", "c7", "thinking", "a0fill",
-                             "thinking_a0"))
+                             "thinking_a0", "flashlite"))
     ap.add_argument("--checkpoint", default=None,
                     help="defaults per --cell: out_study/T2, T2C1, T2D19, T2P, T2S or T2W")
     ap.add_argument("--root", default="out_study",
@@ -2124,19 +2210,25 @@ def main() -> int:
     ap.add_argument("--json", default=None, help="write the full result here")
     ap.add_argument("--seed", type=int, default=DEFAULT_SEED)
     args = ap.parse_args()
+    if args.cell == "flashlite" and args.root == "out_study":
+        args.root = "out_study/FL"
     checkpoint = args.checkpoint or {
         "core": "out_study/T2", "c1": "out_study/T2C1", "d19": "out_study/T2D19",
         "placement": "out_study/T2P", "severity": "out_study/T2S", "warm": "out_study/T2W",
         "tier1": "out_study/T1", "tier1_pooled": "out_study/T1", "downstream": "out_study/T2D", "o5sens": "out_study/T2",
         "c7": "out_study/T2L", "thinking": "out_study/T2T",
         "a0fill": "out_study/T2A0", "thinking_a0": "out_study/T2TA0",
+        "flashlite": "out_study/T2FL",
     }[args.cell] + "/checkpoint.jsonl"
     if args.cell == "core":
         res = analyse(load_rows(checkpoint), seed=args.seed, root=args.root)
         print_summary(res)
     else:
-        core = load_rows(args.core_checkpoint) if Path(args.core_checkpoint).exists() else None
-        if args.cell == "c1":
+        core = (load_rows(args.core_checkpoint)
+                if args.cell != "flashlite" and Path(args.core_checkpoint).exists() else None)
+        if args.cell == "flashlite":
+            res = analyse_flashlite(load_rows(checkpoint), seed=args.seed, root=args.root)
+        elif args.cell == "c1":
             res = analyse_c1(load_rows(checkpoint), core, seed=args.seed)
         elif args.cell == "placement":
             res = analyse_placement(load_rows(checkpoint), core, seed=args.seed)
