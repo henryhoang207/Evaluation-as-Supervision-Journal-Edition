@@ -13,8 +13,7 @@ The cap is configurable and can be reduced per request.
 
 > ⚠ **Audited 2026-09-02.** This table describes the *course project*, which is
 > complete. The active work is the research paper — start at
-> [`docs/paper/NEXT_SESSION.md`](docs/paper/NEXT_SESSION.md), with
-> [`CLAUDE.md`](CLAUDE.md) for how to work in this repository.
+> [`docs/paper/NEXT_SESSION.md`](docs/paper/NEXT_SESSION.md).
 > **Sections 6 and 9 below are stale**: they describe the old failure-only
 > orchestrator ("retry, skip, or halt after stage failure"), which the
 > deterministic hub supervisor in `backend/app/core/supervision.py` replaced.
@@ -57,18 +56,13 @@ COS30018-IS/
 |   |-- src/App.jsx
 |   `-- src/styles.css
 |-- docs/
-|   |-- CLAUDE.md
 |   |-- DECISIONS.md
 |   |-- PROGRESS.md
 |   `-- RUN_TESTS.md
-|-- AGENTS.md
 |-- PROJECT_AUDIT.md
 |-- Codebase Review & Integration Report.md
 `-- Member2 changes report.MD
 ```
-
-Read [AGENTS.md](AGENTS.md) before changing architecture, data handling, agent
-contracts, or the implementation plan.
 
 ## 1. Problem
 
@@ -414,7 +408,6 @@ workflow yet runs these checks automatically.
 
 ## 16. Project Documentation
 
-- [AGENTS.md](AGENTS.md): binding repository rules.
 - [PROJECT_AUDIT.md](PROJECT_AUDIT.md): verified strengths, weaknesses, and
   repair order.
 - [docs/PROGRESS.md](docs/PROGRESS.md): current implementation status.

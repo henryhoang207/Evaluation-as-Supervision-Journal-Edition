@@ -50,8 +50,9 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Local Claude context (CLAUDE.md is tracked as a project doc — see repo root)
+# Local agent settings
 .claude/
+.codex/
 
 # Local debug/trace scripts
 backend/trace_agents.py
